@@ -2,7 +2,7 @@ import 'styled-components';
 
 declare module 'styled-components' {
     export interface DefaultTheme {
-        color: {
+        colors: {
             mainBlue: string;
 
             subGreen: string;
@@ -14,6 +14,7 @@ declare module 'styled-components' {
             bgLightGreen: string;
 
             black: string;
+            mainBlack: string;
             mainGary: string;
             subGray: string;
             mediumGray: string;

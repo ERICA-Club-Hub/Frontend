@@ -1,8 +1,14 @@
 import { ReactNode } from 'react';
 import styled from 'styled-components';
+import { HeaderMenu } from './HeaderMenu';
 
 const RootLayout = ({ children }: { children: ReactNode }) => {
-    return <Container>{children}</Container>;
+    return (
+        <Container>
+            <HeaderMenu />
+            {children}
+        </Container>
+    );
 };
 
 export { RootLayout };
@@ -13,5 +19,5 @@ const Container = styled.div`
     height: 100vh;
     margin: 0 auto;
 
-    background-color: ${(props) => props.theme.color.bgLightGray};
+    background-color: ${(props) => props.theme.colors.bgLightGray};
 `;

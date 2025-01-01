@@ -1,7 +1,7 @@
 import { DefaultTheme } from 'styled-components';
 
 export const theme: DefaultTheme = {
-    color: {
+    colors: {
         mainBlue: '#33639C',
 
         subGreen: '#8BB421',
@@ -12,7 +12,8 @@ export const theme: DefaultTheme = {
         bgLightOrange: '#FFF4E4',
         bgLightGreen: '#F1F9DC',
 
-        black: '#232323',
+        black: '#000000',
+        mainBlack: '#232323',
         mainGary: '#606060',
         subGray: '#989898',
         mediumGray: '#EAEAEA',
