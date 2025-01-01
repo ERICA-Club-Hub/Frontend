@@ -1,9 +1,13 @@
 @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard-dynamic-subset.min.css');
+
+:root {
+    background-color: #232323;
+}
+
 * {
     box-sizing: border-box;
     margin: 0;
 
-    background-color: #232323;
     font-family: Pretendard, -apple-system, BlinkMacSystemFont, system-ui,
         Roboto, 'Helvetica Neue', 'Segoe UI', 'Apple SD Gothic Neo',
         'Noto Sans KR', 'Malgun Gothic', 'Apple Color Emoji', 'Segoe UI Emoji',
