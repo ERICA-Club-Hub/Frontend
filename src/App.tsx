@@ -1,5 +1,5 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import { RootLayout } from './components/Common';
+import { RootLayout } from '@/components/Common';
 import {
     AdminActivityLogPage,
     AdminClubDetailPage,
@@ -16,7 +16,7 @@ import {
     ResourcesPage,
     ServiceNoticePage,
     UnionNoticePage,
-} from './pages';
+} from '@/pages';
 
 function App() {
     return (
@@ -70,35 +70,33 @@ function App() {
                             <Route
                                 path="/admin/club"
                                 element={<AdminClubPage />}
-                            >
-                                {/* 동아리 활동 로그 */}
-                                <Route
-                                    path="/admin/club/activity"
-                                    element={<AdminActivityLogPage />}
-                                />
-                                {/* 동아리 상세 페이지  */}
-                                <Route
-                                    path="/admin/club/:id"
-                                    element={<AdminClubDetailPage />}
-                                />
-                            </Route>
+                            />
+                            {/* 동아리 활동 로그 */}
+                            <Route
+                                path="/admin/club/activity"
+                                element={<AdminActivityLogPage />}
+                            />
+                            {/* 동아리 상세 페이지  */}
+                            <Route
+                                path="/admin/club/:id"
+                                element={<AdminClubDetailPage />}
+                            />
 
                             {/* 총동연 어드민 */}
                             <Route
                                 path="/admin/union"
                                 element={<AdminUnionPage />}
-                            >
-                                {/* 총동연 공지 등록 */}
-                                <Route
-                                    path="/admin/union/notice"
-                                    element={<AdminNoticePage />}
-                                />
-                                {/* 총동연 자료 등록  */}
-                                <Route
-                                    path="/admin/union/resources"
-                                    element={<AdminResourcesPage />}
-                                />
-                            </Route>
+                            />
+                            {/* 총동연 공지 등록 */}
+                            <Route
+                                path="/admin/union/notice"
+                                element={<AdminNoticePage />}
+                            />
+                            {/* 총동연 자료 등록  */}
+                            <Route
+                                path="/admin/union/resources"
+                                element={<AdminResourcesPage />}
+                            />
                         </Route>
                     </Routes>
                 </RootLayout>
