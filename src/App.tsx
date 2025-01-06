@@ -10,6 +10,7 @@ import {
     AdminUnionPage,
     ClubDetailPage,
     ClubListPage,
+    ErrorPage,
     FAQPage,
     ModifyClubRegisterPage,
     RegisterClubPage,
@@ -98,6 +99,9 @@ function App() {
                                 element={<AdminResourcesPage />}
                             />
                         </Route>
+
+                        {/* 404 Not Found Page */}
+                        <Route path="*" element={<ErrorPage />} />
                     </Routes>
                 </RootLayout>
             </BrowserRouter>

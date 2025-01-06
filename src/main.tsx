@@ -4,11 +4,14 @@ import './index.css';
 import App from './App.tsx';
 import { ThemeProvider } from 'styled-components';
 import { theme } from './config/theme.ts';
+import { RecoilRoot } from 'recoil';
 
 createRoot(document.getElementById('root')!).render(
     <StrictMode>
-        <ThemeProvider theme={theme}>
-            <App />
-        </ThemeProvider>
+        <RecoilRoot>
+            <ThemeProvider theme={theme}>
+                <App />
+            </ThemeProvider>
+        </RecoilRoot>
     </StrictMode>,
 );
