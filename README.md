@@ -31,12 +31,11 @@ npm run preview
 -   **main**: 서비스 운영용 브랜치 (프로덕션 코드)
 -   **develop**: 배포 전 개발 및 통합 브랜치
 -   **feature**: 기능 단위 구현
-    -   네이밍 형식: `[이슈번호]-[작업내용]`
     -   예: `14-admin-login-ui`
 -   **refactor**: 코드 리팩토링
     -   예: `20-refactor-authentication`
 -   **hotfix**: 배포 버전 버그 수정
-    -   예: `27-hotfix-login-error`
+    -   예: `27-hotfix-login`
 
 <br> <br>
 
