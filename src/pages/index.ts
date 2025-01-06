@@ -17,3 +17,5 @@ export * from './FAQ/FAQPage';
 export * from './notice/ServiceNoticePage';
 export * from './notice/UnionNoticePage';
 export * from './resources/ResourcesPage';
+
+export * from './error/ErrorPage';
