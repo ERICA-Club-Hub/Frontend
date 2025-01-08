@@ -1,5 +1,12 @@
+import { TopNavigator } from '@/components/Common';
+import { loginNavigations } from '@/constants';
+
 const AdminLoginPage = () => {
-    return <div>어드민 로그인 페이지</div>;
+    return (
+        <div>
+            <TopNavigator navList={loginNavigations} />
+        </div>
+    );
 };
 
 export { AdminLoginPage };
