@@ -1,12 +1,11 @@
 import { useState } from 'react';
 import styled from 'styled-components';
 
-interface NavItem {
-    id: number;
-    nav: string;
-}
-
-export const TopNavigator = ({ navList }: { navList: NavItem[] }) => {
+export const TopNavigator = ({
+    navList,
+}: {
+    navList: { id: number; nav: string }[];
+}) => {
     const [navStatus, setNavStatus] = useState<number>(1);
 
     return (
