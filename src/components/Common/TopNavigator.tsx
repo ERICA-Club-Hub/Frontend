@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import { navState } from '@/store/navAtom';
+import { useRecoilState } from 'recoil';
 import styled from 'styled-components';
 
 export const TopNavigator = ({
@@ -6,7 +7,7 @@ export const TopNavigator = ({
 }: {
     navList: { id: number; nav: string }[];
 }) => {
-    const [navStatus, setNavStatus] = useState<number>(1);
+    const [navStatus, setNavStatus] = useRecoilState(navState);
 
     return (
         <Container>
@@ -16,8 +17,12 @@ export const TopNavigator = ({
                         key={`nav-list-${nav.id}`}
                         onClick={() => setNavStatus(nav.id)}
                     >
-                        <Label $isActive={navStatus === nav.id}>
+                        <Label>
                             {nav.nav}
+                            <ActiveBar
+                                $isActive={navStatus === nav.id}
+                                $isAuth={navList[0].nav.includes('로그인')}
+                            />
                         </Label>
                     </Nav>
                 ))}
@@ -28,7 +33,6 @@ export const TopNavigator = ({
 
 const Container = styled.div`
     width: 320px;
-    height: 27px;
     border-bottom: 1px solid #eaeaea;
 `;
 
@@ -38,16 +42,25 @@ const NavList = styled.ul`
 `;
 
 const Nav = styled.li`
-    height: 27px;
     cursor: pointer;
 `;
 
-const Label = styled.h2<{ $isActive: boolean }>`
+const Label = styled.h2`
+    position: relative;
     height: 27px;
-    border-bottom: 3px solid
-        ${(props) => (props.$isActive ? props.theme.colors.mainBlue : 'none')};
     font-size: 14px;
     font-weight: 500;
     color: ${(props) => props.theme.colors.black};
-    transition: border-bottom 0.2s ease-in-out;
+`;
+
+const ActiveBar = styled.div<{ $isAuth: boolean; $isActive: boolean }>`
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: ${(props) => (props.$isAuth ? '104px' : '64px')};
+    height: 3px;
+    background-color: ${(props) => props.theme.colors.mainBlue};
+    opacity: ${(props) => (props.$isActive ? 1 : 0)};
+    transition: opacity 0.3s ease-in-out;
 `;
