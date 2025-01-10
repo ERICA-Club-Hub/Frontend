@@ -53,7 +53,7 @@ const getButtonSize = (size: ButtonSize) => {
 const Button = ({
     children,
     size = 'medium',
-    isDisabled = () => false,
+    isDisabled = () => true,
     handleClick,
     ...props
 }: ButtonProps) => {
