@@ -11,9 +11,13 @@
         "paths": {
             "@/*": ["src/*"]
         },
-        "types": ["vite-plugin-svgr/client"]
+        "types": ["vite-plugin-svgr/client"],
+        "declaration": true,
+        "declarationDir": "./types",
+        "emitDeclarationOnly": false
     },
     "include": ["src", "svg.d.ts"],
+    "exclude": ["src/**/*"],
     "files": [],
     "references": [
         { "path": "./tsconfig.app.json" },
