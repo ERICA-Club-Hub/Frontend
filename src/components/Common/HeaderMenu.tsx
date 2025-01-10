@@ -67,6 +67,7 @@ const Container = styled.div`
 
     background-color: ${(prop) => prop.theme.colors.white};
     cursor: pointer;
+    z-index: 100;
 `;
 
 const DropdownNavigator = styled.div<{ $isOpen: boolean }>`
@@ -94,14 +95,16 @@ const LoginButton = styled.button`
         font-size: 16px;
         font-weight: 600;
         color: ${(props) => props.theme.colors.black};
+        cursor: pointer;
     }
 `;
 
 const MenuList = styled.ul`
+    width: 288px;
     display: flex;
     flex-direction: column;
     gap: 15px;
-    width: 288px;
+    cursor: pointer;
 `;
 
 const MenuItem = styled.li`

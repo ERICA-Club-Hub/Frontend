@@ -6,6 +6,10 @@ import svgr from 'vite-plugin-svgr';
 
 // https://vitejs.dev/config/
 export default defineConfig({
+    // 시스템 기본 브라우저 설정에 따라 오픈 (ex. Chrome)
+    server: {
+        open: true,
+    },
     plugins: [
         react(),
         svgr(),
