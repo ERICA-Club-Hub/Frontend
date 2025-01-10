@@ -2,16 +2,16 @@
 
 ```bash
 # Install package
-npm install
+yarn install
 
 # Run dev server
-npm run dev
+yarn dev
 
 # Build project
-npm build
+yarn build
 
 ## Run Production Preview
-npm run preview
+yarn preview
 ```
 
 <br> <br>
