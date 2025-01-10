@@ -1,16 +1,24 @@
 import { TopNavigator } from '@/components/Common';
 import { loginNavigations } from '@/constants';
-import { navState } from '@/store/navAtom';
-import { useRecoilValue } from 'recoil';
+import { useState } from 'react';
 import styled from 'styled-components';
 
 const AdminLoginPage = () => {
-    const selectedNav = useRecoilValue(navState);
+    const [navStatus, setNavStatus] = useState<number>(1);
+
+    const handleNavStatus = (id: number) => {
+        setNavStatus(id);
+    };
 
     return (
         <Container>
-            <TopNavigator navList={loginNavigations} />
-            <p>Selected Nav ID: {selectedNav}</p>
+            <TopNavigator
+                navStatus={navStatus}
+                navList={loginNavigations}
+                onClick={handleNavStatus}
+            />
+
+            <LoginContainer />
         </Container>
     );
 };
@@ -24,4 +32,9 @@ const Container = styled.div`
     flex-direction: column;
     align-items: center;
     padding-top: 162px;
+`;
+
+const LoginContainer = styled.div`
+    width: 320px;
+    height: 135px;
 `;

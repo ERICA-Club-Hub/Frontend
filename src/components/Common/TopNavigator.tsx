@@ -1,21 +1,28 @@
-import { navState } from '@/store/navAtom';
-import { useRecoilState } from 'recoil';
 import styled from 'styled-components';
+
+interface NavItem {
+    id: number;
+    nav: string;
+}
+
+interface TopNavigatorProps {
+    navList: NavItem[];
+    navStatus: number;
+    onClick: (id: number) => void;
+}
 
 export const TopNavigator = ({
     navList,
-}: {
-    navList: { id: number; nav: string }[];
-}) => {
-    const [navStatus, setNavStatus] = useRecoilState(navState);
-
+    navStatus,
+    onClick,
+}: TopNavigatorProps) => {
     return (
         <Container>
             <NavList>
                 {navList.map((nav) => (
                     <Nav
                         key={`nav-list-${nav.id}`}
-                        onClick={() => setNavStatus(nav.id)}
+                        onClick={() => onClick(nav.id)}
                     >
                         <Label>
                             {nav.nav}
