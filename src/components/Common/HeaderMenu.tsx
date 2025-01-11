@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import styled from 'styled-components';
 import HeaderMenuLogo from '@/assets/common/header-menu.svg?react';
+import HomeIcon from '@/assets/common/home-icon.svg?react';
 import ClosedBtn from '@/assets/common/closed-btn.svg?react';
 import NavigateArrow from '@/assets/common/navigate-arrow.svg?react';
 import { Link, useNavigate } from 'react-router-dom';
@@ -26,7 +27,12 @@ const HeaderMenu = () => {
                         onClick={() => setIsOpen(false)}
                     />
                 ) : (
-                    <HeaderMenuLogo onClick={() => setIsOpen(true)} />
+                    <IconWrapper>
+                        <Link to="/">
+                            <HomeIcon />
+                        </Link>
+                        <HeaderMenuLogo onClick={() => setIsOpen(true)} />
+                    </IconWrapper>
                 )}
 
                 {/* 드롭다운 매뉴 */}
@@ -57,17 +63,29 @@ const HeaderMenu = () => {
 export { HeaderMenu };
 
 const Container = styled.div`
-    position: relative;
+    position: fixed;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
     display: flex;
     justify-content: space-between;
     align-items: center;
     width: 100%;
+    min-width: 360px;
+    max-width: 400px;
     height: 55px;
     padding: 0 20px;
 
     background-color: ${(prop) => prop.theme.colors.white};
     cursor: pointer;
     z-index: 100;
+`;
+
+const IconWrapper = styled.div`
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
 `;
 
 const DropdownNavigator = styled.div<{ $isOpen: boolean }>`
@@ -90,12 +108,12 @@ const LoginButton = styled.button`
     align-items: center;
     gap: 5px;
     margin-bottom: 30px;
+    cursor: pointer;
 
     h2 {
         font-size: 16px;
         font-weight: 600;
         color: ${(props) => props.theme.colors.black};
-        cursor: pointer;
     }
 `;
 

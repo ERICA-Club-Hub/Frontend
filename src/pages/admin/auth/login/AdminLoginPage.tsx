@@ -15,7 +15,7 @@ const AdminLoginPage = () => {
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        console.log(code);
+        setCode('');
     };
 
     return (
