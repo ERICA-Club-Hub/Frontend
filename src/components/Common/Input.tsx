@@ -7,17 +7,16 @@ import styled, { css } from 'styled-components';
 type Size = 'small' | 'medium' | 'large';
 
 interface InputProps {
+    value: string;
     placeholder: string;
-    size?: Size;
-    backgroundColor?: string;
-}
-
-interface StyledInputProps {
     size: Size;
     backgroundColor: string;
+    onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
 const Input = ({
+    value,
+    onChange,
     placeholder,
     size = 'medium',
     backgroundColor = 'gray',
@@ -25,15 +24,17 @@ const Input = ({
 }: InputProps) => {
     return (
         <StyledInput
+            value={value}
+            onChange={onChange}
             placeholder={placeholder}
             size={size}
-            backgroundColor={backgroundColor}
+            $backgroundColor={backgroundColor}
             {...props}
         />
     );
 };
 
-const getButtonSize = (size: Size) => {
+const getSizeStyles = (size: Size) => {
     switch (size) {
         case 'large':
             return css`
@@ -56,14 +57,19 @@ const getButtonSize = (size: Size) => {
     }
 };
 
+interface StyledInputProps {
+    size: Size;
+    $backgroundColor: string;
+}
+
 const StyledInput = styled.input<StyledInputProps>`
-    ${({ size }) => getButtonSize(size)}
+    ${({ size }) => getSizeStyles(size)}
     border-radius: 10px;
 
     font-size: 14px;
     font-weight: 400;
-    background-color: ${({ backgroundColor, theme }) =>
-        backgroundColor === 'gray' ? theme.colors.lightGray : '#fff'};
+    background-color: ${({ $backgroundColor, theme }) =>
+        $backgroundColor === 'gray' ? theme.colors.lightGray : '#fff'};
     color: ${({ theme }) => theme.colors.mainBlack};
 
     &::placeholder {
