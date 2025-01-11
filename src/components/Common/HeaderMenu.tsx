@@ -4,17 +4,12 @@ import HeaderMenuLogo from '@/assets/common/header-menu.svg?react';
 import HomeIcon from '@/assets/common/home-icon.svg?react';
 import ClosedBtn from '@/assets/common/closed-btn.svg?react';
 import NavigateArrow from '@/assets/common/navigate-arrow.svg?react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { navigations } from '@/constants';
+import { ArrowLinkButton } from './ArrowLinkButton';
 
 const HeaderMenu = () => {
-    const navigate = useNavigate();
     const [isOpen, setIsOpen] = useState<boolean>(false);
-
-    const handleNavigate = (url: string) => {
-        setIsOpen(false);
-        navigate(url);
-    };
 
     return (
         <>
@@ -47,10 +42,11 @@ const HeaderMenu = () => {
                         {navigations.map((menu, index) => (
                             <MenuItem
                                 key={`navigate-menu-${index}`}
-                                onClick={() => handleNavigate(menu.url)}
+                                onClick={() => setIsOpen(false)}
                             >
-                                <h3>{menu.title}</h3>
-                                <NavigateArrow />
+                                <ArrowLinkButton url={menu.url} size="small">
+                                    {menu.title}
+                                </ArrowLinkButton>
                             </MenuItem>
                         ))}
                     </MenuList>
