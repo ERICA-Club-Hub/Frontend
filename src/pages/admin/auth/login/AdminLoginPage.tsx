@@ -1,4 +1,4 @@
-import { Input, TopNavigator } from '@/components/Common';
+import { InputField, TopNavigator } from '@/components/Common';
 import Button from '@/components/Common/Button';
 import { loginNavigations } from '@/constants';
 import { useState } from 'react';
@@ -33,7 +33,7 @@ const AdminLoginPage = () => {
                             : '총동연 관리자이신가요?'}
                     </h2>
                     <Form onSubmit={handleSubmit}>
-                        <Input
+                        <InputField
                             value={code}
                             onChange={handleChange}
                             placeholder={
@@ -41,7 +41,7 @@ const AdminLoginPage = () => {
                                     ? '부여받은 동아리 코드를 입력해 주세요.'
                                     : '부여받은 코드를 입력해 주세요.'
                             }
-                            size="large"
+                            inputSize="large"
                             backgroundColor="white"
                         />
                         <Button

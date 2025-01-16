@@ -6,48 +6,39 @@ import styled from 'styled-components';
 
 type Size = 'small' | 'medium' | 'large';
 
-interface InputProps {
-    value: string;
-    placeholder: string;
-    size: Size;
-    backgroundColor: string;
-    onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+interface InputFieldProps extends React.InputHTMLAttributes<HTMLInputElement> {
+    inputSize: Size;
+    backgroundColor?: string;
 }
 
-const Input = ({
-    value,
-    onChange,
-    placeholder,
-    size = 'medium',
-    backgroundColor = 'gray',
+const InputField = ({
+    inputSize = 'medium',
+    backgroundColor = 'white',
     ...props
-}: InputProps) => {
+}: InputFieldProps) => {
     return (
         <StyledInput
-            value={value}
-            onChange={onChange}
-            placeholder={placeholder}
-            size={size}
+            $size={inputSize}
             $backgroundColor={backgroundColor}
             {...props}
         />
     );
 };
 
-interface StyledInputProps {
-    size: Size;
+interface StyledInputFieldProps {
+    $size: Size;
     $backgroundColor: string;
 }
 
-const StyledInput = styled.input<StyledInputProps>`
-    ${({ size }) =>
-        size === 'large'
+const StyledInput = styled.input<StyledInputFieldProps>`
+    ${({ $size }) =>
+        $size === 'large'
             ? `                
                 width: 320px;
                 height: 45px;
                 padding: 14px 17px;
 `
-            : size === 'medium'
+            : $size === 'medium'
             ? `                
                 width: 280px;
                 height: 40px;
@@ -60,11 +51,10 @@ const StyledInput = styled.input<StyledInputProps>`
     `}
 
     border-radius: 10px;
-
     font-size: 14px;
-    font-weight: 400;
+    font-weight: 500;
     background-color: ${({ $backgroundColor, theme }) =>
-        $backgroundColor === 'gray' ? theme.colors.lightGray : '#fff'};
+        $backgroundColor === 'white' ? '#fff' : theme.colors.lightGray};
     color: ${({ theme }) => theme.colors.mainBlack};
 
     &::placeholder {
@@ -74,4 +64,4 @@ const StyledInput = styled.input<StyledInputProps>`
     }
 `;
 
-export { Input };
+export { InputField };
