@@ -5,9 +5,11 @@ interface CardProps {
     imagePath?: string;
     title: string;
     date: string;
+    onClick?: () => void;
+    isRotated?: boolean;
 }
 
-const CardWrapper = styled.div<{ variant?: string }>`
+const CardWrapper = styled.button<{ variant?: string }>`
     width: 320px;
     height: 71px;
     position: relative;
@@ -16,6 +18,14 @@ const CardWrapper = styled.div<{ variant?: string }>`
     background: #FFFFFF;
     border: 1px solid var(--Gray-4, #F7F7F7);
     align-items: center;
+    cursor: pointer;
+    padding: 0;
+    transition: background-color 0.2s ease;
+    
+    &:hover {
+        background-color: #f5f5f5;
+    }
+    
     ${({ variant }) => 
         (variant === 'type2' || variant === 'type3') && css`
             padding: 0 20px;
@@ -58,15 +68,17 @@ const CardDate = styled.div`
     line-height: normal;
 `;
 
-const IconBase = styled.img`
+const IconBase = styled.img<{ isRotated?: boolean }>`
     width: 24px;
     height: 24px;
     margin-left: auto;
+    transition: transform 0.3s ease;
+    transform: ${({ isRotated }) => isRotated ? 'rotate(90deg)' : 'rotate(0deg)'};
 `;
 
-const Card = ({ variant = 'type1', imagePath, title, date }: CardProps) => {
+const Card = ({ variant = 'type1', imagePath, title, date, onClick, isRotated }: CardProps) => {
     return (
-        <CardWrapper variant={variant}>
+        <CardWrapper variant={variant} onClick={onClick} type="button">
             {variant === 'type1' && (
                 <>
                     <CardImage imagePath={imagePath} />
@@ -82,7 +94,11 @@ const Card = ({ variant = 'type1', imagePath, title, date }: CardProps) => {
                         <CardTitle>{title}</CardTitle>
                         <CardDate>{date}</CardDate>
                     </TitleDateWrapper>
-                    <IconBase src="/src/assets/common/card_right_arrow.svg" alt="right arrow" />
+                    <IconBase 
+                        src="/src/assets/common/card_right_arrow.svg" 
+                        alt="right arrow" 
+                        isRotated={isRotated}
+                    />
                 </>
             )}
             {variant === 'type3' && (
