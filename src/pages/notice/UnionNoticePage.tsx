@@ -41,7 +41,6 @@ const UnionNoticePage = () => {
                 title="2024-2학기 동아리방 정기점검 안내"
                 date="2024.03.21"
             />
-            
         </Body>
     </div>;
 };

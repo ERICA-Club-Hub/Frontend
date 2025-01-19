@@ -96,6 +96,7 @@ const IconBase = styled.img<{ isRotated?: boolean }>`
     transform: ${({ isRotated }) => isRotated ? 'rotate(90deg)' : 'rotate(0deg)'};
 `;
 
+
 const Card = ({ variant = 'unionNotice', imagePath, title, date, questionType, onClick, isRotated }: CardProps) => {
     return (
         <CardWrapper variant={variant} onClick={onClick} type="button">
@@ -108,6 +109,7 @@ const Card = ({ variant = 'unionNotice', imagePath, title, date, questionType, o
                     </TitleDateWrapper>
                 </>
             )}
+
             {variant === 'serviceNotice' && (
                 <>
                     <TitleDateWrapper variant={variant}>
@@ -121,6 +123,7 @@ const Card = ({ variant = 'unionNotice', imagePath, title, date, questionType, o
                     />
                 </>
             )}
+
             {variant === 'resources' && (
                 <>
                     <TitleDateWrapper variant={variant}>
@@ -130,6 +133,7 @@ const Card = ({ variant = 'unionNotice', imagePath, title, date, questionType, o
                     <IconBase src="/src/assets/common/card_download.svg" alt="download icon" />
                 </>
             )}
+
             {variant === 'FAQ' && (
                 <>
                     <TitleDateWrapper variant={variant}>
