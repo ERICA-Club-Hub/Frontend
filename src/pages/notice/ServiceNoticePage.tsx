@@ -22,7 +22,7 @@ const CardContainer = styled.div`
     display: flex;
     flex-direction: column;
     width: 320px;
-    gap:0px;
+    padding-bottom: 8px;
 `;
 
 const ContentBox = styled.div<{ isVisible: boolean }>`
@@ -34,8 +34,6 @@ const ContentBox = styled.div<{ isVisible: boolean }>`
     background: #FFF;
     overflow: hidden;
     transition: max-height 0.3s ease-in-out;
-    margin-top: 5px;
-    margin-bottom: 8px;
 `;
 
 const ContentText = styled.div`
@@ -90,7 +88,7 @@ const ServiceNoticePage = () => {
             {noticeItems.map((item, index) => (
                 <CardContainer key={index}>
                     <Card 
-                        variant="type2" 
+                        variant="serviceNotice" 
                         title={item.title}
                         date={item.date}
                         isRotated={rotatedStates[index]}

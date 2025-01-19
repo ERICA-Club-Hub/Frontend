@@ -1,10 +1,11 @@
 import styled, { css } from 'styled-components';
 
 interface CardProps {
-    variant: 'type1' | 'type2' | 'type3';
+    variant?: 'unionNotice' | 'serviceNotice' | 'resources' | 'FAQ';
     imagePath?: string;
     title: string;
-    date: string;
+    date?: string;
+    questionType?: string;
     onClick?: () => void;
     isRotated?: boolean;
 }
@@ -27,7 +28,7 @@ const CardWrapper = styled.button<{ variant?: string }>`
     }
     
     ${({ variant }) => 
-        (variant === 'type2' || variant === 'type3') && css`
+        (variant === 'serviceNotice' || variant === 'resources' || variant === 'FAQ') && css`
             padding: 0 20px;
     `}
 `;
@@ -70,6 +71,23 @@ const CardDate = styled.div`
     text-align: left;
 `;
 
+const QuestionType = styled.div`
+    display: inline-flex;
+    padding: 2px 5px;
+    align-items: center;
+    gap: 3px;
+    border-radius: 5px;
+    background: #EEF4FF;
+    color: #33639C;
+    font-family: Pretendard;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+    width: fit-content;
+    white-space: nowrap;
+`;
+
 const IconBase = styled.img<{ isRotated?: boolean }>`
     width: 24px;
     height: 24px;
@@ -78,10 +96,11 @@ const IconBase = styled.img<{ isRotated?: boolean }>`
     transform: ${({ isRotated }) => isRotated ? 'rotate(90deg)' : 'rotate(0deg)'};
 `;
 
-const Card = ({ variant = 'type1', imagePath, title, date, onClick, isRotated }: CardProps) => {
+
+const Card = ({ variant = 'unionNotice', imagePath, title, date, questionType, onClick, isRotated }: CardProps) => {
     return (
         <CardWrapper variant={variant} onClick={onClick} type="button">
-            {variant === 'type1' && (
+            {variant === 'unionNotice' && (
                 <>
                     <CardImage imagePath={imagePath} />
                     <TitleDateWrapper variant={variant}>
@@ -90,7 +109,8 @@ const Card = ({ variant = 'type1', imagePath, title, date, onClick, isRotated }:
                     </TitleDateWrapper>
                 </>
             )}
-            {variant === 'type2' && (
+
+            {variant === 'serviceNotice' && (
                 <>
                     <TitleDateWrapper variant={variant}>
                         <CardTitle>{title}</CardTitle>
@@ -103,13 +123,28 @@ const Card = ({ variant = 'type1', imagePath, title, date, onClick, isRotated }:
                     />
                 </>
             )}
-            {variant === 'type3' && (
+
+            {variant === 'resources' && (
                 <>
                     <TitleDateWrapper variant={variant}>
                         <CardTitle>{title}</CardTitle>
                         <CardDate>{date}</CardDate>
                     </TitleDateWrapper>
                     <IconBase src="/src/assets/common/card_download.svg" alt="download icon" />
+                </>
+            )}
+
+            {variant === 'FAQ' && (
+                <>
+                    <TitleDateWrapper variant={variant}>
+                        <CardTitle>{title}</CardTitle>
+                        <QuestionType>{questionType}</QuestionType>
+                    </TitleDateWrapper>
+                    <IconBase 
+                        src="/src/assets/common/card_right_arrow.svg" 
+                        alt="right arrow" 
+                        isRotated={isRotated}
+                    />
                 </>
             )}
         </CardWrapper>
