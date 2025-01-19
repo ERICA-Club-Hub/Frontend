@@ -58,10 +58,12 @@ const HeaderMenu = () => {
 
 export { HeaderMenu };
 
-const Container = styled.div`
-    position: fixed;
+const Container = styled.header`
+    position: relative;
     top: 0;
     left: 50%;
+    margin: 0 auto;
+
     transform: translateX(-50%);
     display: flex;
     justify-content: space-between;

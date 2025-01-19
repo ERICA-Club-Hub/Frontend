@@ -1,23 +1,56 @@
+import { useState } from 'react';
 import { Dropdown, InputField } from '@/components/Common';
 import styled from 'styled-components';
 import ExpandArrowIcon from '@/assets/common/expand-arrow.svg?react';
-import { useState } from 'react';
+import Button from '@/components/Common/Button';
 
 const RegisterClubPage = () => {
-    const [inputValue, setInputValue] = useState({
+    const [inputValue, setInputValue] = useState<{
+        name: string;
+        email: string;
+        category: string;
+        image: File[];
+    }>({
         name: '',
         email: '',
         category: '',
+        image: [],
     });
     const [selectedValue, setSelectedValue] = useState<string>('');
+    const [previewImg, setPreviewImg] = useState<string | ArrayBuffer | null>(
+        null,
+    );
 
-    console.log(inputValue);
+    const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+        let fileArr = e.target.files;
+        if (fileArr) {
+            setInputValue((prev) => ({ ...prev, image: Array.from(fileArr) }));
+        }
+
+        let fileRead = new FileReader();
+
+        fileRead.onload = () => {
+            setPreviewImg(fileRead.result);
+        };
+
+        fileRead.onerror = () => {
+            console.log('이미지 읽기 중 오류 발생');
+        };
+
+        if (fileArr!.length > 0) {
+            fileRead.readAsDataURL(fileArr![0]);
+        }
+    };
+
+    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        console.log(inputValue);
+    };
 
     return (
         <Container>
             <h1>절차에 따라 동아리를 등록해 주세요.</h1>
-
-            <FormContainer>
+            <FormContainer onSubmit={handleSubmit}>
                 <InnerWrapper>
                     <Label htmlFor="name">동아리 이름</Label>
                     <InputField
@@ -44,7 +77,7 @@ const RegisterClubPage = () => {
                 </InnerWrapper>
 
                 <InnerWrapper>
-                    <Label htmlFor="category">동아리 카테고리</Label>
+                    <Label>동아리 카테고리</Label>
                     <Dropdown
                         size="large"
                         icon={<ExpandArrowIcon />}
@@ -70,6 +103,64 @@ const RegisterClubPage = () => {
                         </DropdownList>
                     </Dropdown>
                 </InnerWrapper>
+
+                <ImageUploadWrapper>
+                    <Label>동아리 사진 업로드</Label>
+                    <ImageUploadInfo>
+                        <div className="image-upload-container">
+                            <label htmlFor="image" className="image-preview">
+                                {previewImg && (
+                                    <ImagePreview
+                                        src={
+                                            typeof previewImg === 'string'
+                                                ? previewImg
+                                                : ''
+                                        }
+                                        alt="image-preview"
+                                    />
+                                )}
+                            </label>
+                            <input
+                                id="image"
+                                type="file"
+                                accept=".jpg, .jpeg, .png"
+                                onChange={handleImageUpload}
+                            />
+                        </div>
+
+                        <div className="upload-guide">
+                            <p>
+                                동아리 대표 사진을 <br />
+                                업로드해 주세요.
+                            </p>
+                            <span>500kb까지 업로드 가능합니다.</span>
+                        </div>
+                    </ImageUploadInfo>
+                </ImageUploadWrapper>
+
+                <InnerWrapper>
+                    <Label htmlFor="club-introduction">동아리 한 줄 소개</Label>
+                    <InputField
+                        id="club-introduction"
+                        type="text"
+                        placeholder="동아리를 한 줄로 소개해 주세요."
+                        inputSize="large"
+                    />
+                </InnerWrapper>
+
+                <InnerWrapper>
+                    <Label htmlFor="club-description">동아리 간단 소개</Label>
+                    <InputField
+                        id="club-description"
+                        type="text"
+                        placeholder="동아리에 대해 간단히 소개해 주세요."
+                        inputSize="large"
+                    />
+                </InnerWrapper>
+
+                <Button type="submit" size="large" disabled={false}>
+                    동아리 등록하기
+                </Button>
             </FormContainer>
         </Container>
     );
@@ -79,10 +170,12 @@ export { RegisterClubPage };
 
 const Container = styled.div`
     width: 100%;
-    height: 100%;
+    height: calc(100vh - 55px);
     display: flex;
     flex-direction: column;
     align-items: center;
+    overflow: hidden;
+    box-sizing: border-box;
     padding-top: 40px;
 
     h1 {
@@ -93,11 +186,22 @@ const Container = styled.div`
     }
 `;
 
+const Label = styled.label``;
+
 const FormContainer = styled.form`
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 30px;
+
+    ${Label} {
+        width: 100%;
+        padding-left: 7px;
+        margin-bottom: 10px;
+        font-size: 16px;
+        font-weight: 600;
+        color: ${({ theme }) => theme.colors.mainBlack};
+    }
 `;
 
 const InnerWrapper = styled.div`
@@ -113,15 +217,6 @@ const InnerWrapper = styled.div`
         font-weight: 400;
         color: ${({ theme }) => theme.colors.subGray};
     }
-`;
-
-const Label = styled.label`
-    width: 100%;
-    padding-left: 7px;
-    margin-bottom: 10px;
-    font-size: 16px;
-    font-weight: 600;
-    color: ${({ theme }) => theme.colors.mainBlack};
 `;
 
 const DropdownList = styled.ul`
@@ -143,4 +238,61 @@ const DropdownItem = styled.li<{ $isSelected: boolean }>`
         $isSelected ? theme.colors.white : theme.colors.mainBlack};
     background-color: ${({ $isSelected, theme }) =>
         $isSelected ? theme.colors.mainBlue : theme.colors.lightGray};
+`;
+
+const ImageUploadWrapper = styled.div`
+    display: flex;
+    flex-direction: column;
+`;
+
+const ImageUploadInfo = styled.div`
+    width: 320px;
+    height: 100px;
+    background-color: ${({ theme }) => theme.colors.white};
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    border-radius: 10px;
+    padding: 10px;
+
+    .image-preview {
+        display: flex;
+        justify-content: center;
+        align-item: center;
+        width: 80px;
+        height: 80px;
+        border-radius: 10px;
+        background-color: ${({ theme }) => theme.colors.mediumGray};
+        cursor: pointer;
+    }
+
+    input {
+        display: none;
+    }
+
+    .upload-guide {
+        display: flex;
+        flex-direction: column;
+        gap: 7px;
+
+        p {
+            font-size: 14px;
+            font-weight: 400;
+            color: ${({ theme }) => theme.colors.subGray};
+        }
+
+        span {
+            font-size: 12px;
+            font-weight: 400;
+            color: ${({ theme }) => theme.colors.subGray};
+            text-decoration: underline;
+        }
+    }
+`;
+
+const ImagePreview = styled.img`
+    width: 100%;
+    height: 100%;
+    border-radius: 10px;
+    object-fit: cover;
 `;
