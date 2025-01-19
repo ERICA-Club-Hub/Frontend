@@ -1,4 +1,4 @@
-import { Input, TopNavigator } from '@/components/Common';
+import { InputField, TopNavigator } from '@/components/Common';
 import Button from '@/components/Common/Button';
 import { loginNavigations } from '@/constants';
 import { useState } from 'react';
@@ -20,44 +20,38 @@ const AdminLoginPage = () => {
 
     return (
         <Container>
-            <Wrapper>
-                <TopNavigator
-                    navStatus={navStatus}
-                    navList={loginNavigations}
-                    onClick={(id: number) => setNavStatus(id)}
-                />
-                <LoginContainer>
-                    <h2>
-                        {navStatus === 1
-                            ? '동아리 대표이신가요?'
-                            : '총동연 관리자이신가요?'}
-                    </h2>
-                    <Form onSubmit={handleSubmit}>
-                        <Input
-                            value={code}
-                            onChange={handleChange}
-                            placeholder={
-                                navStatus === 1
-                                    ? '부여받은 동아리 코드를 입력해 주세요.'
-                                    : '부여받은 코드를 입력해 주세요.'
-                            }
-                            size="large"
-                            backgroundColor="white"
-                        />
-                        <Button
-                            type="submit"
-                            size="large"
-                            isDisabled={() => false}
-                        >
-                            어드민 로그인하기
-                        </Button>
-                    </Form>
+            <TopNavigator
+                navStatus={navStatus}
+                navList={loginNavigations}
+                onClick={(id: number) => setNavStatus(id)}
+            />
+            <LoginContainer>
+                <h2>
+                    {navStatus === 1
+                        ? '동아리 대표이신가요?'
+                        : '총동연 관리자이신가요?'}
+                </h2>
+                <Form onSubmit={handleSubmit}>
+                    <InputField
+                        value={code}
+                        onChange={handleChange}
+                        placeholder={
+                            navStatus === 1
+                                ? '부여받은 동아리 코드를 입력해 주세요.'
+                                : '부여받은 코드를 입력해 주세요.'
+                        }
+                        inputSize="large"
+                        backgroundColor="white"
+                    />
+                    <Button type="submit" size="large" isDisabled={() => false}>
+                        어드민 로그인하기
+                    </Button>
+                </Form>
 
-                    <Link to="/admin/register">
-                        <RegisterButton>동아리 등록하기</RegisterButton>
-                    </Link>
-                </LoginContainer>
-            </Wrapper>
+                <Link to="/admin/register">
+                    <RegisterButton>동아리 등록하기</RegisterButton>
+                </Link>
+            </LoginContainer>
         </Container>
     );
 };
@@ -72,17 +66,8 @@ const Container = styled.div`
     flex-direction: column;
     align-items: center;
     justify-content: center;
-`;
-
-const Wrapper = styled.div`
-    position: absolute;
-    top: 35%;
-    transform: translateY(-50%);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
     gap: 50px;
+    padding-top: 35%;
 `;
 
 const LoginContainer = styled.div`

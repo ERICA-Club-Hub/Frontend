@@ -13,11 +13,10 @@ const RootLayout = ({ children }: { children: ReactNode }) => {
 
 export { RootLayout };
 
-const Container = styled.div`
+const Container = styled.main`
     min-width: 360px;
     max-width: 400px;
-    height: 100vh;
-    padding-top: 55px;
+    min-height: 100vh;
     margin: 0 auto;
 
     background-color: ${(props) => props.theme.colors.bgLightGray};
