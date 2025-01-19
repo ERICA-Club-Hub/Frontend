@@ -24,19 +24,19 @@ const UnionNoticePage = () => {
         <Title>총동연 공지사항</Title>
         <Body>
             <Card 
-                variant="type1" 
+                variant="unionNotice" 
                 imagePath={dummyImage}
                 title="2024-2학기 동아리방 정기점검 안내"
                 date="2024.03.21"
             />
             <Card 
-                variant="type1" 
+                variant="unionNotice" 
                 imagePath={dummyImage}
                 title="2024-2학기 동아리방 정기점검 안내"
                 date="2024.03.21"
             />
             <Card 
-                variant="type1" 
+                variant="unionNotice" 
                 imagePath={dummyImage}
                 title="2024-2학기 동아리방 정기점검 안내"
                 date="2024.03.21"

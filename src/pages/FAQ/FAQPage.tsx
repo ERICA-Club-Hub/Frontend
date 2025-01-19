@@ -85,7 +85,7 @@ const FAQPage = () => {
             {noticeItems.map((item, index) => (
                 <CardContainer key={index}>
                     <Card 
-                        variant="type4" 
+                        variant="FAQ" 
                         title={item.title}
                         questionType={item.questionType}
                         isRotated={rotatedStates[index]}

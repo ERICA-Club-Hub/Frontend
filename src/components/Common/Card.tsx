@@ -1,7 +1,7 @@
 import styled, { css } from 'styled-components';
 
 interface CardProps {
-    variant?: 'type1' | 'type2' | 'type3' | 'type4';
+    variant?: 'unionNotice' | 'serviceNotice' | 'resources' | 'FAQ';
     imagePath?: string;
     title: string;
     date?: string;
@@ -28,7 +28,7 @@ const CardWrapper = styled.button<{ variant?: string }>`
     }
     
     ${({ variant }) => 
-        (variant === 'type2' || variant === 'type3' || variant === 'type4') && css`
+        (variant === 'serviceNotice' || variant === 'resources' || variant === 'FAQ') && css`
             padding: 0 20px;
     `}
 `;
@@ -96,10 +96,10 @@ const IconBase = styled.img<{ isRotated?: boolean }>`
     transform: ${({ isRotated }) => isRotated ? 'rotate(90deg)' : 'rotate(0deg)'};
 `;
 
-const Card = ({ variant = 'type1', imagePath, title, date, questionType, onClick, isRotated }: CardProps) => {
+const Card = ({ variant = 'unionNotice', imagePath, title, date, questionType, onClick, isRotated }: CardProps) => {
     return (
         <CardWrapper variant={variant} onClick={onClick} type="button">
-            {variant === 'type1' && (
+            {variant === 'unionNotice' && (
                 <>
                     <CardImage imagePath={imagePath} />
                     <TitleDateWrapper variant={variant}>
@@ -108,7 +108,7 @@ const Card = ({ variant = 'type1', imagePath, title, date, questionType, onClick
                     </TitleDateWrapper>
                 </>
             )}
-            {variant === 'type2' && (
+            {variant === 'serviceNotice' && (
                 <>
                     <TitleDateWrapper variant={variant}>
                         <CardTitle>{title}</CardTitle>
@@ -121,7 +121,7 @@ const Card = ({ variant = 'type1', imagePath, title, date, questionType, onClick
                     />
                 </>
             )}
-            {variant === 'type3' && (
+            {variant === 'resources' && (
                 <>
                     <TitleDateWrapper variant={variant}>
                         <CardTitle>{title}</CardTitle>
@@ -130,7 +130,7 @@ const Card = ({ variant = 'type1', imagePath, title, date, questionType, onClick
                     <IconBase src="/src/assets/common/card_download.svg" alt="download icon" />
                 </>
             )}
-            {variant === 'type4' && (
+            {variant === 'FAQ' && (
                 <>
                     <TitleDateWrapper variant={variant}>
                         <CardTitle>{title}</CardTitle>

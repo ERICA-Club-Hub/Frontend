@@ -94,19 +94,19 @@ const ResourcesPage = () => {
         <Title>자료실 페이지</Title>
         <Body>
             <Card 
-                variant="type3" 
+                variant="resources" 
                 title="총동아리연합회 예외 사업 신청서"
                 date="2024.03.23"
                 onClick={handleCardClick}
             />
             <Card 
-                variant="type3" 
+                variant="resources" 
                 title="금지물품 반입 허가서"
                 date="2024.03.23"
                 onClick={handleCardClick}
             />
             <Card 
-                variant="type3" 
+                variant="resources" 
                 title="동아리 재등록 서류 서식"
                 date="2024.03.23"
                 onClick={handleCardClick}
