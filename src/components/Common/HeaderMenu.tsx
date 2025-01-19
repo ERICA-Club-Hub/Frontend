@@ -99,6 +99,7 @@ const DropdownNavigator = styled.div<{ $isOpen: boolean }>`
     background-color: ${(prop) => prop.theme.colors.white};
     overflow: hidden;
     transition: ${({ $isOpen }) => ($isOpen ? 'all 0.3s ease-in-out' : 'none')};
+    box-shadow: 0px 20px 25px -5px rgba(0, 0, 0, 0.1);
 `;
 
 const LoginButton = styled.button`
