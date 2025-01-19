@@ -57,6 +57,7 @@ const CardTitle = styled.div`
     font-style: normal;
     font-weight: 600;
     line-height: normal;
+    text-align: left;
 `;
 
 const CardDate = styled.div`
@@ -66,6 +67,7 @@ const CardDate = styled.div`
     font-style: normal;
     font-weight: 500;
     line-height: normal;
+    text-align: left;
 `;
 
 const IconBase = styled.img<{ isRotated?: boolean }>`
