@@ -1,10 +1,11 @@
 import styled, { css } from 'styled-components';
 
 interface CardProps {
-    variant: 'type1' | 'type2' | 'type3';
+    variant?: 'type1' | 'type2' | 'type3' | 'type4';
     imagePath?: string;
     title: string;
-    date: string;
+    date?: string;
+    questionType?: string;
     onClick?: () => void;
     isRotated?: boolean;
 }
@@ -27,7 +28,7 @@ const CardWrapper = styled.button<{ variant?: string }>`
     }
     
     ${({ variant }) => 
-        (variant === 'type2' || variant === 'type3') && css`
+        (variant === 'type2' || variant === 'type3' || variant === 'type4') && css`
             padding: 0 20px;
     `}
 `;
@@ -70,6 +71,23 @@ const CardDate = styled.div`
     text-align: left;
 `;
 
+const QuestionType = styled.div`
+    display: inline-flex;
+    padding: 2px 5px;
+    align-items: center;
+    gap: 3px;
+    border-radius: 5px;
+    background: #EEF4FF;
+    color: #33639C;
+    font-family: Pretendard;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+    width: fit-content;
+    white-space: nowrap;
+`;
+
 const IconBase = styled.img<{ isRotated?: boolean }>`
     width: 24px;
     height: 24px;
@@ -78,7 +96,7 @@ const IconBase = styled.img<{ isRotated?: boolean }>`
     transform: ${({ isRotated }) => isRotated ? 'rotate(90deg)' : 'rotate(0deg)'};
 `;
 
-const Card = ({ variant = 'type1', imagePath, title, date, onClick, isRotated }: CardProps) => {
+const Card = ({ variant = 'type1', imagePath, title, date, questionType, onClick, isRotated }: CardProps) => {
     return (
         <CardWrapper variant={variant} onClick={onClick} type="button">
             {variant === 'type1' && (
@@ -110,6 +128,19 @@ const Card = ({ variant = 'type1', imagePath, title, date, onClick, isRotated }:
                         <CardDate>{date}</CardDate>
                     </TitleDateWrapper>
                     <IconBase src="/src/assets/common/card_download.svg" alt="download icon" />
+                </>
+            )}
+            {variant === 'type4' && (
+                <>
+                    <TitleDateWrapper variant={variant}>
+                        <CardTitle>{title}</CardTitle>
+                        <QuestionType>{questionType}</QuestionType>
+                    </TitleDateWrapper>
+                    <IconBase 
+                        src="/src/assets/common/card_right_arrow.svg" 
+                        alt="right arrow" 
+                        isRotated={isRotated}
+                    />
                 </>
             )}
         </CardWrapper>
