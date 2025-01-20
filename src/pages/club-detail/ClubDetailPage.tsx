@@ -25,6 +25,8 @@ const ClubDetailPage = () => {
 
             <ClubInfo>
                 <ClubDetails>
+                    <h2>동아리 정보 요약</h2>
+                    <hr />
                     <DetailRow>
                         <DetailLabel>대표</DetailLabel>
                         <DetailValue>이름 들어갈 곳</DetailValue>
@@ -47,9 +49,8 @@ const ClubDetailPage = () => {
                     </DetailRow>
                 </ClubDetails>
             </ClubInfo>
-            <div style={{ margin: '20px' }}>
-                <Button size="large">가입 신청하기</Button>
-            </div>
+            <Button size="large">가입 신청하기</Button>
+
             {/* <TabContainer>
                     <TabButton
                         isActive={activeTab === 'intro'}
@@ -94,13 +95,16 @@ const ClubDetailPage = () => {
 };
 
 const PageContainer = styled.div`
-    //
-    min-width: 320px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     margin: 0 auto;
     padding: 20px;
 `;
 
 const ClubHeader = styled.div`
+    width: 320px;
+    height: 104px;
     background: white;
     display: flex;
     padding: 20px;
@@ -116,6 +120,8 @@ const ClubImage = styled.img`
 `;
 
 const ClubInfo = styled.div`
+    width: 320px;
+    height: 201px;
     border-radius: 10px;
     background-color: blue;
     flex: 1;
@@ -141,7 +147,9 @@ const Tag = styled.span`
 `;
 
 const ClubDetails = styled.div`
-    display: grid;
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
     gap: 8px;
 `;
 
@@ -179,7 +187,7 @@ const DetailValue = styled.span`
 // `;
 
 const TabContent = styled.div`
-    padding: 16px 0;
+    width: 320px;
 `;
 
 const LogGrid = styled.div`
