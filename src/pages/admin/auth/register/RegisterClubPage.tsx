@@ -106,7 +106,7 @@ const RegisterClubPage = () => {
 
                 <ImageUploadWrapper>
                     <Label>동아리 사진 업로드</Label>
-                    <ImageUploadInfo>
+                    <ImageContainer>
                         <div className="image-upload-container">
                             <label htmlFor="image" className="image-preview">
                                 {previewImg && (
@@ -135,7 +135,7 @@ const RegisterClubPage = () => {
                             </p>
                             <span>500kb까지 업로드 가능합니다.</span>
                         </div>
-                    </ImageUploadInfo>
+                    </ImageContainer>
                 </ImageUploadWrapper>
 
                 <InnerWrapper>
@@ -245,7 +245,7 @@ const ImageUploadWrapper = styled.div`
     flex-direction: column;
 `;
 
-const ImageUploadInfo = styled.div`
+const ImageContainer = styled.div`
     width: 320px;
     height: 100px;
     background-color: ${({ theme }) => theme.colors.white};
