@@ -3,14 +3,11 @@ import { Dropdown, InputField } from '@/components/Common';
 import styled from 'styled-components';
 import ExpandArrowIcon from '@/assets/common/expand-arrow.svg?react';
 import Button from '@/components/Common/Button';
+import { uploadImageWithPreview } from '@/utils';
+import { InputValue } from '@/types';
 
 const RegisterClubPage = () => {
-    const [inputValue, setInputValue] = useState<{
-        name: string;
-        email: string;
-        category: string;
-        image: File[];
-    }>({
+    const [inputValue, setInputValue] = useState<InputValue>({
         name: '',
         email: '',
         category: '',
@@ -20,27 +17,6 @@ const RegisterClubPage = () => {
     const [previewImg, setPreviewImg] = useState<string | ArrayBuffer | null>(
         null,
     );
-
-    const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
-        let fileArr = e.target.files;
-        if (fileArr) {
-            setInputValue((prev) => ({ ...prev, image: Array.from(fileArr) }));
-        }
-
-        let fileRead = new FileReader();
-
-        fileRead.onload = () => {
-            setPreviewImg(fileRead.result);
-        };
-
-        fileRead.onerror = () => {
-            console.log('이미지 읽기 중 오류 발생');
-        };
-
-        if (fileArr!.length > 0) {
-            fileRead.readAsDataURL(fileArr![0]);
-        }
-    };
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -124,7 +100,13 @@ const RegisterClubPage = () => {
                                 id="image"
                                 type="file"
                                 accept=".jpg, .jpeg, .png"
-                                onChange={handleImageUpload}
+                                onChange={(e) =>
+                                    uploadImageWithPreview(
+                                        e,
+                                        setInputValue,
+                                        setPreviewImg,
+                                    )
+                                }
                             />
                         </div>
 
