@@ -9,6 +9,8 @@ import card from '../../../public/card.svg';
 import phone from '../../../public/phone.svg';
 import label from '../../../public/label.svg';
 
+// 받을 정보 : id, 이미지, 이름, 태그, 모집상태, 대표, 연락처, 정기모임, 회비, sns, 소개 정보, 모집안내, 활동로그
+
 const ClubDetailPage = () => {
     const params = useParams();
     const activeTab = 'intro';
@@ -19,14 +21,14 @@ const ClubDetailPage = () => {
         <PageContainer>
             <ClubHeader>
                 <ClubImage src={logo} alt="Club Logo" />
-                <div>
-                    <div>대학생 IT 개발 연합동아리</div>
+                <PreviewWrapper>
+                    <Preview>대학생 IT 개발 연합동아리</Preview>
                     <ClubTitle>UMC ERICA</ClubTitle>
                     <ClubTags>
                         <Tag>연합동아리</Tag>
-                        <Tag>모집중</Tag>
+                        <RecruitState>모집중</RecruitState>
                     </ClubTags>
-                </div>
+                </PreviewWrapper>
             </ClubHeader>
 
             <ClubInfo>
@@ -116,7 +118,7 @@ const ClubHeader = styled.div`
     height: 104px;
     background: white;
     display: flex;
-    padding: 20px;
+    padding: 17px;
     margin-bottom: 8px;
     border-radius: 10px;
 `;
@@ -125,8 +127,10 @@ const ClubImage = styled.img`
     width: 70px;
     height: 70px;
     border-radius: 10px;
-    background-color: black;
+    margin-right: 21px;
 `;
+
+const PreviewWrapper = styled.div``;
 
 const ClubInfo = styled.div`
     width: 320px;
@@ -136,6 +140,8 @@ const ClubInfo = styled.div`
     flex: 1;
     margin-bottom: 8px;
 `;
+
+const Preview = styled.div``;
 
 const ClubTitle = styled.h1`
     font-size: 24px;
@@ -150,10 +156,22 @@ const ClubTags = styled.div`
 `;
 
 const Tag = styled.span`
-    padding: 4px 8px;
+    height: 18px;
+    padding: 2px 5px 2px 5px;
     border-radius: 4px;
     font-size: 12px;
-    background-color: red;
+    background-color: #eef4ff;
+    color: #33639c;
+`;
+
+const RecruitState = styled.span`
+    width: 42px;
+    height: 18px;
+    padding: 2px 5px 2px 5px;
+    border-radius: 5pc;
+    font-size: 12px;
+    background-color: #fff4e4;
+    color: #f08a00;
 `;
 
 const ClubDetails = styled.div`
