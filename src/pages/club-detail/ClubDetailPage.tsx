@@ -2,6 +2,12 @@
 import Button from '@/components/Common/Button';
 import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
+import logo from '../../../public/logo.svg';
+import sns from '../../../public/sns.svg';
+import jjang from '../../../public/jjang.svg';
+import card from '../../../public/card.svg';
+import phone from '../../../public/phone.svg';
+import label from '../../../public/label.svg';
 
 const ClubDetailPage = () => {
     const params = useParams();
@@ -12,7 +18,7 @@ const ClubDetailPage = () => {
     return (
         <PageContainer>
             <ClubHeader>
-                <ClubImage src="/path-to-club-image.png" alt="Club Logo" />
+                <ClubImage src={logo} alt="Club Logo" />
                 <div>
                     <div>대학생 IT 개발 연합동아리</div>
                     <ClubTitle>UMC ERICA</ClubTitle>
@@ -25,32 +31,36 @@ const ClubDetailPage = () => {
 
             <ClubInfo>
                 <ClubDetails>
-                    <h2>동아리 정보 요약</h2>
+                    <h3>동아리 정보 요약</h3>
                     <hr />
                     <DetailRow>
+                        <IconImage src={jjang} alt="" />
                         <DetailLabel>대표</DetailLabel>
                         <DetailValue>이름 들어갈 곳</DetailValue>
                     </DetailRow>
                     <DetailRow>
+                        <IconImage src={phone} alt="" />
                         <DetailLabel>연락처</DetailLabel>
                         <DetailValue>연락처 들어갈 곳</DetailValue>
                     </DetailRow>
                     <DetailRow>
-                        <DetailLabel>장기모임</DetailLabel>
+                        <IconImage src={label} alt="" />
+                        <DetailLabel>정기모임</DetailLabel>
                         <DetailValue>어쩌구</DetailValue>
                     </DetailRow>
                     <DetailRow>
+                        <IconImage src={card} alt="" />
                         <DetailLabel>회비</DetailLabel>
                         <DetailValue>저쩌구</DetailValue>
                     </DetailRow>
                     <DetailRow>
+                        <IconImage src={sns} alt="" />
                         <DetailLabel>SNS</DetailLabel>
                         <DetailValue>@@@</DetailValue>
                     </DetailRow>
                 </ClubDetails>
             </ClubInfo>
             <Button size="large">가입 신청하기</Button>
-
             {/* <TabContainer>
                     <TabButton
                         isActive={activeTab === 'intro'}
@@ -71,7 +81,6 @@ const ClubDetailPage = () => {
                         활동로그
                     </TabButton>
                 </TabContainer> */}
-
             <TabContent>
                 {activeTab === 'intro' && (
                     <div>
@@ -108,7 +117,7 @@ const ClubHeader = styled.div`
     background: white;
     display: flex;
     padding: 20px;
-    margin-bottom: 24px;
+    margin-bottom: 8px;
     border-radius: 10px;
 `;
 
@@ -123,8 +132,9 @@ const ClubInfo = styled.div`
     width: 320px;
     height: 201px;
     border-radius: 10px;
-    background-color: blue;
+    background-color: white;
     flex: 1;
+    margin-bottom: 8px;
 `;
 
 const ClubTitle = styled.h1`
@@ -151,6 +161,11 @@ const ClubDetails = styled.div`
     display: flex;
     flex-direction: column;
     gap: 8px;
+`;
+
+const IconImage = styled.img`
+    width: 15px;
+    height: 15px;
 `;
 
 const DetailRow = styled.div`
