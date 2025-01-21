@@ -3,8 +3,8 @@ import styled from 'styled-components';
 export default function Intro() {
     return (
         <div>
-            <ScheduleContainer>
-                <ScheduleTitle>🎯 주요 연간일정</ScheduleTitle>
+            <Container>
+                <Title>🎯 주요 연간일정</Title>
                 <ScheduleContents>
                     <ContentsRow>
                         <ContentsLabel>3월</ContentsLabel>
@@ -27,21 +27,38 @@ export default function Intro() {
                         <ContentsValue></ContentsValue>
                     </ContentsRow>
                 </ScheduleContents>
-            </ScheduleContainer>
-            <div>
-                <h3>🔍 우리 동아리를 소개합니다!</h3>
-            </div>
+            </Container>
+            <Container>
+                <ContentBlock>
+                    <Title>🔍 우리 동아리를 소개합니다!</Title>
+                    <ContentSpan>
+                        {`첫 번째 줄입니다.
+                        두 번째 줄입니다.asdfasfsadfasdfasfㅇㄴㅁ;렁ㄴ;러;ㅇ널;ㅣㅇㅁ너리;ㅏㅇㅁ너리;ㅏㄴ어리ㅏㅇㅁ너리ㅏ;ㄴ머리;ㅏㄴ멀ㄴㅇㅁ리;ㅓㄴㅁ아ㅣ럼닝ㄹ
+                        
+                        두 줄 띄우고 세 번째 줄입니다.`}
+                    </ContentSpan>
+                </ContentBlock>
+                <ContentBlock>
+                    <Title>👀 이런 활동을 할 수 있어요!</Title>
+                    <ContentSpan></ContentSpan>
+                </ContentBlock>
+                <ContentBlock>
+                    <Title>🔥 너, 내 동료가 돼라!</Title>
+                    <ContentSpan></ContentSpan>
+                </ContentBlock>
+            </Container>
         </div>
     );
 }
 
-const ScheduleContainer = styled.div`
+const Container = styled.div`
     background-color: white;
     border-radius: 10px;
     padding: 20px;
     width: 328px;
+    margin-bottom: 7px;
 `;
-const ScheduleTitle = styled.div`
+const Title = styled.div`
     margin-top: -5px;
     margin-bottom: 15px;
     font-size: 16px;
@@ -54,6 +71,14 @@ const ScheduleContents = styled.div`
 `;
 const ContentsRow = styled.div`
     display: flex;
+`;
+const ContentBlock = styled.div`
+    width: 278px;
+    margin-bottom: 25px;
+`;
+const ContentSpan = styled.span`
+    font-size: 14px;
+    color: #606060;
 `;
 const ContentsLabel = styled.span`
     display: flex;
