@@ -77,6 +77,7 @@ const ContentBlock = styled.div`
     margin-bottom: 25px;
 `;
 const ContentSpan = styled.span`
+    white-space: pre-line;
     font-size: 14px;
     color: #606060;
 `;
