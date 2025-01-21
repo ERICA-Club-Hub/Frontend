@@ -1,20 +1,27 @@
-// import { useState } from 'react';
+import { useState } from 'react';
 import Button from '@/components/Common/Button';
 import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
-import logo from '../../../public/logo.svg';
-import sns from '../../../public/sns.svg';
-import jjang from '../../../public/jjang.svg';
-import card from '../../../public/card.svg';
-import phone from '../../../public/phone.svg';
-import label from '../../../public/label.svg';
+import logo from '../../../src/assets/react.svg';
+import sns from '../../assets/common/sns.svg';
+import jjang from '../../assets/common/jjang.svg';
+import card from '../../assets/common/card.svg';
+import phone from '../../assets/common/phone.svg';
+import label from '../../assets/common/label.svg';
+import TabContents from './TabContents';
+
+// tab 항목에서 활성화 여부를 판단할 props
+interface TabButtonProps {
+    isActive?: boolean;
+}
 
 // 받을 정보 : id, 이미지, 이름, 태그, 모집상태, 대표, 연락처, 정기모임, 회비, sns, 소개 정보, 모집안내, 활동로그
 
 const ClubDetailPage = () => {
     const params = useParams();
-    const activeTab = 'intro';
-    // const [activeTab, setActiveTab] = useState('intro');
+    const [activeTab, setActiveTab] = useState<'intro' | 'recruit' | 'log'>(
+        'intro',
+    );
 
     console.log(params.id);
     return (
@@ -63,44 +70,28 @@ const ClubDetailPage = () => {
                 </ClubDetails>
             </ClubInfo>
             <Button size="large">가입 신청하기</Button>
-            {/* <TabContainer>
-                    <TabButton
-                        isActive={activeTab === 'intro'}
-                        onClick={() => setActiveTab('intro')}
-                    >
-                        동아리 소개
-                    </TabButton>
-                    <TabButton
-                        isActive={activeTab === 'recruit'}
-                        onClick={() => setActiveTab('recruit')}
-                    >
-                        모집안내
-                    </TabButton>
-                    <TabButton
-                        isActive={activeTab === 'log'}
-                        onClick={() => setActiveTab('log')}
-                    >
-                        활동로그
-                    </TabButton>
-                </TabContainer> */}
-            <TabContent>
-                {activeTab === 'intro' && (
-                    <div>
-                        <h3>✏️ 우리 동아리를 소개합니다!</h3>
-                        {/* 동아리 소개 내용 */}
-                    </div>
-                )}
+            <TabContainer>
+                <TabButton
+                    onClick={() => setActiveTab('intro')}
+                    $isActive={activeTab === 'intro'}
+                >
+                    동아리 소개
+                </TabButton>
+                <TabButton
+                    onClick={() => setActiveTab('recruit')}
+                    $isActive={activeTab === 'recruit'}
+                >
+                    모집안내
+                </TabButton>
+                <TabButton
+                    onClick={() => setActiveTab('log')}
+                    $isActive={activeTab === 'log'}
+                >
+                    활동로그
+                </TabButton>
+            </TabContainer>
 
-                {/* {activeTab === 'recruit' && ( */}
-                {/* <div> */}
-                {/* <h3>📅 모집기간</h3> */}
-                {/* 모집 관련 내용 */}
-                {/* </div> */}
-                {/* )} */}
-                {/* {activeTab === 'log' && ( */}
-                <LogGrid>활동 로그 이미지들</LogGrid>
-                {/* )} */}
-            </TabContent>
+            <TabContents activeTab={activeTab}></TabContents>
         </PageContainer>
     );
 };
@@ -178,7 +169,7 @@ const ClubDetails = styled.div`
     padding: 15px;
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: 10px;
 `;
 
 const IconImage = styled.img`
@@ -201,32 +192,26 @@ const DetailValue = styled.span`
     color: #333;
 `;
 
-// const TabContainer = styled.div`
-//     display: flex;
-//     border-bottom: 1px solid #e2e8f0;
-//     margin-bottom: 24px;
-// `;
-
-// const TabButton = styled.button`
-//     flex: 1;
-//     padding: 12px;
-//     background: none;
-//     border: none;
-//     border-bottom: 2px solid
-//         /* ${(props) => (props.isActive ? '#4299e1' : 'transparent')};
-//     color: ${(props) => (props.isActive ? '#4299e1' : '#666')};
-//     font-weight: ${(props) => (props.isActive ? 'bold' : 'normal')}; */
-//     cursor: pointer;
-// `;
-
-const TabContent = styled.div`
+const TabContainer = styled.div`
     width: 320px;
+    display: flex;
+    border-bottom: 1px solid #e2e8f0;
+    margin-bottom: 9px;
+    justify-content: center;
 `;
 
-const LogGrid = styled.div`
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 16px;
+const TabButton = styled.button<TabButtonProps>`
+    flex: 1;
+    width: auto;
+    padding-top: 24px;
+    padding-bottom: 7px;
+    background: none;
+    border: none;
+    border-bottom: 2px solid
+        ${(props) => (props.$isActive ? '#4299e1' : 'transparent')};
+    color: ${(props) => (props.$isActive ? '#4299e1' : '#666')};
+    font-weight: ${(props) => (props.$isActive ? 'bold' : 'normal')};
+    cursor: pointer;
 `;
 
 export { ClubDetailPage };
