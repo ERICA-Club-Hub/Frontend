@@ -4,6 +4,19 @@ interface IntroProps {
     clubId: string;
 }
 
+interface Schedule {
+    month: string;
+    content: string;
+}
+
+const schedules: Schedule[] = [
+    { month: '3월', content: '3월에 할것' },
+    { month: '4월', content: '4월에 할것' },
+    { month: '6월', content: '6월에 할것' },
+    { month: '7월', content: '7월에 할것' },
+    { month: '8월', content: '8월에 할것' },
+];
+
 export default function Intro({ clubId }: IntroProps) {
     console.log('동아리 소개에서', clubId);
     return (
@@ -11,26 +24,12 @@ export default function Intro({ clubId }: IntroProps) {
             <Container>
                 <Title>🎯 주요 연간일정</Title>
                 <ScheduleContents>
-                    <ContentsRow>
-                        <ContentsLabel>3월</ContentsLabel>
-                        <ContentsValue>3월에 할것</ContentsValue>
-                    </ContentsRow>
-                    <ContentsRow>
-                        <ContentsLabel>4월</ContentsLabel>
-                        <ContentsValue></ContentsValue>
-                    </ContentsRow>
-                    <ContentsRow>
-                        <ContentsLabel>6월</ContentsLabel>
-                        <ContentsValue></ContentsValue>
-                    </ContentsRow>
-                    <ContentsRow>
-                        <ContentsLabel>7월</ContentsLabel>
-                        <ContentsValue></ContentsValue>
-                    </ContentsRow>
-                    <ContentsRow>
-                        <ContentsLabel>8월</ContentsLabel>
-                        <ContentsValue></ContentsValue>
-                    </ContentsRow>
+                    {schedules.map((schedule) => (
+                        <ContentsRow key={schedule.month}>
+                            <ContentsLabel>{schedule.month}</ContentsLabel>
+                            <ContentsValue>{schedule.content}</ContentsValue>
+                        </ContentsRow>
+                    ))}
                 </ScheduleContents>
             </Container>
             <Container>
@@ -38,7 +37,7 @@ export default function Intro({ clubId }: IntroProps) {
                     <Title>🔍 우리 동아리를 소개합니다!</Title>
                     <ContentSpan>
                         {`첫 번째 줄입니다.
-                        두 번째 줄입니다.asdfasfsadfasdfasfㅇㄴㅁ;렁ㄴ;러;ㅇ널;ㅣㅇㅁ너리;ㅏㅇㅁ너리;ㅏㄴ어리ㅏㅇㅁ너리ㅏ;ㄴ머리;ㅏㄴ멀ㄴㅇㅁ리;ㅓㄴㅁ아ㅣ럼닝ㄹ
+                        두 번째 줄입니다. 칸이 넘어가면 다음줄로 넘어갑니다아ㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏ
                         
                         두 줄 띄우고 세 번째 줄입니다.`}
                     </ContentSpan>
