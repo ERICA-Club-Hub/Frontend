@@ -16,6 +16,10 @@ interface Image {
     url: string;
 }
 
+interface LogProps {
+    clubId: string;
+}
+
 const images: Image[] = [
     { id: 'test1', url: test1 },
     { id: 'test2', url: test2 },
@@ -30,7 +34,8 @@ const images: Image[] = [
     { id: 'test11', url: test11 },
 ];
 
-export default function Log() {
+export default function Log({ clubId }: LogProps) {
+    console.log('활동로그에서', clubId);
     return (
         <Container>
             <LogGrid>

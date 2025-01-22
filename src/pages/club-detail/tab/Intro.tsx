@@ -1,6 +1,11 @@
 import styled from 'styled-components';
 
-export default function Intro() {
+interface IntroProps {
+    clubId: string;
+}
+
+export default function Intro({ clubId }: IntroProps) {
+    console.log('동아리 소개에서', clubId);
     return (
         <div>
             <Container>

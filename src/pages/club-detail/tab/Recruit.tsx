@@ -1,6 +1,11 @@
 import styled from 'styled-components';
 
-export default function Recruit() {
+interface RecruitProps {
+    clubId: string;
+}
+
+export default function Recruit({ clubId }: RecruitProps) {
+    console.log('모집안내에서', clubId);
     return (
         <Container>
             <ContentBlock>

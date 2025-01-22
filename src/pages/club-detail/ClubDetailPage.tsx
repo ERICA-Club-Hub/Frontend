@@ -19,11 +19,10 @@ interface TabButtonProps {
 
 const ClubDetailPage = () => {
     const params = useParams();
+    const id = params.id?.toString() || '';
     const [activeTab, setActiveTab] = useState<'intro' | 'recruit' | 'log'>(
         'intro',
     );
-
-    console.log(params.id);
     return (
         <PageContainer>
             <ClubHeader>
@@ -91,7 +90,7 @@ const ClubDetailPage = () => {
                 </TabButton>
             </TabContainer>
 
-            <TabContents activeTab={activeTab}></TabContents>
+            <TabContents clubId={id} activeTab={activeTab}></TabContents>
         </PageContainer>
     );
 };
