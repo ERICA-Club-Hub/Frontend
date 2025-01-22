@@ -1,20 +1,46 @@
 import styled from 'styled-components';
+import test1 from '../../../assets/common/sns.svg';
+import test2 from '../../../assets/common/sns.svg';
+import test3 from '../../../assets/common/sns.svg';
+import test4 from '../../../assets/common/sns.svg';
+import test5 from '../../../assets/common/sns.svg';
+import test6 from '../../../assets/common/sns.svg';
+import test7 from '../../../assets/common/sns.svg';
+import test8 from '../../../assets/common/sns.svg';
+import test9 from '../../../assets/common/sns.svg';
+import test10 from '../../../assets/common/sns.svg';
+import test11 from '../../../assets/common/sns.svg';
+
+interface Image {
+    id: string;
+    url: string;
+}
+
+const images: Image[] = [
+    { id: 'test1', url: test1 },
+    { id: 'test2', url: test2 },
+    { id: 'test3', url: test3 },
+    { id: 'test4', url: test4 },
+    { id: 'test5', url: test5 },
+    { id: 'test6', url: test6 },
+    { id: 'test7', url: test7 },
+    { id: 'test8', url: test8 },
+    { id: 'test9', url: test9 },
+    { id: 'test10', url: test10 },
+    { id: 'test11', url: test11 },
+];
 
 export default function Log() {
     return (
         <Container>
             <LogGrid>
-                <LogImg></LogImg>
-                <LogImg></LogImg>
-                <LogImg></LogImg>
-                <LogImg></LogImg>
-                <LogImg></LogImg>
-                <LogImg></LogImg>
-                <LogImg></LogImg>
-                <LogImg></LogImg>
-                <LogImg></LogImg>
-                <LogImg></LogImg>
-                <LogImg></LogImg>
+                {images.map((image) => (
+                    <LogImg
+                        key={image.id}
+                        src={image.url}
+                        alt={image.id}
+                    ></LogImg>
+                ))}
             </LogGrid>
         </Container>
     );
