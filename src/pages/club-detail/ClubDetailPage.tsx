@@ -12,7 +12,7 @@ import TabContents from './TabContents';
 
 // tab 항목에서 활성화 여부를 판단할 props
 interface TabButtonProps {
-    isActive?: boolean;
+    $isActive?: boolean;
 }
 
 // 받을 정보 : id, 이미지, 이름, 태그, 모집상태, 대표, 연락처, 정기모임, 회비, sns, 소개 정보, 모집안내, 활동로그
