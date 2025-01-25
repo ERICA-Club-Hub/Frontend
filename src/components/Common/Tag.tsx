@@ -12,10 +12,12 @@ const TagWrapper = styled.div<TagProps>`
     border-radius: 5px;
     font-family: Pretendard;
     font-size: 12px;
-    font-style: normal;
     font-weight: 500;
     line-height: normal;
-    width: fit-content;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100px;
     
     ${({ type = 'default' }) => {
         switch (type) {

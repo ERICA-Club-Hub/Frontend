@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import { useState } from 'react';
 import { InputField } from '../../components/Common/InputField';
+import MainpageCard from '../../components/Common/MainpageCard';
 
 const Container = styled.div`
 `;
@@ -89,14 +90,16 @@ const ArrowButton = styled.button`
 
 const ClubSearchContainer = styled.div`
     display: flex;
-    justify-content: center;
+    flex-direction: column;
     align-items: center;
-    height: 10vh;
+    padding: 40px 0;
+    gap: 40px;
 `;
 
 const SearchInputWrapper = styled.div`
     position: relative;
     display: inline-block;
+    width: 320px;
 `;
 
 const SearchIcon = styled.button`
@@ -111,6 +114,13 @@ const SearchIcon = styled.button`
     display: flex;
     align-items: center;
     justify-content: center;
+`;
+
+const ClubListWrapper = styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
 `;
 
 const ClubListPage = () => {
@@ -184,6 +194,7 @@ const ClubListPage = () => {
                     <img src="/src/assets/common/main_next_arrow.svg" alt="다음" />
                 </ArrowButton>
             </AnnouncementContainer>
+            
             <ClubSearchContainer>
                 <SearchInputWrapper>
                     <InputField 
@@ -196,11 +207,48 @@ const ClubListPage = () => {
                             alt="검색"
                         />
                     </SearchIcon>
-                    
                 </SearchInputWrapper>
+                <ClubListWrapper>
+                    <MainpageCard 
+                        title="UMC ERICA"
+                        subtitle="대학생 IT 개발 연합동아리"
+                        tags={[
+                            { type: '동아리 및 질문', text: '🧩 연합동아리' },
+                            { type: '모집중', text: '모집중' },
+                        ]}
+                        onClick={() => console.log('카드 클릭')}
+                    />
+                    <MainpageCard 
+                        title="소나기"
+                        subtitle="영화 감상, 제작 동아리"
+                        tags={[
+                            { type: '동아리 및 질문', text: '🎨 예술분과' },
+                            { type: '모집마감', text: '모집마감' },
+                        ]}
+                        onClick={() => console.log('카드 클릭')}
+                    />
+                    <MainpageCard 
+                        title="로타랙트"
+                        subtitle="흥청봉사 로타렉트!"
+                        tags={[
+                            { type: '동아리 및 질문', text: '💌 봉사분과' },
+                            { type: '모집예정', text: '모집예정' },
+                        ]}
+                        onClick={() => console.log('카드 클릭')}
+                    />
+                    <MainpageCard   
+                        title="CRACKER"
+                        subtitle="공모전 성과와 친목을 만들 수 있는 동아리"
+                        tags={[
+                            { type: '동아리 및 질문', text: '🎓 학술교양분과' },
+                            { type: '모집중', text: '모집중' },
+                        ]}
+                        onClick={() => console.log('카드 클릭')}
+                    />
+                    {/* 더 많은 MainpageCard를 추가할 수 있습니다 */}
+                </ClubListWrapper>
             </ClubSearchContainer>
         </Container>
-        
     );
 };
 

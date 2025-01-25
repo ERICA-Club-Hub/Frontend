@@ -5,10 +5,10 @@ const CardContainer = styled.button`
     display: flex;
     width: 320px;
     height: 70px;
-    padding: 15px;
+    padding: 14px;
     flex-direction: column;
     align-items: flex-start;
-    gap: 3.5px;
+    gap: 4.5px;
     flex-shrink: 0;
     border-radius: 10px;
     border: 1px solid #EAEAEA;
