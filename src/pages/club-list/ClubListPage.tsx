@@ -1,20 +1,19 @@
 import styled from 'styled-components';
 import { useState } from 'react';
+import { InputField } from '../../components/Common/InputField';
 
 const Container = styled.div`
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 25vh;
-    overflow: hidden;
-    position: relative;
 `;
 
 const AnnouncementContainer = styled.div`
     display: flex;
+    justify-content: center;
     align-items: center;
     position: relative;
+    height: 25vh;
     gap: 10px;
+    overflow: hidden;
+    position: relative;
 `;
 
 
@@ -88,6 +87,31 @@ const ArrowButton = styled.button`
     }  
 `;
 
+const ClubSearchContainer = styled.div`
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 10vh;
+`;
+
+const SearchInputWrapper = styled.div`
+    position: relative;
+    display: inline-block;
+`;
+
+const SearchIcon = styled.button`
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+`;
 
 const ClubListPage = () => {
     const announcements = [
@@ -125,6 +149,10 @@ const ClubListPage = () => {
 
     const displayItems = getDisplayItems();
 
+    const handleSearch = () => {
+        console.log('검색 버튼 클릭됨');
+    };
+
     return (
         <Container>
             <AnnouncementContainer>
@@ -156,7 +184,23 @@ const ClubListPage = () => {
                     <img src="/src/assets/common/main_next_arrow.svg" alt="다음" />
                 </ArrowButton>
             </AnnouncementContainer>
+            <ClubSearchContainer>
+                <SearchInputWrapper>
+                    <InputField 
+                        inputSize="large"
+                        placeholder="원하는 동아리를 검색해 보세요."
+                    />
+                    <SearchIcon onClick={handleSearch}>
+                        <img 
+                            src="/src/assets/common/reading_glass.svg" 
+                            alt="검색"
+                        />
+                    </SearchIcon>
+                    
+                </SearchInputWrapper>
+            </ClubSearchContainer>
         </Container>
+        
     );
 };
 
