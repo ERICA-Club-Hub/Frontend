@@ -124,7 +124,7 @@ const Card = ({ variant = 'unionNotice', imagePath, title, date, questionType, o
                 <>
                     <TitleDateWrapper variant={variant}>
                         <CardTitle>{title}</CardTitle>
-                        <Tag type="서비스질문">{questionType}</Tag>
+                        <Tag type="동아리 및 질문">{questionType}</Tag>
                     </TitleDateWrapper>
                     <IconBase 
                         src="/src/assets/common/card_right_arrow.svg" 

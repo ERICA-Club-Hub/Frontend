@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 interface TagProps {
-    type?: '연합동아리' | '모집중' | '모집마감' | '모집예정' | '서비스질문';
+    type?: '동아리 및 질문' | '모집중' | '모집마감' | '모집예정';
 }
 
 const TagWrapper = styled.div<TagProps>`
@@ -19,7 +19,7 @@ const TagWrapper = styled.div<TagProps>`
     
     ${({ type = 'default' }) => {
         switch (type) {
-            case '연합동아리':
+            case '동아리 및 질문':
                 return `
                     background-color: #EEF4FF;
                     color: #33639C;
@@ -38,11 +38,6 @@ const TagWrapper = styled.div<TagProps>`
                 return `
                     background-color: var(--Background-4, #F1F9DC);
                     color: var(--Sub-Color-1, #8BB421);
-                `;
-            case '서비스질문':
-                return `
-                    background-color: #EEF4FF;
-                    color: #33639C;;
                 `;
         }
     }}
