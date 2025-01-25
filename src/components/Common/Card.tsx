@@ -1,4 +1,5 @@
 import styled, { css } from 'styled-components';
+import { Tag } from './Tag';
 
 interface CardProps {
     variant?: 'unionNotice' | 'serviceNotice' | 'resources' | 'FAQ';
@@ -71,22 +72,7 @@ const CardDate = styled.div`
     text-align: left;
 `;
 
-const QuestionType = styled.div`
-    display: inline-flex;
-    padding: 2px 5px;
-    align-items: center;
-    gap: 3px;
-    border-radius: 5px;
-    background: #EEF4FF;
-    color: #33639C;
-    font-family: Pretendard;
-    font-size: 12px;
-    font-style: normal;
-    font-weight: 500;
-    line-height: normal;
-    width: fit-content;
-    white-space: nowrap;
-`;
+
 
 const IconBase = styled.img<{ isRotated?: boolean }>`
     width: 24px;
@@ -138,7 +124,7 @@ const Card = ({ variant = 'unionNotice', imagePath, title, date, questionType, o
                 <>
                     <TitleDateWrapper variant={variant}>
                         <CardTitle>{title}</CardTitle>
-                        <QuestionType>{questionType}</QuestionType>
+                        <Tag type="서비스질문">{questionType}</Tag>
                     </TitleDateWrapper>
                     <IconBase 
                         src="/src/assets/common/card_right_arrow.svg" 
