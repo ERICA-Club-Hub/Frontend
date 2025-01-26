@@ -7,6 +7,7 @@ export interface DropdownMenuProps {
 }
 
 const DropdownMenu = ({ children, isOpen }: DropdownMenuProps) => {
+    if (!isOpen) return null;
     return <Container $isOpen={isOpen}>{children}</Container>;
 };
 
@@ -14,11 +15,7 @@ export default DropdownMenu;
 
 const Container = styled.div<{ $isOpen: boolean }>`
     background-color: ${({ theme }) => theme.colors.white};
-
-    opacity: ${({ $isOpen }) => ($isOpen ? 1 : 0)};
-    transform: ${({ $isOpen }) =>
-        $isOpen ? 'translateY(0)' : 'translateY(-10px)'};
-    transition: opacity 0.3s ease, transform 0.3s ease;
+    transform: translateY(0);
 
     @keyframes dropdown {
         0% {
