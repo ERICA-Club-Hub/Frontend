@@ -7,8 +7,6 @@ export interface DropdownMenuProps {
 }
 
 const DropdownMenu = ({ children, isOpen }: DropdownMenuProps) => {
-    console.log(isOpen);
-
     return <Container $isOpen={isOpen}>{children}</Container>;
 };
 
