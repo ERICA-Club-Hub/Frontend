@@ -28,4 +28,13 @@ const loginNavigations = [
     { id: 2, nav: '총동연 로그인' },
 ];
 
-export { navigations, topNavitaions, loginNavigations };
+const clubCategory = [
+    '봉사분과',
+    '예술분과',
+    '종교분과',
+    '체육분과',
+    '학술교양분과',
+    '연합동아리',
+];
+
+export { navigations, topNavitaions, loginNavigations, clubCategory };

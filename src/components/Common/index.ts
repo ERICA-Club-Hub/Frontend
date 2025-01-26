@@ -4,4 +4,4 @@ export * from './TopNavigator';
 export * from './Button';
 export * from './InputField';
 export * from './ArrowLinkButton';
-export * from './Dropdown';
+export * from './Dropdown/Dropdown';
