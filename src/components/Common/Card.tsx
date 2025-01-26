@@ -49,7 +49,7 @@ const TitleDateWrapper = styled.div<{ variant?: string }>`
     flex-direction: column;
     gap: 5px;
     padding: 18px 0px 17px 0px;
-    
+    width: 100%;
 `;
 
 const CardTitle = styled.div`
@@ -72,8 +72,6 @@ const CardDate = styled.div`
     text-align: left;
 `;
 
-
-
 const IconBase = styled.img<{ isRotated?: boolean }>`
     width: 24px;
     height: 24px;
@@ -82,6 +80,10 @@ const IconBase = styled.img<{ isRotated?: boolean }>`
     transform: ${({ isRotated }) => isRotated ? 'rotate(90deg)' : 'rotate(0deg)'};
 `;
 
+const TagWrapper = styled.div`
+    display: flex;
+    flex-wrap: wrap;
+`;
 
 const Card = ({ variant = 'unionNotice', imagePath, title, date, questionType, onClick, isRotated }: CardProps) => {
     return (
@@ -124,7 +126,9 @@ const Card = ({ variant = 'unionNotice', imagePath, title, date, questionType, o
                 <>
                     <TitleDateWrapper variant={variant}>
                         <CardTitle>{title}</CardTitle>
-                        <Tag type="동아리 및 질문">{questionType}</Tag>
+                        <TagWrapper>
+                            <Tag type="동아리 및 질문">{questionType}</Tag>
+                        </TagWrapper>
                     </TitleDateWrapper>
                     <IconBase 
                         src="/src/assets/common/card_right_arrow.svg" 
