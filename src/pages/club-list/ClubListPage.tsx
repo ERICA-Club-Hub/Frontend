@@ -2,15 +2,12 @@ import styled from 'styled-components';
 import { useState } from 'react';
 import { InputField } from '../../components/Common/InputField';
 import MainpageCard from '../../components/Common/MainpageCard';
-
-const Container = styled.div`
-`;
+import SortingDropdown from '../../components/Common/SortingDropdown';
 
 const AnnouncementContainer = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
-    position: relative;
     height: 25vh;
     gap: 10px;
     overflow: hidden;
@@ -92,8 +89,7 @@ const ClubSearchContainer = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 40px 0;
-    gap: 40px;
+    padding: 36px 0;
 `;
 
 const SearchInputWrapper = styled.div`
@@ -116,12 +112,26 @@ const SearchIcon = styled.button`
     justify-content: center;
 `;
 
+const DropdownContainer = styled.div`
+    display: flex;
+    justify-content: space-between;
+    width: 320px;
+    margin-top: 23px;
+    margin-bottom: 10px;
+`;
+
+const RightDropdowns = styled.div`
+    display: flex;
+    gap: 8px;
+`;
+
 const ClubListWrapper = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 8px;
 `;
+
 
 const ClubListPage = () => {
     const announcements = [
@@ -133,6 +143,11 @@ const ClubListPage = () => {
     ];
 
     const [currentIndex, setCurrentIndex] = useState(0);
+
+    // 각각의 드롭다운을 위한 별도의 상태 관리
+    const [categoryFilter, setCategoryFilter] = useState<string>('none');
+    const [recruitmentStatus, setRecruitmentStatus] = useState<string>('none');
+    const [sortOrder, setSortOrder] = useState<string>('none');
 
     const handlePrev = () => {
         setCurrentIndex((prev) => 
@@ -163,8 +178,23 @@ const ClubListPage = () => {
         console.log('검색 버튼 클릭됨');
     };
 
+    const handleCategorySelect = (value: string) => {
+        setCategoryFilter(value);
+        console.log('분과 선택:', value);
+    };
+
+    const handleRecruitmentStatusSelect = (value: string) => {
+        setRecruitmentStatus(value);
+        console.log('모집상태 선택:', value);
+    };
+
+    const handleSort = (value: string) => {
+        setSortOrder(value);
+        console.log('정렬 기준 선택:', value);
+    };
+
     return (
-        <Container>
+        <div>
             <AnnouncementContainer>
                 <ArrowButton onClick={handlePrev}>
                     <img src="/src/assets/common/main_prev_arrow.svg" alt="이전" />
@@ -208,6 +238,53 @@ const ClubListPage = () => {
                         />
                     </SearchIcon>
                 </SearchInputWrapper>
+
+                <DropdownContainer>
+                    <SortingDropdown 
+                        key="sort-dropdown"
+                        options={[
+                            { label: '가나다순으로 정렬', value: 'none' },
+                            { label: '카테고리로 정렬', value: 'category' },
+                            { label: '모집기준으로 정렬', value: 'recruitment' }
+                        ]}
+                        onSelect={handleSort}
+                        defaultText="가나다순으로 정렬"
+                        value={sortOrder}
+                        align="left"
+                    />
+                    <RightDropdowns>
+                        <SortingDropdown 
+                            key="category-dropdown"
+                            options={[
+                                { label: '선택없음', value: 'none' },
+                                { label: '봉사분과', value: 'volunteer' },
+                                { label: '예술분과', value: 'art' },
+                                { label: '종교분과', value: 'religion' },
+                                { label: '체육분과', value: 'sports' },
+                                { label: '학술교양분과', value: 'academic' },
+                                { label: '연합동아리', value: 'union' },
+                            ]}
+                            onSelect={handleCategorySelect}
+                            defaultText="선택없음"
+                            value={categoryFilter}
+                            align="right"
+                        />
+                        <SortingDropdown 
+                            key="recruitment-dropdown"
+                            options={[
+                                { label: '선택없음', value: 'none' },
+                                { label: '모집예정', value: 'upcoming' },
+                                { label: '모집중', value: 'recruiting' },
+                                { label: '모집마감', value: 'closed' }
+                            ]}
+                            onSelect={handleRecruitmentStatusSelect}
+                            defaultText="선택없음"
+                            value={recruitmentStatus}
+                            align="right"
+                        />
+                    </RightDropdowns>
+                </DropdownContainer>
+
                 <ClubListWrapper>
                     <MainpageCard 
                         title="UMC ERICA"
@@ -248,7 +325,7 @@ const ClubListPage = () => {
                     {/* 더 많은 MainpageCard를 추가할 수 있습니다 */}
                 </ClubListWrapper>
             </ClubSearchContainer>
-        </Container>
+        </div>
     );
 };
 
