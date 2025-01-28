@@ -10,6 +10,8 @@ import test8 from '../../../assets/common/sns.svg';
 import test9 from '../../../assets/common/sns.svg';
 import test10 from '../../../assets/common/sns.svg';
 import test11 from '../../../assets/common/sns.svg';
+import { useState } from 'react';
+import { ActivityLogModal } from '../ActivityLogModal';
 
 interface Image {
     id: string;
@@ -35,18 +37,24 @@ const images: Image[] = [
 ];
 
 export default function Log({ clubId }: LogProps) {
+    const [modalOpen, setModalOpen] = useState<boolean>(false);
+    const handlClickImg = () => {
+        setModalOpen(true);
+    };
     console.log('활동로그에서', clubId);
     return (
         <Container>
             <LogGrid>
                 {images.map((image) => (
                     <LogImg
+                        onClick={handlClickImg}
                         key={image.id}
                         src={image.url}
                         alt={image.id}
                     ></LogImg>
                 ))}
             </LogGrid>
+            {modalOpen && <ActivityLogModal></ActivityLogModal>}
         </Container>
     );
 }
