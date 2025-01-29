@@ -1,11 +1,20 @@
+import { useClickOutside } from '@/hooks/useClickOutside';
+import { useRef } from 'react';
 import styled from 'styled-components';
 
-const ActivityLogModal = () => {
-    console.log('모달 열림');
+interface LogMoadlProps {
+    setModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+const ActivityLogModal = ({ setModalOpen }: LogMoadlProps) => {
+    const ref = useRef<HTMLDivElement>(null);
+    useClickOutside(ref, () => {
+        setModalOpen(false);
+    });
     return (
         <ModalWrapper>
             <ModalOverlay>
-                <ModalContent>모달창!</ModalContent>
+                <Modal ref={ref}>모달창!</Modal>
             </ModalOverlay>
         </ModalWrapper>
     );
@@ -25,11 +34,10 @@ const ModalOverlay = styled.div`
     align-items: center;
 `;
 
-const ModalContent = styled.div`
+const Modal = styled.div`
     width: 320px;
     height: 409px;
     background-color: white;
-    margin: 0 auto;
 `;
 
 export { ActivityLogModal };

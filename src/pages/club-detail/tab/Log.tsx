@@ -54,7 +54,11 @@ export default function Log({ clubId }: LogProps) {
                     ></LogImg>
                 ))}
             </LogGrid>
-            {modalOpen && <ActivityLogModal></ActivityLogModal>}
+            {modalOpen && (
+                <ActivityLogModal
+                    setModalOpen={setModalOpen}
+                ></ActivityLogModal>
+            )}
         </Container>
     );
 }
