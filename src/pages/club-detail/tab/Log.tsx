@@ -38,7 +38,12 @@ const images: Image[] = [
 
 export default function Log({ clubId }: LogProps) {
     const [modalOpen, setModalOpen] = useState<boolean>(false);
-    const handlClickImg = () => {
+    const [selectedImageId, setSelectedImageId] = useState<string>('');
+    const [selectedImageUrl, setSelectedImageUrl] = useState<string>('');
+
+    const handlClickImg = (id: string, url: string) => {
+        setSelectedImageUrl(url);
+        setSelectedImageId(id);
         setModalOpen(true);
     };
     console.log('활동로그에서', clubId);
@@ -47,7 +52,9 @@ export default function Log({ clubId }: LogProps) {
             <LogGrid>
                 {images.map((image) => (
                     <LogImg
-                        onClick={handlClickImg}
+                        onClick={() => {
+                            handlClickImg(image.id, image.url);
+                        }}
                         key={image.id}
                         src={image.url}
                         alt={image.id}
@@ -57,6 +64,8 @@ export default function Log({ clubId }: LogProps) {
             {modalOpen && (
                 <ActivityLogModal
                     setModalOpen={setModalOpen}
+                    selectedImageId={selectedImageId}
+                    selectedImageUrl={selectedImageUrl}
                 ></ActivityLogModal>
             )}
         </Container>
