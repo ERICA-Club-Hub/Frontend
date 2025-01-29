@@ -1,16 +1,16 @@
 import { useEffect } from 'react';
 
 const useClickOutside = (
-    dropdownRef: React.RefObject<HTMLDivElement>,
+    ref: React.RefObject<HTMLDivElement>,
     setIsOpen: React.Dispatch<React.SetStateAction<boolean>>,
 ) => {
     useEffect(() => {
         const handleClickOutside = (event: MouseEvent) => {
             if (
                 // 필터 메뉴 DOM이 화면에 렌더링 되어 있고
-                dropdownRef.current &&
+                ref.current &&
                 // 현재 클릭된 위치가 필터 메뉴 외부일 때
-                !dropdownRef.current.contains(event.target as Node)
+                !ref.current.contains(event.target as Node)
             ) {
                 setIsOpen(false);
             }
@@ -22,7 +22,7 @@ const useClickOutside = (
         return () => {
             document.removeEventListener('mousedown', handleClickOutside);
         };
-    }, [dropdownRef]);
+    }, [ref, setIsOpen]);
 };
 
 export { useClickOutside };
