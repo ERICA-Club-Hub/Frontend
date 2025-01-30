@@ -109,7 +109,9 @@ const ProfileImage = styled.img`
 `;
 
 const ClubName = styled.span`
-    font-weight: bold;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 16.8px;
 `;
 
 const CloseButton = styled.button`
@@ -161,6 +163,9 @@ const Divider = styled.hr`
 
 const Description = styled.p`
     white-space: pre-line;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 18px;
 `;
 
 export { ActivityLogModal };
