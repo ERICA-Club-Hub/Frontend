@@ -7,6 +7,7 @@ const useClickOutside = (
     useEffect(() => {
         const handleClickOutside = (event: MouseEvent) => {
             if (
+                // test
                 // 필터 메뉴 DOM이 화면에 렌더링 되어 있고
                 ref.current &&
                 // 현재 클릭된 위치가 필터 메뉴 외부일 때
