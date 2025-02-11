@@ -63,7 +63,7 @@ export default function ClubIntro() {
             <ButtonGroupWrapper>
                 <Button
                     size="small"
-                    varaint="outlined"
+                    variant="outlined"
                     isDisabled={() => false}
                 >
                     미리보기

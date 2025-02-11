@@ -31,7 +31,7 @@ export default function RecruitNotice() {
             <ButtonGroupWrapper>
                 <Button
                     size="small"
-                    varaint="outlined"
+                    variant="outlined"
                     isDisabled={() => false}
                 >
                     미리보기
