@@ -18,4 +18,11 @@ const Label = styled.h3`
     color: ${({ theme }) => theme.colors.mainBlack};
 `;
 
-export { SectionWrapper, Label };
+const ButtonGroupWrapper = styled.div`
+    display: flex;
+    justify-content: flex-end;
+    gap: 5px;
+    margin-bottom: 26px;
+`;
+
+export { SectionWrapper, Label, ButtonGroupWrapper };

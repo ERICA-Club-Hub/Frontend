@@ -8,7 +8,11 @@ import {
     summaryInfoList,
 } from '@/constants/club-detail-register';
 import Button from '@/components/Common/Button';
-import { SectionWrapper, Label } from '@/styles/admin-club-detail/style';
+import {
+    SectionWrapper,
+    Label,
+    ButtonGroupWrapper,
+} from '@/styles/admin-club-detail/style';
 
 export default function SummaryInfo() {
     const { isOpen, setIsOpen, toggle } = useToggle();
@@ -72,7 +76,7 @@ export default function SummaryInfo() {
                 />
             </ApplyLink>
 
-            <ButtonContainer>
+            <ButtonGroupWrapper>
                 <Button
                     size="small"
                     varaint="outlined"
@@ -83,7 +87,7 @@ export default function SummaryInfo() {
                 <Button size="small" isDisabled={() => false}>
                     저장하기
                 </Button>
-            </ButtonContainer>
+            </ButtonGroupWrapper>
         </Container>
     );
 }
@@ -179,11 +183,4 @@ const ApplyLink = styled(SectionWrapper)`
     height: 101px;
     gap: 8px;
     margin-bottom: 45px;
-`;
-
-const ButtonContainer = styled.div`
-    display: flex;
-    justify-content: flex-end;
-    gap: 5px;
-    margin-bottom: 26px;
 `;

@@ -1,6 +1,10 @@
 import styled from 'styled-components';
 import EventSchedule from '@/components/EventSchedule/EventSchedule';
-import { Label, SectionWrapper } from '@/styles/admin-club-detail/style';
+import {
+    ButtonGroupWrapper,
+    Label,
+    SectionWrapper,
+} from '@/styles/admin-club-detail/style';
 import PlusIcon from '@/assets/common/plus-icon.svg?react';
 import { useState } from 'react';
 import { clubIntroList } from '@/constants/club-detail-register';
@@ -56,7 +60,7 @@ export default function ClubIntro() {
                 </ClubIntroFormList>
             </ClubIntroFormContainer>
 
-            <ButtonContainer>
+            <ButtonGroupWrapper>
                 <Button
                     size="small"
                     varaint="outlined"
@@ -67,7 +71,7 @@ export default function ClubIntro() {
                 <Button size="small" isDisabled={() => false}>
                     저장하기
                 </Button>
-            </ButtonContainer>
+            </ButtonGroupWrapper>
         </Container>
     );
 }
@@ -137,11 +141,4 @@ const ClubIntroForm = styled.div`
     display: flex;
     flex-direction: column;
     gap: 10px;
-`;
-
-const ButtonContainer = styled.div`
-    display: flex;
-    justify-content: flex-end;
-    gap: 5px;
-    margin-bottom: 26px;
 `;

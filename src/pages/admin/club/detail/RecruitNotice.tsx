@@ -1,7 +1,11 @@
 import Button from '@/components/Common/Button';
 import { TextArea } from '@/components/Common/TextArea';
 import { recruitNoticeList } from '@/constants/club-detail-register';
-import { Label, SectionWrapper } from '@/styles/admin-club-detail/style';
+import {
+    ButtonGroupWrapper,
+    Label,
+    SectionWrapper,
+} from '@/styles/admin-club-detail/style';
 import styled from 'styled-components';
 
 export default function RecruitNotice() {
@@ -24,7 +28,7 @@ export default function RecruitNotice() {
                 </RecruitNoticeFormList>
             </RecruitNoticeContainer>
 
-            <ButtonContainer>
+            <ButtonGroupWrapper>
                 <Button
                     size="small"
                     varaint="outlined"
@@ -35,7 +39,7 @@ export default function RecruitNotice() {
                 <Button size="small" isDisabled={() => false}>
                     저장하기
                 </Button>
-            </ButtonContainer>
+            </ButtonGroupWrapper>
         </Container>
     );
 }
@@ -68,11 +72,4 @@ const RecruitNoticeForm = styled.div`
     display: flex;
     flex-direction: column;
     gap: 10px;
-`;
-
-const ButtonContainer = styled.div`
-    display: flex;
-    justify-content: flex-end;
-    gap: 5px;
-    margin-bottom: 26px;
 `;
