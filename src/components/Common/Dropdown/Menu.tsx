@@ -14,8 +14,10 @@ const DropdownMenu = ({ children, isOpen }: DropdownMenuProps) => {
 export default DropdownMenu;
 
 const Container = styled.div<{ $isOpen: boolean }>`
+    position: relative;
     background-color: ${({ theme }) => theme.colors.white};
     transform: translateY(0);
+    z-index: 999;
 
     @keyframes dropdown {
         0% {
