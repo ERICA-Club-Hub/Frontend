@@ -1,3 +1,5 @@
+import { fetchInstance } from '@/api/axios';
+import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 
 interface IntroProps {
@@ -18,7 +20,23 @@ const schedules: Schedule[] = [
 ];
 
 export default function Intro({ clubId }: IntroProps) {
-    console.log('동아리 소개에서', clubId);
+    const [data, setData] = useState(null);
+
+    useEffect(() => {
+        const fetchTest = async () => {
+            try {
+                const response = await fetchInstance({
+                    url: '/api/documents',
+                });
+                setData(response);
+            } catch (error) {
+                console.error('실패:', error);
+            }
+        };
+
+        fetchTest();
+    }, [clubId]);
+    console.log('동아리 소개에서', clubId, data);
     return (
         <div>
             <Container>
