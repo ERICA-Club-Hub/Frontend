@@ -8,4 +8,34 @@ const summaryInfoList = [
     { label: 'SNS', placeholder: 'SNS 아이디를 입력해주세요' },
 ];
 
-export { recruitStatus, summaryInfoList };
+const months = [
+    '1월',
+    '2월',
+    '3월',
+    '4월',
+    '5월',
+    '6월',
+    '7월',
+    '8월',
+    '9월',
+    '10월',
+    '11월',
+    '12월',
+];
+
+const clubIntroList = [
+    {
+        label: '우리 동아리를 소개합니다',
+        placeholder: '동아리를 소개하는 글을 작성해 주세요.',
+    },
+    {
+        label: '이런 활동을 할 수 있어요!',
+        placeholder: '동아리의 주요 활동에 대해 작성해 주세요.',
+    },
+    {
+        label: '너, 내 동료가 돼라!',
+        placeholder: '동아리가 원하는 동아리원에 대해 작성해주세요.',
+    },
+];
+
+export { recruitStatus, summaryInfoList, months, clubIntroList };

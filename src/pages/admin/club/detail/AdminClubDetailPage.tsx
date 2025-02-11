@@ -3,6 +3,7 @@ import { clubDetailRegisterNavigations } from '@/constants';
 import { useState } from 'react';
 import styled from 'styled-components';
 import SummaryInfo from './SummaryInfo';
+import ClubIntro from './ClubIntro';
 
 const AdminClubDetailPage = () => {
     const [navStatus, setNavStatus] = useState<number>(1);
@@ -18,6 +19,7 @@ const AdminClubDetailPage = () => {
             </TopNavigatorWrapper>
 
             {navStatus === 1 && <SummaryInfo />}
+            {navStatus === 2 && <ClubIntro />}
         </Container>
     );
 };

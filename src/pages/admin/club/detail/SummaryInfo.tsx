@@ -73,7 +73,13 @@ export default function SummaryInfo() {
             </ApplyLink>
 
             <ButtonContainer>
-                <Button size="small">미리보기</Button>
+                <Button
+                    size="small"
+                    varaint="outlined"
+                    isDisabled={() => false}
+                >
+                    미리보기
+                </Button>
                 <Button size="small" isDisabled={() => false}>
                     저장하기
                 </Button>
@@ -85,7 +91,6 @@ export default function SummaryInfo() {
 const Container = styled.div`
     display: flex;
     flex-direction: column;
-    height: 815px;
     gap: 10px;
 `;
 
@@ -180,4 +185,5 @@ const ButtonContainer = styled.div`
     display: flex;
     justify-content: flex-end;
     gap: 5px;
+    margin-bottom: 26px;
 `;
