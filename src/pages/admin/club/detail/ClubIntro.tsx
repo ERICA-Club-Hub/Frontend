@@ -43,13 +43,13 @@ export default function ClubIntro() {
                 <h2>동아리 소개글 작성</h2>
 
                 <ClubIntroFormList>
-                    {clubIntroList.map((summaryInfo, index) => (
+                    {clubIntroList.map((clubIntro, index) => (
                         <ClubIntroForm key={`club-intro-${index}`}>
-                            <Label>{summaryInfo.label}</Label>
+                            <Label>{clubIntro.label}</Label>
                             <TextArea
                                 size="large"
                                 backgroundColor="gray"
-                                placeholder={summaryInfo.placeholder}
+                                placeholder={clubIntro.placeholder}
                             />
                         </ClubIntroForm>
                     ))}

@@ -4,6 +4,7 @@ import { useState } from 'react';
 import styled from 'styled-components';
 import SummaryInfo from './SummaryInfo';
 import ClubIntro from './ClubIntro';
+import RecruitNotice from './RecruitNotice';
 
 const AdminClubDetailPage = () => {
     const [navStatus, setNavStatus] = useState<number>(1);
@@ -20,6 +21,7 @@ const AdminClubDetailPage = () => {
 
             {navStatus === 1 && <SummaryInfo />}
             {navStatus === 2 && <ClubIntro />}
+            {navStatus === 3 && <RecruitNotice />}
         </Container>
     );
 };
