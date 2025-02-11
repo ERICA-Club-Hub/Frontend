@@ -1,15 +1,5 @@
 import styled from 'styled-components';
 
-/**
- * InputField 컴포넌트는 사용자 정의 가능한 크기와 배경색을 가진 스타일된 입력 필드를 렌더링합니다.
- *
- * @param {Size} [inputSize = 'medium'] - 입력 필드의 크기. 'small', 'medium', 'large' 중 하나 입력 가능
- * @param {string} [backgroundColor='white'] - 입력 필드의 배경색. 기본값은 'white'
- * @param {React.InputHTMLAttributes<HTMLInputElement>} props - 입력 요소에 전달할 추가 속성
- *
- * @returns {JSX.Element} 스타일된 입력 필드 컴포넌트
- */
-
 type Size = 'small' | 'medium' | 'large';
 
 interface InputFieldProps extends React.InputHTMLAttributes<HTMLInputElement> {
@@ -34,6 +24,16 @@ const sizeMap = {
         padding: '14px 17px',
     },
 };
+
+/**
+ * InputField 컴포넌트는 사용자 정의 가능한 크기와 배경색을 가진 스타일된 입력 필드를 렌더링합니다.
+ *
+ * @param {Size} [inputSize = 'medium'] - 입력 필드의 크기. 'small', 'medium', 'large' 중 하나 입력 가능
+ * @param {string} [backgroundColor='white'] - 입력 필드의 배경색. 기본값은 'white'
+ * @param {React.InputHTMLAttributes<HTMLInputElement>} props - 입력 요소에 전달할 추가 속성
+ *
+ * @returns {JSX.Element} 스타일된 입력 필드 컴포넌트
+ */
 
 const InputField = ({
     inputSize = 'medium',
@@ -63,7 +63,7 @@ const StyledInput = styled.input<StyledInputFieldProps>`
 
     border-radius: 10px;
     font-size: 14px;
-    font-weight: 500;
+    font-weight: 400;
     background-color: ${({ $backgroundColor, theme }) =>
         $backgroundColor === 'white' ? '#fff' : theme.colors.lightGray};
     color: ${({ theme }) => theme.colors.mainBlack};

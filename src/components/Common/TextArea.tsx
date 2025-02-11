@@ -1,14 +1,5 @@
 import styled from 'styled-components';
 
-/**
- * TextArea 컴포넌트는 사용자 정의 가능한 크기와 배경색을 가진 스타일된 텍스트 영역을 렌더링합니다.
- *
- * @param {Size} [size = 'large'] - 텍스트 영역의 크기. 'small', 'medium', 'large' 중 하나 입력 가능
- * @param {string} [backgroundColor='white'] - 텍스트 영역의 배경색. 기본값은 'white'
- * @param {React.TextareaHTMLAttributes<HTMLTextAreaElement>} props - 텍스트 영역 요소에 전달할 추가 속성
- *
- * @returns {JSX.Element} 스타일된 텍스트 영역 컴포넌트
- */
 type Size = 'small' | 'medium' | 'large';
 
 interface TextAreaProps
@@ -38,6 +29,15 @@ const sizeMap = {
     },
 };
 
+/**
+ * TextArea 컴포넌트는 사용자 정의 가능한 크기와 배경색을 가진 스타일된 텍스트 영역을 렌더링합니다.
+ *
+ * @param {Size} [size = 'large'] - 텍스트 영역의 크기. 'small', 'medium', 'large' 중 하나 입력 가능
+ * @param {string} [backgroundColor='white'] - 텍스트 영역의 배경색. 기본값은 'white'
+ * @param {React.TextareaHTMLAttributes<HTMLTextAreaElement>} props - 텍스트 영역 요소에 전달할 추가 속성
+ *
+ * @returns {JSX.Element} 스타일된 텍스트 영역 컴포넌트
+ */
 const TextArea = ({
     size = 'large',
     backgroundColor = 'white',
