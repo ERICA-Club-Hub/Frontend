@@ -8,6 +8,7 @@ import {
     summaryInfoList,
 } from '@/constants/club-detail-register';
 import Button from '@/components/Common/Button';
+import { SectionWrapper, Label } from '@/styles/admin-club-detail/style';
 
 export default function SummaryInfo() {
     const { isOpen, setIsOpen, toggle } = useToggle();
@@ -81,32 +82,14 @@ export default function SummaryInfo() {
     );
 }
 
-const Container = styled.section`
+const Container = styled.div`
     display: flex;
     flex-direction: column;
     height: 815px;
     gap: 10px;
 `;
 
-const InnerWrapper = styled.div`
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    width: 320px;
-    padding: 0 20px;
-    border-radius: 10px;
-    background-color: ${({ theme }) => theme.colors.white};
-`;
-
-const Label = styled.h3`
-    width: 100%;
-    font-size: 16px;
-    font-weight: 600;
-    color: ${({ theme }) => theme.colors.mainBlack};
-`;
-
-const RecruitmentStatus = styled(InnerWrapper)`
+const RecruitmentStatus = styled(SectionWrapper)`
     height: 101px;
     gap: 8px;
 `;
@@ -161,7 +144,7 @@ const DropdownItem = styled.li<{ $isSelected: boolean }>`
     cursor: pointer;
 `;
 
-const ClubSummaryInfo = styled(InnerWrapper)`
+const ClubSummaryInfo = styled(SectionWrapper)`
     height: 472px;
 
     h2 {
@@ -187,7 +170,7 @@ const SummaryInfoItem = styled.li`
     gap: 10px;
 `;
 
-const ApplyLink = styled(InnerWrapper)`
+const ApplyLink = styled(SectionWrapper)`
     height: 101px;
     gap: 8px;
     margin-bottom: 45px;
