@@ -1,9 +1,14 @@
 import styled from 'styled-components';
 
-// large : 280 x 170
-// medium : 320 x 100
-// small : 230 x 120
-
+/**
+ * TextArea 컴포넌트는 사용자 정의 가능한 크기와 배경색을 가진 스타일된 텍스트 영역을 렌더링합니다.
+ *
+ * @param {Size} [size = 'large'] - 텍스트 영역의 크기. 'small', 'medium', 'large' 중 하나 입력 가능
+ * @param {string} [backgroundColor='white'] - 텍스트 영역의 배경색. 기본값은 'white'
+ * @param {React.TextareaHTMLAttributes<HTMLTextAreaElement>} props - 텍스트 영역 요소에 전달할 추가 속성
+ *
+ * @returns {JSX.Element} 스타일된 텍스트 영역 컴포넌트
+ */
 type Size = 'small' | 'medium' | 'large';
 
 interface TextAreaProps
@@ -11,6 +16,27 @@ interface TextAreaProps
     size: Size;
     backgroundColor?: string;
 }
+
+const sizeMap = {
+    small: {
+        width: 230,
+        height: 120,
+        padding: '10px',
+        borderRadius: 5,
+    },
+    medium: {
+        width: 320,
+        height: 100,
+        padding: '14px 17px',
+        borderRadius: 10,
+    },
+    large: {
+        width: 280,
+        height: 170,
+        padding: '15px',
+        borderRadius: 10,
+    },
+};
 
 const TextArea = ({
     size = 'large',
@@ -32,26 +58,11 @@ interface StyledTextAreaProps {
 }
 
 const StyledTextArea = styled.textarea<StyledTextAreaProps>`
-    ${({ $size }) =>
-        $size === 'large'
-            ? `                
-                width: 280px;
-                height: 170px;
-                padding: 15px;
-                border-radius: 10px;
-`
-            : $size === 'medium'
-            ? `                
-            width: 320px;
-            height: 100px;
-            padding: 14px 17px;
-            border-radius: 10px;
-            `
-            : `                
-            width: 230px;
-            height: 120px;
-            padding: 10px;
-            border-radius: 5px;
+    ${({ $size }) => `
+        width: ${sizeMap[$size].width}px;
+        height: ${sizeMap[$size].height}px;
+        padding: ${sizeMap[$size].padding};
+        border-radius: ${sizeMap[$size].borderRadius}px;
     `}
 
     font-size: 12px;
