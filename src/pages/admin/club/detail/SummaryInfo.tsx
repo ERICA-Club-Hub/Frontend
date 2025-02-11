@@ -1,9 +1,13 @@
 import styled from 'styled-components';
-import { Dropdown } from '@/components/Common';
+import { Dropdown, InputField } from '@/components/Common';
 import useToggle from '@/hooks/useToggle';
 import { useState } from 'react';
 import DropdownArrow from '@/assets/common/dropdown_arrow.svg?react';
-import { recruitStatus } from '@/constants/club-detail-register';
+import {
+    recruitStatus,
+    summaryInfoList,
+} from '@/constants/club-detail-register';
+import Button from '@/components/Common/Button';
 
 export default function SummaryInfo() {
     const { isOpen, setIsOpen, toggle } = useToggle();
@@ -40,25 +44,62 @@ export default function SummaryInfo() {
                     </Dropdown.Menu>
                 </Dropdown>
             </RecruitmentStatus>
+
+            <ClubSummaryInfo>
+                <h2>동아리 요약 정보</h2>
+
+                <SummaryInfoList>
+                    {summaryInfoList.map((summaryInfo, index) => (
+                        <SummaryInfoItem key={`summary-info-${index}`}>
+                            <Label>{summaryInfo.label}</Label>
+                            <InputField
+                                inputSize={'medium'}
+                                backgroundColor={'gray'}
+                                placeholder={summaryInfo.placeholder}
+                            />
+                        </SummaryInfoItem>
+                    ))}
+                </SummaryInfoList>
+            </ClubSummaryInfo>
+
+            <ApplyLink>
+                <Label>동아리 신청 폼 링크</Label>
+                <InputField
+                    inputSize={'medium'}
+                    backgroundColor={'gray'}
+                    placeholder="신청 폼 링크를 정확하게 입력해 주세요."
+                />
+            </ApplyLink>
+
+            <ButtonContainer>
+                <Button size="small">미리보기</Button>
+                <Button size="small" isDisabled={() => false}>
+                    저장하기
+                </Button>
+            </ButtonContainer>
         </Container>
     );
 }
 
 const Container = styled.section`
+    display: flex;
+    flex-direction: column;
     height: 815px;
+    gap: 10px;
 `;
 
 const InnerWrapper = styled.div`
     display: flex;
     flex-direction: column;
     justify-content: center;
+    align-items: center;
     width: 320px;
     padding: 0 20px;
     border-radius: 10px;
     background-color: ${({ theme }) => theme.colors.white};
 `;
 
-const Label = styled.label`
+const Label = styled.h3`
     width: 100%;
     font-size: 16px;
     font-weight: 600;
@@ -118,4 +159,42 @@ const DropdownItem = styled.li<{ $isSelected: boolean }>`
     background-color: ${({ $isSelected, theme }) =>
         $isSelected ? theme.colors.mainBlue : theme.colors.lightGray};
     cursor: pointer;
+`;
+
+const ClubSummaryInfo = styled(InnerWrapper)`
+    height: 472px;
+
+    h2 {
+        width: 100%;
+        margin-bottom: 20px;
+        font-size: 18px;
+        font-weight: 600;
+        color: ${({ theme }) => theme.colors.mainBlack};
+    }
+`;
+
+const SummaryInfoList = styled.ul`
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 10px;
+`;
+
+const SummaryInfoItem = styled.li`
+    display: flex;
+    flex-direction: column;
+    item-align: center;
+    gap: 10px;
+`;
+
+const ApplyLink = styled(InnerWrapper)`
+    height: 101px;
+    gap: 8px;
+    margin-bottom: 45px;
+`;
+
+const ButtonContainer = styled.div`
+    display: flex;
+    justify-content: flex-end;
+    gap: 5px;
 `;
