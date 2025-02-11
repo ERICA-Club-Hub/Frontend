@@ -95,10 +95,6 @@ const StyledButton = styled.button<StyledButtonProps>`
 
     ${({ size }) => getButtonSize(size)}
 
-    &:hover:not(:disabled) {
-        background-color: #0056b3;
-    }
-
     &:active:not(:disabled) {
         transform: scale(0.98);
     }
