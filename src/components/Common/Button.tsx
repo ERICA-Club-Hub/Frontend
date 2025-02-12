@@ -3,15 +3,19 @@ import { ButtonHTMLAttributes, ReactNode } from 'react';
 
 export type ButtonSize = 'small' | 'medium' | 'large';
 
+export type VariantType = 'filled' | 'outlined';
+
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
     children: ReactNode;
     size?: ButtonSize;
+    variant?: VariantType;
     isDisabled?: () => boolean;
     handleClick?: () => void;
 }
 
 interface StyledButtonProps {
     size: ButtonSize;
+    variant: VariantType;
     disabled: boolean;
 }
 
@@ -45,6 +49,7 @@ const getButtonSize = (size: ButtonSize) => {
  *
  * @param children 컴포넌트 안에 들어갈 내용
  * @param size 버튼 크기(small, large, medium 중 하나)
+ * @param variant 버튼 스타일 (filled, outlined 중 하나)
  * @param isDisabled 활성화 / 비활성화 시킬 함수(boolean return)
  * @param handleClick onClick시 작동할 이벤트를 담은 함수
  * @returns
@@ -53,6 +58,7 @@ const getButtonSize = (size: ButtonSize) => {
 const Button = ({
     children,
     size = 'medium',
+    variant = 'filled',
     isDisabled = () => true,
     handleClick,
     ...props
@@ -60,6 +66,7 @@ const Button = ({
     return (
         <StyledButton
             size={size}
+            variant={variant}
             disabled={isDisabled()}
             onClick={handleClick}
             {...props}
@@ -75,9 +82,12 @@ const StyledButton = styled.button<StyledButtonProps>`
     justify-content: center;
     border-radius: 10px;
     font-weight: 600;
-    background-color: #33639c;
-    color: white;
-    border: none;
+    background-color: ${({ variant, theme }) =>
+        variant === 'outlined' ? theme.colors.white : theme.colors.mainBlue};
+    color: ${({ variant, theme }) =>
+        variant === 'outlined' ? theme.colors.mainBlue : theme.colors.white};
+    border: ${({ variant, theme }) =>
+        variant === 'outlined' ? `1px solid ${theme.colors.mainBlue}` : 'none'};
     cursor: pointer;
     transition: all 0.2s ease;
     gap: 10px;
@@ -85,16 +95,14 @@ const StyledButton = styled.button<StyledButtonProps>`
 
     ${({ size }) => getButtonSize(size)}
 
-    &:hover:not(:disabled) {
-        background-color: #0056b3;
-    }
-
     &:active:not(:disabled) {
         transform: scale(0.98);
     }
 
     &:disabled {
+        border: none;
         background-color: #989898;
+        color: ${({ theme }) => theme.colors.white};
         cursor: not-allowed;
     }
 `;

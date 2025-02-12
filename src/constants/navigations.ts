@@ -17,10 +17,16 @@ const navigations = [
     },
 ];
 
-const topNavitaions = [
+const clubDetailNavigations = [
     { id: 1, nav: '동아리 소개' },
     { id: 2, nav: '모집안내' },
     { id: 3, nav: '활동로그' },
+];
+
+const clubDetailRegisterNavigations = [
+    { id: 1, nav: '요약 정보' },
+    { id: 2, nav: '동아리 소개' },
+    { id: 3, nav: '모집안내' },
 ];
 
 const loginNavigations = [
@@ -37,4 +43,10 @@ const clubCategory = [
     '연합동아리',
 ];
 
-export { navigations, topNavitaions, loginNavigations, clubCategory };
+export {
+    navigations,
+    clubDetailNavigations,
+    clubDetailRegisterNavigations,
+    loginNavigations,
+    clubCategory,
+};

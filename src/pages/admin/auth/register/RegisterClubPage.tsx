@@ -7,6 +7,7 @@ import { uploadImageWithPreview } from '@/utils';
 import { InputValue } from '@/types';
 import useToggle from '@/hooks/useToggle';
 import { clubCategory } from '@/constants';
+import { TextArea } from '@/components/Common/TextArea';
 
 const RegisterClubPage = () => {
     const { isOpen, setIsOpen, toggle } = useToggle();
@@ -139,11 +140,10 @@ const RegisterClubPage = () => {
 
                 <InnerWrapper>
                     <Label htmlFor="club-description">동아리 간단 소개</Label>
-                    <InputField
+                    <TextArea
                         id="club-description"
-                        type="text"
                         placeholder="동아리에 대해 간단히 소개해 주세요."
-                        inputSize="large"
+                        size="medium"
                     />
                 </InnerWrapper>
 
