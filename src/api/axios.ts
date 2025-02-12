@@ -39,7 +39,8 @@ export const fetchInstance = async ({
 
         if (url === '/api/users/login') {
             // 로그인하는 api일 때는 호출하면 자동으로 토큰 저장하도록
-            const accessToken = response.data.result.accessToken;
+            const token = response.headers['authorization'];
+            const accessToken = token.replace('Bearer ', '');
             if (accessToken) {
                 setAccessToken(accessToken);
             }

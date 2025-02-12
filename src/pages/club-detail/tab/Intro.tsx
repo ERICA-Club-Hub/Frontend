@@ -1,3 +1,4 @@
+// import { getAccessToken } from '@/api/auth/token';
 import { fetchInstance } from '@/api/axios';
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
@@ -20,23 +21,40 @@ const schedules: Schedule[] = [
 ];
 
 export default function Intro({ clubId }: IntroProps) {
-    const [data, setData] = useState(null);
+    // const [data, setData] = useState(null);
+    const [userInfo, setUserInfo] = useState(null);
 
     useEffect(() => {
-        const fetchTest = async () => {
+        // const fetchTest = async () => {
+        //     try {
+        //         const response = await fetchInstance({
+        //             url: '/api/documents',
+        //         });
+        //         setData(response);
+        //     } catch (error) {
+        //         console.error('실패:', error);
+        //     }
+        // };
+        const fetchTest2 = async () => {
             try {
                 const response = await fetchInstance({
-                    url: '/api/documents',
+                    url: '/api/users/login',
+                    method: 'POST',
+                    data: { code: 'A3T78H' },
+                    requireToken: false,
                 });
-                setData(response);
+                setUserInfo(response);
+                console.log(userInfo);
             } catch (error) {
-                console.error('실패:', error);
+                console.error(error);
             }
         };
-
-        fetchTest();
+        fetchTest2();
+        // fetchTest();
     }, [clubId]);
-    console.log('동아리 소개에서', clubId, data);
+    // console.log('동아리 소개에서', clubId, userInfo);
+    // console.log('토큰은:', getAccessToken());
+    // 여기 주석 지우면 응답값 확인 가능
     return (
         <div>
             <Container>

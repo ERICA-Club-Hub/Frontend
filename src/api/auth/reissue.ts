@@ -10,7 +10,8 @@ export const reissueToken = async () => {
                 withCredentials: false, // 일단 현재 개발을 위한 API에서는 기존 토큰이 필요 없다고해서 헤더는 비워둠
             },
         );
-        const newAccessToken = response.data.result.code;
+        const newAccessToken = response.headers['authorization'];
+
         if (newAccessToken) {
             setAccessToken(newAccessToken);
             return newAccessToken;
