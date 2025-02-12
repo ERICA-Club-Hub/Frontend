@@ -1,5 +1,5 @@
 // import { getAccessToken } from '@/api/auth/token';
-import { fetchInstance } from '@/api/axios';
+import { apiRequest } from '@/api/axios';
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 
@@ -27,7 +27,7 @@ export default function Intro({ clubId }: IntroProps) {
     useEffect(() => {
         // const fetchTest = async () => {
         //     try {
-        //         const response = await fetchInstance({
+        //         const response = await apiRequest({
         //             url: '/api/documents',
         //         });
         //         setData(response);
@@ -37,7 +37,7 @@ export default function Intro({ clubId }: IntroProps) {
         // };
         const fetchTest2 = async () => {
             try {
-                const response = await fetchInstance({
+                const response = await apiRequest({
                     url: '/api/users/login',
                     method: 'POST',
                     data: { code: 'A3T78H' },

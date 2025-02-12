@@ -20,7 +20,7 @@ export const axiosInstance: AxiosInstance = axios.create({
 });
 
 // API 호출할 때 최종적으로 사용할 함수!!
-export const fetchInstance = async ({
+export const apiRequest = async ({
     url,
     method = 'GET', // default는 GET이고 필요하면 다른 메서드로 입력
     data,
