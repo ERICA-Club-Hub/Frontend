@@ -1,3 +1,6 @@
+// import { getAccessToken } from '@/api/auth/token';
+import { apiRequest } from '@/api/axios';
+import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 
 interface IntroProps {
@@ -18,7 +21,40 @@ const schedules: Schedule[] = [
 ];
 
 export default function Intro({ clubId }: IntroProps) {
-    console.log('동아리 소개에서', clubId);
+    // const [data, setData] = useState(null);
+    const [userInfo, setUserInfo] = useState(null);
+
+    useEffect(() => {
+        // const fetchTest = async () => {
+        //     try {
+        //         const response = await apiRequest({
+        //             url: '/api/documents',
+        //         });
+        //         setData(response);
+        //     } catch (error) {
+        //         console.error('실패:', error);
+        //     }
+        // };
+        const fetchTest2 = async () => {
+            try {
+                const response = await apiRequest({
+                    url: '/api/users/login',
+                    method: 'POST',
+                    data: { code: 'A3T78H' },
+                    requireToken: false,
+                });
+                setUserInfo(response);
+                console.log(userInfo);
+            } catch (error) {
+                console.error(error);
+            }
+        };
+        fetchTest2();
+        // fetchTest();
+    }, [clubId]);
+    // console.log('동아리 소개에서', clubId, userInfo);
+    // console.log('토큰은:', getAccessToken());
+    // 여기 주석 지우면 응답값 확인 가능
     return (
         <div>
             <Container>
