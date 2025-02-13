@@ -18,6 +18,7 @@ import {
     ServiceNoticePage,
     UnionNoticePage,
 } from '@/pages';
+import ResourcesRegisterPage from './pages/resources/register/ResourcesRegisterPage';
 
 function App() {
     return (
@@ -27,28 +28,27 @@ function App() {
                     <Routes>
                         {/* 메인 페이지 */}
                         <Route path="/" element={<ClubListPage />} />
-
                         {/* 동아리 상세 페이지 */}
                         <Route path="/club/:id" element={<ClubDetailPage />} />
-
                         {/* 총동연 공지사항 페이지 */}
                         <Route
                             path="/union/notice"
                             element={<UnionNoticePage />}
                         />
-
                         {/* 서비스 공지사항 페이지 */}
                         <Route
                             path="/club/notice"
                             element={<ServiceNoticePage />}
                         />
-
                         {/* 자료실 페이지 */}
                         <Route path="/resources" element={<ResourcesPage />} />
-
+                        {/* 자료 등록 페이지 */}
+                        <Route
+                            path="/resources/register"
+                            element={<ResourcesRegisterPage />}
+                        />
                         {/* 자주 묻는 질문 페이지 */}
                         <Route path="/faq" element={<FAQPage />} />
-
                         {/* 어드민 페이지 */}
                         <Route path="/admin">
                             {/* 로그인 페이지 */}
@@ -99,7 +99,6 @@ function App() {
                                 element={<AdminResourcesPage />}
                             />
                         </Route>
-
                         {/* 404 Not Found Page */}
                         <Route path="*" element={<ErrorPage />} />
                     </Routes>
