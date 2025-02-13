@@ -12,7 +12,7 @@ interface CardProps {
 }
 
 const CardWrapper = styled.button<{ variant?: string }>`
-    width: 320px;
+    width: 360px;
     height: 71px;
     position: relative;
     display: flex;
@@ -72,12 +72,12 @@ const CardDate = styled.div`
     text-align: left;
 `;
 
-const IconBase = styled.img<{ isRotated?: boolean }>`
+const IconBase = styled.img<{ $isRotated?: boolean }>`
     width: 24px;
     height: 24px;
     margin-left: auto;
     transition: transform 0.3s ease;
-    transform: ${({ isRotated }) => isRotated ? 'rotate(90deg)' : 'rotate(0deg)'};
+    transform: ${({ $isRotated }) => $isRotated ? 'rotate(90deg)' : 'rotate(0deg)'};
 `;
 
 const TagWrapper = styled.div`
@@ -107,7 +107,7 @@ const Card = ({ variant = 'unionNotice', imagePath, title, date, questionType, o
                     <IconBase 
                         src="/src/assets/common/card_right_arrow.svg" 
                         alt="right arrow" 
-                        isRotated={isRotated}
+                        $isRotated={isRotated}
                     />
                 </>
             )}
@@ -133,7 +133,7 @@ const Card = ({ variant = 'unionNotice', imagePath, title, date, questionType, o
                     <IconBase 
                         src="/src/assets/common/card_right_arrow.svg" 
                         alt="right arrow" 
-                        isRotated={isRotated}
+                        $isRotated={isRotated}
                     />
                 </>
             )}
