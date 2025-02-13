@@ -1,6 +1,7 @@
 import Card from "../../components/Common/Card"
 import styled from 'styled-components';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { apiRequest } from '../../api/axios';
 
 const Title = styled.div`
     color: #232323;
@@ -25,9 +26,9 @@ const CardContainer = styled.div`
     padding-bottom: 8px;
 `;
 
-const ContentBox = styled.div<{ isVisible: boolean }>`
-    max-height: ${props => props.isVisible ? '200px' : '0'};
-    width: 320px;
+const ContentBox = styled.div<{ $isVisible: boolean }>`
+    max-height: ${props => props.$isVisible ? '200px' : '0'};
+    width: 360px;
     flex-shrink: 0;
     border-radius: 10px;
     border: 1px solid var(--Gray-4, #F7F7F7);
@@ -49,31 +50,66 @@ const ContentText = styled.div`
 `;
 
 interface NoticeItem {
+    id: number;
     title: string;
-    date: string;
     content: string;
+    createdAt: string;
 }
 
 const ServiceNoticePage = () => {
-    const [rotatedStates, setRotatedStates] = useState<{ [key: number]: boolean }>({});
-    
-    const noticeItems: NoticeItem[] = [
-        {
-            title: "ERICA 동아리 모음 서비스 런칭!",
-            date: "2024.03.22",
-            content: "한양대학교 ERICA의 모든 동아리를 모아 볼 수 있는 동아리 모음 서비스, 허브가 런칭되었어요!\n\n 이제는 언제 어디서든 원하는 동아리의 소식을 쉽고 빠르게 접해볼 수 있어요."
-        },
-        {
-            title: "ERICA 동아리 모음 서비스 런칭!",
-            date: "2024.03.22",
-            content: "두 번째 공지사항의 상세 내용입니다."
-        },
-        {
-            title: "ERICA 동아리 모음 서비스 런칭!",
-            date: "2024.03.22",
-            content: "세 번째 공지사항의 상세 내용입니다."
+    const [rotatedStates, setRotatedStates] = useState<{ [key: number]: boolean }>({}); // 회전 상태
+    const [noticeItems, setNoticeItems] = useState<NoticeItem[]>([]); // 공지사항 목록
+    const [page, setPage] = useState<number>(0); // 페이지 번호
+    const [size] = useState<number>(10); // 한 번에 불러오는 공지사항 수
+    const [hasMore, setHasMore] = useState<boolean>(true); // 더 불러올 데이터가 있는지 여부
+    const [isLoading, setIsLoading] = useState<boolean>(false); // 로딩 상태
+
+    useEffect(() => {
+        const fetchNotices = async () => {
+            setIsLoading(true);
+            try {
+                const response = await apiRequest({
+                    url: `/api/service-announcements?page=${page}&size=${size}`,
+                });
+
+                console.log('API 응답:', response);
+                
+                // 날짜 형식 변환 및 필드 매핑
+                const notices = response?.result?.serviceAnnouncements.map((item: NoticeItem) => ({
+                    ...item,
+                    createdAt: new Date(item.createdAt).toLocaleDateString('ko-KR', {
+                        year: 'numeric',
+                        month: '2-digit',
+                        day: '2-digit'
+                    }).replace(/\. /g, '.').replace(/\.$/, '')
+                })) || [];
+                
+                if (page === 0) {
+                    setNoticeItems(notices);
+                } else {
+                    setNoticeItems(prev => [...prev, ...notices]);
+                }
+                
+                // totalElements를 통해 더 불러올 데이터가 있는지 확인
+                const totalElements = response?.result?.totalElements || 0;
+                setHasMore((page + 1) * size < totalElements);
+
+            } catch (error) {
+                console.error('공지사항 불러오기 실패:', error);
+                setHasMore(false);
+            } finally {
+                setIsLoading(false);
+            }
+        };
+
+        fetchNotices();
+    }, [page, size]);
+
+    const loadMore = () => {
+        if (hasMore) {
+            setPage(prev => prev + 1);
         }
-    ];
+    };
 
     const handleCardClick = (index: number) => {
         setRotatedStates(prev => ({
@@ -85,22 +121,30 @@ const ServiceNoticePage = () => {
     return <div>
         <Title>서비스 공지사항</Title>
         <Body>
-            {noticeItems.map((item, index) => (
-                <CardContainer key={index}>
-                    <Card 
-                        variant="serviceNotice" 
-                        title={item.title}
-                        date={item.date}
-                        isRotated={rotatedStates[index]}
-                        onClick={() => handleCardClick(index)}
-                    />
-                    <ContentBox isVisible={rotatedStates[index]}>
-                        <ContentText>
-                            {item.content}
-                        </ContentText>
-                    </ContentBox>
-                </CardContainer>
-            ))}
+            {noticeItems && noticeItems.length > 0 ? (
+                noticeItems.map((item, index) => (
+                    <CardContainer key={index}>
+                        <Card 
+                            variant="serviceNotice" 
+                            title={item.title}
+                            date={item.createdAt}
+                            isRotated={rotatedStates[index]}
+                            onClick={() => handleCardClick(index)}
+                        />
+                        <ContentBox $isVisible={rotatedStates[index]}>
+                            <ContentText>
+                                {item.content}
+                            </ContentText>
+                        </ContentBox>
+                    </CardContainer>
+                ))
+            ) : (
+                <div>공지사항이 없습니다.</div>
+            )}
+            {hasMore && !isLoading && (
+                <button onClick={loadMore}>더 보기</button>
+            )}
+            {isLoading && <div>로딩 중...</div>}
         </Body>
     </div>;
 };
