@@ -2,7 +2,15 @@ import Button from '@/components/Common/Button';
 import { useState } from 'react';
 import styled from 'styled-components';
 
-export default function ResourcesRegisterPage() {
+type mode = 'edit' | 'manage';
+
+interface ResourcesRegisterPageProps {
+    mode: mode;
+}
+
+export default function ResourcesRegisterPage({
+    mode = 'edit',
+}: ResourcesRegisterPageProps) {
     const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
     const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         if (e.target.files) {
@@ -52,9 +60,36 @@ export default function ResourcesRegisterPage() {
                     )}
                 </CardContent>
             </CardContainer>
-            <Button size="small" variant="filled">
-                저장하기
-            </Button>
+            <ButtonContainer>
+                {mode === 'edit' ? (
+                    <ButtonContainer>
+                        <Button
+                            size="small"
+                            variant="filled"
+                            isDisabled={() => false}
+                        >
+                            저장하기
+                        </Button>
+                    </ButtonContainer>
+                ) : (
+                    <ButtonContainer>
+                        <Button
+                            size="small"
+                            variant="outlined"
+                            isDisabled={() => false}
+                        >
+                            삭제하기
+                        </Button>
+                        <Button
+                            size="small"
+                            variant="outlined"
+                            isDisabled={() => false}
+                        >
+                            수정하기
+                        </Button>
+                    </ButtonContainer>
+                )}
+            </ButtonContainer>
         </Container>
     );
 }
@@ -152,3 +187,9 @@ const MapUploadBox = styled.span`
 `;
 
 const RemoveItemBtn = styled.button``;
+
+const ButtonContainer = styled.div`
+    display: flex;
+    justify-content: flex-end;
+    gap: 5px;
+`;

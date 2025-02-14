@@ -45,7 +45,7 @@ function App() {
                         {/* 자료 등록 페이지 */}
                         <Route
                             path="/resources/register"
-                            element={<ResourcesRegisterPage />}
+                            element={<ResourcesRegisterPage mode="edit" />}
                         />
                         {/* 자주 묻는 질문 페이지 */}
                         <Route path="/faq" element={<FAQPage />} />
