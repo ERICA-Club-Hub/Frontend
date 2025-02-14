@@ -11,7 +11,10 @@ export default function ResourcesRegisterPage() {
                 </CardContent>
                 <CardContent>
                     <CardTitle>자료를 업로드 해주세요.</CardTitle>
-                    <CardUpload placeholder="📂 버튼을 클릭해 업로드 해주세요." />
+                    <UploadContainer>
+                        <HiddenInput />
+                        <UploadBox>📂 버튼을 클릭해 업로드 해주세요.</UploadBox>
+                    </UploadContainer>
                 </CardContent>
             </CardContainer>
             <Button size="small" variant="filled">
@@ -65,15 +68,23 @@ const CardInput = styled.input`
     }
 `;
 
-const CardUpload = styled.input`
+const HiddenInput = styled.input.attrs({ type: 'file' })`
+    opacity: 0;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+`;
+const UploadBox = styled.div`
     background-color: #f7f7f7;
     height: 40px;
     border-radius: 10px;
-    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     font-size: 14px;
-    font-weight: 400;
-    color: black;
-    &::placeholder {
-        color: #989898;
-    }
+    color: #989898;
+`;
+const UploadContainer = styled.div`
+    position: relative;
 `;
