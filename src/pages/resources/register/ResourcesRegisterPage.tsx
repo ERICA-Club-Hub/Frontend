@@ -61,7 +61,7 @@ export default function ResourcesRegisterPage({
                 </CardContent>
             </CardContainer>
             <ButtonContainer>
-                {mode === 'edit' ? (
+                {mode === 'manage' ? (
                     <ButtonContainer>
                         <Button
                             size="small"
@@ -77,6 +77,7 @@ export default function ResourcesRegisterPage({
                             size="small"
                             variant="outlined"
                             isDisabled={() => false}
+                            outlineColor="red"
                         >
                             삭제하기
                         </Button>
