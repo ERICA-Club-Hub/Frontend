@@ -9,7 +9,9 @@ export default function ResourcesRegisterPage() {
             setSelectedFiles([...selectedFiles, ...Array.from(e.target.files)]);
         }
     };
-    console.log(selectedFiles);
+    const removeItem = (index: number) => {
+        setSelectedFiles(selectedFiles.filter((_, i) => i !== index));
+    };
     return (
         <Container>
             <CardContainer>
@@ -28,15 +30,17 @@ export default function ResourcesRegisterPage() {
                         </UploadContainer>
                     ) : (
                         <MapContainer>
-                            {selectedFiles.map((file) => (
+                            {selectedFiles.map((file, index) => (
                                 <MapContainer>
                                     <MapUploadContainer>
                                         <MapUploadBox>
                                             📂 {file.name}
                                         </MapUploadBox>
-                                        <RemoveItemContainer>
+                                        <RemoveItemBtn
+                                            onClick={() => removeItem(index)}
+                                        >
                                             X
-                                        </RemoveItemContainer>
+                                        </RemoveItemBtn>
                                     </MapUploadContainer>
                                 </MapContainer>
                             ))}
@@ -147,4 +151,4 @@ const MapUploadBox = styled.span`
     color: black;
 `;
 
-const RemoveItemContainer = styled.span``;
+const RemoveItemBtn = styled.button``;
