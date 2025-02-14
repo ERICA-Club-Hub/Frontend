@@ -435,7 +435,7 @@ const ClubListPage = () => {
                             subtitle={club.subtitle}
                             tags={[
                                 { type: '동아리 및 질문', text: `${getCategoryEmoji(club.category)} ${club.category}` },
-                                { type: club.status as string, text: club.status },
+                                { type: club.status === '모집중' ? '모집중' : club.status === '모집예정' ? '모집예정' : '모집마감', text: club.status },
                             ]}
                             onClick={() => console.log('카드 클릭')}
                         />
