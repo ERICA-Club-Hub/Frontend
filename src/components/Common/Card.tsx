@@ -2,7 +2,7 @@ import styled, { css } from 'styled-components';
 import { Tag } from './Tag';
 
 interface CardProps {
-    variant?: 'unionNotice' | 'serviceNotice' | 'resources' | 'FAQ';
+    $variant?: 'unionNotice' | 'serviceNotice' | 'resources' | 'FAQ';
     imagePath?: string;
     title: string;
     date?: string;
@@ -11,7 +11,7 @@ interface CardProps {
     isRotated?: boolean;
 }
 
-const CardWrapper = styled.button<{ variant?: string }>`
+const CardWrapper = styled.button<{ $variant?: string }>`
     width: 360px;
     height: 71px;
     position: relative;
@@ -28,8 +28,8 @@ const CardWrapper = styled.button<{ variant?: string }>`
         background-color: #f5f5f5;
     }
     
-    ${({ variant }) => 
-        (variant === 'serviceNotice' || variant === 'resources' || variant === 'FAQ') && css`
+    ${({ $variant }) => 
+        ($variant === 'serviceNotice' || $variant === 'resources' || $variant === 'FAQ') && css`
             padding: 0 20px;
     `}
 `;
@@ -44,7 +44,7 @@ const CardImage = styled.div<{ imagePath?: string }>`
         imagePath ? `url(${imagePath}) lightgray 50% / cover no-repeat` : 'lightgray'};
 `;
 
-const TitleDateWrapper = styled.div<{ variant?: string }>`
+const TitleDateWrapper = styled.div<{ $variant?: string }>`
     display: flex;
     flex-direction: column;
     gap: 5px;
@@ -85,22 +85,22 @@ const TagWrapper = styled.div`
     flex-wrap: wrap;
 `;
 
-const Card = ({ variant = 'unionNotice', imagePath, title, date, questionType, onClick, isRotated }: CardProps) => {
+const Card = ({ $variant = 'unionNotice', imagePath, title, date, questionType, onClick, isRotated }: CardProps) => {
     return (
-        <CardWrapper variant={variant} onClick={onClick} type="button">
-            {variant === 'unionNotice' && (
+        <CardWrapper $variant={$variant} onClick={onClick} type="button">
+            {$variant === 'unionNotice' && (
                 <>
                     <CardImage imagePath={imagePath} />
-                    <TitleDateWrapper variant={variant}>
+                    <TitleDateWrapper $variant={$variant}>
                         <CardTitle>{title}</CardTitle>
                         <CardDate>{date}</CardDate>
                     </TitleDateWrapper>
                 </>
             )}
 
-            {variant === 'serviceNotice' && (
+            {$variant === 'serviceNotice' && (
                 <>
-                    <TitleDateWrapper variant={variant}>
+                    <TitleDateWrapper $variant={$variant}>
                         <CardTitle>{title}</CardTitle>
                         <CardDate>{date}</CardDate>
                     </TitleDateWrapper>
@@ -112,9 +112,9 @@ const Card = ({ variant = 'unionNotice', imagePath, title, date, questionType, o
                 </>
             )}
 
-            {variant === 'resources' && (
+            {$variant === 'resources' && (
                 <>
-                    <TitleDateWrapper variant={variant}>
+                    <TitleDateWrapper $variant={$variant}>
                         <CardTitle>{title}</CardTitle>
                         <CardDate>{date}</CardDate>
                     </TitleDateWrapper>
@@ -122,9 +122,9 @@ const Card = ({ variant = 'unionNotice', imagePath, title, date, questionType, o
                 </>
             )}
 
-            {variant === 'FAQ' && (
+            {$variant === 'FAQ' && (
                 <>
-                    <TitleDateWrapper variant={variant}>
+                    <TitleDateWrapper $variant={$variant}>
                         <CardTitle>{title}</CardTitle>
                         <TagWrapper>
                             <Tag type="동아리 및 질문">{questionType}</Tag>
