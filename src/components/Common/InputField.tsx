@@ -5,6 +5,7 @@ type Size = 'small' | 'medium' | 'large';
 interface InputFieldProps extends React.InputHTMLAttributes<HTMLInputElement> {
     inputSize: Size;
     backgroundColor?: string;
+    isError?: boolean;
 }
 
 const sizeMap = {
@@ -30,6 +31,7 @@ const sizeMap = {
  *
  * @param {Size} [inputSize = 'medium'] - 입력 필드의 크기. 'small', 'medium', 'large' 중 하나 입력 가능
  * @param {string} [backgroundColor='white'] - 입력 필드의 배경색. 기본값은 'white'
+ * @param {boolean} [isError=false] - 입력 필드의 배경색. 기본값은 'white'
  * @param {React.InputHTMLAttributes<HTMLInputElement>} props - 입력 요소에 전달할 추가 속성
  *
  * @returns {JSX.Element} 스타일된 입력 필드 컴포넌트
@@ -38,12 +40,14 @@ const sizeMap = {
 const InputField = ({
     inputSize = 'medium',
     backgroundColor = 'white',
+    isError = false,
     ...props
 }: InputFieldProps) => {
     return (
         <StyledInput
             $size={inputSize}
             $backgroundColor={backgroundColor}
+            $isError={isError}
             {...props}
         />
     );
@@ -52,6 +56,7 @@ const InputField = ({
 interface StyledInputFieldProps {
     $size: Size;
     $backgroundColor: string;
+    $isError: boolean;
 }
 
 const StyledInput = styled.input<StyledInputFieldProps>`
@@ -60,7 +65,9 @@ const StyledInput = styled.input<StyledInputFieldProps>`
         height: ${sizeMap[$size].height}px;
         padding: ${sizeMap[$size].padding};
     `}
+    z-index: 1;
 
+    border: ${({ $isError }) => ($isError ? '1px solid #DC5151' : 'none')};
     border-radius: 10px;
     font-size: 14px;
     font-weight: 400;
