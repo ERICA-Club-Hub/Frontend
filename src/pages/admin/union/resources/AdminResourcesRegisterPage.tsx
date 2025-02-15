@@ -4,13 +4,13 @@ import styled from 'styled-components';
 
 type mode = 'edit' | 'manage';
 
-interface ResourcesRegisterPageProps {
+interface AdminResourcesRegisterPageProps {
     mode: mode;
 }
 
-export default function ResourcesRegisterPage({
+const AdminResourcesRegisterPage = ({
     mode = 'edit',
-}: ResourcesRegisterPageProps) {
+}: AdminResourcesRegisterPageProps) => {
     const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
     const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         if (e.target.files) {
@@ -93,7 +93,9 @@ export default function ResourcesRegisterPage({
             </ButtonContainer>
         </Container>
     );
-}
+};
+
+export { AdminResourcesRegisterPage };
 
 const Container = styled.div`
     padding-top: 15px;

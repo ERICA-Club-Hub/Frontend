@@ -6,7 +6,6 @@ import {
     AdminClubPage,
     AdminLoginPage,
     AdminNoticePage,
-    AdminResourcesPage,
     AdminUnionPage,
     ClubDetailPage,
     ClubListPage,
@@ -17,8 +16,8 @@ import {
     ResourcesPage,
     ServiceNoticePage,
     UnionNoticePage,
+    AdminResourcesRegisterPage,
 } from '@/pages';
-import ResourcesRegisterPage from './pages/resources/register/ResourcesRegisterPage';
 
 function App() {
     return (
@@ -42,11 +41,6 @@ function App() {
                         />
                         {/* 자료실 페이지 */}
                         <Route path="/resources" element={<ResourcesPage />} />
-                        {/* 자료 등록 페이지 */}
-                        <Route
-                            path="/resources/register"
-                            element={<ResourcesRegisterPage mode="edit" />}
-                        />
                         {/* 자주 묻는 질문 페이지 */}
                         <Route path="/faq" element={<FAQPage />} />
                         {/* 어드민 페이지 */}
@@ -96,7 +90,9 @@ function App() {
                             {/* 총동연 자료 등록  */}
                             <Route
                                 path="/admin/union/resources"
-                                element={<AdminResourcesPage />}
+                                element={
+                                    <AdminResourcesRegisterPage mode="edit" />
+                                }
                             />
                         </Route>
                         {/* 404 Not Found Page */}
