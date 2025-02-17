@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Button from '@/components/Common/Button';
 import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
@@ -9,6 +9,7 @@ import card from '../../assets/common/card.svg';
 import phone from '../../assets/common/phone.svg';
 import label from '../../assets/common/label.svg';
 import TabContents from './TabContents';
+import { apiRequest } from '@/api/axios';
 
 // tab 항목에서 활성화 여부를 판단할 props
 interface TabButtonProps {
@@ -17,22 +18,70 @@ interface TabButtonProps {
 
 // 받을 정보 : id, 이미지, 이름, 태그, 모집상태, 대표, 연락처, 정기모임, 회비, sns, 소개 정보, 모집안내, 활동로그
 
+type activeTab = 'intro' | 'recruit' | 'log';
+
+type recuirementStatus = 'recruiting' | 'upcomming' | 'close'; // 이거 타입명 수정해야함
+
+interface clubInfoSummation {
+    name: string | null;
+    description: string | null;
+    category: string[] | null;
+    leaderName: string | null;
+    leaderPhone: string | null;
+    activities: string | null;
+    membershipFee: string | null;
+    snsUrl: string | null;
+    recruitmentStatus: recuirementStatus | null;
+    applicationUrl?: string | null;
+}
+
 const ClubDetailPage = () => {
+    const [clubDetail, setClubDetail] = useState<clubInfoSummation>();
     const params = useParams();
     const id = params.id?.toString() || '';
-    const [activeTab, setActiveTab] = useState<'intro' | 'recruit' | 'log'>(
-        'intro',
-    );
+    useEffect(() => {
+        const getClubDetail = async (id: string) => {
+            const response = await apiRequest({ url: `/api/clubs/${id}` });
+            if (response) {
+                setClubDetail({
+                    name: response.result.name || '없음',
+                    description: response.result.description || '없음',
+                    category: response.result.category || '없음',
+                    leaderName: response.result.leaderName || '없음',
+                    leaderPhone: response.result.leaderPhone || '없음',
+                    activities: response.result.activities || '없음',
+                    membershipFee: response.result.membershipFee || '없음',
+                    snsUrl: response.result.snsUrl || '없음',
+                    recruitmentStatus:
+                        response.result.recruitmentStatus || '없음',
+                    applicationUrl: response.result.applicationUrl || '없음',
+                });
+            }
+        };
+        if (id) {
+            getClubDetail(id);
+        }
+    }, [id]);
+    const getRecruitState = () => {
+        if (clubDetail?.recruitmentStatus === 'recruiting') {
+            return '모집중';
+        } else if (clubDetail?.recruitmentStatus === 'upcomming') {
+            return '모집 예정';
+        } else {
+            return '모집 마감';
+        }
+    };
+    const [activeTab, setActiveTab] = useState<activeTab>('intro');
     return (
         <PageContainer>
             <ClubHeader>
                 <ClubImage src={logo} alt="Club Logo" />
                 <PreviewWrapper>
-                    <Preview>대학생 IT 개발 연합동아리</Preview>
-                    <ClubTitle>UMC ERICA</ClubTitle>
+                    <Preview>{clubDetail?.description}</Preview>
+                    <ClubTitle>{clubDetail?.name}</ClubTitle>
                     <ClubTags>
-                        <Tag>연합동아리</Tag>
-                        <RecruitState>모집중</RecruitState>
+                        <Tag>{clubDetail?.category}</Tag>
+                        <RecruitState>{getRecruitState()}</RecruitState>
                     </ClubTags>
                 </PreviewWrapper>
             </ClubHeader>
@@ -40,35 +89,45 @@ const ClubDetailPage = () => {
             <ClubInfo>
                 <ClubDetails>
                     <h3>동아리 정보 요약</h3>
-                    <hr />
+                    <DividHr />
                     <DetailRow>
                         <IconImage src={jjang} alt="" />
                         <DetailLabel>대표</DetailLabel>
-                        <DetailValue>이름 들어갈 곳</DetailValue>
+                        <DetailValue>{clubDetail?.leaderName}</DetailValue>
                     </DetailRow>
                     <DetailRow>
                         <IconImage src={phone} alt="" />
                         <DetailLabel>연락처</DetailLabel>
-                        <DetailValue>연락처 들어갈 곳</DetailValue>
+                        <DetailValue>{clubDetail?.leaderPhone}</DetailValue>
                     </DetailRow>
                     <DetailRow>
                         <IconImage src={label} alt="" />
                         <DetailLabel>정기모임</DetailLabel>
-                        <DetailValue>어쩌구</DetailValue>
+                        <DetailValue>{clubDetail?.activities}</DetailValue>
                     </DetailRow>
                     <DetailRow>
                         <IconImage src={card} alt="" />
                         <DetailLabel>회비</DetailLabel>
-                        <DetailValue>저쩌구</DetailValue>
+                        <DetailValue>{clubDetail?.membershipFee}</DetailValue>
                     </DetailRow>
                     <DetailRow>
                         <IconImage src={sns} alt="" />
                         <DetailLabel>SNS</DetailLabel>
-                        <DetailValue>@@@</DetailValue>
+                        <DetailValue>{clubDetail?.snsUrl}</DetailValue>
                     </DetailRow>
                 </ClubDetails>
             </ClubInfo>
-            <Button size="large">가입 신청하기</Button>
+            <Button
+                disabled={clubDetail?.recruitmentStatus === 'recruiting'}
+                onClick={() => {
+                    if (clubDetail?.applicationUrl) {
+                        window.open(clubDetail.applicationUrl, '_blank');
+                    }
+                }}
+                size="large"
+            >
+                가입 신청하기
+            </Button>
             <TabContainer>
                 <TabButton
                     onClick={() => setActiveTab('intro')}
@@ -155,7 +214,7 @@ const Tag = styled.span`
 `;
 
 const RecruitState = styled.span`
-    width: 42px;
+    min-width: 42px;
     height: 18px;
     padding: 2px 5px 2px 5px;
     border-radius: 5pc;
@@ -169,6 +228,12 @@ const ClubDetails = styled.div`
     display: flex;
     flex-direction: column;
     gap: 10px;
+`;
+
+const DividHr = styled.hr`
+    border: none;
+    height: 0.5px;
+    background-color: rgba(234, 234, 234, 1);
 `;
 
 const IconImage = styled.img`
