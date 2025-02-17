@@ -1,4 +1,3 @@
-// import { getAccessToken } from '@/api/auth/token';
 import { apiRequest } from '@/api/axios';
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
@@ -12,61 +11,45 @@ interface Schedule {
     content: string;
 }
 
-const schedules: Schedule[] = [
-    { month: '3월', content: '3월에 할것' },
-    { month: '4월', content: '4월에 할것' },
-    { month: '6월', content: '6월에 할것' },
-    { month: '7월', content: '7월에 할것' },
-    { month: '8월', content: '8월에 할것' },
-];
-
 export default function Intro({ clubId }: IntroProps) {
-    // const [data, setData] = useState(null);
-    const [userInfo, setUserInfo] = useState(null);
+    const [schedules, setSchedules] = useState<Schedule[]>();
 
     useEffect(() => {
-        // const fetchTest = async () => {
-        //     try {
-        //         const response = await apiRequest({
-        //             url: '/api/documents',
-        //         });
-        //         setData(response);
-        //     } catch (error) {
-        //         console.error('실패:', error);
-        //     }
-        // };
-        const fetchTest2 = async () => {
-            try {
-                const response = await apiRequest({
-                    url: '/api/users/login',
-                    method: 'POST',
-                    data: { code: 'A3T78H' },
-                    requireToken: false,
+        const getSchedules = async (clubId: string) => {
+            if (clubId) {
+                const schedulesResponse = await apiRequest({
+                    url: `/api/clubs/${clubId}/schedules`,
                 });
-                setUserInfo(response);
-                console.log(userInfo);
-            } catch (error) {
-                console.error(error);
+                setSchedules(schedulesResponse.result.activities);
             }
         };
-        fetchTest2();
-        // fetchTest();
+        if (clubId) {
+            getSchedules(clubId);
+        }
     }, [clubId]);
-    // console.log('동아리 소개에서', clubId, userInfo);
-    // console.log('토큰은:', getAccessToken());
-    // 여기 주석 지우면 응답값 확인 가능
     return (
         <div>
             <Container>
                 <Title>🎯 주요 연간일정</Title>
-                <ScheduleContents>
-                    {schedules.map((schedule) => (
-                        <ContentsRow key={schedule.month}>
-                            <ContentsLabel>{schedule.month}</ContentsLabel>
-                            <ContentsValue>{schedule.content}</ContentsValue>
-                        </ContentsRow>
-                    ))}
-                </ScheduleContents>
+                {schedules && schedules.length > 0 ? (
+                    <ScheduleContents>
+                        {schedules.map((schedule) => (
+                            <ContentsRow key={schedule.month}>
+                                <ContentsLabel>
+                                    {schedule.month}월
+                                </ContentsLabel>
+                                <ContentsValue>
+                                    {schedule.content}
+                                </ContentsValue>
+                            </ContentsRow>
+                        ))}
+                    </ScheduleContents>
+                ) : (
+                    <SchedulesNull>
+                        <div>🅧</div>
+                        <div>주요 연간 일정이 비었어요.</div>
+                    </SchedulesNull>
+                )}
             </Container>
             <Container>
                 <ContentBlock>
@@ -141,4 +124,11 @@ const ContentsValue = styled.span`
     font-weight: 500;
     margin-top: 1px;
     margin-left: 7px;
+`;
+
+const SchedulesNull = styled.div`
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    gap: 8px;
 `;
