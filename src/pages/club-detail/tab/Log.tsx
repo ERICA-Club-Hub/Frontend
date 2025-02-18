@@ -1,63 +1,53 @@
 import styled from 'styled-components';
-import test1 from '../../../assets/common/sns.svg';
-import test2 from '../../../assets/common/sns.svg';
-import test3 from '../../../assets/common/sns.svg';
-import test4 from '../../../assets/common/sns.svg';
-import test5 from '../../../assets/common/sns.svg';
-import test6 from '../../../assets/common/sns.svg';
-import test7 from '../../../assets/common/sns.svg';
-import test8 from '../../../assets/common/sns.svg';
-import test9 from '../../../assets/common/sns.svg';
-import test10 from '../../../assets/common/sns.svg';
-import test11 from '../../../assets/common/sns.svg';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { ActivityLogModal } from '../ActivityLogModal';
-
-interface Image {
-    id: string;
-    url: string;
-}
+import { apiRequest } from '@/api/axios';
 
 interface LogProps {
     clubId: string;
 }
 
-const images: Image[] = [
-    { id: 'test1', url: test1 },
-    { id: 'test2', url: test2 },
-    { id: 'test3', url: test3 },
-    { id: 'test4', url: test4 },
-    { id: 'test5', url: test5 },
-    { id: 'test6', url: test6 },
-    { id: 'test7', url: test7 },
-    { id: 'test8', url: test8 },
-    { id: 'test9', url: test9 },
-    { id: 'test10', url: test10 },
-    { id: 'test11', url: test11 },
-];
+interface ActivityThumbnailList {
+    activityId: number;
+    thumbnailUrl: string;
+}
 
 export default function Log({ clubId }: LogProps) {
+    const [activityThumbnailList, setActivityThumbnailList] = useState<
+        ActivityThumbnailList[]
+    >([]);
     const [modalOpen, setModalOpen] = useState<boolean>(false);
-    const [selectedImageId, setSelectedImageId] = useState<string>('');
+    const [selectedImageId, setSelectedImageId] = useState<number>(0);
     const [selectedImageUrl, setSelectedImageUrl] = useState<string>('');
 
-    const handlClickImg = (id: string, url: string) => {
+    useEffect(() => {
+        const getActivityThumbnailList = async (clubId: string) => {
+            const response = await apiRequest({
+                url: `/api/activities/club/${clubId}`,
+            });
+            setActivityThumbnailList(response.result);
+        };
+        getActivityThumbnailList(clubId);
+    }, [clubId]);
+
+    const handlClickImg = (id: number, url: string) => {
         setSelectedImageUrl(url);
         setSelectedImageId(id);
         setModalOpen(true);
     };
-    console.log('활동로그에서', clubId);
-    return (
+    return activityThumbnailList?.length > 0 ? (
         <Container>
             <LogGrid>
-                {images.map((image) => (
+                {activityThumbnailList.map((activity) => (
                     <LogImg
                         onClick={() => {
-                            handlClickImg(image.id, image.url);
+                            handlClickImg(
+                                activity.activityId,
+                                activity.thumbnailUrl,
+                            );
                         }}
-                        key={image.id}
-                        src={image.url}
-                        alt={image.id}
+                        key={activity.activityId}
+                        src={activity.thumbnailUrl}
                     ></LogImg>
                 ))}
             </LogGrid>
@@ -69,6 +59,8 @@ export default function Log({ clubId }: LogProps) {
                 ></ActivityLogModal>
             )}
         </Container>
+    ) : (
+        <div>없음</div>
     );
 }
 const LogGrid = styled.div`

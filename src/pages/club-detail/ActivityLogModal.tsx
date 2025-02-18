@@ -4,7 +4,7 @@ import styled from 'styled-components';
 
 interface LogMoadlProps {
     setModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
-    selectedImageId: string;
+    selectedImageId: number;
     selectedImageUrl: string;
 }
 
