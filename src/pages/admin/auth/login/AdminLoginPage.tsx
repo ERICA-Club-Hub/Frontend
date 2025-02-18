@@ -1,22 +1,30 @@
+import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
+import styled from 'styled-components';
 import { InputField, TopNavigator } from '@/components/Common';
 import Button from '@/components/Common/Button';
 import { loginNavigations } from '@/constants';
-import { useState } from 'react';
-import { Link } from 'react-router-dom';
-import styled from 'styled-components';
+import useAdminLogin from '@/hooks/useAdminLogin';
 
 const AdminLoginPage = () => {
     const [navStatus, setNavStatus] = useState<number>(1);
     const [code, setCode] = useState<string>('');
+    const { isValidate, setIsValidate, handleLogin } = useAdminLogin();
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setCode(e.target.value);
     };
 
-    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         setCode('');
+        handleLogin(navStatus, code);
     };
+
+    // 동아리 <-> 총동연 로그인 변경 시 인증 상태 초기화
+    useEffect(() => {
+        setIsValidate(true);
+    }, [navStatus]);
 
     return (
         <Container>
@@ -42,15 +50,21 @@ const AdminLoginPage = () => {
                         }
                         inputSize="large"
                         backgroundColor="white"
+                        isError={!isValidate}
                     />
                     <Button type="submit" size="large" isDisabled={() => false}>
                         어드민 로그인하기
                     </Button>
+                    <ErrorText $isValidate={isValidate}>
+                        코드가 일치하지 않아요
+                    </ErrorText>
                 </Form>
 
-                <Link to="/admin/register">
-                    <RegisterButton>동아리 등록하기</RegisterButton>
-                </Link>
+                {navStatus === 1 && (
+                    <Link to="/admin/register">
+                        <RegisterButton>동아리 등록하기</RegisterButton>
+                    </Link>
+                )}
             </LoginContainer>
         </Container>
     );
@@ -87,10 +101,22 @@ const LoginContainer = styled.div`
 `;
 
 const Form = styled.form`
+    position: relative;
     display: flex;
     flex-direction: column;
     gap: 11px;
     margin-bottom: 78px;
+`;
+
+const ErrorText = styled.p<{ $isValidate: boolean }>`
+    position: absolute;
+    top: 112px;
+    left: 15px;
+    font-size: 14px;
+    font-weight: 500;
+    color: #dc5151;
+    opacity: ${({ $isValidate }) => ($isValidate ? 0 : 1)};
+    transition: opacity 0.5s ease;
 `;
 
 const RegisterButton = styled.button`
