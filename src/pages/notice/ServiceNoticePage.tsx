@@ -1,7 +1,7 @@
-import Card from "../../components/Common/Card"
+import Card from '../../components/Common/Card';
 import styled from 'styled-components';
 import { useState, useEffect } from 'react';
-import { apiRequest } from '../../api/axios';
+import { apiRequest } from '../../api/apiRequest';
 
 const Title = styled.div`
     color: #232323;
@@ -27,12 +27,12 @@ const CardContainer = styled.div`
 `;
 
 const ContentBox = styled.div<{ $isVisible: boolean }>`
-    max-height: ${props => props.$isVisible ? '200px' : '0'};
+    max-height: ${(props) => (props.$isVisible ? '200px' : '0')};
     width: 360px;
     flex-shrink: 0;
     border-radius: 10px;
-    border: 1px solid var(--Gray-4, #F7F7F7);
-    background: #FFF;
+    border: 1px solid var(--Gray-4, #f7f7f7);
+    background: #fff;
     overflow: hidden;
     transition: max-height 0.3s ease-in-out;
 `;
@@ -57,7 +57,9 @@ interface NoticeItem {
 }
 
 const ServiceNoticePage = () => {
-    const [rotatedStates, setRotatedStates] = useState<{ [key: number]: boolean }>({}); // 회전 상태
+    const [rotatedStates, setRotatedStates] = useState<{
+        [key: number]: boolean;
+    }>({}); // 회전 상태
     const [noticeItems, setNoticeItems] = useState<NoticeItem[]>([]); // 공지사항 목록
     const [page, setPage] = useState<number>(0); // 페이지 번호
     const [size] = useState<number>(10); // 한 번에 불러오는 공지사항 수
@@ -73,27 +75,32 @@ const ServiceNoticePage = () => {
                 });
 
                 console.log('API 응답:', response);
-                
+
                 // 날짜 형식 변환 및 필드 매핑
-                const notices = response?.result?.serviceAnnouncements.map((item: NoticeItem) => ({
-                    ...item,
-                    createdAt: new Date(item.createdAt).toLocaleDateString('ko-KR', {
-                        year: 'numeric',
-                        month: '2-digit',
-                        day: '2-digit'
-                    }).replace(/\. /g, '.').replace(/\.$/, '')
-                })) || [];
-                
+                const notices =
+                    response?.result?.serviceAnnouncements.map(
+                        (item: NoticeItem) => ({
+                            ...item,
+                            createdAt: new Date(item.createdAt)
+                                .toLocaleDateString('ko-KR', {
+                                    year: 'numeric',
+                                    month: '2-digit',
+                                    day: '2-digit',
+                                })
+                                .replace(/\. /g, '.')
+                                .replace(/\.$/, ''),
+                        }),
+                    ) || [];
+
                 if (page === 0) {
                     setNoticeItems(notices);
                 } else {
-                    setNoticeItems(prev => [...prev, ...notices]);
+                    setNoticeItems((prev) => [...prev, ...notices]);
                 }
-                
+
                 // totalElements를 통해 더 불러올 데이터가 있는지 확인
                 const totalElements = response?.result?.totalElements || 0;
                 setHasMore((page + 1) * size < totalElements);
-
             } catch (error) {
                 console.error('공지사항 불러오기 실패:', error);
                 setHasMore(false);
@@ -107,46 +114,46 @@ const ServiceNoticePage = () => {
 
     const loadMore = () => {
         if (hasMore) {
-            setPage(prev => prev + 1);
+            setPage((prev) => prev + 1);
         }
     };
 
     const handleCardClick = (index: number) => {
-        setRotatedStates(prev => ({
+        setRotatedStates((prev) => ({
             ...prev,
-            [index]: !prev[index]
+            [index]: !prev[index],
         }));
     };
 
-    return <div>
-        <Title>서비스 공지사항</Title>
-        <Body>
-            {noticeItems && noticeItems.length > 0 ? (
-                noticeItems.map((item, index) => (
-                    <CardContainer key={index}>
-                        <Card 
-                            $variant="serviceNotice" 
-                            title={item.title}
-                            date={item.createdAt}
-                            isRotated={rotatedStates[index]}
-                            onClick={() => handleCardClick(index)}
-                        />
-                        <ContentBox $isVisible={rotatedStates[index]}>
-                            <ContentText>
-                                {item.content}
-                            </ContentText>
-                        </ContentBox>
-                    </CardContainer>
-                ))
-            ) : (
-                <div>공지사항이 없습니다.</div>
-            )}
-            {hasMore && !isLoading && (
-                <button onClick={loadMore}>더 보기</button>
-            )}
-            {isLoading && <div>로딩 중...</div>}
-        </Body>
-    </div>;
+    return (
+        <div>
+            <Title>서비스 공지사항</Title>
+            <Body>
+                {noticeItems && noticeItems.length > 0 ? (
+                    noticeItems.map((item, index) => (
+                        <CardContainer key={index}>
+                            <Card
+                                $variant="serviceNotice"
+                                title={item.title}
+                                date={item.createdAt}
+                                isRotated={rotatedStates[index]}
+                                onClick={() => handleCardClick(index)}
+                            />
+                            <ContentBox $isVisible={rotatedStates[index]}>
+                                <ContentText>{item.content}</ContentText>
+                            </ContentBox>
+                        </CardContainer>
+                    ))
+                ) : (
+                    <div>공지사항이 없습니다.</div>
+                )}
+                {hasMore && !isLoading && (
+                    <button onClick={loadMore}>더 보기</button>
+                )}
+                {isLoading && <div>로딩 중...</div>}
+            </Body>
+        </div>
+    );
 };
 
 export { ServiceNoticePage };

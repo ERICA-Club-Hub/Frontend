@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { removeAccessToken, setAccessToken } from './token';
+import { removeAccessToken, setAccessToken } from '../../utils/tokenHandler';
 
 export const reissueToken = async (clubName: string) => {
     try {

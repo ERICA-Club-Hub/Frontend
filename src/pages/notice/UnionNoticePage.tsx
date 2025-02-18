@@ -1,7 +1,7 @@
-import Card from "../../components/Common/Card"
+import Card from '../../components/Common/Card';
 import styled from 'styled-components';
 import { useState, useEffect } from 'react';
-import { apiRequest } from '../../api/axios';
+import { apiRequest } from '../../api/apiRequest';
 
 const Title = styled.div`
     color: #232323;
@@ -39,9 +39,11 @@ interface AnnouncementDTO {
 }
 
 const UnionNoticePage = () => {
-    const [announcements, setAnnouncements] = useState<AnnouncementDTOList>({ announcementDTOList: [] }); // 공지사항 목록
+    const [announcements, setAnnouncements] = useState<AnnouncementDTOList>({
+        announcementDTOList: [],
+    }); // 공지사항 목록
     const [isLoading, setIsLoading] = useState(true); // 로딩 상태
-    
+
     useEffect(() => {
         const fetchAnnouncements = async () => {
             try {
@@ -59,7 +61,7 @@ const UnionNoticePage = () => {
                 setIsLoading(false);
             }
         };
-        
+
         fetchAnnouncements();
     }, []);
 
@@ -73,24 +75,26 @@ const UnionNoticePage = () => {
         return <div>로딩중...</div>;
     }
 
-    return <div>
-        <Title>총동연 공지사항</Title>
-        <Body>
-            {announcements?.announcementDTOList?.map((announcement) => (
-                <CardWrapper 
-                    key={announcement.announcementId}
-                    onClick={() => handleCardClick(announcement.url)}
-                >
-                    <Card 
-                        $variant="unionNotice"
-                        imagePath={announcement.thumbnail}
-                        title={announcement.title}
-                        date={announcement.date}
-                    />
-                </CardWrapper>
-            ))}
-        </Body>
-    </div>;
+    return (
+        <div>
+            <Title>총동연 공지사항</Title>
+            <Body>
+                {announcements?.announcementDTOList?.map((announcement) => (
+                    <CardWrapper
+                        key={announcement.announcementId}
+                        onClick={() => handleCardClick(announcement.url)}
+                    >
+                        <Card
+                            $variant="unionNotice"
+                            imagePath={announcement.thumbnail}
+                            title={announcement.title}
+                            date={announcement.date}
+                        />
+                    </CardWrapper>
+                ))}
+            </Body>
+        </div>
+    );
 };
 
 export { UnionNoticePage };
