@@ -61,7 +61,7 @@ export default function Intro({ clubId }: IntroProps) {
                     </ScheduleContents>
                 ) : (
                     <SchedulesNull>
-                        <div>🅧</div>
+                        <XSize>🅧</XSize>
                         <div>주요 연간 일정이 비었어요.</div>
                     </SchedulesNull>
                 )}
@@ -159,4 +159,8 @@ const SchedulesNull = styled.div`
     flex-direction: column;
     text-align: center;
     gap: 8px;
+`;
+
+const XSize = styled.span`
+    font-size: 30px;
 `;
