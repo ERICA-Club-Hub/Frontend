@@ -10,9 +10,15 @@ interface Schedule {
     month: string;
     content: string;
 }
+interface ClubIntro {
+    introduction: string | null;
+    activity: string | null;
+    recruitment: string | null;
+}
 
 export default function Intro({ clubId }: IntroProps) {
     const [schedules, setSchedules] = useState<Schedule[]>();
+    const [clubIntro, setClubIntro] = useState<ClubIntro>();
 
     useEffect(() => {
         const getSchedules = async (clubId: string) => {
@@ -23,8 +29,17 @@ export default function Intro({ clubId }: IntroProps) {
                 setSchedules(schedulesResponse.result.activities);
             }
         };
+        const getClubIntro = async (clubId: string) => {
+            if (clubId) {
+                const clubIntroResponse = await apiRequest({
+                    url: `/api/clubs/${clubId}/introduction`,
+                });
+                setClubIntro(clubIntroResponse.result);
+            }
+        };
         if (clubId) {
             getSchedules(clubId);
+            getClubIntro(clubId);
         }
     }, [clubId]);
     return (
@@ -54,20 +69,33 @@ export default function Intro({ clubId }: IntroProps) {
             <Container>
                 <ContentBlock>
                     <Title>🔍 우리 동아리를 소개합니다!</Title>
-                    <ContentSpan>
-                        {`첫 번째 줄입니다.
-                        두 번째 줄입니다. 칸이 넘어가면 다음줄로 넘어갑니다아ㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏ
-                        
-                        두 줄 띄우고 세 번째 줄입니다.`}
-                    </ContentSpan>
+                    {clubIntro?.introduction ? (
+                        <ContentSpan>{clubIntro.introduction}</ContentSpan>
+                    ) : (
+                        <ContentSpan>
+                            <div>동아리 소개가 비었어요</div>
+                        </ContentSpan>
+                    )}
                 </ContentBlock>
                 <ContentBlock>
                     <Title>👀 이런 활동을 할 수 있어요!</Title>
-                    <ContentSpan></ContentSpan>
+                    {clubIntro?.activity ? (
+                        <ContentSpan>{clubIntro?.activity}</ContentSpan>
+                    ) : (
+                        <ContentSpan>
+                            <div>동아리 활동 내용이 비었어요</div>
+                        </ContentSpan>
+                    )}
                 </ContentBlock>
                 <ContentBlock>
                     <Title>🔥 너, 내 동료가 돼라!</Title>
-                    <ContentSpan></ContentSpan>
+                    {clubIntro?.recruitment ? (
+                        <ContentSpan>{clubIntro?.recruitment}</ContentSpan>
+                    ) : (
+                        <ContentSpan>
+                            <div>동아리 활동 내용이 비었어요</div>
+                        </ContentSpan>
+                    )}
                 </ContentBlock>
             </Container>
         </div>
