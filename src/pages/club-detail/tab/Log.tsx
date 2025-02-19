@@ -25,7 +25,7 @@ export default function Log({ clubId }: LogProps) {
             const response = await apiRequest({
                 url: `/api/activities/club/${clubId}`,
             });
-            setActivityThumbnailList(response.result);
+            setActivityThumbnailList(response.result.activityThumbnailDTOList);
         };
         getActivityThumbnailList(clubId);
     }, [clubId]);

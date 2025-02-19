@@ -1,11 +1,17 @@
+import { apiRequest } from '@/api/axios';
 import { useClickOutside } from '@/hooks/useClickOutside';
-import { useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 
 interface LogMoadlProps {
     setModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
     selectedImageId: number;
     selectedImageUrl: string;
+}
+
+interface ActivityDTO {
+    orderIndex: number;
+    imageUrl: string;
 }
 
 // 여기서 동아리 명, 동아리 이미지도 사용되는데 props로 전달해서 사용해야할지?.?
@@ -15,43 +21,72 @@ const ActivityLogModal = ({
     selectedImageId,
     selectedImageUrl,
 }: LogMoadlProps) => {
-    console.log(selectedImageId, selectedImageUrl); // 이거로 활동로그 api 호출
+    const [activityList, setActivityList] = useState<ActivityDTO[]>();
+    const [currentIdx, setCurrentIdx] = useState<number>(0);
+
+    useEffect(() => {
+        const getActivities = async (activityId: number) => {
+            const response = await apiRequest({
+                url: `/api/activities/${activityId}`,
+            });
+            setActivityList(response.result.activityImageDTOList);
+        };
+        getActivities(selectedImageId);
+    }, [selectedImageId]);
+
+    const handlePrevImage = () => {
+        if (activityList && currentIdx > 0) {
+            setCurrentIdx(currentIdx - 1);
+        }
+    };
+
+    const handleNextImage = () => {
+        if (activityList && currentIdx < activityList.length - 1) {
+            setCurrentIdx(currentIdx + 1);
+        }
+    };
+
     const ref = useRef<HTMLDivElement>(null);
     useClickOutside(ref, () => {
         setModalOpen(false);
     });
     return (
-        <ModalWrapper>
-            <ModalOverlay>
-                <Modal ref={ref}>
-                    <Header>
-                        <ProfileSection>
-                            <ProfileImage
-                                src={selectedImageUrl}
-                                alt="club logo"
+        activityList && (
+            <ModalWrapper>
+                <ModalOverlay>
+                    <Modal ref={ref}>
+                        <Header>
+                            <ProfileSection>
+                                <ProfileImage
+                                    src={selectedImageUrl}
+                                    alt="club logo"
+                                />
+                                <ClubName>UMC ERICA</ClubName>
+                            </ProfileSection>
+                            <CloseButton onClick={() => setModalOpen(false)}>
+                                <ModalX>X</ModalX>
+                            </CloseButton>
+                        </Header>
+                        <ImageSection>
+                            <NavButton onClick={handlePrevImage}>＜</NavButton>
+                            <MainImage
+                                src={activityList[currentIdx].imageUrl}
+                                alt="activity log"
                             />
-                            <ClubName>UMC ERICA</ClubName>
-                        </ProfileSection>
-                        <CloseButton onClick={() => setModalOpen(false)}>
-                            <ModalX>X</ModalX>
-                        </CloseButton>
-                    </Header>
-                    <ImageSection>
-                        <NavButton>{'<'}</NavButton>
-                        <MainImage src={selectedImageUrl} alt="activity log" />
-                        <NavButton>{'>'}</NavButton>
-                    </ImageSection>
-                    <ContentSection>
-                        <Date>2024.11.10</Date>
-                        <Divider />
-                        <Description>
-                            {`UMC에서 GEMINI 지부 MT를 다녀왔어요! 
+                            <NavButton onClick={handleNextImage}>＞</NavButton>
+                        </ImageSection>
+                        <ContentSection>
+                            <Date>2024.11.10</Date>
+                            <Divider />
+                            <Description>
+                                {`UMC에서 GEMINI 지부 MT를 다녀왔어요! 
                                 사진은 김치를 썰고 있는 회장님의 사진이랍니다 ^_^`}
-                        </Description>
-                    </ContentSection>
-                </Modal>
-            </ModalOverlay>
-        </ModalWrapper>
+                            </Description>
+                        </ContentSection>
+                    </Modal>
+                </ModalOverlay>
+            </ModalWrapper>
+        )
     );
 };
 
@@ -128,6 +163,7 @@ const NavButton = styled.button`
     padding-right: 9px;
     padding-top: 6px;
     padding-bottom: 6px;
+    font-weight: 800;
 `;
 
 const MainImage = styled.img`
