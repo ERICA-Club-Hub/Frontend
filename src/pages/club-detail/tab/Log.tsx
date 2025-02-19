@@ -73,7 +73,7 @@ export default function Log({ clubId, clubImg, clubName }: LogProps) {
 const LogGrid = styled.div`
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 7px;
+    gap: 6px;
 `;
 const Container = styled.div`
     background-color: white;
@@ -83,8 +83,8 @@ const Container = styled.div`
     margin-bottom: 7px;
 `;
 const LogImg = styled.img`
-    width: 95px;
-    height: 95px;
+    width: 92px;
+    height: 92px;
     border-radius: 5px;
 `;
 const NullContainer = styled.div`
