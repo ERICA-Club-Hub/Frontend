@@ -60,7 +60,10 @@ export default function Log({ clubId }: LogProps) {
             )}
         </Container>
     ) : (
-        <div>없음</div>
+        <NullContainer>
+            <XSize>🅧</XSize>
+            <span>활동로그가 비었어요.</span>
+        </NullContainer>
     );
 }
 const LogGrid = styled.div`
@@ -79,4 +82,14 @@ const LogImg = styled.img`
     width: 95px;
     height: 95px;
     border-radius: 5px;
+`;
+const NullContainer = styled.div`
+    display: flex;
+    flex-direction: column;
+    margin-top: 81px;
+    gap: 10px;
+    align-items: center;
+`;
+const XSize = styled.span`
+    font-size: 30px;
 `;

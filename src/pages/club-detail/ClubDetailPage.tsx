@@ -138,7 +138,9 @@ const ClubDetailPage = () => {
                 }}
                 size="large"
             >
-                가입 신청하기
+                {clubDetail?.recruitmentStatus !== 'RECRUITING'
+                    ? '모집이 마감되었어요.'
+                    : '가입 신청하기'}
             </Button>
             <TabContainer>
                 <TabButton

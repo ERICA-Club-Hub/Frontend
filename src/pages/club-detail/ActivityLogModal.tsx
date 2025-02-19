@@ -33,20 +33,7 @@ const ActivityLogModal = ({
                             <ClubName>UMC ERICA</ClubName>
                         </ProfileSection>
                         <CloseButton onClick={() => setModalOpen(false)}>
-                            <span
-                                style={{
-                                    alignItems: 'center',
-                                    display: 'flex',
-                                    padding: '5px',
-                                    width: '10px',
-                                    height: '10px',
-                                    fontWeight: '2000',
-                                    fontSize: '20px',
-                                    marginBottom: '9px',
-                                }}
-                            >
-                                x
-                            </span>
+                            <ModalX>X</ModalX>
                         </CloseButton>
                     </Header>
                     <ImageSection>
@@ -168,6 +155,17 @@ const Description = styled.p`
     font-weight: 500;
     font-size: 14px;
     line-height: 18px;
+`;
+
+const ModalX = styled.span`
+    align-items: center;
+    display: flex;
+    padding: 5px;
+    width: 10px;
+    height: 10px;
+    font-weight: 2000;
+    font-size: 20px;
+    margin-bottom: 9px;
 `;
 
 export { ActivityLogModal };
