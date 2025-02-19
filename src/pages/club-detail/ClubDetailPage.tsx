@@ -163,7 +163,12 @@ const ClubDetailPage = () => {
                 </TabButton>
             </TabContainer>
 
-            <TabContents clubId={id} activeTab={activeTab}></TabContents>
+            <TabContents
+                clubName={clubDetail?.name}
+                clubImg={logo}
+                clubId={id}
+                activeTab={activeTab}
+            ></TabContents>
         </PageContainer>
     );
 };

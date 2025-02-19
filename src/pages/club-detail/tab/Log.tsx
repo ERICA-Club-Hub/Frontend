@@ -4,6 +4,8 @@ import { ActivityLogModal } from '../ActivityLogModal';
 import { apiRequest } from '@/api/axios';
 
 interface LogProps {
+    clubName?: string | null;
+    clubImg?: string | null;
     clubId: string;
 }
 
@@ -12,7 +14,7 @@ interface ActivityThumbnailList {
     thumbnailUrl: string;
 }
 
-export default function Log({ clubId }: LogProps) {
+export default function Log({ clubId, clubImg, clubName }: LogProps) {
     const [activityThumbnailList, setActivityThumbnailList] = useState<
         ActivityThumbnailList[]
     >([]);
@@ -53,6 +55,8 @@ export default function Log({ clubId }: LogProps) {
             </LogGrid>
             {modalOpen && (
                 <ActivityLogModal
+                    clubName={clubName}
+                    clubImg={clubImg}
                     setModalOpen={setModalOpen}
                     selectedImageId={selectedImageId}
                     selectedImageUrl={selectedImageUrl}
