@@ -56,7 +56,7 @@ export default function Log({ clubId }: LogProps) {
                     setModalOpen={setModalOpen}
                     selectedImageId={selectedImageId}
                     selectedImageUrl={selectedImageUrl}
-                ></ActivityLogModal>
+                />
             )}
         </Container>
     ) : (

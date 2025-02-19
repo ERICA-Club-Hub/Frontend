@@ -16,11 +16,15 @@ interface TabButtonProps {
     $isActive?: boolean;
 }
 
+interface RecruitStateProps {
+    $state?: '모집중' | '모집 예정' | '모집 마감';
+}
+
 // 받을 정보 : id, 이미지, 이름, 태그, 모집상태, 대표, 연락처, 정기모임, 회비, sns, 소개 정보, 모집안내, 활동로그
 
 type activeTab = 'intro' | 'recruit' | 'log';
 
-type recuirementStatus = 'recruiting' | 'upcomming' | 'close'; // 이거 타입명 수정해야함
+type recuirementStatus = 'RECRUITING' | 'UPCOMING' | 'CLOSE'; // 이거 타입명 수정해야함
 
 interface clubInfoSummation {
     name: string | null;
@@ -63,14 +67,18 @@ const ClubDetailPage = () => {
         }
     }, [id]);
     const getRecruitState = () => {
-        if (clubDetail?.recruitmentStatus === 'recruiting') {
-            return '모집중';
-        } else if (clubDetail?.recruitmentStatus === 'upcomming') {
-            return '모집 예정';
-        } else {
-            return '모집 마감';
+        switch (clubDetail?.recruitmentStatus) {
+            case 'RECRUITING':
+                return '모집중';
+            case 'UPCOMING':
+                return '모집 예정';
+            case 'CLOSE':
+                return '모집 마감';
+            default:
+                return '모집 마감'; // clubDetail이 아직 없을 때의 기본값
         }
     };
+
     const [activeTab, setActiveTab] = useState<activeTab>('intro');
     return (
         <PageContainer>
@@ -81,7 +89,11 @@ const ClubDetailPage = () => {
                     <ClubTitle>{clubDetail?.name}</ClubTitle>
                     <ClubTags>
                         <Tag>{clubDetail?.category}</Tag>
-                        <RecruitState>{getRecruitState()}</RecruitState>
+                        {clubDetail && (
+                            <RecruitState $state={getRecruitState()}>
+                                {getRecruitState()}
+                            </RecruitState>
+                        )}
                     </ClubTags>
                 </PreviewWrapper>
             </ClubHeader>
@@ -118,10 +130,10 @@ const ClubDetailPage = () => {
                 </ClubDetails>
             </ClubInfo>
             <Button
-                disabled={clubDetail?.recruitmentStatus === 'recruiting'}
+                disabled={clubDetail?.recruitmentStatus !== 'RECRUITING'}
                 onClick={() => {
                     if (clubDetail?.applicationUrl) {
-                        window.open(clubDetail.applicationUrl, '_blank');
+                        window.open(clubDetail.applicationUrl, '_blank'); // url로 이동
                     }
                 }}
                 size="large"
@@ -213,14 +225,30 @@ const Tag = styled.span`
     color: #33639c;
 `;
 
-const RecruitState = styled.span`
+const RecruitState = styled.span<RecruitStateProps>`
     min-width: 42px;
     height: 18px;
     padding: 2px 5px 2px 5px;
-    border-radius: 5pc;
+    border-radius: 5px;
     font-size: 12px;
-    background-color: #fff4e4;
-    color: #f08a00;
+    background-color: ${(props) => {
+        if (props.$state === '모집중') {
+            return '#fff4e4';
+        } else if (props.$state === '모집 예정') {
+            return '#F1F9DC';
+        } else {
+            return '#F7F7F7';
+        }
+    }};
+    color: ${(props) => {
+        if (props.$state === '모집중') {
+            return '#F08A00';
+        } else if (props.$state === '모집 예정') {
+            return '#8BB421';
+        } else {
+            return '#606060';
+        }
+    }};
 `;
 
 const ClubDetails = styled.div`
