@@ -11,12 +11,14 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
     variant?: VariantType;
     isDisabled?: () => boolean;
     handleClick?: () => void;
+    outlineColor?: string;
 }
 
 interface StyledButtonProps {
     size: ButtonSize;
     variant: VariantType;
     disabled: boolean;
+    outlineColor?: string;
 }
 
 const getButtonSize = (size: ButtonSize) => {
@@ -52,6 +54,7 @@ const getButtonSize = (size: ButtonSize) => {
  * @param variant 버튼 스타일 (filled, outlined 중 하나)
  * @param isDisabled 활성화 / 비활성화 시킬 함수(boolean return)
  * @param handleClick onClick시 작동할 이벤트를 담은 함수
+ * @param outlineColor variant = 'outlined'일 때 색상 지정
  * @returns
  */
 
@@ -61,6 +64,7 @@ const Button = ({
     variant = 'filled',
     isDisabled = () => true,
     handleClick,
+    outlineColor,
     ...props
 }: ButtonProps) => {
     return (
@@ -69,6 +73,7 @@ const Button = ({
             variant={variant}
             disabled={isDisabled()}
             onClick={handleClick}
+            outlineColor={outlineColor}
             {...props}
         >
             {children}
@@ -84,10 +89,14 @@ const StyledButton = styled.button<StyledButtonProps>`
     font-weight: 600;
     background-color: ${({ variant, theme }) =>
         variant === 'outlined' ? theme.colors.white : theme.colors.mainBlue};
-    color: ${({ variant, theme }) =>
-        variant === 'outlined' ? theme.colors.mainBlue : theme.colors.white};
-    border: ${({ variant, theme }) =>
-        variant === 'outlined' ? `1px solid ${theme.colors.mainBlue}` : 'none'};
+    color: ${({ variant, theme, outlineColor }) =>
+        variant === 'outlined'
+            ? outlineColor || theme.colors.mainBlue
+            : theme.colors.white};
+    border: ${({ variant, theme, outlineColor }) =>
+        variant === 'outlined'
+            ? `1px solid ${outlineColor || theme.colors.mainBlue}`
+            : 'none'};
     cursor: pointer;
     transition: all 0.2s ease;
     gap: 10px;
