@@ -125,7 +125,7 @@ const ServiceNoticePage = () => {
                 noticeItems.map((item, index) => (
                     <CardContainer key={index}>
                         <Card 
-                            variant="serviceNotice" 
+                            $variant="serviceNotice" 
                             title={item.title}
                             date={item.createdAt}
                             isRotated={rotatedStates[index]}
