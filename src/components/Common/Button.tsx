@@ -100,7 +100,7 @@ const StyledButton = styled.button<StyledButtonProps>`
     cursor: pointer;
     transition: all 0.2s ease;
     gap: 10px;
-    line-height: 16.8;
+    line-height: 1.2;
 
     ${({ size }) => getButtonSize(size)}
 

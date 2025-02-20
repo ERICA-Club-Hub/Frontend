@@ -1,26 +1,51 @@
+import { apiRequest } from '@/api/axios';
+import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 
 interface RecruitProps {
     clubId: string;
 }
 
+interface RecruitContent {
+    due: string;
+    notice: string;
+    ect: string;
+}
+
 export default function Recruit({ clubId }: RecruitProps) {
-    console.log('모집안내에서', clubId);
-    return (
+    const [recruitContent, setRecruitContent] = useState<RecruitContent>();
+    useEffect(() => {
+        const getRecruit = async (clubId: string) => {
+            const recruitResponse = await apiRequest({
+                url: `/api/clubs/${clubId}/recruitment`,
+            });
+            setRecruitContent(recruitResponse.result);
+        };
+        getRecruit(clubId);
+    }, [clubId]);
+    console.log(recruitContent);
+    return recruitContent?.due &&
+        recruitContent.ect &&
+        recruitContent.notice ? (
         <Container>
             <ContentBlock>
                 <Title>📅 모집기간</Title>
-                <ContentSpan>모집 기간 관련 내용</ContentSpan>
+                <ContentSpan>{recruitContent.due}</ContentSpan>
             </ContentBlock>
             <ContentBlock>
                 <Title>💫 유의사항</Title>
-                <ContentSpan>유의사항 내용</ContentSpan>
+                <ContentSpan>{recruitContent.notice}</ContentSpan>
             </ContentBlock>
             <ContentBlock>
                 <Title>💡 기타 동아리 모집 안내</Title>
-                <ContentSpan>동아리 모집 안내 내용</ContentSpan>
+                <ContentSpan>{recruitContent.ect}</ContentSpan>
             </ContentBlock>
         </Container>
+    ) : (
+        <NullContainer>
+            <XSize>🅧</XSize>
+            <span>모집 안내가 비었습니다.</span>
+        </NullContainer>
     );
 }
 const Container = styled.div`
@@ -44,4 +69,16 @@ const ContentSpan = styled.span`
 const ContentBlock = styled.div`
     width: 278px;
     margin-bottom: 25px;
+`;
+
+const NullContainer = styled.div`
+    margin-top: 80px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+    gap: 10px;
+`;
+const XSize = styled.span`
+    font-size: 30px;
 `;

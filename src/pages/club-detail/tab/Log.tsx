@@ -1,80 +1,79 @@
 import styled from 'styled-components';
-import test1 from '../../../assets/common/sns.svg';
-import test2 from '../../../assets/common/sns.svg';
-import test3 from '../../../assets/common/sns.svg';
-import test4 from '../../../assets/common/sns.svg';
-import test5 from '../../../assets/common/sns.svg';
-import test6 from '../../../assets/common/sns.svg';
-import test7 from '../../../assets/common/sns.svg';
-import test8 from '../../../assets/common/sns.svg';
-import test9 from '../../../assets/common/sns.svg';
-import test10 from '../../../assets/common/sns.svg';
-import test11 from '../../../assets/common/sns.svg';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { ActivityLogModal } from '../ActivityLogModal';
-
-interface Image {
-    id: string;
-    url: string;
-}
+import { apiRequest } from '@/api/axios';
 
 interface LogProps {
+    clubName?: string | null;
+    clubImg?: string | null;
     clubId: string;
 }
 
-const images: Image[] = [
-    { id: 'test1', url: test1 },
-    { id: 'test2', url: test2 },
-    { id: 'test3', url: test3 },
-    { id: 'test4', url: test4 },
-    { id: 'test5', url: test5 },
-    { id: 'test6', url: test6 },
-    { id: 'test7', url: test7 },
-    { id: 'test8', url: test8 },
-    { id: 'test9', url: test9 },
-    { id: 'test10', url: test10 },
-    { id: 'test11', url: test11 },
-];
+interface ActivityThumbnailList {
+    activityId: number;
+    thumbnailUrl: string;
+}
 
-export default function Log({ clubId }: LogProps) {
+export default function Log({ clubId, clubImg, clubName }: LogProps) {
+    const [activityThumbnailList, setActivityThumbnailList] = useState<
+        ActivityThumbnailList[]
+    >([]);
     const [modalOpen, setModalOpen] = useState<boolean>(false);
-    const [selectedImageId, setSelectedImageId] = useState<string>('');
+    const [selectedImageId, setSelectedImageId] = useState<number>(0);
     const [selectedImageUrl, setSelectedImageUrl] = useState<string>('');
 
-    const handlClickImg = (id: string, url: string) => {
+    useEffect(() => {
+        const getActivityThumbnailList = async (clubId: string) => {
+            const response = await apiRequest({
+                url: `/api/activities/club/${clubId}`,
+            });
+            setActivityThumbnailList(response.result.activityThumbnailDTOList);
+        };
+        getActivityThumbnailList(clubId);
+    }, [clubId]);
+
+    const handlClickImg = (id: number, url: string) => {
         setSelectedImageUrl(url);
         setSelectedImageId(id);
         setModalOpen(true);
     };
-    console.log('활동로그에서', clubId);
-    return (
+    return activityThumbnailList?.length > 0 ? (
         <Container>
             <LogGrid>
-                {images.map((image) => (
+                {activityThumbnailList.map((activity) => (
                     <LogImg
                         onClick={() => {
-                            handlClickImg(image.id, image.url);
+                            handlClickImg(
+                                activity.activityId,
+                                activity.thumbnailUrl,
+                            );
                         }}
-                        key={image.id}
-                        src={image.url}
-                        alt={image.id}
+                        key={activity.activityId}
+                        src={activity.thumbnailUrl}
                     ></LogImg>
                 ))}
             </LogGrid>
             {modalOpen && (
                 <ActivityLogModal
+                    clubName={clubName}
+                    clubImg={clubImg}
                     setModalOpen={setModalOpen}
                     selectedImageId={selectedImageId}
                     selectedImageUrl={selectedImageUrl}
-                ></ActivityLogModal>
+                />
             )}
         </Container>
+    ) : (
+        <NullContainer>
+            <XSize>🅧</XSize>
+            <span>활동로그가 비었어요.</span>
+        </NullContainer>
     );
 }
 const LogGrid = styled.div`
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 7px;
+    gap: 6px;
 `;
 const Container = styled.div`
     background-color: white;
@@ -84,7 +83,17 @@ const Container = styled.div`
     margin-bottom: 7px;
 `;
 const LogImg = styled.img`
-    width: 95px;
-    height: 95px;
+    width: 92px;
+    height: 92px;
     border-radius: 5px;
+`;
+const NullContainer = styled.div`
+    display: flex;
+    flex-direction: column;
+    margin-top: 81px;
+    gap: 10px;
+    align-items: center;
+`;
+const XSize = styled.span`
+    font-size: 30px;
 `;

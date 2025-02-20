@@ -1,4 +1,3 @@
-// import { getAccessToken } from '@/api/auth/token';
 import { apiRequest } from '@/api/axios';
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
@@ -11,80 +10,92 @@ interface Schedule {
     month: string;
     content: string;
 }
-
-const schedules: Schedule[] = [
-    { month: '3월', content: '3월에 할것' },
-    { month: '4월', content: '4월에 할것' },
-    { month: '6월', content: '6월에 할것' },
-    { month: '7월', content: '7월에 할것' },
-    { month: '8월', content: '8월에 할것' },
-];
+interface ClubIntro {
+    introduction: string | null;
+    activity: string | null;
+    recruitment: string | null;
+}
 
 export default function Intro({ clubId }: IntroProps) {
-    // const [data, setData] = useState(null);
-    const [userInfo, setUserInfo] = useState(null);
+    const [schedules, setSchedules] = useState<Schedule[]>();
+    const [clubIntro, setClubIntro] = useState<ClubIntro>();
 
     useEffect(() => {
-        // const fetchTest = async () => {
-        //     try {
-        //         const response = await apiRequest({
-        //             url: '/api/documents',
-        //         });
-        //         setData(response);
-        //     } catch (error) {
-        //         console.error('실패:', error);
-        //     }
-        // };
-        const fetchTest2 = async () => {
-            try {
-                const response = await apiRequest({
-                    url: '/api/users/login',
-                    method: 'POST',
-                    data: { code: 'A3T78H' },
-                    requireToken: false,
+        const getSchedules = async (clubId: string) => {
+            if (clubId) {
+                const schedulesResponse = await apiRequest({
+                    url: `/api/clubs/${clubId}/schedules`,
                 });
-                setUserInfo(response);
-                console.log(userInfo);
-            } catch (error) {
-                console.error(error);
+                setSchedules(schedulesResponse.result.activities);
             }
         };
-        fetchTest2();
-        // fetchTest();
+        const getClubIntro = async (clubId: string) => {
+            if (clubId) {
+                const clubIntroResponse = await apiRequest({
+                    url: `/api/clubs/${clubId}/introduction`,
+                });
+                setClubIntro(clubIntroResponse.result);
+            }
+        };
+        if (clubId) {
+            getSchedules(clubId);
+            getClubIntro(clubId);
+        }
     }, [clubId]);
-    // console.log('동아리 소개에서', clubId, userInfo);
-    // console.log('토큰은:', getAccessToken());
-    // 여기 주석 지우면 응답값 확인 가능
     return (
         <div>
             <Container>
                 <Title>🎯 주요 연간일정</Title>
-                <ScheduleContents>
-                    {schedules.map((schedule) => (
-                        <ContentsRow key={schedule.month}>
-                            <ContentsLabel>{schedule.month}</ContentsLabel>
-                            <ContentsValue>{schedule.content}</ContentsValue>
-                        </ContentsRow>
-                    ))}
-                </ScheduleContents>
+                {schedules && schedules.length > 0 ? (
+                    <ScheduleContents>
+                        {schedules.map((schedule) => (
+                            <ContentsRow key={schedule.month}>
+                                <ContentsLabel>
+                                    {schedule.month}월
+                                </ContentsLabel>
+                                <ContentsValue>
+                                    {schedule.content}
+                                </ContentsValue>
+                            </ContentsRow>
+                        ))}
+                    </ScheduleContents>
+                ) : (
+                    <SchedulesNull>
+                        <XSize>🅧</XSize>
+                        <div>주요 연간 일정이 비었어요.</div>
+                    </SchedulesNull>
+                )}
             </Container>
             <Container>
                 <ContentBlock>
                     <Title>🔍 우리 동아리를 소개합니다!</Title>
-                    <ContentSpan>
-                        {`첫 번째 줄입니다.
-                        두 번째 줄입니다. 칸이 넘어가면 다음줄로 넘어갑니다아ㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏ
-                        
-                        두 줄 띄우고 세 번째 줄입니다.`}
-                    </ContentSpan>
+                    {clubIntro?.introduction ? (
+                        <ContentSpan>{clubIntro.introduction}</ContentSpan>
+                    ) : (
+                        <ContentSpan>
+                            <div>동아리 소개가 비었어요</div>
+                        </ContentSpan>
+                    )}
                 </ContentBlock>
                 <ContentBlock>
                     <Title>👀 이런 활동을 할 수 있어요!</Title>
-                    <ContentSpan></ContentSpan>
+                    {clubIntro?.activity ? (
+                        <ContentSpan>{clubIntro?.activity}</ContentSpan>
+                    ) : (
+                        <ContentSpan>
+                            <div>동아리 활동 내용이 비었어요</div>
+                        </ContentSpan>
+                    )}
                 </ContentBlock>
                 <ContentBlock>
                     <Title>🔥 너, 내 동료가 돼라!</Title>
-                    <ContentSpan></ContentSpan>
+                    {clubIntro?.recruitment ? (
+                        <ContentSpan>{clubIntro?.recruitment}</ContentSpan>
+                    ) : (
+                        <ContentSpan>
+                            <div>동아리 활동 내용이 비었어요</div>
+                        </ContentSpan>
+                    )}
                 </ContentBlock>
             </Container>
         </div>
@@ -141,4 +152,15 @@ const ContentsValue = styled.span`
     font-weight: 500;
     margin-top: 1px;
     margin-left: 7px;
+`;
+
+const SchedulesNull = styled.div`
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    gap: 8px;
+`;
+
+const XSize = styled.span`
+    font-size: 30px;
 `;
