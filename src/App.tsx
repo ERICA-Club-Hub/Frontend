@@ -18,6 +18,7 @@ import {
     UnionNoticePage,
     AdminResourcesRegisterPage,
 } from '@/pages';
+import ClubDetailPreview from './pages/club-detail-preview/ClubDetailPreview';
 
 function App() {
     return (
@@ -43,6 +44,11 @@ function App() {
                         <Route path="/resources" element={<ResourcesPage />} />
                         {/* 자주 묻는 질문 페이지 */}
                         <Route path="/faq" element={<FAQPage />} />
+                        {/* 동아리 상세피이지 등록하기에서 동아리 미리보기 했을 때 */}
+                        <Route
+                            path="/club-detail-preview"
+                            element={<ClubDetailPreview />}
+                        />
                         {/* 어드민 페이지 */}
                         <Route path="/admin">
                             {/* 로그인 페이지 */}
