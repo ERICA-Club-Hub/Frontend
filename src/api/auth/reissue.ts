@@ -1,12 +1,16 @@
 import axios from 'axios';
 import { removeAccessToken, setAccessToken } from '../../utils/tokenHandler';
+import { useRecoilValue } from 'recoil';
+import { clubIdselector } from '@/store/clubIdState';
 
-export const reissueToken = async (clubName: string) => {
+export const reissueToken = async () => {
+    const clubId = useRecoilValue(clubIdselector);
+
     try {
         const response = await axios.post(
             `${
                 import.meta.env.VITE_BASE_URL
-            }/api/users/reissue-code?clubName=${clubName}`,
+            }/api/clubs/service-admin/reissue?clubId=${clubId}`,
             {},
             {
                 withCredentials: false, // 일단 현재 개발을 위한 API에서는 기존 토큰이 필요 없다고해서 헤더는 비워둠

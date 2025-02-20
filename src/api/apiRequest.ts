@@ -22,7 +22,6 @@ export const apiRequest = async ({
     data,
     headers = {},
     requireToken = false,
-    clubName,
 }: RequestConfig) => {
     try {
         if (requireToken) {
@@ -34,11 +33,14 @@ export const apiRequest = async ({
 
         const response = await axiosInstance({ url, method, data, headers });
 
-        if (url === '/api/users/login') {
+        if (url === '/api/auth/login') {
             // 로그인하는 api일 때는 호출하면 자동으로 토큰 저장하도록
+            console.log(response);
+            console.log(response.headers);
+            console.log(response.headers['Authorization']);
             const token = response.headers['authorization'];
-            const accessToken = token.replace('Bearer ', '');
-            if (accessToken) {
+            if (token) {
+                const accessToken = token.replace('Bearer ', '');
                 setAccessToken(accessToken);
             }
         }
@@ -49,22 +51,22 @@ export const apiRequest = async ({
             console.log(error.response?.data.message, '라는 이유로 다시 요청!');
             // 401일 때(토큰이 만료됐을 때)는 토큰 재발급하고 이전에 했던 작업 그대로 하도록
             // axios에러면서 응답이 401일 때만 토큰 관련 헨들링 진행
-            // try {
-            //     const newToken = await reissueToken(clubName); // 나중에 개발 완료되면 바뀐다고 하네여
-            //     if (!newToken) throw new Error('토큰 재발급 실패');
+            try {
+                const newToken = await reissueToken(); // 나중에 개발 완료되면 바뀐다고 하네여
+                if (!newToken) throw new Error('토큰 재발급 실패');
 
-            //     return axiosInstance({
-            //         url,
-            //         method,
-            //         data,
-            //         headers: {
-            //             ...headers,
-            //             Authorization: `Bearer ${newToken}`,
-            //         },
-            //     });
-            // } catch (error) {
-            //     console.error(error);
-            // }
+                return axiosInstance({
+                    url,
+                    method,
+                    data,
+                    headers: {
+                        ...headers,
+                        Authorization: `Bearer ${newToken}`,
+                    },
+                });
+            } catch (error) {
+                console.error(error);
+            }
         }
         // axios에러가 아닌 경우 (ex. 문법 오류, 타입 오류 등등..)로 구분
         console.error(error);

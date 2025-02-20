@@ -12,7 +12,7 @@ const useAdminLogin = () => {
     const setAdminType = useSetRecoilState(adminType);
     const setClubId = useSetRecoilState(clubId);
 
-    // UMC 임시 코드  PCZV7M
+    // UMC 임시 코드  OCVGJU
 
     const handleLogin = async (navStatus: number, code: string) => {
         try {
@@ -26,10 +26,12 @@ const useAdminLogin = () => {
             ) {
                 // 로그인 요청 (성공 시 자동으로 토큰 저장)
                 const res = await apiRequest({
-                    url: '/api/users/login',
+                    url: '/api/auth/login',
                     method: 'POST',
                     data: { code },
                 });
+
+                console.log(res);
 
                 // 로그인 성공 시
                 setIsValidate(true);
@@ -50,7 +52,7 @@ const useAdminLogin = () => {
                     navigate('/admin/club', { replace: true });
                 }
 
-                setClubId(res.result.clubId); // clubId 저장
+                setClubId(res.result); // clubId 저장
             } else {
                 setIsValidate(false);
             }
