@@ -132,6 +132,8 @@ const ClubListWrapper = styled.div`
     gap: 8px;
 `;
 
+// 타입 정의 부분에 TagType 추가
+type TagType = '동아리 및 질문' | '모집중' | '모집마감' | '모집예정';
 
 const ClubListPage = () => {
     const announcements = [
@@ -428,18 +430,29 @@ const ClubListPage = () => {
                 </DropdownContainer>
 
                 <ClubListWrapper>
-                    {getFilteredClubs().map(club => (
-                        <MainpageCard 
-                            key={club.id}
-                            title={club.title}
-                            subtitle={club.subtitle}
-                            tags={[
-                                { type: '동아리 및 질문', text: `${getCategoryEmoji(club.category)} ${club.category}` },
-                                { type: club.status as string, text: club.status },
-                            ]}
-                            onClick={() => console.log('카드 클릭')}
-                        />
-                    ))}
+                    {getFilteredClubs().map(club => {
+                        // club.status의 타입을 TagType으로 타입 단언
+                        const status = club.status as TagType;
+                        
+                        return (
+                            <MainpageCard 
+                                key={club.id}
+                                title={club.title}
+                                subtitle={club.subtitle}
+                                tags={[
+                                    { 
+                                        type: '동아리 및 질문', 
+                                        text: `${getCategoryEmoji(club.category)} ${club.category}` 
+                                    },
+                                    { 
+                                        type: status, 
+                                        text: club.status 
+                                    },
+                                ]}
+                                onClick={() => console.log('카드 클릭')}
+                            />
+                        );
+                    })}
                 </ClubListWrapper>
             </ClubSearchContainer>
         </div>

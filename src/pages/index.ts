@@ -9,7 +9,7 @@ export * from './admin/club/detail/AdminClubDetailPage';
 
 export * from './admin/union/main/AdminUnionPage';
 export * from './admin/union/notice/AdminNoticePage';
-export * from './admin/union/resources/AdminResourcesPage';
+export * from './admin/union/resources/AdminResourcesRegisterPage';
 
 export * from './club-detail/ClubDetailPage';
 export * from './club-list/ClubListPage';

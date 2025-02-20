@@ -75,6 +75,7 @@ const UnionNoticePage = () => {
         window.location.href = url; // 현재 페이지에서 URL로 이동
     };
 
+
     return <div>
         <Title>총동연 공지사항</Title>
         <Body>
