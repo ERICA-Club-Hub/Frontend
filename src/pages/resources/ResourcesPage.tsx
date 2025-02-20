@@ -1,7 +1,8 @@
 import Card from "../../components/Common/Card"
 import styled from 'styled-components';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import downloadIcon from '../../assets/common/card_download.svg';
+import { apiRequest } from '../../api/axios';
 
 const Title = styled.div`
     color: #232323;
@@ -79,54 +80,102 @@ const DownloadIcon = styled.img`
     margin-left: auto;
 `;
 
+interface Document {
+    id: number;
+    title: string;
+    date: string;
+}
+
+interface FileDTO {
+    fileName: string;
+    downloadUrl: string;
+}
+
 const ResourcesPage = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [documents, setDocuments] = useState<Document[]>([]);
+    const [selectedFiles, setSelectedFiles] = useState<FileDTO[]>([]);
+    const [error, setError] = useState<string | null>(null);
+    const [isLoading, setIsLoading] = useState(true);
 
-    const handleCardClick = () => {
-        setIsModalOpen(true);
-    };
+    useEffect(() => {
+        const fetchDocuments = async () => {
+            setIsLoading(true);
+            setError(null);
+            try {
+                const response = await apiRequest({
+                    url: '/api/documents',
+                    method: 'GET',
+                });
+                
+                console.log('API 응답:', response);
+                
+                const documentList = response?.result?.documentDTOList || [];
+                setDocuments(documentList);
+            } catch (error) {
+                console.error('문서 목록을 불러오는데 실패했습니다:', error);
+                setError('자료를 불러오는데 실패했습니다. 다시 시도해 주세요.');
+            } finally {
+                setIsLoading(false);
+            }
+        };
 
-    const handleModalClose = () => {
-        setIsModalOpen(false);
+        fetchDocuments();
+    }, []);
+
+    const handleCardClick = async (documentId: number) => {
+        try {
+            const response = await apiRequest({
+                url: `/api/documents/${documentId}`,
+                method: 'GET',
+            });
+            
+            console.log('파일 목록 API 응답:', response);
+            
+            const files = response?.result?.fileDTOList || [];
+            setSelectedFiles(files);
+            setIsModalOpen(true);
+        } catch (error) {
+            console.error('파일 목록을 불러오는데 실패했습니다:', error);
+            setSelectedFiles([]);
+        }
     };
 
     return <div>
-        <Title>자료실 페이지</Title>
+        <Title>자료실</Title>
         <Body>
-            <Card 
-                $variant="resources" 
-                title="총동아리연합회 예외 사업 신청서"
-                date="2024.03.23"
-                onClick={handleCardClick}
-            />
-            <Card 
-                $variant="resources" 
-                title="금지물품 반입 허가서"
-                date="2024.03.23"
-                onClick={handleCardClick}
-            />
-            <Card 
-                $variant="resources" 
-                title="동아리 재등록 서류 서식"
-                date="2024.03.23"
-                onClick={handleCardClick}
-            />
+            {isLoading ? (
+                <div>로딩 중...</div>
+            ) : error ? (
+                <div>{error}</div>
+            ) : documents.length > 0 ? (
+                documents.map((document) => (
+                    <Card 
+                        key={document.id}
+                        $variant="resources" 
+                        title={document.title}
+                        date={document.date}
+                        onClick={() => handleCardClick(document.id)}
+                    />
+                ))
+            ) : (
+                <div>등록된 자료가 없습니다.</div>
+            )}
         </Body>
         {isModalOpen && (
-            <ModalOverlay onClick={handleModalClose}>
+            <ModalOverlay onClick={() => setIsModalOpen(false)}>
                 <ModalContent onClick={(e) => e.stopPropagation()}>
-                    <DownloadButton>
-                        <ModalText>
-                            제2대 총동아리연합회 UP 2학기 동아리 재등록 서류 서식
-                        </ModalText>
-                        <DownloadIcon src={downloadIcon} alt="download" />
-                    </DownloadButton>
-                    <DownloadButton>
-                        <ModalText>
-                            제2대 UP 동아리재등록서류에 관한 개인정보수집이용 동의서(학생용)
-                        </ModalText>
-                        <DownloadIcon src={downloadIcon} alt="download" />
-                    </DownloadButton>
+                    {selectedFiles.map((file, index) => (
+                        <DownloadButton 
+                            key={index}
+                            onClick={() => window.open(file.downloadUrl, '_blank')}
+                        >
+                            <ModalText>
+                                {file.fileName}
+                            </ModalText>
+                            <DownloadIcon src={downloadIcon} alt="download" />
+                        </DownloadButton>
+                    ))}
                 </ModalContent>
             </ModalOverlay>
         )}

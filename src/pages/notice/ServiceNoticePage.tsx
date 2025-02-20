@@ -63,10 +63,12 @@ const ServiceNoticePage = () => {
     const [size] = useState<number>(10); // 한 번에 불러오는 공지사항 수
     const [hasMore, setHasMore] = useState<boolean>(true); // 더 불러올 데이터가 있는지 여부
     const [isLoading, setIsLoading] = useState<boolean>(false); // 로딩 상태
+    const [error, setError] = useState<string | null>(null);
 
     useEffect(() => {
         const fetchNotices = async () => {
             setIsLoading(true);
+            setError(null);
             try {
                 const response = await apiRequest({
                     url: `/api/service-announcements?page=${page}&size=${size}`,
@@ -96,6 +98,7 @@ const ServiceNoticePage = () => {
 
             } catch (error) {
                 console.error('공지사항 불러오기 실패:', error);
+                setError('공지사항을 불러오는데 실패했습니다. 다시 시도해 주세요.');
                 setHasMore(false);
             } finally {
                 setIsLoading(false);
@@ -121,30 +124,36 @@ const ServiceNoticePage = () => {
     return <div>
         <Title>서비스 공지사항</Title>
         <Body>
-            {noticeItems && noticeItems.length > 0 ? (
-                noticeItems.map((item, index) => (
-                    <CardContainer key={index}>
-                        <Card 
-                            $variant="serviceNotice" 
-                            title={item.title}
-                            date={item.createdAt}
-                            isRotated={rotatedStates[index]}
-                            onClick={() => handleCardClick(index)}
-                        />
-                        <ContentBox $isVisible={rotatedStates[index]}>
-                            <ContentText>
-                                {item.content}
-                            </ContentText>
-                        </ContentBox>
-                    </CardContainer>
-                ))
+            {isLoading && page === 0 ? (
+                <div>로딩 중...</div>
+            ) : error ? (
+                <div>{error}</div>
+            ) : noticeItems.length > 0 ? (
+                <>
+                    {noticeItems.map((item, index) => (
+                        <CardContainer key={index}>
+                            <Card 
+                                $variant="serviceNotice" 
+                                title={item.title}
+                                date={item.createdAt}
+                                isRotated={rotatedStates[index]}
+                                onClick={() => handleCardClick(index)}
+                            />
+                            <ContentBox $isVisible={rotatedStates[index]}>
+                                <ContentText>
+                                    {item.content}
+                                </ContentText>
+                            </ContentBox>
+                        </CardContainer>
+                    ))}
+                    {hasMore && !isLoading && (
+                        <button onClick={loadMore}>더 보기</button>
+                    )}
+                    {isLoading && <div>로딩 중...</div>}
+                </>
             ) : (
-                <div>공지사항이 없습니다.</div>
+                <div>등록된 공지사항이 없습니다.</div>
             )}
-            {hasMore && !isLoading && (
-                <button onClick={loadMore}>더 보기</button>
-            )}
-            {isLoading && <div>로딩 중...</div>}
         </Body>
     </div>;
 };
