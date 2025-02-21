@@ -1,8 +1,8 @@
-import Card from "../../components/Common/Card"
+import Card from '../../components/Common/Card';
 import styled from 'styled-components';
 import { useState, useEffect } from 'react';
 import downloadIcon from '../../assets/common/card_download.svg';
-import { apiRequest } from '../../api/axios';
+import { apiRequest } from '@/api/apiRequest';
 
 const Title = styled.div`
     color: #232323;
@@ -26,7 +26,7 @@ const ModalOverlay = styled.div`
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(35, 35, 35, 0.40);
+    background: rgba(35, 35, 35, 0.4);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -38,8 +38,8 @@ const ModalContent = styled.div`
     min-height: 64px;
     flex-shrink: 0;
     border-radius: 10px;
-    border: 1px solid var(--Gray-4, #F7F7F7);
-    background: #FFF;
+    border: 1px solid var(--Gray-4, #f7f7f7);
+    background: #fff;
     z-index: 1001;
     position: relative;
     top: -10vh;
@@ -107,9 +107,9 @@ const ResourcesPage = () => {
                     url: '/api/documents',
                     method: 'GET',
                 });
-                
+
                 console.log('API 응답:', response);
-                
+
                 const documentList = response?.result?.documentDTOList || [];
                 setDocuments(documentList);
             } catch (error) {
@@ -129,9 +129,9 @@ const ResourcesPage = () => {
                 url: `/api/documents/${documentId}`,
                 method: 'GET',
             });
-            
+
             console.log('파일 목록 API 응답:', response);
-            
+
             const files = response?.result?.fileDTOList || [];
             setSelectedFiles(files);
             setIsModalOpen(true);
@@ -141,45 +141,50 @@ const ResourcesPage = () => {
         }
     };
 
-    return <div>
-        <Title>자료실</Title>
-        <Body>
-            {isLoading ? (
-                <div>로딩 중...</div>
-            ) : error ? (
-                <div>{error}</div>
-            ) : documents.length > 0 ? (
-                documents.map((document) => (
-                    <Card 
-                        key={document.id}
-                        $variant="resources" 
-                        title={document.title}
-                        date={document.date}
-                        onClick={() => handleCardClick(document.id)}
-                    />
-                ))
-            ) : (
-                <div>등록된 자료가 없습니다.</div>
+    return (
+        <div>
+            <Title>자료실</Title>
+            <Body>
+                {isLoading ? (
+                    <div>로딩 중...</div>
+                ) : error ? (
+                    <div>{error}</div>
+                ) : documents.length > 0 ? (
+                    documents.map((document) => (
+                        <Card
+                            key={document.id}
+                            $variant="resources"
+                            title={document.title}
+                            date={document.date}
+                            onClick={() => handleCardClick(document.id)}
+                        />
+                    ))
+                ) : (
+                    <div>등록된 자료가 없습니다.</div>
+                )}
+            </Body>
+            {isModalOpen && (
+                <ModalOverlay onClick={() => setIsModalOpen(false)}>
+                    <ModalContent onClick={(e) => e.stopPropagation()}>
+                        {selectedFiles.map((file, index) => (
+                            <DownloadButton
+                                key={index}
+                                onClick={() =>
+                                    window.open(file.downloadUrl, '_blank')
+                                }
+                            >
+                                <ModalText>{file.fileName}</ModalText>
+                                <DownloadIcon
+                                    src={downloadIcon}
+                                    alt="download"
+                                />
+                            </DownloadButton>
+                        ))}
+                    </ModalContent>
+                </ModalOverlay>
             )}
-        </Body>
-        {isModalOpen && (
-            <ModalOverlay onClick={() => setIsModalOpen(false)}>
-                <ModalContent onClick={(e) => e.stopPropagation()}>
-                    {selectedFiles.map((file, index) => (
-                        <DownloadButton 
-                            key={index}
-                            onClick={() => window.open(file.downloadUrl, '_blank')}
-                        >
-                            <ModalText>
-                                {file.fileName}
-                            </ModalText>
-                            <DownloadIcon src={downloadIcon} alt="download" />
-                        </DownloadButton>
-                    ))}
-                </ModalContent>
-            </ModalOverlay>
-        )}
-    </div>;
+        </div>
+    );
 };
 
 export { ResourcesPage };
