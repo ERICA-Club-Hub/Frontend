@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import Button from '@/components/Common/Button';
-import { useParams } from 'react-router-dom';
+import { useLocation, useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import logo from '../../../src/assets/react.svg';
 import sns from '../../assets/common/sns.svg';
@@ -43,9 +43,17 @@ const ClubDetailPage = () => {
     const [clubDetail, setClubDetail] = useState<clubInfoSummation>();
     const params = useParams();
     const id = params.id?.toString() || '';
+    const location = useLocation();
+    const [nowUrl, setNowUrl] = useState<string>('');
+    const [activeTab, setActiveTab] = useState<activeTab>('intro');
+    useEffect(() => {
+        setNowUrl(location.pathname.split('/')[1]);
+    }, [location]);
     useEffect(() => {
         const getClubDetail = async (id: string) => {
-            const response = await apiRequest({ url: `/api/clubs/${id}` });
+            const requestUrl =
+                nowUrl === 'club' ? `/api/clubs/${id}` : `/api/clubs/${id}`; // 이거 뒷부분은 api 추가되면 수정
+            const response = await apiRequest({ url: requestUrl });
             if (response) {
                 setClubDetail({
                     name: response.result.name || '없음',
@@ -65,7 +73,7 @@ const ClubDetailPage = () => {
         if (id) {
             getClubDetail(id);
         }
-    }, [id]);
+    }, [id, nowUrl]);
     const getRecruitState = () => {
         switch (clubDetail?.recruitmentStatus) {
             case 'RECRUITING':
@@ -79,7 +87,6 @@ const ClubDetailPage = () => {
         }
     };
 
-    const [activeTab, setActiveTab] = useState<activeTab>('intro');
     return (
         <PageContainer>
             <ClubHeader>
@@ -142,6 +149,7 @@ const ClubDetailPage = () => {
                     ? '모집이 마감되었어요.'
                     : '가입 신청하기'}
             </Button>
+            {/* 동아리 소개 / 모집안내 / 활동로그 탭 모음 */}
             <TabContainer>
                 <TabButton
                     onClick={() => setActiveTab('intro')}
@@ -163,7 +171,9 @@ const ClubDetailPage = () => {
                 </TabButton>
             </TabContainer>
 
+            {/* 탭에서 고른 내용들 보여주는 곳 */}
             <TabContents
+                nowUrl={nowUrl}
                 clubName={clubDetail?.name}
                 clubImg={logo}
                 clubId={id}

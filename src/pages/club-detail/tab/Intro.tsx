@@ -1,8 +1,11 @@
+import { getAccessToken } from '@/api/auth/token';
 import { apiRequest } from '@/api/axios';
+import axios from 'axios';
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 
 interface IntroProps {
+    nowUrl: string;
     clubId: string;
 }
 
@@ -16,7 +19,7 @@ interface ClubIntro {
     recruitment: string | null;
 }
 
-export default function Intro({ clubId }: IntroProps) {
+export default function Intro({ clubId, nowUrl }: IntroProps) {
     const [schedules, setSchedules] = useState<Schedule[]>();
     const [clubIntro, setClubIntro] = useState<ClubIntro>();
 
@@ -30,18 +33,32 @@ export default function Intro({ clubId }: IntroProps) {
             }
         };
         const getClubIntro = async (clubId: string) => {
-            if (clubId) {
-                const clubIntroResponse = await apiRequest({
-                    url: `/api/clubs/${clubId}/introduction`,
-                });
-                setClubIntro(clubIntroResponse.result);
+            try {
+                const requestUrl =
+                    nowUrl === 'club-detail-preview'
+                        ? `/api/clubs/club-admin/${clubId}/introduction/draft`
+                        : `/api/clubs/${clubId}/introduction`;
+                if (clubId) {
+                    console.log('Request URL:', requestUrl);
+                    console.log('Token:', getAccessToken()); // 토큰 확인
+                    const clubIntroResponse = await apiRequest({
+                        url: requestUrl,
+                        requireToken: nowUrl === 'club-detail-preview',
+                    });
+                    setClubIntro(clubIntroResponse.result);
+                }
+            } catch (error) {
+                if (axios.isAxiosError(error)) {
+                    console.log('요청 설정:', error.config); // 실제 요청 설정 확인
+                    console.log('에러 상세:', error.response?.data); // 서버에서 보내는 에러 메시지
+                }
             }
         };
         if (clubId) {
             getSchedules(clubId);
             getClubIntro(clubId);
         }
-    }, [clubId]);
+    }, [clubId, nowUrl]);
     return (
         <div>
             <Container>

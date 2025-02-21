@@ -46,7 +46,7 @@ function App() {
                         <Route path="/faq" element={<FAQPage />} />
                         {/* 동아리 상세피이지 등록하기에서 동아리 미리보기 했을 때 */}
                         <Route
-                            path="/club-detail-preview"
+                            path="/club-detail-preview/:id"
                             element={<ClubDetailPreview />}
                         />
                         {/* 어드민 페이지 */}

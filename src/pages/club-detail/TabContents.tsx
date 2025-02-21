@@ -7,9 +7,11 @@ interface TabContentsProps {
     clubImg?: string | null;
     activeTab: string;
     clubId: string;
+    nowUrl: string;
 }
 
 export default function TabContents({
+    nowUrl,
     activeTab,
     clubId,
     clubName,
@@ -17,9 +19,9 @@ export default function TabContents({
 }: TabContentsProps) {
     console.log(activeTab);
     if (activeTab === 'intro') {
-        return <Intro clubId={clubId}></Intro>;
+        return <Intro nowUrl={nowUrl} clubId={clubId}></Intro>;
     } else if (activeTab === 'recruit') {
-        return <Recruit clubId={clubId}></Recruit>;
+        return <Recruit nowUrl={nowUrl} clubId={clubId}></Recruit>;
     } else {
         return (
             <Log clubName={clubName} clubImg={clubImg} clubId={clubId}></Log>

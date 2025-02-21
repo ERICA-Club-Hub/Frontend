@@ -1,3 +1,9 @@
+import { ClubDetailPage } from '../club-detail/ClubDetailPage';
+
 export default function ClubDetailPreview() {
-    return <div>미리보기</div>;
+    return (
+        <div>
+            <ClubDetailPage />
+        </div>
+    );
 }
