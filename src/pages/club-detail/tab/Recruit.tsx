@@ -30,7 +30,6 @@ export default function Recruit({ clubId }: RecruitProps) {
         };
         getRecruit(clubId);
     }, [clubId, nowUrl]);
-    console.log(recruitContent);
     return recruitContent?.due &&
         recruitContent.etc &&
         recruitContent.notice ? (
