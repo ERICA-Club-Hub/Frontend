@@ -9,7 +9,7 @@ import card from '../../assets/common/card.svg';
 import phone from '../../assets/common/phone.svg';
 import label from '../../assets/common/label.svg';
 import TabContents from './TabContents';
-import { apiRequest } from '@/api/axios';
+import { apiRequest } from '@/api/apiRequest';
 
 // tab 항목에서 활성화 여부를 판단할 props
 interface TabButtonProps {
