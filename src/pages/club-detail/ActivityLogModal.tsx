@@ -1,4 +1,4 @@
-import { apiRequest } from '@/api/axios';
+import { apiRequest } from '@/api/apiRequest';
 import { useClickOutside } from '@/hooks/useClickOutside';
 import { DEFAULT_CLUB_IMAGE } from '@/utils/getDefaultImg';
 import { useEffect, useRef, useState } from 'react';

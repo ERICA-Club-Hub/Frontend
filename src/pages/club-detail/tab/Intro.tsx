@@ -1,4 +1,4 @@
-import { apiRequest } from '@/api/axios';
+import { apiRequest } from '@/api/apiRequest';
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 

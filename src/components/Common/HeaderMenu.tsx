@@ -1,48 +1,68 @@
-import { useState } from 'react';
+import { useRef } from 'react';
 import styled from 'styled-components';
 import HeaderMenuLogo from '@/assets/common/header-menu.svg?react';
 import HomeIcon from '@/assets/common/home-icon.svg?react';
 import ClosedBtn from '@/assets/common/closed-btn.svg?react';
 import NavigateArrow from '@/assets/common/navigate-arrow.svg?react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { navigations } from '@/constants';
 import { ArrowLinkButton } from './ArrowLinkButton';
+import { isAuthenticatedSelector } from '@/store/authState';
+import { useRecoilValue } from 'recoil';
+import { apiRequest } from '@/api/apiRequest';
+import { useClickOutside } from '@/hooks/useClickOutside';
+import useToggle from '@/hooks/useToggle';
 
 const HeaderMenu = () => {
-    const [isOpen, setIsOpen] = useState<boolean>(false);
+    const navigate = useNavigate();
+    const dropdownRef = useRef<HTMLDivElement>(null);
+    const { isOpen, setIsOpen, toggle } = useToggle();
+    const isAuthenticated = useRecoilValue(isAuthenticatedSelector);
+
+    useClickOutside(dropdownRef, () => setIsOpen(false));
+
+    const handleAuthClick = () => {
+        if (isAuthenticated) {
+            // 로그아웃
+            apiRequest({ url: '/api/auth/logout', method: 'post' });
+            navigate('/');
+        } else {
+            // 로그인
+            navigate('/admin/login');
+        }
+        setIsOpen(false);
+    };
 
     return (
         <>
             <Container>
                 <div>로고</div>
                 {isOpen ? (
-                    <ClosedBtn
-                        width="24"
-                        height="24"
-                        onClick={() => setIsOpen(false)}
-                    />
+                    <ClosedBtn width="24" height="24" onClick={toggle} />
                 ) : (
                     <IconWrapper>
                         <Link to="/">
                             <HomeIcon />
                         </Link>
-                        <HeaderMenuLogo onClick={() => setIsOpen(true)} />
+                        <HeaderMenuLogo onClick={toggle} />
                     </IconWrapper>
                 )}
 
                 {/* 드롭다운 매뉴 */}
-                <DropdownNavigator $isOpen={isOpen}>
-                    <Link to="/admin/login" onClick={() => setIsOpen(false)}>
-                        <LoginButton>
-                            <h2>어드민 로그인</h2>
-                            <NavigateArrow />
-                        </LoginButton>
-                    </Link>
+                <DropdownNavigator ref={dropdownRef} $isOpen={isOpen}>
+                    <LoginButton onClick={handleAuthClick}>
+                        <h2>
+                            {isAuthenticated
+                                ? '어드민 로그아웃'
+                                : '어드민 로그인'}
+                        </h2>
+                        <NavigateArrow />
+                    </LoginButton>
                     <MenuList>
                         {navigations.map((menu, index) => (
                             <MenuItem
                                 key={`navigate-menu-${index}`}
-                                onClick={() => setIsOpen(false)}
+                                onClick={toggle}
                             >
                                 <ArrowLinkButton url={menu.url} size="small">
                                     {menu.title}
@@ -129,6 +149,7 @@ const MenuItem = styled.li`
     justify-content: space-between;
     align-items: center;
     height: 17px;
+    cursor: pointer;
 
     h3 {
         font-size: 14px;
