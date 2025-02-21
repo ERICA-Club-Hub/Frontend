@@ -5,7 +5,7 @@ import {
     AdminClubPage,
     AdminLoginPage,
     AdminNoticePage,
-    AdminResourcesPage,
+    AdminResourcesRegisterPage,
     AdminUnionPage,
     ClubDetailPage,
     ClubListPage,
@@ -87,9 +87,10 @@ export default function AppRoutes() {
                         element={<AdminNoticePage />}
                     />
                     {/* 총동연 자료 등록  */}
+
                     <Route
                         path="/admin/union/resources"
-                        element={<AdminResourcesPage />}
+                        element={<AdminResourcesRegisterPage mode="edit" />}
                     />
                 </Route>
             </Route>
