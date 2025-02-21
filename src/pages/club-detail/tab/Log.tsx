@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import { useEffect, useState } from 'react';
 import { ActivityLogModal } from '../ActivityLogModal';
-import { apiRequest } from '@/api/axios';
+import { apiRequest } from '@/api/apiRequest';
 
 interface LogProps {
     clubName?: string | null;

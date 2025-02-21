@@ -1,6 +1,4 @@
-import { getAccessToken } from '@/api/auth/token';
-import { apiRequest } from '@/api/axios';
-import axios from 'axios';
+import { apiRequest } from '@/api/apiRequest';
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 

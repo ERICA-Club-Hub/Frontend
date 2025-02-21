@@ -1,31 +1,27 @@
-import axios, { AxiosInstance } from 'axios';
-import { getAccessToken, setAccessToken } from './auth/token';
+import axios from 'axios';
+import { getAccessToken, setAccessToken } from '../utils/tokenHandler';
 import { reissueToken } from './auth/reissue';
+import { axiosInstance } from './axiosInstance';
+import { RequestConfig } from '@/types/api.types';
 
-interface RequestConfig {
-    requireToken?: boolean;
-    url: string;
-    method?: string; // default GET으로 할거라 일단 optional
-    data?: unknown;
-    headers?: Record<string, string>;
-}
+/**
+ * API 호출할 때 최종적으로 사용할 함수
+ *
+ * @param {string} url - 요청할 URL
+ * @param {string} [method='GET'] - HTTP 메서드 (기본 값은 GET)
+ * @param {unknown} [data] - 요청에 포함할 데이터
+ * @param {Record<string, string>} [headers={}] - //'Content-Type', 'multipart/form-data' 등 헤더 설정
+ * @param {boolean} [requireToken=false] - 토큰이 필요한 요청인지 여부 (내부 로직에서 자동으로 토큰 가져다가 쓰도록 조치)
+ *
+ * @returns {Promise<AxiosResponse>} - Axios 응답 객체
+ */
 
-export const axiosInstance: AxiosInstance = axios.create({
-    baseURL: import.meta.env.VITE_BASE_URL,
-    withCredentials: false, // jwt 쿠키로 관리 안해서 false로
-    headers: {
-        'Content-Type': 'application/json',
-    },
-    timeout: 3000,
-});
-
-// API 호출할 때 최종적으로 사용할 함수!!
 export const apiRequest = async ({
     url,
-    method = 'GET', // default는 GET이고 필요하면 다른 메서드로 입력
+    method = 'GET',
     data,
-    headers = {}, // 파일 업로드같은 작업할 때는 'Content-Type': 'multipart/form-data'로 지정하는 등 지유롭게 사용
-    requireToken = false, // 토큰이 필요한 코드이면 true로 입력!! 내부 로직에서 자동으로 토큰 가져다가 쓰도록 해뒀습니다
+    headers = {},
+    requireToken = false,
 }: RequestConfig) => {
     try {
         if (requireToken) {
@@ -37,11 +33,14 @@ export const apiRequest = async ({
 
         const response = await axiosInstance({ url, method, data, headers });
 
-        if (url === '/api/users/login') {
+        if (url === '/api/auth/login') {
             // 로그인하는 api일 때는 호출하면 자동으로 토큰 저장하도록
+            console.log(response);
+            console.log(response.headers);
+            console.log(response.headers['Authorization']);
             const token = response.headers['authorization'];
-            const accessToken = token.replace('Bearer ', '');
-            if (accessToken) {
+            if (token) {
+                const accessToken = token.replace('Bearer ', '');
                 setAccessToken(accessToken);
             }
         }
