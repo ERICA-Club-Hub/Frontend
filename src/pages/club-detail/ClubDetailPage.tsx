@@ -43,12 +43,8 @@ const ClubDetailPage = () => {
     const [clubDetail, setClubDetail] = useState<clubInfoSummation>();
     const params = useParams();
     const id = params.id?.toString() || '';
-    const location = useLocation();
-    const [nowUrl, setNowUrl] = useState<string>('');
+    const nowUrl = useLocation().pathname.split('/')[1];
     const [activeTab, setActiveTab] = useState<activeTab>('intro');
-    useEffect(() => {
-        setNowUrl(location.pathname.split('/')[1]);
-    }, [location]);
     useEffect(() => {
         const getClubDetail = async (id: string) => {
             const requestUrl =
@@ -86,6 +82,7 @@ const ClubDetailPage = () => {
                 return '모집 마감'; // clubDetail이 아직 없을 때의 기본값
         }
     };
+    console.log('보내는거', nowUrl);
 
     return (
         <PageContainer>

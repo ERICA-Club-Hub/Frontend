@@ -1,9 +1,10 @@
 import { apiRequest } from '@/api/apiRequest';
+import axios from 'axios';
 import { useEffect, useState } from 'react';
+import { useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 
 interface IntroProps {
-    nowUrl: string;
     clubId: string;
 }
 
@@ -17,7 +18,8 @@ interface ClubIntro {
     recruitment: string | null;
 }
 
-export default function Intro({ clubId, nowUrl }: IntroProps) {
+export default function Intro({ clubId }: IntroProps) {
+    const nowUrl = useLocation().pathname.split('/')[1];
     const [schedules, setSchedules] = useState<Schedule[]>();
     const [clubIntro, setClubIntro] = useState<ClubIntro>();
 
@@ -37,8 +39,6 @@ export default function Intro({ clubId, nowUrl }: IntroProps) {
                         ? `/api/clubs/club-admin/${clubId}/introduction/draft`
                         : `/api/clubs/${clubId}/introduction`;
                 if (clubId) {
-                    console.log('Request URL:', requestUrl);
-                    console.log('Token:', getAccessToken()); // 토큰 확인
                     const clubIntroResponse = await apiRequest({
                         url: requestUrl,
                         requireToken: nowUrl === 'club-detail-preview',
@@ -47,8 +47,7 @@ export default function Intro({ clubId, nowUrl }: IntroProps) {
                 }
             } catch (error) {
                 if (axios.isAxiosError(error)) {
-                    console.log('요청 설정:', error.config); // 실제 요청 설정 확인
-                    console.log('에러 상세:', error.response?.data); // 서버에서 보내는 에러 메시지
+                    console.error(error);
                 }
             }
         };

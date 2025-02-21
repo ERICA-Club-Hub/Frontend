@@ -11,7 +11,6 @@ interface TabContentsProps {
 }
 
 export default function TabContents({
-    nowUrl,
     activeTab,
     clubId,
     clubName,
@@ -19,9 +18,9 @@ export default function TabContents({
 }: TabContentsProps) {
     console.log(activeTab);
     if (activeTab === 'intro') {
-        return <Intro nowUrl={nowUrl} clubId={clubId}></Intro>;
+        return <Intro clubId={clubId}></Intro>;
     } else if (activeTab === 'recruit') {
-        return <Recruit nowUrl={nowUrl} clubId={clubId}></Recruit>;
+        return <Recruit clubId={clubId}></Recruit>;
     } else {
         return (
             <Log clubName={clubName} clubImg={clubImg} clubId={clubId}></Log>
