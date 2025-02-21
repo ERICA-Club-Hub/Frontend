@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Button from '@/components/Common/Button';
 import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
@@ -9,30 +9,91 @@ import card from '../../assets/common/card.svg';
 import phone from '../../assets/common/phone.svg';
 import label from '../../assets/common/label.svg';
 import TabContents from './TabContents';
+import { apiRequest } from '@/api/axios';
 
 // tab 항목에서 활성화 여부를 판단할 props
 interface TabButtonProps {
     $isActive?: boolean;
 }
 
+interface RecruitStateProps {
+    $state?: '모집중' | '모집 예정' | '모집 마감';
+}
+
 // 받을 정보 : id, 이미지, 이름, 태그, 모집상태, 대표, 연락처, 정기모임, 회비, sns, 소개 정보, 모집안내, 활동로그
 
+type activeTab = 'intro' | 'recruit' | 'log';
+
+type recuirementStatus = 'RECRUITING' | 'UPCOMING' | 'CLOSE'; // 이거 타입명 수정해야함
+
+interface clubInfoSummation {
+    name: string | null;
+    description: string | null;
+    category: string[] | null;
+    leaderName: string | null;
+    leaderPhone: string | null;
+    activities: string | null;
+    membershipFee: string | null;
+    snsUrl: string | null;
+    recruitmentStatus: recuirementStatus | null;
+    applicationUrl?: string | null;
+}
+
 const ClubDetailPage = () => {
+    const [clubDetail, setClubDetail] = useState<clubInfoSummation>();
     const params = useParams();
     const id = params.id?.toString() || '';
-    const [activeTab, setActiveTab] = useState<'intro' | 'recruit' | 'log'>(
-        'intro',
-    );
+    useEffect(() => {
+        const getClubDetail = async (id: string) => {
+            const response = await apiRequest({ url: `/api/clubs/${id}` });
+            if (response) {
+                setClubDetail({
+                    name: response.result.name || '없음',
+                    description: response.result.description || '없음',
+                    category: response.result.category || '없음',
+                    leaderName: response.result.leaderName || '없음',
+                    leaderPhone: response.result.leaderPhone || '없음',
+                    activities: response.result.activities || '없음',
+                    membershipFee: response.result.membershipFee || '없음',
+                    snsUrl: response.result.snsUrl || '없음',
+                    recruitmentStatus:
+                        response.result.recruitmentStatus || '없음',
+                    applicationUrl: response.result.applicationUrl || '없음',
+                });
+            }
+        };
+        if (id) {
+            getClubDetail(id);
+        }
+    }, [id]);
+    const getRecruitState = () => {
+        switch (clubDetail?.recruitmentStatus) {
+            case 'RECRUITING':
+                return '모집중';
+            case 'UPCOMING':
+                return '모집 예정';
+            case 'CLOSE':
+                return '모집 마감';
+            default:
+                return '모집 마감'; // clubDetail이 아직 없을 때의 기본값
+        }
+    };
+
+    const [activeTab, setActiveTab] = useState<activeTab>('intro');
     return (
         <PageContainer>
             <ClubHeader>
                 <ClubImage src={logo} alt="Club Logo" />
                 <PreviewWrapper>
-                    <Preview>대학생 IT 개발 연합동아리</Preview>
-                    <ClubTitle>UMC ERICA</ClubTitle>
+                    <Preview>{clubDetail?.description}</Preview>
+                    <ClubTitle>{clubDetail?.name}</ClubTitle>
                     <ClubTags>
-                        <Tag>연합동아리</Tag>
-                        <RecruitState>모집중</RecruitState>
+                        <Tag>{clubDetail?.category}</Tag>
+                        {clubDetail && (
+                            <RecruitState $state={getRecruitState()}>
+                                {getRecruitState()}
+                            </RecruitState>
+                        )}
                     </ClubTags>
                 </PreviewWrapper>
             </ClubHeader>
@@ -40,35 +101,47 @@ const ClubDetailPage = () => {
             <ClubInfo>
                 <ClubDetails>
                     <h3>동아리 정보 요약</h3>
-                    <hr />
+                    <DividHr />
                     <DetailRow>
                         <IconImage src={jjang} alt="" />
                         <DetailLabel>대표</DetailLabel>
-                        <DetailValue>이름 들어갈 곳</DetailValue>
+                        <DetailValue>{clubDetail?.leaderName}</DetailValue>
                     </DetailRow>
                     <DetailRow>
                         <IconImage src={phone} alt="" />
                         <DetailLabel>연락처</DetailLabel>
-                        <DetailValue>연락처 들어갈 곳</DetailValue>
+                        <DetailValue>{clubDetail?.leaderPhone}</DetailValue>
                     </DetailRow>
                     <DetailRow>
                         <IconImage src={label} alt="" />
                         <DetailLabel>정기모임</DetailLabel>
-                        <DetailValue>어쩌구</DetailValue>
+                        <DetailValue>{clubDetail?.activities}</DetailValue>
                     </DetailRow>
                     <DetailRow>
                         <IconImage src={card} alt="" />
                         <DetailLabel>회비</DetailLabel>
-                        <DetailValue>저쩌구</DetailValue>
+                        <DetailValue>{clubDetail?.membershipFee}</DetailValue>
                     </DetailRow>
                     <DetailRow>
                         <IconImage src={sns} alt="" />
                         <DetailLabel>SNS</DetailLabel>
-                        <DetailValue>@@@</DetailValue>
+                        <DetailValue>{clubDetail?.snsUrl}</DetailValue>
                     </DetailRow>
                 </ClubDetails>
             </ClubInfo>
-            <Button size="large">가입 신청하기</Button>
+            <Button
+                disabled={clubDetail?.recruitmentStatus !== 'RECRUITING'}
+                onClick={() => {
+                    if (clubDetail?.applicationUrl) {
+                        window.open(clubDetail.applicationUrl, '_blank'); // url로 이동
+                    }
+                }}
+                size="large"
+            >
+                {clubDetail?.recruitmentStatus !== 'RECRUITING'
+                    ? '모집이 마감되었어요.'
+                    : '가입 신청하기'}
+            </Button>
             <TabContainer>
                 <TabButton
                     onClick={() => setActiveTab('intro')}
@@ -90,7 +163,12 @@ const ClubDetailPage = () => {
                 </TabButton>
             </TabContainer>
 
-            <TabContents clubId={id} activeTab={activeTab}></TabContents>
+            <TabContents
+                clubName={clubDetail?.name}
+                clubImg={logo}
+                clubId={id}
+                activeTab={activeTab}
+            ></TabContents>
         </PageContainer>
     );
 };
@@ -154,14 +232,30 @@ const Tag = styled.span`
     color: #33639c;
 `;
 
-const RecruitState = styled.span`
-    width: 42px;
+const RecruitState = styled.span<RecruitStateProps>`
+    min-width: 42px;
     height: 18px;
     padding: 2px 5px 2px 5px;
-    border-radius: 5pc;
+    border-radius: 5px;
     font-size: 12px;
-    background-color: #fff4e4;
-    color: #f08a00;
+    background-color: ${(props) => {
+        if (props.$state === '모집중') {
+            return '#fff4e4';
+        } else if (props.$state === '모집 예정') {
+            return '#F1F9DC';
+        } else {
+            return '#F7F7F7';
+        }
+    }};
+    color: ${(props) => {
+        if (props.$state === '모집중') {
+            return '#F08A00';
+        } else if (props.$state === '모집 예정') {
+            return '#8BB421';
+        } else {
+            return '#606060';
+        }
+    }};
 `;
 
 const ClubDetails = styled.div`
@@ -169,6 +263,12 @@ const ClubDetails = styled.div`
     display: flex;
     flex-direction: column;
     gap: 10px;
+`;
+
+const DividHr = styled.hr`
+    border: none;
+    height: 0.5px;
+    background-color: rgba(234, 234, 234, 1);
 `;
 
 const IconImage = styled.img`
@@ -207,9 +307,9 @@ const TabButton = styled.button<TabButtonProps>`
     background: none;
     border: none;
     border-bottom: 2px solid
-        ${(props) => (props.$isActive ? '#4299e1' : 'transparent')};
-    color: ${(props) => (props.$isActive ? '#4299e1' : '#666')};
-    font-weight: ${(props) => (props.$isActive ? 'bold' : 'normal')};
+        ${(props) => (props.$isActive ? '#33639C' : 'transparent')};
+    color: #000000;
+    font-weight: 500;
     cursor: pointer;
 `;
 

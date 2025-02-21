@@ -1,21 +1,59 @@
+import { apiRequest } from '@/api/axios';
 import { useClickOutside } from '@/hooks/useClickOutside';
-import { useRef } from 'react';
+import { DEFAULT_CLUB_IMAGE } from '@/utils/getDefaultImg';
+import { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 
 interface LogMoadlProps {
+    clubName?: string | null;
+    clubImg?: string | null;
     setModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
-    selectedImageId: string;
+    selectedImageId: number;
     selectedImageUrl: string;
+}
+
+interface ActivityDTO {
+    orderIndex: number;
+    imageUrl: string;
 }
 
 // 여기서 동아리 명, 동아리 이미지도 사용되는데 props로 전달해서 사용해야할지?.?
 // 이전 이미지 다음 이미지 정보도 API에 담아서 같이 주겠죠?!
 const ActivityLogModal = ({
+    clubName,
+    clubImg,
     setModalOpen,
     selectedImageId,
-    selectedImageUrl,
 }: LogMoadlProps) => {
-    console.log(selectedImageId, selectedImageUrl); // 이거로 활동로그 api 호출
+    const [modalContent, setModalContent] = useState<string>('');
+    const [modalDate, setModalDate] = useState<string>('');
+    const [activityList, setActivityList] = useState<ActivityDTO[]>();
+    const [currentIdx, setCurrentIdx] = useState<number>(0);
+
+    useEffect(() => {
+        const getActivities = async (activityId: number) => {
+            const response = await apiRequest({
+                url: `/api/activities/${activityId}`,
+            });
+            setActivityList(response.result.activityImageDTOList);
+            setModalContent(response.result.content);
+            setModalDate(response.result.date);
+        };
+        getActivities(selectedImageId);
+    }, [selectedImageId]);
+
+    const handlePrevImage = () => {
+        if (activityList && currentIdx > 0) {
+            setCurrentIdx(currentIdx - 1);
+        }
+    };
+
+    const handleNextImage = () => {
+        if (activityList && currentIdx < activityList.length - 1) {
+            setCurrentIdx(currentIdx + 1);
+        }
+    };
+
     const ref = useRef<HTMLDivElement>(null);
     useClickOutside(ref, () => {
         setModalOpen(false);
@@ -24,44 +62,41 @@ const ActivityLogModal = ({
         <ModalWrapper>
             <ModalOverlay>
                 <Modal ref={ref}>
-                    <Header>
-                        <ProfileSection>
-                            <ProfileImage
-                                src={selectedImageUrl}
-                                alt="club logo"
-                            />
-                            <ClubName>UMC ERICA</ClubName>
-                        </ProfileSection>
-                        <CloseButton onClick={() => setModalOpen(false)}>
-                            <span
-                                style={{
-                                    alignItems: 'center',
-                                    display: 'flex',
-                                    padding: '5px',
-                                    width: '10px',
-                                    height: '10px',
-                                    fontWeight: '2000',
-                                    fontSize: '20px',
-                                    marginBottom: '9px',
-                                }}
-                            >
-                                x
-                            </span>
-                        </CloseButton>
-                    </Header>
-                    <ImageSection>
-                        <NavButton>{'<'}</NavButton>
-                        <MainImage src={selectedImageUrl} alt="activity log" />
-                        <NavButton>{'>'}</NavButton>
-                    </ImageSection>
-                    <ContentSection>
-                        <Date>2024.11.10</Date>
-                        <Divider />
-                        <Description>
-                            {`UMC에서 GEMINI 지부 MT를 다녀왔어요! 
-                                사진은 김치를 썰고 있는 회장님의 사진이랍니다 ^_^`}
-                        </Description>
-                    </ContentSection>
+                    {activityList && (
+                        <>
+                            <Header>
+                                <ProfileSection>
+                                    <ProfileImage
+                                        src={clubImg || DEFAULT_CLUB_IMAGE}
+                                        alt="club logo"
+                                    />
+                                    <ClubName>{clubName}</ClubName>
+                                </ProfileSection>
+                                <CloseButton
+                                    onClick={() => setModalOpen(false)}
+                                >
+                                    <ModalX>X</ModalX>
+                                </CloseButton>
+                            </Header>
+                            <ImageSection>
+                                <NavButton onClick={handlePrevImage}>
+                                    ＜
+                                </NavButton>
+                                <MainImage
+                                    src={activityList[currentIdx].imageUrl}
+                                    alt="activity log"
+                                />
+                                <NavButton onClick={handleNextImage}>
+                                    ＞
+                                </NavButton>
+                            </ImageSection>
+                            <ContentSection>
+                                <Date>{modalDate}</Date>
+                                <Divider />
+                                <Description>{modalContent}</Description>
+                            </ContentSection>
+                        </>
+                    )}
                 </Modal>
             </ModalOverlay>
         </ModalWrapper>
@@ -141,6 +176,7 @@ const NavButton = styled.button`
     padding-right: 9px;
     padding-top: 6px;
     padding-bottom: 6px;
+    font-weight: 800;
 `;
 
 const MainImage = styled.img`
@@ -168,6 +204,17 @@ const Description = styled.p`
     font-weight: 500;
     font-size: 14px;
     line-height: 18px;
+`;
+
+const ModalX = styled.span`
+    align-items: center;
+    display: flex;
+    padding: 5px;
+    width: 10px;
+    height: 10px;
+    font-weight: 2000;
+    font-size: 20px;
+    margin-bottom: 9px;
 `;
 
 export { ActivityLogModal };

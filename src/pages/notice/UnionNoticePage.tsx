@@ -41,22 +41,31 @@ interface AnnouncementDTO {
 const UnionNoticePage = () => {
     const [announcements, setAnnouncements] = useState<AnnouncementDTOList>({
         announcementDTOList: [],
-    }); // 공지사항 목록
-    const [isLoading, setIsLoading] = useState(true); // 로딩 상태
+    });
+    const [isLoading, setIsLoading] = useState(true);
+    const [error, setError] = useState<string | null>(null);
 
     useEffect(() => {
         const fetchAnnouncements = async () => {
+            setIsLoading(true);
+            setError(null);
             try {
-                setIsLoading(true);
                 const response = await apiRequest({
                     url: '/api/announcements',
                 });
 
                 console.log('API 응답:', response);
 
+                if (!response?.result) {
+                    throw new Error('데이터를 불러오는데 실패했습니다.');
+                }
+
                 setAnnouncements(response.result);
             } catch (error) {
                 console.error('공지사항을 불러오는데 실패했습니다:', error);
+                setError(
+                    '공지사항을 불러오는데 실패했습니다. 다시 시도해 주세요.',
+                );
             } finally {
                 setIsLoading(false);
             }
@@ -70,28 +79,31 @@ const UnionNoticePage = () => {
         window.location.href = url; // 현재 페이지에서 URL로 이동
     };
 
-    // 로딩 중일 때 로딩 표시
-    if (isLoading) {
-        return <div>로딩중...</div>;
-    }
-
     return (
         <div>
             <Title>총동연 공지사항</Title>
             <Body>
-                {announcements?.announcementDTOList?.map((announcement) => (
-                    <CardWrapper
-                        key={announcement.announcementId}
-                        onClick={() => handleCardClick(announcement.url)}
-                    >
-                        <Card
-                            $variant="unionNotice"
-                            imagePath={announcement.thumbnail}
-                            title={announcement.title}
-                            date={announcement.date}
-                        />
-                    </CardWrapper>
-                ))}
+                {isLoading ? (
+                    <div>로딩중...</div>
+                ) : error ? (
+                    <div>{error}</div>
+                ) : announcements?.announcementDTOList?.length > 0 ? (
+                    announcements.announcementDTOList.map((announcement) => (
+                        <CardWrapper
+                            key={announcement.announcementId}
+                            onClick={() => handleCardClick(announcement.url)}
+                        >
+                            <Card
+                                $variant="unionNotice"
+                                imagePath={announcement.thumbnail}
+                                title={announcement.title}
+                                date={announcement.date}
+                            />
+                        </CardWrapper>
+                    ))
+                ) : (
+                    <div>등록된 공지사항이 없습니다.</div>
+                )}
             </Body>
         </div>
     );
