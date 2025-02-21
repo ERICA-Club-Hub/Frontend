@@ -80,14 +80,14 @@ const ActivityLogModal = ({
                             </Header>
                             <ImageSection>
                                 <NavButton onClick={handlePrevImage}>
-                                    ＜
+                                    <ArrowLeft></ArrowLeft>
                                 </NavButton>
                                 <MainImage
                                     src={activityList[currentIdx].imageUrl}
                                     alt="activity log"
                                 />
                                 <NavButton onClick={handleNextImage}>
-                                    ＞
+                                    <ArrowRight></ArrowRight>
                                 </NavButton>
                             </ImageSection>
                             <ContentSection>
@@ -177,6 +177,26 @@ const NavButton = styled.button`
     padding-top: 6px;
     padding-bottom: 6px;
     font-weight: 800;
+`;
+
+const ArrowLeft = styled.div`
+    width: 12px;
+    height: 12px;
+    border: solid 2px black;
+    border-width: 0 2px 2px 0;
+    transform: rotate(135deg);
+    display: inline-block;
+    background-color: transparent;
+`;
+
+const ArrowRight = styled.div`
+    width: 12px;
+    height: 12px;
+    border: solid 2px black;
+    border-width: 0 2px 2px 0;
+    transform: rotate(315deg);
+    display: inline-block;
+    background-color: transparent;
 `;
 
 const MainImage = styled.img`
