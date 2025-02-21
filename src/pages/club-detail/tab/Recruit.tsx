@@ -1,5 +1,6 @@
 import { apiRequest } from '@/api/apiRequest';
 import { useEffect, useState } from 'react';
+import { useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 
 interface RecruitProps {
@@ -9,23 +10,29 @@ interface RecruitProps {
 interface RecruitContent {
     due: string;
     notice: string;
-    ect: string;
+    etc: string;
 }
 
 export default function Recruit({ clubId }: RecruitProps) {
     const [recruitContent, setRecruitContent] = useState<RecruitContent>();
+    const nowUrl = useLocation().pathname.split('/')[1];
     useEffect(() => {
         const getRecruit = async (clubId: string) => {
+            const requestUrl =
+                nowUrl === 'club-detail-preview'
+                    ? `/api/clubs/club-admin/${clubId}/recruitment/draft`
+                    : `/api/clubs/${clubId}/recruitment`;
             const recruitResponse = await apiRequest({
-                url: `/api/clubs/${clubId}/recruitment`,
+                url: requestUrl,
+                requireToken: nowUrl === 'club-detail-preview',
             });
             setRecruitContent(recruitResponse.result);
         };
         getRecruit(clubId);
-    }, [clubId]);
+    }, [clubId, nowUrl]);
     console.log(recruitContent);
     return recruitContent?.due &&
-        recruitContent.ect &&
+        recruitContent.etc &&
         recruitContent.notice ? (
         <Container>
             <ContentBlock>
@@ -38,7 +45,7 @@ export default function Recruit({ clubId }: RecruitProps) {
             </ContentBlock>
             <ContentBlock>
                 <Title>💡 기타 동아리 모집 안내</Title>
-                <ContentSpan>{recruitContent.ect}</ContentSpan>
+                <ContentSpan>{recruitContent.etc}</ContentSpan>
             </ContentBlock>
         </Container>
     ) : (

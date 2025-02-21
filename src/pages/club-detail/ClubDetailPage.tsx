@@ -49,7 +49,10 @@ const ClubDetailPage = () => {
         const getClubDetail = async (id: string) => {
             const requestUrl =
                 nowUrl === 'club' ? `/api/clubs/${id}` : `/api/clubs/${id}`; // 이거 뒷부분은 api 추가되면 수정
-            const response = await apiRequest({ url: requestUrl });
+            const response = await apiRequest({
+                url: requestUrl,
+                requireToken: nowUrl === 'club-detail-preview',
+            });
             if (response) {
                 setClubDetail({
                     name: response.result.name || '없음',
@@ -82,7 +85,6 @@ const ClubDetailPage = () => {
                 return '모집 마감'; // clubDetail이 아직 없을 때의 기본값
         }
     };
-    console.log('보내는거', nowUrl);
 
     return (
         <PageContainer>
