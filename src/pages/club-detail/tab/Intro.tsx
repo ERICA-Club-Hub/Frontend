@@ -25,9 +25,14 @@ export default function Intro({ clubId }: IntroProps) {
 
     useEffect(() => {
         const getSchedules = async (clubId: string) => {
+            const requestUrl =
+                nowUrl === 'club-detail-preview'
+                    ? `/api/clubs/${clubId}/schedules` // 이부분 나중에 api 개발되면 수정
+                    : `/api/clubs/${clubId}/schedules`;
             if (clubId) {
                 const schedulesResponse = await apiRequest({
-                    url: `/api/clubs/${clubId}/schedules`,
+                    url: requestUrl,
+                    requireToken: nowUrl === 'club-detail-preview',
                 });
                 setSchedules(schedulesResponse.result.activities);
             }
