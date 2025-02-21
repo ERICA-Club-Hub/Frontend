@@ -75,7 +75,7 @@ const ActivityLogModal = ({
                                 <CloseButton
                                     onClick={() => setModalOpen(false)}
                                 >
-                                    <ModalX>X</ModalX>
+                                    <CloseIcon />
                                 </CloseButton>
                             </Header>
                             <ImageSection>
@@ -226,15 +226,32 @@ const Description = styled.p`
     line-height: 18px;
 `;
 
-const ModalX = styled.span`
-    align-items: center;
-    display: flex;
-    padding: 5px;
-    width: 10px;
-    height: 10px;
-    font-weight: 2000;
-    font-size: 20px;
-    margin-bottom: 9px;
+const CloseIcon = styled.div`
+    width: 20px;
+    height: 20px;
+    position: relative;
+    cursor: pointer;
+    border: none;
+    background: none;
+
+    &:before,
+    &:after {
+        content: '';
+        position: absolute;
+        width: 2px;
+        height: 20px;
+        background-color: black;
+        top: 0;
+        left: 50%;
+    }
+
+    &:before {
+        transform: rotate(45deg);
+    }
+
+    &:after {
+        transform: rotate(-45deg);
+    }
 `;
 
 export { ActivityLogModal };

@@ -126,12 +126,20 @@ const ClubDetailPage = () => {
                     <DetailRow>
                         <IconImage src={card} alt="" />
                         <DetailLabel>회비</DetailLabel>
-                        <DetailValue>{clubDetail?.membershipFee}</DetailValue>
+                        <DetailValue>
+                            {clubDetail?.membershipFee === '없음'
+                                ? '없음'
+                                : `${clubDetail?.membershipFee}원`}
+                        </DetailValue>
                     </DetailRow>
                     <DetailRow>
                         <IconImage src={sns} alt="" />
                         <DetailLabel>SNS</DetailLabel>
-                        <DetailValue>{clubDetail?.snsUrl}</DetailValue>
+                        <DetailValue>
+                            {clubDetail?.snsUrl === '없음'
+                                ? '없음'
+                                : `@${clubDetail?.snsUrl}`}
+                        </DetailValue>
                     </DetailRow>
                 </ClubDetails>
             </ClubInfo>
