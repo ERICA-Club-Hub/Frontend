@@ -7,7 +7,6 @@ interface TabContentsProps {
 }
 
 export default function TabContents({ activeTab }: TabContentsProps) {
-    console.log(activeTab);
     if (activeTab === 'intro') {
         return <Intro></Intro>;
     } else if (activeTab === 'recruit') {

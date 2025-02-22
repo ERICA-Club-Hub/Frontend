@@ -45,7 +45,7 @@ export interface ClubDetailContextType {
     clubId: string;
 }
 
-const ClubDetailContext = createContext<ClubDetailContextType | null>(null);
+const ClubDetailContext = createContext<ClubDetailContextType | null>(null); // 이거로 Provider 생성
 
 const ClubDetailPage = () => {
     const [clubDetail, setClubDetail] = useState<clubInfoSummation>();
