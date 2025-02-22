@@ -1,5 +1,4 @@
 import { apiRequest } from '@/api/apiRequest';
-import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import styled from 'styled-components';
@@ -51,9 +50,8 @@ export default function Intro({ clubId }: IntroProps) {
                     setClubIntro(clubIntroResponse.result);
                 }
             } catch (error) {
-                if (axios.isAxiosError(error)) {
-                    console.error(error);
-                }
+                // 컴포넌트 내부에서 하는 에러 처리 지움(인터셉트로 대체)
+                console.error(error);
             }
         };
         if (clubId) {

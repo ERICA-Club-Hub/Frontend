@@ -20,8 +20,6 @@ interface RecruitStateProps {
     $state?: '모집중' | '모집 예정' | '모집 마감';
 }
 
-// 받을 정보 : id, 이미지, 이름, 태그, 모집상태, 대표, 연락처, 정기모임, 회비, sns, 소개 정보, 모집안내, 활동로그
-
 type activeTab = 'intro' | 'recruit' | 'log';
 
 type recuirementStatus = 'RECRUITING' | 'UPCOMING' | 'CLOSE'; // 이거 타입명 수정해야함
