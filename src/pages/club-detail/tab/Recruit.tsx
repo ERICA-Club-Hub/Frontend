@@ -1,11 +1,7 @@
 import { apiRequest } from '@/api/apiRequest';
-import { useEffect, useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useContext, useEffect, useState } from 'react';
 import styled from 'styled-components';
-
-interface RecruitProps {
-    clubId: string;
-}
+import { ClubDetailContext } from '../ClubDetailPage';
 
 interface RecruitContent {
     due: string;
@@ -13,11 +9,13 @@ interface RecruitContent {
     etc: string;
 }
 
-export default function Recruit({ clubId }: RecruitProps) {
+export default function Recruit() {
     const [recruitContent, setRecruitContent] = useState<RecruitContent>();
-    const nowUrl = useLocation().pathname.split('/')[1];
+    const context = useContext(ClubDetailContext);
+    const nowUrl = context?.nowUrl;
+    const clubId = context?.clubId;
     useEffect(() => {
-        const getRecruit = async (clubId: string) => {
+        const getRecruit = async (clubId?: string) => {
             const requestUrl =
                 nowUrl === 'club-detail-preview'
                     ? `/api/clubs/club-admin/${clubId}/recruitment/draft`

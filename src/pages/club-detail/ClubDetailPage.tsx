@@ -195,13 +195,7 @@ const ClubDetailPage = () => {
                 </TabContainer>
 
                 {/* 탭에서 고른 내용들 보여주는 곳 */}
-                <TabContents
-                    nowUrl={nowUrl}
-                    clubName={clubDetail?.name}
-                    clubImg={logo}
-                    clubId={id}
-                    activeTab={activeTab}
-                ></TabContents>
+                <TabContents activeTab={activeTab} />
             </PageContainer>
         </ClubDetailProvider>
     );
