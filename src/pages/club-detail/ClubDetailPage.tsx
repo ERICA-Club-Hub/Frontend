@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { createContext, useEffect, useState } from 'react';
 import Button from '@/components/Common/Button';
 import { useLocation, useParams } from 'react-router-dom';
 import styled from 'styled-components';
@@ -10,6 +10,7 @@ import phone from '../../assets/common/phone.svg';
 import label from '../../assets/common/label.svg';
 import TabContents from './TabContents';
 import { apiRequest } from '@/api/apiRequest';
+import { ClubDetailProvider } from '@/contexts/ClubDetailContext';
 
 // tab 항목에서 활성화 여부를 판단할 props
 interface TabButtonProps {
@@ -36,6 +37,15 @@ interface clubInfoSummation {
     recruitmentStatus: recuirementStatus | null;
     applicationUrl?: string | null;
 }
+
+export interface ClubDetailContextType {
+    nowUrl: string | null;
+    clubName: string | null;
+    clubImg: string;
+    clubId: string;
+}
+
+const ClubDetailContext = createContext<ClubDetailContextType | null>(null);
 
 const ClubDetailPage = () => {
     const [clubDetail, setClubDetail] = useState<clubInfoSummation>();
@@ -85,106 +95,115 @@ const ClubDetailPage = () => {
     };
 
     return (
-        <PageContainer>
-            <ClubHeader>
-                <ClubImage src={logo} alt="Club Logo" />
-                <PreviewWrapper>
-                    <Preview>{clubDetail?.description}</Preview>
-                    <ClubTitle>{clubDetail?.name}</ClubTitle>
-                    <ClubTags>
-                        <Tag>{clubDetail?.category}</Tag>
-                        {clubDetail && (
-                            <RecruitState $state={getRecruitState()}>
-                                {getRecruitState()}
-                            </RecruitState>
-                        )}
-                    </ClubTags>
-                </PreviewWrapper>
-            </ClubHeader>
+        <ClubDetailProvider
+            value={{
+                nowUrl: nowUrl,
+                clubName: clubDetail?.name || null,
+                clubImg: logo,
+                clubId: id,
+            }}
+        >
+            <PageContainer>
+                <ClubHeader>
+                    <ClubImage src={logo} alt="Club Logo" />
+                    <PreviewWrapper>
+                        <Preview>{clubDetail?.description}</Preview>
+                        <ClubTitle>{clubDetail?.name}</ClubTitle>
+                        <ClubTags>
+                            <Tag>{clubDetail?.category}</Tag>
+                            {clubDetail && (
+                                <RecruitState $state={getRecruitState()}>
+                                    {getRecruitState()}
+                                </RecruitState>
+                            )}
+                        </ClubTags>
+                    </PreviewWrapper>
+                </ClubHeader>
 
-            <ClubInfo>
-                <ClubDetails>
-                    <h3>동아리 정보 요약</h3>
-                    <DividHr />
-                    <DetailRow>
-                        <IconImage src={jjang} alt="" />
-                        <DetailLabel>대표</DetailLabel>
-                        <DetailValue>{clubDetail?.leaderName}</DetailValue>
-                    </DetailRow>
-                    <DetailRow>
-                        <IconImage src={phone} alt="" />
-                        <DetailLabel>연락처</DetailLabel>
-                        <DetailValue>{clubDetail?.leaderPhone}</DetailValue>
-                    </DetailRow>
-                    <DetailRow>
-                        <IconImage src={label} alt="" />
-                        <DetailLabel>정기모임</DetailLabel>
-                        <DetailValue>{clubDetail?.activities}</DetailValue>
-                    </DetailRow>
-                    <DetailRow>
-                        <IconImage src={card} alt="" />
-                        <DetailLabel>회비</DetailLabel>
-                        <DetailValue>
-                            {clubDetail?.membershipFee === '없음'
-                                ? '없음'
-                                : `${clubDetail?.membershipFee}원`}
-                        </DetailValue>
-                    </DetailRow>
-                    <DetailRow>
-                        <IconImage src={sns} alt="" />
-                        <DetailLabel>SNS</DetailLabel>
-                        <DetailValue>
-                            {clubDetail?.snsUrl === '없음'
-                                ? '없음'
-                                : `@${clubDetail?.snsUrl}`}
-                        </DetailValue>
-                    </DetailRow>
-                </ClubDetails>
-            </ClubInfo>
-            <Button
-                disabled={clubDetail?.recruitmentStatus !== 'RECRUITING'}
-                onClick={() => {
-                    if (clubDetail?.applicationUrl) {
-                        window.open(clubDetail.applicationUrl, '_blank'); // url로 이동
-                    }
-                }}
-                size="large"
-            >
-                {clubDetail?.recruitmentStatus !== 'RECRUITING'
-                    ? '모집이 마감되었어요.'
-                    : '가입 신청하기'}
-            </Button>
-            {/* 동아리 소개 / 모집안내 / 활동로그 탭 모음 */}
-            <TabContainer>
-                <TabButton
-                    onClick={() => setActiveTab('intro')}
-                    $isActive={activeTab === 'intro'}
+                <ClubInfo>
+                    <ClubDetails>
+                        <h3>동아리 정보 요약</h3>
+                        <DividHr />
+                        <DetailRow>
+                            <IconImage src={jjang} alt="" />
+                            <DetailLabel>대표</DetailLabel>
+                            <DetailValue>{clubDetail?.leaderName}</DetailValue>
+                        </DetailRow>
+                        <DetailRow>
+                            <IconImage src={phone} alt="" />
+                            <DetailLabel>연락처</DetailLabel>
+                            <DetailValue>{clubDetail?.leaderPhone}</DetailValue>
+                        </DetailRow>
+                        <DetailRow>
+                            <IconImage src={label} alt="" />
+                            <DetailLabel>정기모임</DetailLabel>
+                            <DetailValue>{clubDetail?.activities}</DetailValue>
+                        </DetailRow>
+                        <DetailRow>
+                            <IconImage src={card} alt="" />
+                            <DetailLabel>회비</DetailLabel>
+                            <DetailValue>
+                                {clubDetail?.membershipFee === '없음'
+                                    ? '없음'
+                                    : `${clubDetail?.membershipFee}원`}
+                            </DetailValue>
+                        </DetailRow>
+                        <DetailRow>
+                            <IconImage src={sns} alt="" />
+                            <DetailLabel>SNS</DetailLabel>
+                            <DetailValue>
+                                {clubDetail?.snsUrl === '없음'
+                                    ? '없음'
+                                    : `@${clubDetail?.snsUrl}`}
+                            </DetailValue>
+                        </DetailRow>
+                    </ClubDetails>
+                </ClubInfo>
+                <Button
+                    disabled={clubDetail?.recruitmentStatus !== 'RECRUITING'}
+                    onClick={() => {
+                        if (clubDetail?.applicationUrl) {
+                            window.open(clubDetail.applicationUrl, '_blank'); // url로 이동
+                        }
+                    }}
+                    size="large"
                 >
-                    동아리 소개
-                </TabButton>
-                <TabButton
-                    onClick={() => setActiveTab('recruit')}
-                    $isActive={activeTab === 'recruit'}
-                >
-                    모집안내
-                </TabButton>
-                <TabButton
-                    onClick={() => setActiveTab('log')}
-                    $isActive={activeTab === 'log'}
-                >
-                    활동로그
-                </TabButton>
-            </TabContainer>
+                    {clubDetail?.recruitmentStatus !== 'RECRUITING'
+                        ? '모집이 마감되었어요.'
+                        : '가입 신청하기'}
+                </Button>
+                {/* 동아리 소개 / 모집안내 / 활동로그 탭 모음 */}
+                <TabContainer>
+                    <TabButton
+                        onClick={() => setActiveTab('intro')}
+                        $isActive={activeTab === 'intro'}
+                    >
+                        동아리 소개
+                    </TabButton>
+                    <TabButton
+                        onClick={() => setActiveTab('recruit')}
+                        $isActive={activeTab === 'recruit'}
+                    >
+                        모집안내
+                    </TabButton>
+                    <TabButton
+                        onClick={() => setActiveTab('log')}
+                        $isActive={activeTab === 'log'}
+                    >
+                        활동로그
+                    </TabButton>
+                </TabContainer>
 
-            {/* 탭에서 고른 내용들 보여주는 곳 */}
-            <TabContents
-                nowUrl={nowUrl}
-                clubName={clubDetail?.name}
-                clubImg={logo}
-                clubId={id}
-                activeTab={activeTab}
-            ></TabContents>
-        </PageContainer>
+                {/* 탭에서 고른 내용들 보여주는 곳 */}
+                <TabContents
+                    nowUrl={nowUrl}
+                    clubName={clubDetail?.name}
+                    clubImg={logo}
+                    clubId={id}
+                    activeTab={activeTab}
+                ></TabContents>
+            </PageContainer>
+        </ClubDetailProvider>
     );
 };
 
@@ -328,4 +347,4 @@ const TabButton = styled.button<TabButtonProps>`
     cursor: pointer;
 `;
 
-export { ClubDetailPage };
+export { ClubDetailPage, ClubDetailContext };

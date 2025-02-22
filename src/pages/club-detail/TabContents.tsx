@@ -18,7 +18,7 @@ export default function TabContents({
 }: TabContentsProps) {
     console.log(activeTab);
     if (activeTab === 'intro') {
-        return <Intro clubId={clubId}></Intro>;
+        return <Intro></Intro>;
     } else if (activeTab === 'recruit') {
         return <Recruit clubId={clubId}></Recruit>;
     } else {

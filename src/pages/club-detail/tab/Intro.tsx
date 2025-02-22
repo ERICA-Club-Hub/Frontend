@@ -1,11 +1,7 @@
 import { apiRequest } from '@/api/apiRequest';
-import { useEffect, useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useContext, useEffect, useState } from 'react';
 import styled from 'styled-components';
-
-interface IntroProps {
-    clubId: string;
-}
+import { ClubDetailContext } from '../ClubDetailPage';
 
 interface Schedule {
     month: string;
@@ -17,8 +13,11 @@ interface ClubIntro {
     recruitment: string | null;
 }
 
-export default function Intro({ clubId }: IntroProps) {
-    const nowUrl = useLocation().pathname.split('/')[1];
+export default function Intro() {
+    // const nowUrl = useLocation().pathname.split('/')[1];
+    const context = useContext(ClubDetailContext);
+    const nowUrl = context?.nowUrl;
+    const clubId = context?.clubId;
     const [schedules, setSchedules] = useState<Schedule[]>();
     const [clubIntro, setClubIntro] = useState<ClubIntro>();
 
