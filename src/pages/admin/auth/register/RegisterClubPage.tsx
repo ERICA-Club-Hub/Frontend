@@ -159,7 +159,6 @@ export { RegisterClubPage };
 
 const Container = styled.div`
     width: 100%;
-    height: calc(100vh - 55px);
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -182,6 +181,7 @@ const FormContainer = styled.form`
     flex-direction: column;
     align-items: center;
     gap: 30px;
+    padding-bottom: 16px;
 
     ${Label} {
         width: 100%;
