@@ -8,7 +8,7 @@ interface IInputValue {
 
 interface IClubRegisterState {
     requestBody: IInputValue;
-    previewImg: string | ArrayBuffer | null;
+    image: string | ArrayBuffer | null;
 }
 
 type SetUploadImgUrlType = React.Dispatch<

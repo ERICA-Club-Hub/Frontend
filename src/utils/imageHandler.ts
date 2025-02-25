@@ -1,4 +1,4 @@
-import { SetUploadImgUrlType } from '@/types/club-register.types';
+import { SetUploadImgUrlType } from '@/types';
 
 const uploadImageWithPreview = (
     e: React.ChangeEvent<HTMLInputElement>,

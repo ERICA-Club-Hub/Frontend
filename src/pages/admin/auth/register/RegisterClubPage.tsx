@@ -8,10 +8,11 @@ import useToggle from '@/hooks/useToggle';
 import { clubCategory } from '@/constants';
 import { TextArea } from '@/components/Common/TextArea';
 import { apiRequest } from '@/api/apiRequest';
+import { IClubRegisterState, IInputValue } from '@/types';
 
 const RegisterClubPage = () => {
     const { isOpen, setIsOpen, toggle } = useToggle();
-    const [inputValue, setInputValue] = useState({
+    const [inputValue, setInputValue] = useState<IInputValue>({
         clubName: '',
         leaderEmail: '',
         category: '',
@@ -26,7 +27,7 @@ const RegisterClubPage = () => {
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
-        const data = {
+        const data: IClubRegisterState = {
             requestBody: {
                 ...inputValue,
             },
