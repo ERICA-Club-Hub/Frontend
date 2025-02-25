@@ -8,7 +8,7 @@ import useToggle from '@/hooks/useToggle';
 import { clubCategory } from '@/constants';
 import { TextArea } from '@/components/Common/TextArea';
 import { apiRequest } from '@/api/apiRequest';
-import { IClubRegisterState, IInputValue } from '@/types';
+import { IInputValue } from '@/types';
 
 const RegisterClubPage = () => {
     const { isOpen, setIsOpen, toggle } = useToggle();
@@ -27,18 +27,25 @@ const RegisterClubPage = () => {
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
-        const data: IClubRegisterState = {
-            requestBody: {
-                ...inputValue,
-            },
-            image: uploadImgUrl,
-        };
+        const formData = new FormData();
+        formData.append('clubName', inputValue.clubName);
+        formData.append('leaderEmail', inputValue.leaderEmail);
+        formData.append('category', inputValue.category);
+        formData.append('oneLiner', inputValue.oneLiner);
+        formData.append('briefIntroduction', inputValue.briefIntroduction);
+
+        if (uploadImgUrl instanceof File) {
+            formData.append('image', uploadImgUrl);
+        }
 
         try {
             const res = await apiRequest({
                 url: '/api/clubs/registrations',
                 method: 'POST',
-                data,
+                data: formData,
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                },
                 requireToken: true,
             });
             console.log(res);

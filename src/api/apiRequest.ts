@@ -35,9 +35,6 @@ export const apiRequest = async ({
 
         if (url === '/api/auth/login') {
             // 로그인하는 api일 때는 호출하면 자동으로 토큰 저장하도록
-            console.log(response);
-            console.log(response.headers);
-            console.log(response.headers['Authorization']);
             const token = response.headers['authorization'];
             if (token) {
                 const accessToken = token.replace('Bearer ', '');
