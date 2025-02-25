@@ -4,6 +4,7 @@ import { InputField } from '../../components/Common/InputField';
 import MainpageCard from '../../components/Common/MainpageCard';
 import SortingDropdown from '../../components/Common/SortingDropdown';
 import { apiRequest } from '../../api/apiRequest';
+import ErrorIcon from '@/assets/common/error-icon.svg?react';
 
 const AnnouncementContainer = styled.div`
     display: flex;
@@ -133,6 +134,22 @@ const ClubListWrapper = styled.div`
     gap: 8px;
 `;
 
+const NoResultContainer = styled.div`
+    width: 100%;
+    height: 400px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+
+    h1 {
+        font-size: 14px;
+        font-weight: 500;
+        color: ${(props) => props.theme.colors.mainBlack};
+    }
+`;
+
 // 타입 정의 부분에 TagType 추가
 type TagType = '동아리 및 질문' | '모집중' | '모집마감' | '모집예정';
 
@@ -163,16 +180,18 @@ interface ApiResponse {
     };
 }
 
-const ClubListPage = () => {
-    const announcements = [
-        { id: 1, imageUrl: '/src/assets/common/dummy-image.png' },
-        { id: 2, imageUrl: '/src/assets/common/dummy-image.png' },
-        { id: 3, imageUrl: '/src/assets/common/dummy-image.png' },
-        { id: 4, imageUrl: '/src/assets/common/dummy-image.png' },
-        { id: 5, imageUrl: '/src/assets/common/dummy-image.png' },
-    ];
+interface Announcement {
+    announcementId: number;
+    title: string;
+    date: string;
+    url: string;
+    thumbnailUrl: string;
+}
 
-    const [currentIndex, setCurrentIndex] = useState(0); // 현재 이미지 인덱스
+const ClubListPage = () => {
+    // 공지사항 상태 관리
+    const [announcements, setAnnouncements] = useState<Announcement[]>([]);
+    const [currentIndex, setCurrentIndex] = useState(0);
 
     // 각각의 드롭다운을 위한 별도의 상태 관리
     const [categoryFilter, setCategoryFilter] = useState<string>('none'); // 분과 필터 상태
@@ -183,6 +202,26 @@ const ClubListPage = () => {
     const [searchTerm, setSearchTerm] = useState<string>(''); // 검색어 상태
     const [clubs, setClubs] = useState<Club[]>([]); // 초기값을 빈 배열로 변경
     const [isLoading, setIsLoading] = useState(false); // 로딩 상태
+
+    // 공지사항 불러오기
+    useEffect(() => {
+        const fetchAnnouncements = async () => {
+            try {
+                const response = await apiRequest({
+                    url: '/api/announcements',
+                });
+
+                if (response?.result?.announcementDTOList) {
+                    // 최대 5개까지만 설정
+                    setAnnouncements(response.result.announcementDTOList.slice(0, 5));
+                }
+            } catch (error) {
+                console.error('공지사항을 불러오는데 실패했습니다:', error);
+            }
+        };
+
+        fetchAnnouncements();
+    }, []);
 
     // 이전 이미지 버튼 클릭 시 실행되는 함수
     const handlePrev = () => {
@@ -336,33 +375,40 @@ const ClubListPage = () => {
     return (
         <div>
             <AnnouncementContainer>
-                <ArrowButton onClick={handlePrev}>
-                    <img src="/src/assets/common/main_prev_arrow.svg" alt="이전" />
-                </ArrowButton>
-                <SubAnnouncement 
-                    $imageUrl={displayItems[0].imageUrl} 
-                    data-index={displayItems[0].id} 
-                />
-                <MainAnnouncement 
-                    $imageUrl={displayItems[1].imageUrl} 
-                    data-index={displayItems[1].id}
-                >
-                    <StatusIndicator>
-                        {announcements.map((_, index) => (
-                            <StatusDot 
-                                key={index} 
-                                $active={index === currentIndex} 
-                            />
-                        ))}
-                    </StatusIndicator>
-                </MainAnnouncement>
-                <SubAnnouncement 
-                    $imageUrl={displayItems[2].imageUrl} 
-                    data-index={displayItems[2].id} 
-                />
-                <ArrowButton onClick={handleNext}>
-                    <img src="/src/assets/common/main_next_arrow.svg" alt="다음" />
-                </ArrowButton>
+                {announcements.length > 0 && (
+                    <>
+                        <ArrowButton onClick={handlePrev}>
+                            <img src="/src/assets/common/main_prev_arrow.svg" alt="이전" />
+                        </ArrowButton>
+                        <SubAnnouncement 
+                            $imageUrl={displayItems[0].thumbnailUrl} 
+                            data-index={displayItems[0].announcementId}
+                            onClick={() => window.location.href = displayItems[0].url}
+                        />
+                        <MainAnnouncement 
+                            $imageUrl={displayItems[1].thumbnailUrl} 
+                            data-index={displayItems[1].announcementId}
+                            onClick={() => window.location.href = displayItems[1].url}
+                        >
+                            <StatusIndicator>
+                                {announcements.map((_, index) => (
+                                    <StatusDot 
+                                        key={index} 
+                                        $active={index === currentIndex} 
+                                    />
+                                ))}
+                            </StatusIndicator>
+                        </MainAnnouncement>
+                        <SubAnnouncement 
+                            $imageUrl={displayItems[2].thumbnailUrl} 
+                            data-index={displayItems[2].announcementId}
+                            onClick={() => window.location.href = displayItems[2].url}
+                        />
+                        <ArrowButton onClick={handleNext}>
+                            <img src="/src/assets/common/main_next_arrow.svg" alt="다음" />
+                        </ArrowButton>
+                    </>
+                )}
             </AnnouncementContainer>
             
             <ClubSearchContainer>
@@ -454,7 +500,10 @@ const ClubListPage = () => {
                             );
                         })
                     ) : (
-                        <div>검색 결과가 없습니다.</div>
+                        <NoResultContainer>
+                            <ErrorIcon />
+                            <h1>검색 결과가 없어요.</h1>
+                        </NoResultContainer>
                     )}
                 </ClubListWrapper>
             </ClubSearchContainer>
