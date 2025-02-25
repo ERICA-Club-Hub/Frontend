@@ -1,11 +1,31 @@
-const recruitStatus = ['모집예정', '모집중', '모집완료'];
+const recruitStatus = [
+    { label: '모집예정', value: 'UPCOMING' },
+    { label: '모집중', value: 'OPEN' },
+    { label: '모집완료', value: 'CLOSED' },
+];
 
 const summaryInfoList = [
-    { label: '대표 이름', placeholder: '동아리 대표 이름을 입력해주세요' },
-    { label: '연락처', placeholder: '문의 가능한 연락처를 입력해 주세요.' },
-    { label: '정기모임', placeholder: '정기모임 일정을 입력해 주세요' },
-    { label: '회비', placeholder: '회비 금액을 입력해 주세요' },
-    { label: 'SNS', placeholder: 'SNS 아이디를 입력해주세요' },
+    {
+        label: '대표 이름',
+        name: 'leaderName',
+        placeholder: '동아리 대표 이름을 입력해주세요',
+    },
+    {
+        label: '연락처',
+        name: 'leaderPhone',
+        placeholder: '문의 가능한 연락처를 입력해 주세요.',
+    },
+    {
+        label: '정기모임',
+        name: 'activities',
+        placeholder: '정기모임 일정을 입력해 주세요',
+    },
+    {
+        label: '회비',
+        name: 'membershipFee',
+        placeholder: '회비 금액을 입력해 주세요',
+    },
+    { label: 'SNS', name: 'snsUrl', placeholder: 'SNS 아이디를 입력해주세요' },
 ];
 
 const months = [
