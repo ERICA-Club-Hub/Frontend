@@ -7,6 +7,7 @@ import { uploadImageWithPreview } from '@/utils';
 import useToggle from '@/hooks/useToggle';
 import { clubCategory } from '@/constants';
 import { TextArea } from '@/components/Common/TextArea';
+import { apiRequest } from '@/api/apiRequest';
 
 const RegisterClubPage = () => {
     const { isOpen, setIsOpen, toggle } = useToggle();
@@ -22,9 +23,27 @@ const RegisterClubPage = () => {
         string | ArrayBuffer | null
     >('');
 
-    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        console.log(inputValue);
+
+        const data = {
+            requestBody: {
+                ...inputValue,
+            },
+            image: uploadImgUrl,
+        };
+
+        try {
+            const res = await apiRequest({
+                url: '/api/clubs/registrations',
+                method: 'POST',
+                data,
+                requireToken: true,
+            });
+            console.log(res);
+        } catch (error) {
+            console.error('등록 실패', error);
+        }
     };
 
     const handleInputChange = (
@@ -37,12 +56,18 @@ const RegisterClubPage = () => {
             ...inputValue,
             [name]: value,
         });
-        console.log(inputValue);
     };
 
     const handleImgUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
         uploadImageWithPreview(e, setUploadImgUrl);
     };
+
+    const isValid =
+        inputValue.clubName.length > 0 &&
+        inputValue.leaderEmail.length > 0 &&
+        inputValue.category.length > 0 &&
+        inputValue.oneLiner.length > 0 &&
+        inputValue.briefIntroduction.length > 0;
 
     return (
         <Container>
@@ -57,6 +82,7 @@ const RegisterClubPage = () => {
                         placeholder="동아리 이름을 정확하게 입력해 주세요."
                         inputSize="large"
                         name="clubName"
+                        maxLength={30}
                         onChange={handleInputChange}
                     />
                 </InnerWrapper>
@@ -76,6 +102,7 @@ const RegisterClubPage = () => {
                         placeholder="동아리 이름을 정확하게 입력해 주세요."
                         inputSize="large"
                         name="leaderEmail"
+                        maxLength={30}
                         onChange={handleInputChange}
                     />
                 </InnerWrapper>
@@ -103,7 +130,7 @@ const RegisterClubPage = () => {
                                             setSelectedValue(item);
                                             setInputValue({
                                                 ...inputValue,
-                                                category: selectedValue,
+                                                category: item,
                                             });
                                             toggle();
                                         }}
@@ -161,6 +188,7 @@ const RegisterClubPage = () => {
                         placeholder="동아리를 한 줄로 소개해 주세요."
                         inputSize="large"
                         name="oneLiner"
+                        maxLength={30}
                         onChange={handleInputChange}
                     />
                 </InnerWrapper>
@@ -173,11 +201,12 @@ const RegisterClubPage = () => {
                         placeholder="동아리에 대해 간단히 소개해 주세요."
                         size="medium"
                         name="briefIntroduction"
+                        maxLength={100}
                         onChange={handleInputChange}
                     />
                 </InnerWrapper>
 
-                <Button type="submit" size="large" disabled={false}>
+                <Button type="submit" size="large" disabled={!isValid}>
                     동아리 등록하기
                 </Button>
             </FormContainer>
