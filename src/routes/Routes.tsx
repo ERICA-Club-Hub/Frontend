@@ -52,7 +52,8 @@ export default function AppRoutes() {
             <Route path="/admin/club/register" element={<RegisterClubPage />} />
 
             {/* 어드민 접근 권한 필요 -> 권한 없을 때 메인으로 리다이렉트 */}
-            <Route path="/admin" element={<AuthGuard />}>
+            <Route path="/admin">
+                {/* <Route path="/admin" element={<AuthGuard />}> */}
                 {/* 동아리 어드민 */}
                 {/* 총동연, 서비스 관리자, 동아리 대표 모두 접근 가능 */}
                 <Route path="/admin/club">
