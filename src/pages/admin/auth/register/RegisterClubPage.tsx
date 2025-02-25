@@ -4,58 +4,118 @@ import styled from 'styled-components';
 import ExpandArrowIcon from '@/assets/common/expand-arrow.svg?react';
 import Button from '@/components/Common/Button';
 import { uploadImageWithPreview } from '@/utils';
-import { InputValue } from '@/types';
 import useToggle from '@/hooks/useToggle';
 import { clubCategory } from '@/constants';
 import { TextArea } from '@/components/Common/TextArea';
+import { apiRequest } from '@/api/apiRequest';
+import { IInputValue } from '@/types';
 
 const RegisterClubPage = () => {
     const { isOpen, setIsOpen, toggle } = useToggle();
-    const [inputValue, setInputValue] = useState<InputValue>({
-        name: '',
-        email: '',
+    const [inputValue, setInputValue] = useState<IInputValue>({
+        clubName: '',
+        leaderEmail: '',
         category: '',
-        image: [],
+        oneLiner: '',
+        briefIntroduction: '',
     });
     const [selectedValue, setSelectedValue] = useState<string>('');
-    const [previewImg, setPreviewImg] = useState<string | ArrayBuffer | null>(
-        null,
-    );
+    const [uploadImgUrl, setUploadImgUrl] = useState<
+        string | ArrayBuffer | null
+    >('');
 
-    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        console.log(inputValue);
+
+        const formData = new FormData();
+        formData.append('clubName', inputValue.clubName);
+        formData.append('leaderEmail', inputValue.leaderEmail);
+        formData.append('category', inputValue.category);
+        formData.append('oneLiner', inputValue.oneLiner);
+        formData.append('briefIntroduction', inputValue.briefIntroduction);
+
+        if (uploadImgUrl instanceof File) {
+            formData.append('image', uploadImgUrl);
+        }
+
+        try {
+            const res = await apiRequest({
+                url: '/api/clubs/registrations',
+                method: 'POST',
+                data: formData,
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                },
+                requireToken: true,
+            });
+            console.log(res);
+        } catch (error) {
+            console.error('등록 실패', error);
+        }
     };
+
+    const handleInputChange = (
+        e:
+            | React.ChangeEvent<HTMLInputElement>
+            | React.ChangeEvent<HTMLTextAreaElement>,
+    ) => {
+        const { name, value } = e.target;
+        setInputValue({
+            ...inputValue,
+            [name]: value,
+        });
+    };
+
+    const handleImgUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+        uploadImageWithPreview(e, setUploadImgUrl);
+    };
+
+    const isValid =
+        inputValue.clubName.length > 0 &&
+        inputValue.leaderEmail.length > 0 &&
+        inputValue.category.length > 0 &&
+        inputValue.oneLiner.length > 0 &&
+        inputValue.briefIntroduction.length > 0;
 
     return (
         <Container>
             <h1>절차에 따라 동아리를 등록해 주세요.</h1>
             <FormContainer onSubmit={handleSubmit}>
+                {/* 동아리 이름 */}
                 <InnerWrapper>
-                    <Label htmlFor="name">동아리 이름</Label>
+                    <Label htmlFor="clubName">동아리 이름</Label>
                     <InputField
-                        id="name"
+                        id="clubName"
                         type="text"
-                        // value={'df'}
                         placeholder="동아리 이름을 정확하게 입력해 주세요."
                         inputSize="large"
+                        name="clubName"
+                        maxLength={30}
+                        onChange={handleInputChange}
                     />
                 </InnerWrapper>
 
+                {/* 동아리 이메일 */}
                 <InnerWrapper>
-                    <Label htmlFor="email" style={{ marginBottom: '5px' }}>
+                    <Label
+                        htmlFor="leaderEmail"
+                        style={{ marginBottom: '5px' }}
+                    >
                         동아리 이메일
                     </Label>
                     <span>승인 결과가 이메일로 전송됩니다.</span>
                     <InputField
-                        id="email"
+                        id="leaderEmail"
                         type="text"
-                        // value={'df'}
                         placeholder="동아리 이름을 정확하게 입력해 주세요."
                         inputSize="large"
+                        name="leaderEmail"
+                        maxLength={30}
+                        onChange={handleInputChange}
                     />
                 </InnerWrapper>
 
+                {/* 동아리 카테고리 */}
                 <InnerWrapper>
                     <Label>동아리 카테고리</Label>
                     <Dropdown setIsOpen={setIsOpen}>
@@ -76,6 +136,10 @@ const RegisterClubPage = () => {
                                         key={`club-category-${index}`}
                                         onClick={() => {
                                             setSelectedValue(item);
+                                            setInputValue({
+                                                ...inputValue,
+                                                category: item,
+                                            });
                                             toggle();
                                         }}
                                         $isSelected={selectedValue === item}
@@ -88,16 +152,17 @@ const RegisterClubPage = () => {
                     </Dropdown>
                 </InnerWrapper>
 
+                {/* 동아리 사진 업로드 */}
                 <ImageUploadWrapper>
                     <Label>동아리 사진 업로드</Label>
                     <ImageContainer>
                         <div className="image-upload-container">
                             <label htmlFor="image" className="image-preview">
-                                {previewImg && (
+                                {uploadImgUrl && (
                                     <ImagePreview
                                         src={
-                                            typeof previewImg === 'string'
-                                                ? previewImg
+                                            typeof uploadImgUrl === 'string'
+                                                ? uploadImgUrl
                                                 : ''
                                         }
                                         alt="image-preview"
@@ -108,13 +173,7 @@ const RegisterClubPage = () => {
                                 id="image"
                                 type="file"
                                 accept=".jpg, .jpeg, .png"
-                                onChange={(e) =>
-                                    uploadImageWithPreview(
-                                        e,
-                                        setInputValue,
-                                        setPreviewImg,
-                                    )
-                                }
+                                onChange={handleImgUpload}
                             />
                         </div>
 
@@ -128,26 +187,34 @@ const RegisterClubPage = () => {
                     </ImageContainer>
                 </ImageUploadWrapper>
 
+                {/* 동아리 한 줄 소개 */}
                 <InnerWrapper>
-                    <Label htmlFor="club-introduction">동아리 한 줄 소개</Label>
+                    <Label htmlFor="oneLiner">동아리 한 줄 소개</Label>
                     <InputField
-                        id="club-introduction"
+                        id="oneLiner"
                         type="text"
                         placeholder="동아리를 한 줄로 소개해 주세요."
                         inputSize="large"
+                        name="oneLiner"
+                        maxLength={30}
+                        onChange={handleInputChange}
                     />
                 </InnerWrapper>
 
+                {/* 동아리 간단 소개 */}
                 <InnerWrapper>
-                    <Label htmlFor="club-description">동아리 간단 소개</Label>
+                    <Label htmlFor="briefIntroduction">동아리 간단 소개</Label>
                     <TextArea
-                        id="club-description"
+                        id="briefIntroduction"
                         placeholder="동아리에 대해 간단히 소개해 주세요."
                         size="medium"
+                        name="briefIntroduction"
+                        maxLength={100}
+                        onChange={handleInputChange}
                     />
                 </InnerWrapper>
 
-                <Button type="submit" size="large" disabled={false}>
+                <Button type="submit" size="large" disabled={!isValid}>
                     동아리 등록하기
                 </Button>
             </FormContainer>

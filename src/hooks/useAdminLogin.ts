@@ -31,8 +31,6 @@ const useAdminLogin = () => {
                     data: { code },
                 });
 
-                console.log(res);
-
                 // 로그인 성공 시
                 setIsValidate(true);
                 setAuthenticated(true); // 로그인 전역 상태 업데이트
