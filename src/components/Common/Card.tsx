@@ -87,7 +87,7 @@ const TagWrapper = styled.div`
     flex-wrap: wrap;
 `;
 
-const Card = ({ $variant = 'unionNotice', imagePath: $imagePath, title, date, questionType, onClick, isRotated }: CardProps) => {
+const Card = ({ $variant = 'unionNotice', $imagePath, title, date, questionType, onClick, isRotated }: CardProps) => {
     return (
         <CardWrapper $variant={$variant} onClick={onClick} type="button">
             {$variant === 'unionNotice' && (
