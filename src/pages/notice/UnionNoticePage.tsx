@@ -35,7 +35,7 @@ interface AnnouncementDTO {
     title: string;
     date: string;
     url: string;
-    thumbnail: string;
+    thumbnailUrl: string;
 }
 
 const UnionNoticePage = () => {
@@ -95,7 +95,7 @@ const UnionNoticePage = () => {
                         >
                             <Card
                                 $variant="unionNotice"
-                                imagePath={announcement.thumbnail}
+                                imagePath={announcement.thumbnailUrl}
                                 title={announcement.title}
                                 date={announcement.date}
                             />
