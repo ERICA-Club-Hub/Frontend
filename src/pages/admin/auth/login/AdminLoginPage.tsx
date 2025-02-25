@@ -61,7 +61,7 @@ const AdminLoginPage = () => {
                 </Form>
 
                 {navStatus === 1 && (
-                    <Link to="/admin/register">
+                    <Link to="/admin/club/register">
                         <RegisterButton>동아리 등록하기</RegisterButton>
                     </Link>
                 )}

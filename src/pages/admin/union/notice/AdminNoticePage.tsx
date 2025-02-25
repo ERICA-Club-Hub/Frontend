@@ -1,24 +1,26 @@
 import { InputField } from '@/components/Common';
 import Button from '@/components/Common/Button';
-import { InputValue } from '@/types';
 import { uploadImageWithPreview } from '@/utils';
 import { useState } from 'react';
 import styled from 'styled-components';
 
 const AdminNoticePage = () => {
-    const [inputValue, setInputValue] = useState<InputValue>({
-        name: '',
-        email: '',
-        category: '',
-        image: [],
-    });
-    const [previewImg, setPreviewImg] = useState<string | ArrayBuffer | null>(
-        null,
-    );
+    // const [inputValue, setInputValue] = useState({
+    //     name: '',
+    //     email: '',
+    //     category: '',
+    //     image: [],
+    // });
+    const [uploadImgUrl, setUploadImgUrl] = useState<
+        string | ArrayBuffer | null
+    >('');
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        console.log(inputValue);
+    };
+
+    const handleImgUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+        uploadImageWithPreview(e, setUploadImgUrl);
     };
 
     return (
@@ -43,11 +45,11 @@ const AdminNoticePage = () => {
 
                 <ImageContainer>
                     <label htmlFor="image" className="image-preview">
-                        {previewImg && (
+                        {uploadImgUrl && (
                             <ImagePreview
                                 src={
-                                    typeof previewImg === 'string'
-                                        ? previewImg
+                                    typeof uploadImgUrl === 'string'
+                                        ? uploadImgUrl
                                         : ''
                                 }
                                 alt="image-preview"
@@ -58,13 +60,7 @@ const AdminNoticePage = () => {
                         id="image"
                         type="file"
                         accept=".jpg, .jpeg, .png"
-                        onChange={(e) =>
-                            uploadImageWithPreview(
-                                e,
-                                setInputValue,
-                                setPreviewImg,
-                            )
-                        }
+                        onChange={handleImgUpload}
                     />
                 </ImageContainer>
             </Wrapper>
