@@ -16,4 +16,10 @@ interface ISummaryInfoValue {
     applicationUrl: string;
 }
 
-export type { IClubRegisterValue, ISummaryInfoValue };
+interface IRecruitNoticeValue {
+    due: string;
+    notice: string;
+    etc: string;
+}
+
+export type { IClubRegisterValue, ISummaryInfoValue, IRecruitNoticeValue };
