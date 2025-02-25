@@ -8,11 +8,12 @@ import useToggle from '@/hooks/useToggle';
 import { clubCategory } from '@/constants';
 import { TextArea } from '@/components/Common/TextArea';
 import { apiRequest } from '@/api/apiRequest';
-import { IInputValue } from '@/types';
+import { IClubRegisterValue } from '@/types';
+import { inputChangeHandler } from '@/utils/inputChangeHandler';
 
 const RegisterClubPage = () => {
     const { isOpen, setIsOpen, toggle } = useToggle();
-    const [inputValue, setInputValue] = useState<IInputValue>({
+    const [inputValue, setInputValue] = useState<IClubRegisterValue>({
         clubName: '',
         leaderEmail: '',
         category: '',
@@ -26,6 +27,7 @@ const RegisterClubPage = () => {
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
+        console.log(inputValue);
 
         const formData = new FormData();
         formData.append('clubName', inputValue.clubName);
@@ -54,18 +56,6 @@ const RegisterClubPage = () => {
         }
     };
 
-    const handleInputChange = (
-        e:
-            | React.ChangeEvent<HTMLInputElement>
-            | React.ChangeEvent<HTMLTextAreaElement>,
-    ) => {
-        const { name, value } = e.target;
-        setInputValue({
-            ...inputValue,
-            [name]: value,
-        });
-    };
-
     const handleImgUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
         uploadImageWithPreview(e, setUploadImgUrl);
     };
@@ -91,7 +81,12 @@ const RegisterClubPage = () => {
                         inputSize="large"
                         name="clubName"
                         maxLength={30}
-                        onChange={handleInputChange}
+                        onChange={(e) =>
+                            inputChangeHandler<IClubRegisterValue>({
+                                e,
+                                setInputValue,
+                            })
+                        }
                     />
                 </InnerWrapper>
 
@@ -111,7 +106,12 @@ const RegisterClubPage = () => {
                         inputSize="large"
                         name="leaderEmail"
                         maxLength={30}
-                        onChange={handleInputChange}
+                        onChange={(e) =>
+                            inputChangeHandler<IClubRegisterValue>({
+                                e,
+                                setInputValue,
+                            })
+                        }
                     />
                 </InnerWrapper>
 
@@ -197,7 +197,12 @@ const RegisterClubPage = () => {
                         inputSize="large"
                         name="oneLiner"
                         maxLength={30}
-                        onChange={handleInputChange}
+                        onChange={(e) =>
+                            inputChangeHandler<IClubRegisterValue>({
+                                e,
+                                setInputValue,
+                            })
+                        }
                     />
                 </InnerWrapper>
 
@@ -210,7 +215,12 @@ const RegisterClubPage = () => {
                         size="medium"
                         name="briefIntroduction"
                         maxLength={100}
-                        onChange={handleInputChange}
+                        onChange={(e) =>
+                            inputChangeHandler<IClubRegisterValue>({
+                                e,
+                                setInputValue,
+                            })
+                        }
                     />
                 </InnerWrapper>
 

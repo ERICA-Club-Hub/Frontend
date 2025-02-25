@@ -13,22 +13,40 @@ import {
     Label,
     ButtonGroupWrapper,
 } from '@/styles/admin-club-detail/style';
+import { inputChangeHandler } from '@/utils/inputChangeHandler';
+import { ISummaryInfoValue } from '@/types';
+import { useRecoilValue } from 'recoil';
+import { clubIdselector } from '@/store/clubIdState';
+import { apiRequest } from '@/api/apiRequest';
 
 export default function SummaryInfo() {
+    const clubId = useRecoilValue(clubIdselector);
     const { isOpen, setIsOpen, toggle } = useToggle();
-    const [inputValue, setInputValue] = useState({
+    const [inputValue, setInputValue] = useState<ISummaryInfoValue>({
         recruitmentStatus: '',
         leaderName: '',
         leaderPhone: '',
         activities: '',
-        membershipFee: 'null',
+        membershipFee: '',
         snsUrl: '',
         applicationUrl: '',
     });
     const [selectedValue, setSelectedValue] = useState<string>('');
 
-    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
+
+        try {
+            const res = await apiRequest({
+                method: 'post',
+                url: `/api/clubs/club-admin/${clubId}`,
+                data: inputValue,
+                requireToken: true,
+            });
+            console.log(res);
+        } catch (err) {
+            console.error('저장 실패', err);
+        }
     };
 
     const handleRecruitmentStatus = (item: {
@@ -41,14 +59,6 @@ export default function SummaryInfo() {
             recruitmentStatus: item.value,
         });
         toggle();
-    };
-
-    const handleInputCahnge = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const { name, value } = e.target;
-        setInputValue({
-            ...inputValue,
-            [name]: value,
-        });
     };
 
     const isValid =
@@ -118,7 +128,12 @@ export default function SummaryInfo() {
                                 inputSize={'medium'}
                                 backgroundColor={'gray'}
                                 placeholder={summaryInfo.placeholder}
-                                onChange={handleInputCahnge}
+                                onChange={(e) =>
+                                    inputChangeHandler<ISummaryInfoValue>({
+                                        e,
+                                        setInputValue,
+                                    })
+                                }
                                 maxLength={20}
                             />
                         </SummaryInfoItem>
@@ -134,7 +149,12 @@ export default function SummaryInfo() {
                     inputSize={'medium'}
                     backgroundColor={'gray'}
                     placeholder="신청 폼 링크를 정확하게 입력해 주세요."
-                    onChange={handleInputCahnge}
+                    onChange={(e) =>
+                        inputChangeHandler<ISummaryInfoValue>({
+                            e,
+                            setInputValue,
+                        })
+                    }
                 />
             </ApplyLink>
 
