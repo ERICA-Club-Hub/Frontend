@@ -95,7 +95,7 @@ const UnionNoticePage = () => {
                         >
                             <Card
                                 $variant="unionNotice"
-                                imagePath={announcement.thumbnailUrl}
+                                $imagePath={announcement.thumbnailUrl}
                                 title={announcement.title}
                                 date={announcement.date}
                             />
