@@ -1,33 +1,22 @@
-import { InputValue } from '@/types';
-
-type SetInputValueType = React.Dispatch<React.SetStateAction<InputValue>>;
-type SetPreviewImgType = React.Dispatch<
-    React.SetStateAction<string | ArrayBuffer | null>
->;
+import { SetUploadImgUrlType } from '@/types/club-register.types';
 
 const uploadImageWithPreview = (
     e: React.ChangeEvent<HTMLInputElement>,
-    setInputValue: SetInputValueType,
-    setPreviewImg: SetPreviewImgType,
+    setUploadImgUrl: SetUploadImgUrlType,
 ) => {
-    let fileArr = e.target.files;
-    if (fileArr) {
-        setInputValue((prev) => ({ ...prev, image: Array.from(fileArr) }));
-    }
+    const { files } = e.target;
+    const uploadFile = files![0];
 
     let fileRead = new FileReader();
+    fileRead.readAsDataURL(uploadFile); // url로 변환
 
     fileRead.onload = () => {
-        setPreviewImg(fileRead.result);
+        setUploadImgUrl(fileRead.result);
     };
 
     fileRead.onerror = () => {
         console.log('이미지 읽기 중 오류 발생');
     };
-
-    if (fileArr!.length > 0) {
-        fileRead.readAsDataURL(fileArr![0]);
-    }
 };
 
 export { uploadImageWithPreview };
