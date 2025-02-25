@@ -1,6 +1,6 @@
 import { createContext, useEffect, useState } from 'react';
 import Button from '@/components/Common/Button';
-import { useLocation, useParams } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import logo from '../../../src/assets/react.svg';
 import sns from '../../assets/common/sns.svg';
@@ -48,6 +48,7 @@ export interface ClubDetailContextType {
 const ClubDetailContext = createContext<ClubDetailContextType | null>(null); // 이거로 Provider 생성
 
 const ClubDetailPage = () => {
+    const navigate = useNavigate();
     const [clubDetail, setClubDetail] = useState<clubInfoSummation>();
     const params = useParams();
     const id = params.id?.toString() || '';
@@ -103,7 +104,16 @@ const ClubDetailPage = () => {
                 clubId: id,
             }}
         >
-            <PageContainer>
+            {nowUrl === 'club-detail-preview' && (
+                <BackButton
+                    onClick={() => {
+                        navigate('/admin/club/register');
+                    }}
+                >
+                    ＜ 돌아가기
+                </BackButton>
+            )}
+            <PageContainer $nowUrl={nowUrl}>
                 <ClubHeader>
                     <ClubImage src={logo} alt="Club Logo" />
                     <PreviewWrapper>
@@ -119,7 +129,6 @@ const ClubDetailPage = () => {
                         </ClubTags>
                     </PreviewWrapper>
                 </ClubHeader>
-
                 <ClubInfo>
                     <ClubDetails>
                         <h3>동아리 정보 요약</h3>
@@ -159,19 +168,26 @@ const ClubDetailPage = () => {
                         </DetailRow>
                     </ClubDetails>
                 </ClubInfo>
-                <Button
-                    disabled={clubDetail?.recruitmentStatus !== 'RECRUITING'}
-                    onClick={() => {
-                        if (clubDetail?.applicationUrl) {
-                            window.open(clubDetail.applicationUrl, '_blank'); // url로 이동
+                {nowUrl === 'club' && (
+                    <Button
+                        disabled={
+                            clubDetail?.recruitmentStatus !== 'RECRUITING'
                         }
-                    }}
-                    size="large"
-                >
-                    {clubDetail?.recruitmentStatus !== 'RECRUITING'
-                        ? '모집이 마감되었어요.'
-                        : '가입 신청하기'}
-                </Button>
+                        onClick={() => {
+                            if (clubDetail?.applicationUrl) {
+                                window.open(
+                                    clubDetail.applicationUrl,
+                                    '_blank',
+                                ); // url로 이동
+                            }
+                        }}
+                        size="large"
+                    >
+                        {clubDetail?.recruitmentStatus !== 'RECRUITING'
+                            ? '모집이 마감되었어요.'
+                            : '가입 신청하기'}
+                    </Button>
+                )}
                 {/* 동아리 소개 / 모집안내 / 활동로그 탭 모음 */}
                 <TabContainer>
                     <TabButton
@@ -193,20 +209,23 @@ const ClubDetailPage = () => {
                         활동로그
                     </TabButton>
                 </TabContainer>
-
                 {/* 탭에서 고른 내용들 보여주는 곳 */}
                 <TabContents activeTab={activeTab} />
             </PageContainer>
         </ClubDetailProvider>
     );
 };
+const BackButton = styled.div`
+    margin-left: 40px;
+    margin-top: 15px;
+    margin-bottom: 15px;
+`;
 
-const PageContainer = styled.div`
+const PageContainer = styled.div<{ $nowUrl: string }>`
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin: 0 auto;
-    padding: 20px;
+    padding-top: ${(props) => (props.$nowUrl === 'club' ? '20px' : '0px')};
 `;
 
 const ClubHeader = styled.div`
