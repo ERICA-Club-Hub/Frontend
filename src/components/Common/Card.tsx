@@ -5,7 +5,7 @@ import rightArrowIcon from '../../assets/common/card_right_arrow.svg';
 
 interface CardProps {
     $variant?: 'unionNotice' | 'serviceNotice' | 'resources' | 'FAQ';
-    imagePath?: string;
+    $imagePath?: string;
     title: string;
     date?: string;
     questionType?: string;
@@ -36,14 +36,14 @@ const CardWrapper = styled.button<{ $variant?: string }>`
     `}
 `;
 
-const CardImage = styled.div<{ imagePath?: string }>`
+const CardImage = styled.div<{ $imagePath?: string }>`
     width: 55px;
     height: 55px;
     flex-shrink: 0;
     border-radius: 5px;
     margin: 8px 15px 8px 8px;
-    background: ${({ imagePath }) => 
-        imagePath ? `url(${imagePath}) lightgray 50% / cover no-repeat` : 'lightgray'};
+    background: ${({ $imagePath }) => 
+        $imagePath ? `url(${$imagePath}) lightgray 50% / cover no-repeat` : 'lightgray'};
 `;
 
 const TitleDateWrapper = styled.div<{ $variant?: string }>`
@@ -87,12 +87,12 @@ const TagWrapper = styled.div`
     flex-wrap: wrap;
 `;
 
-const Card = ({ $variant = 'unionNotice', imagePath, title, date, questionType, onClick, isRotated }: CardProps) => {
+const Card = ({ $variant = 'unionNotice', imagePath: $imagePath, title, date, questionType, onClick, isRotated }: CardProps) => {
     return (
         <CardWrapper $variant={$variant} onClick={onClick} type="button">
             {$variant === 'unionNotice' && (
                 <>
-                    <CardImage imagePath={imagePath} />
+                    <CardImage $imagePath={$imagePath} />
                     <TitleDateWrapper $variant={$variant}>
                         <CardTitle>{title}</CardTitle>
                         <CardDate>{date}</CardDate>
