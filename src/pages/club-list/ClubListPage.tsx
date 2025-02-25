@@ -1,8 +1,9 @@
 import styled from 'styled-components';
-import { useState } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { InputField } from '../../components/Common/InputField';
 import MainpageCard from '../../components/Common/MainpageCard';
 import SortingDropdown from '../../components/Common/SortingDropdown';
+import { apiRequest } from '../../api/apiRequest';
 
 const AnnouncementContainer = styled.div`
     display: flex;
@@ -135,6 +136,33 @@ const ClubListWrapper = styled.div`
 // 타입 정의 부분에 TagType 추가
 type TagType = '동아리 및 질문' | '모집중' | '모집마감' | '모집예정';
 
+// clubs 상태 타입 정의 수정
+interface Club {
+    id: number;
+    name: string;
+    description: string;
+    category: string;
+    recruitmentStatus: 'UPCOMING' | 'OPEN' | 'CLOSED';
+    activities: string | null;
+    leaderName: string | null;
+    leaderEmail: string;
+    leaderPhone: string | null;
+    membershipFee: number | null;
+    snsUrl: string | null;
+    applicationUrl: string | null;
+}
+
+// API 응답 타입 정의 수정
+interface ApiResponse {
+    isSuccess: boolean;
+    code: string;
+    message: string;
+    result: {
+        clubs: Club[];
+        totalElements: number;
+    };
+}
+
 const ClubListPage = () => {
     const announcements = [
         { id: 1, imageUrl: '/src/assets/common/dummy-image.png' },
@@ -144,7 +172,7 @@ const ClubListPage = () => {
         { id: 5, imageUrl: '/src/assets/common/dummy-image.png' },
     ];
 
-    const [currentIndex, setCurrentIndex] = useState(0);
+    const [currentIndex, setCurrentIndex] = useState(0); // 현재 이미지 인덱스
 
     // 각각의 드롭다운을 위한 별도의 상태 관리
     const [categoryFilter, setCategoryFilter] = useState<string>('none'); // 분과 필터 상태
@@ -153,37 +181,8 @@ const ClubListPage = () => {
 
     // 검색 기능을 위한 상태 관리
     const [searchTerm, setSearchTerm] = useState<string>(''); // 검색어 상태
-    const [clubs] = useState([ // 동아리 데이터
-        {
-            id: 1,
-            title: "UMC ERICA",
-            subtitle: "대학생 IT 개발 연합동아리",
-            category: "연합동아리",
-            status: "모집중"
-        },
-        {
-            id: 2,
-            title: "소나기",
-            subtitle: "영화 감상, 제작 동아리",
-            category: "예술분과",
-            status: "모집마감"
-        },
-        {
-            id: 3,
-            title: "로타랙트",
-            subtitle: "흥청봉사 로타렉트!",
-            category: "봉사분과",
-            status: "모집예정"
-        },
-        {
-            id: 4,
-            title: "CRACKER",
-            subtitle: "공모전 성과와 친목을 만들 수 있는 동아리",
-            category: "학술교양분과",
-            status: "모집중"
-        },
-        // ... 더 많은 클럽 데이터 추가 가능
-    ]);
+    const [clubs, setClubs] = useState<Club[]>([]); // 초기값을 빈 배열로 변경
+    const [isLoading, setIsLoading] = useState(false); // 로딩 상태
 
     // 이전 이미지 버튼 클릭 시 실행되는 함수
     const handlePrev = () => {
@@ -214,16 +213,70 @@ const ClubListPage = () => {
     // 현재 표시할 이미지 아이템 배열 반환
     const displayItems = getDisplayItems();
 
-    // 검색 버튼 클릭 시 실행되는 함수
-    const handleSearch = () => {
-        // 검색어가 비어있으면 전체 결과 표시
-        if (!searchTerm.trim()) return clubs;
+    // useCallback을 사용하여 fetchClubs 함수를 메모이제이션
+    const fetchClubs = useCallback(async () => {
+        try {
+            setIsLoading(true); // 로딩 상태 설정
+            const params: Record<string, string> = {}; // 쿼리 파라미터 초기화
+            
+            // 필터링 조건만 쿼리 파라미터로 전달
+            if (searchTerm.trim()) {
+                params.keyword = searchTerm.trim();
+            }
+            // 분과 필터링 조건 추가
+            if (categoryFilter !== 'none') {
+                params.category = categoryFilter.toUpperCase();
+            }
+            // 모집상태 필터링 조건 추가
+            if (recruitmentStatus !== 'none') {
+                params.status = recruitmentStatus.toUpperCase();
+            }
 
-        // 검색어가 포함된 동아리만 필터링
-        return clubs.filter(club => 
-            club.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-            club.subtitle.toLowerCase().includes(searchTerm.toLowerCase())
-        );
+            const queryString = new URLSearchParams(params).toString(); // 쿼리 파라미터 문자열로 변환
+            const url = `/api/clubs${queryString ? `?${queryString}` : ''}`; // 쿼리 파라미터가 있으면 쿼리 파라미터를 추가
+
+            // 동아리 목록 조회 API 호출
+            const response = await apiRequest({
+                url,
+                method: 'GET'
+            }) as ApiResponse;
+
+            // 동아리 목록 조회 API 응답 처리
+            if (response?.result?.clubs) {
+                const sortedClubs = [...response.result.clubs];
+                
+                // 프론트엔드에서 정렬 처리
+                if (sortOrder === 'category') { // 카테고리로 정렬
+                    sortedClubs.sort((a, b) => 
+                        getCategoryMapping(a.category).localeCompare(getCategoryMapping(b.category))
+                    );
+                } else if (sortOrder === 'recruitment') { // 모집상태로 정렬
+                    sortedClubs.sort((a, b) => 
+                        getRecruitmentStatusMapping(a.recruitmentStatus)
+                            .localeCompare(getRecruitmentStatusMapping(b.recruitmentStatus))
+                    );
+                } else {
+                    // 가나다순 정렬 (기본값)
+                    sortedClubs.sort((a, b) => a.name.localeCompare(b.name));
+                }
+                setClubs(sortedClubs);
+            }
+        } catch (error) {
+            console.error('동아리 목록 조회 실패:', error);
+            setClubs([]);
+        } finally {
+            setIsLoading(false); // 로딩 상태 해제
+        }
+    }, [searchTerm, categoryFilter, recruitmentStatus, sortOrder]);
+
+    // useEffect에 fetchClubs 추가
+    useEffect(() => {
+        fetchClubs();
+    }, [fetchClubs]); // fetchClubs만 의존성으로 설정
+
+    // 검색 버튼 클릭 핸들러 - 이미 useEffect에서 searchTerm 변경을 감지하므로 제거
+    const handleSearch = () => {
+        // 엔터나 검색 버튼 클릭 시에도 searchTerm이 변경되어 자동으로 fetchClubs가 호출됨
     };
 
     // 카테고리별 이모지 매핑 함수
@@ -257,82 +310,27 @@ const ClubListPage = () => {
         console.log('정렬 기준 선택:', value);
     };
 
-    // 필터링된 클럽 목록을 반환하는 함수
-    const getFilteredClubs = () => {
-        // 1. 먼저 검색어로 필터링
-        let filtered = handleSearch();
+    // 카테고리 매핑 함수
+    const getCategoryMapping = (category: string) => {
+        const categoryMap: { [key: string]: string } = {
+            'SPORTS': '체육분과',
+            'ART': '예술분과',
+            'VOLUNTEER': '봉사분과',
+            'ACADEMIC': '학술교양분과',
+            'RELIGION': '종교분과',
+            'UNION': '연합동아리'
+        };
+        return categoryMap[category] || category;
+    };
 
-        // 2. 분과 필터 적용
-        if (categoryFilter !== 'none') {
-            filtered = filtered.filter(club => {
-                switch (categoryFilter) {
-                    case 'volunteer':
-                        return club.category === '봉사분과';
-                    case 'art':
-                        return club.category === '예술분과';
-                    case 'religion':
-                        return club.category === '종교분과';
-                    case 'sports':
-                        return club.category === '체육분과';
-                    case 'academic':
-                        return club.category === '학술교양분과';
-                    case 'union':
-                        return club.category === '연합동아리';
-                    default:
-                        return true;
-                }
-            });
-        }
-
-        // 3. 모집상태 필터 적용
-        if (recruitmentStatus !== 'none') {
-            filtered = filtered.filter(club => {
-                switch (recruitmentStatus) {
-                    case 'upcoming':
-                        return club.status === '모집예정';
-                    case 'recruiting':
-                        return club.status === '모집중';
-                    case 'closed':
-                        return club.status === '모집마감';
-                    default:
-                        return true;
-                }
-            });
-        }
-
-        // 4. 정렬 적용
-        if (sortOrder === 'none' || sortOrder === 'category' || sortOrder === 'recruitment') {
-            // 모집상태 정렬을 위한 순서 매핑
-            const statusOrder: { [key: string]: number } = {
-                '모집중': 0,
-                '모집예정': 1,
-                '모집마감': 2
-            };
-
-            filtered.sort((a, b) => {
-                switch (sortOrder) {
-                    case 'category':
-                        // 카테고리 내에서 가나다순 정렬
-                        if (a.category === b.category) {
-                            return a.title.localeCompare(b.title, ['ko', 'en']);
-                        }
-                        return a.category.localeCompare(b.category, ['ko', 'en']);
-                        
-                    case 'recruitment':
-                        // 모집상태 순서에 따라 정렬
-                        if (statusOrder[a.status] === statusOrder[b.status]) {
-                            return a.title.localeCompare(b.title, ['ko', 'en']);
-                        }
-                        return statusOrder[a.status] - statusOrder[b.status];
-                        
-                    default:
-                        // 기본적으로 가나다순 정렬 (한글, 영어 모두)
-                        return a.title.localeCompare(b.title, ['ko', 'en']);
-                }
-            });
-        }
-
-        return filtered;
+    // 모집상태 매핑 함수   
+    const getRecruitmentStatusMapping = (status: string) => {
+        const statusMap: { [key: string]: string } = {
+            'UPCOMING': '모집예정',
+            'OPEN': '모집중',
+            'CLOSED': '모집마감'
+        };
+        return statusMap[status] || status;
     };
 
     return (
@@ -418,7 +416,7 @@ const ClubListPage = () => {
                             options={[
                                 { label: '선택없음', value: 'none' },
                                 { label: '모집예정', value: 'upcoming' },
-                                { label: '모집중', value: 'recruiting' },
+                                { label: '모집중', value: 'open' },
                                 { label: '모집마감', value: 'closed' }
                             ]}
                             onSelect={handleRecruitmentStatusSelect}
@@ -430,29 +428,34 @@ const ClubListPage = () => {
                 </DropdownContainer>
 
                 <ClubListWrapper>
-                    {getFilteredClubs().map(club => {
-                        // club.status의 타입을 TagType으로 타입 단언
-                        const status = club.status as TagType;
-                        
-                        return (
-                            <MainpageCard 
-                                key={club.id}
-                                title={club.title}
-                                subtitle={club.subtitle}
-                                tags={[
-                                    { 
-                                        type: '동아리 및 질문', 
-                                        text: `${getCategoryEmoji(club.category)} ${club.category}` 
-                                    },
-                                    { 
-                                        type: status, 
-                                        text: club.status 
-                                    },
-                                ]}
-                                onClick={() => console.log('카드 클릭')}
-                            />
-                        );
-                    })}
+                    {isLoading ? (
+                        <div>로딩 중...</div>
+                    ) : clubs && clubs.length > 0 ? (
+                        clubs.map(club => {
+                            const mappedCategory = getCategoryMapping(club.category);
+                            const mappedStatus = getRecruitmentStatusMapping(club.recruitmentStatus);
+                            return (
+                                <MainpageCard 
+                                    key={club.id}
+                                    title={club.name}
+                                    subtitle={club.description}
+                                    tags={[
+                                        { 
+                                            type: '동아리 및 질문', 
+                                            text: `${getCategoryEmoji(mappedCategory)} ${mappedCategory}` 
+                                        },
+                                        { 
+                                            type: mappedStatus as TagType, 
+                                            text: mappedStatus 
+                                        },
+                                    ]}
+                                    onClick={() => console.log('카드 클릭')}
+                                />
+                            );
+                        })
+                    ) : (
+                        <div>검색 결과가 없습니다.</div>
+                    )}
                 </ClubListWrapper>
             </ClubSearchContainer>
         </div>

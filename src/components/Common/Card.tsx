@@ -1,5 +1,7 @@
 import styled, { css } from 'styled-components';
 import { Tag } from './Tag';
+import downloadIcon from '../../assets/common/card_download.svg';
+import rightArrowIcon from '../../assets/common/card_right_arrow.svg';
 
 interface CardProps {
     $variant?: 'unionNotice' | 'serviceNotice' | 'resources' | 'FAQ';
@@ -105,7 +107,7 @@ const Card = ({ $variant = 'unionNotice', imagePath, title, date, questionType, 
                         <CardDate>{date}</CardDate>
                     </TitleDateWrapper>
                     <IconBase 
-                        src="/src/assets/common/card_right_arrow.svg" 
+                        src={rightArrowIcon} 
                         alt="right arrow" 
                         $isRotated={isRotated}
                     />
@@ -118,7 +120,7 @@ const Card = ({ $variant = 'unionNotice', imagePath, title, date, questionType, 
                         <CardTitle>{title}</CardTitle>
                         <CardDate>{date}</CardDate>
                     </TitleDateWrapper>
-                    <IconBase src="/src/assets/common/card_download.svg" alt="download icon" />
+                    <IconBase src={downloadIcon} alt="download icon" />
                 </>
             )}
 
@@ -131,7 +133,7 @@ const Card = ({ $variant = 'unionNotice', imagePath, title, date, questionType, 
                         </TagWrapper>
                     </TitleDateWrapper>
                     <IconBase 
-                        src="/src/assets/common/card_right_arrow.svg" 
+                        src={rightArrowIcon} 
                         alt="right arrow" 
                         $isRotated={isRotated}
                     />
