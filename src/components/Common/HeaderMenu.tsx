@@ -68,7 +68,7 @@ const HeaderMenu = () => {
 export { HeaderMenu };
 
 const Container = styled.header`
-    position: relative;
+    position: fixed;
     top: 0;
     left: 50%;
     margin: 0 auto;
