@@ -1,11 +1,11 @@
 import useToggle from '@/hooks/useToggle';
 import styled from 'styled-components';
-import { Dropdown, InputField } from '../Common';
+import { Dropdown, InputField } from '../../Common';
 import { useState } from 'react';
 import DropdownArrow from '@/assets/common/dropdown_arrow.svg?react';
 import { months } from '@/constants/club-detail-register';
 
-export default function EventSchedule() {
+function EventSchedule() {
     const { isOpen, setIsOpen, toggle } = useToggle();
     const [selectedValue, setSelectedValue] = useState<string>('');
 
@@ -46,6 +46,8 @@ export default function EventSchedule() {
         </Container>
     );
 }
+
+export { EventSchedule };
 
 const Container = styled.div`
     position: relative;

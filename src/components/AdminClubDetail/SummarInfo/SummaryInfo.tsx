@@ -19,7 +19,7 @@ import { useRecoilValue } from 'recoil';
 import { clubIdselector } from '@/store/clubIdState';
 import { apiRequest } from '@/api/apiRequest';
 
-export default function SummaryInfo() {
+function SummaryInfo() {
     const clubId = useRecoilValue(clubIdselector);
     const { isOpen, setIsOpen, toggle } = useToggle();
     const [inputValue, setInputValue] = useState<ISummaryInfoValue>({
@@ -174,6 +174,8 @@ export default function SummaryInfo() {
         </FormContainer>
     );
 }
+
+export { SummaryInfo };
 
 const FormContainer = styled.form`
     display: flex;

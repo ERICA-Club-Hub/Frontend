@@ -2,9 +2,11 @@ import { TopNavigator } from '@/components/Common';
 import { clubDetailRegisterNavigations } from '@/constants';
 import { useState } from 'react';
 import styled from 'styled-components';
-import SummaryInfo from './SummaryInfo';
-import ClubIntro from './ClubIntro';
-import RecruitNotice from './RecruitNotice';
+import {
+    ClubIntro,
+    RecruitNotice,
+    SummaryInfo,
+} from '@/components/AdminClubDetail';
 
 const AdminClubDetailPage = () => {
     const [navStatus, setNavStatus] = useState<number>(1);

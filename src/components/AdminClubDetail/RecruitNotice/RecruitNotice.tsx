@@ -15,7 +15,7 @@ import { clubIdselector } from '@/store/clubIdState';
 import { IRecruitNoticeValue } from '@/types';
 import useBulletPointConverter from '@/hooks/useBulletPointConverter';
 
-export default function RecruitNotice() {
+function RecruitNotice() {
     const clubId = useRecoilValue(clubIdselector);
     const [inputValue, setInputValue] = useState<IRecruitNoticeValue>({
         due: '',
@@ -116,7 +116,9 @@ export default function RecruitNotice() {
     );
 }
 
-const Container = styled.form`
+export { RecruitNotice };
+
+const Container = styled.div`
     display: flex;
     flex-direction: column;
 `;

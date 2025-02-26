@@ -46,14 +46,17 @@ const months = [
 const clubIntroList = [
     {
         label: '우리 동아리를 소개합니다',
+        name: 'introduction',
         placeholder: '동아리를 소개하는 글을 작성해 주세요.',
     },
     {
         label: '이런 활동을 할 수 있어요!',
+        name: 'activity',
         placeholder: '동아리의 주요 활동에 대해 작성해 주세요.',
     },
     {
         label: '너, 내 동료가 돼라!',
+        name: 'recruitment',
         placeholder: '동아리가 원하는 동아리원에 대해 작성해주세요.',
     },
 ];
