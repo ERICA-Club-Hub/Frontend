@@ -11,7 +11,6 @@ const useBulletPointConverter = <T>({
     if (e.key === ' ' && e.currentTarget.value.endsWith('-')) {
         e.preventDefault();
         const { name, value } = e.currentTarget;
-        console.log(value);
         setInputValue((prev) => ({
             ...prev,
             // 마지막 문자('-')를 제외한 값 반환 + '• '를 추가
