@@ -21,23 +21,23 @@ const RegisterClubPage = () => {
         briefIntroduction: '',
     });
     const [selectedValue, setSelectedValue] = useState<string>('');
-    const [uploadImgUrl, setUploadImgUrl] = useState<
-        string | ArrayBuffer | null
-    >('');
+    const [postImg, setPostImg] = useState<File | null>(null);
+    const [previewImg, setPreviewImg] = useState<string | ArrayBuffer | null>(
+        '',
+    );
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        console.log(inputValue);
 
         const formData = new FormData();
-        formData.append('clubName', inputValue.clubName);
-        formData.append('leaderEmail', inputValue.leaderEmail);
-        formData.append('category', inputValue.category);
-        formData.append('oneLiner', inputValue.oneLiner);
-        formData.append('briefIntroduction', inputValue.briefIntroduction);
-
-        if (uploadImgUrl instanceof File) {
-            formData.append('image', uploadImgUrl);
+        formData.append(
+            'requestBody',
+            new Blob([JSON.stringify(inputValue)], {
+                type: 'application/json',
+            }),
+        );
+        if (postImg) {
+            formData.append('image', postImg);
         }
 
         try {
@@ -57,7 +57,7 @@ const RegisterClubPage = () => {
     };
 
     const handleImgUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
-        uploadImageWithPreview(e, setUploadImgUrl);
+        uploadImageWithPreview(e, setPostImg, setPreviewImg);
     };
 
     const isValid =
@@ -135,16 +135,18 @@ const RegisterClubPage = () => {
                                     <DropdownItem
                                         key={`club-category-${index}`}
                                         onClick={() => {
-                                            setSelectedValue(item);
+                                            setSelectedValue(item.label);
                                             setInputValue({
                                                 ...inputValue,
-                                                category: item,
+                                                category: item.name,
                                             });
                                             toggle();
                                         }}
-                                        $isSelected={selectedValue === item}
+                                        $isSelected={
+                                            selectedValue === item.label
+                                        }
                                     >
-                                        {item}
+                                        {item.label}
                                     </DropdownItem>
                                 ))}
                             </DropdownItemList>
@@ -158,11 +160,11 @@ const RegisterClubPage = () => {
                     <ImageContainer>
                         <div className="image-upload-container">
                             <label htmlFor="image" className="image-preview">
-                                {uploadImgUrl && (
+                                {previewImg && (
                                     <ImagePreview
                                         src={
-                                            typeof uploadImgUrl === 'string'
-                                                ? uploadImgUrl
+                                            typeof previewImg === 'string'
+                                                ? previewImg
                                                 : ''
                                         }
                                         alt="image-preview"
@@ -174,6 +176,7 @@ const RegisterClubPage = () => {
                                 type="file"
                                 accept=".jpg, .jpeg, .png"
                                 onChange={handleImgUpload}
+                                // onChange={handleFileChange}
                             />
                         </div>
 
