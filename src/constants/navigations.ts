@@ -1,18 +1,35 @@
-const navigations = [
+const adminNavigationMenus = [
+    {
+        title: '어드민 페이지',
+        adminType: ['union'],
+        url: '/admin/union',
+    },
+    {
+        title: '어드민 페이지',
+        adminType: ['service', 'club'],
+        url: '/admin/club',
+    },
+];
+
+const navigationMenus = [
     {
         title: '총동연 공지사항',
+        adminType: ['user'],
         url: '/union/notice',
     },
     {
         title: '자료실',
+        adminType: ['user'],
         url: '/resources',
     },
     {
         title: '서비스 공지사항',
+        adminType: ['user'],
         url: '/club/notice',
     },
     {
         title: '자주 묻는 질문',
+        adminType: ['user'],
         url: '/faq',
     },
 ];
@@ -44,7 +61,8 @@ const clubCategory = [
 ];
 
 export {
-    navigations,
+    adminNavigationMenus,
+    navigationMenus,
     clubDetailNavigations,
     clubDetailRegisterNavigations,
     loginNavigations,

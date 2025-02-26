@@ -11,14 +11,14 @@ const { persistAtom } = recoilPersist({
 const isAuthenticated = atom({
     key: 'isAuthenticated',
     default: !!getAccessToken(), // localStroage에서 초기값 가져오기
-    effects_UNSTABLE: [persistAtom], //
+    effects_UNSTABLE: [persistAtom],
 });
 
 // 어드민 유형을 확인하는 상태 (club, union, service)
 const adminType = atom<string | null>({
     key: 'adminType',
     default: null, // 초기값은 null
-    effects_UNSTABLE: [persistAtom], //
+    effects_UNSTABLE: [persistAtom],
 });
 
 // 로그인 여부를 확인하는 selector

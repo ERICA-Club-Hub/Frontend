@@ -12,7 +12,7 @@ const useAdminLogin = () => {
     const setAdminType = useSetRecoilState(adminType);
     const setClubId = useSetRecoilState(clubId);
 
-    // UMC 임시 코드  OCVGJU
+    // UMC 임시 코드  KCZ9YB
 
     const handleLogin = async (navStatus: number, code: string) => {
         try {
