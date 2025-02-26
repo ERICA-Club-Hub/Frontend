@@ -61,14 +61,17 @@ const clubIntroList = [
 const recruitNoticeList = [
     {
         label: '모집기간',
+        name: 'due',
         placeholder: '동아리의 모집 기간을 작성해 주세요.',
     },
     {
         label: '유의사항',
+        name: 'notice',
         placeholder: '동아리 신청 시 유의사항에 대해 작성해 주세요.',
     },
     {
         label: '기타 동아리 모집 안내',
+        name: 'etc',
         placeholder: '기타 동아리 모집 안내를 작성해 주세요.',
     },
 ];
