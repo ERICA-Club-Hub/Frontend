@@ -4,34 +4,23 @@ import HeaderMenuLogo from '@/assets/common/header-menu.svg?react';
 import HomeIcon from '@/assets/common/home-icon.svg?react';
 import ClosedBtn from '@/assets/common/closed-btn.svg?react';
 import NavigateArrow from '@/assets/common/navigate-arrow.svg?react';
-import { Link, useNavigate } from 'react-router-dom';
-import { navigations } from '@/constants';
+import { Link } from 'react-router-dom';
 import { ArrowLinkButton } from './ArrowLinkButton';
 import { isAuthenticatedSelector } from '@/store/authState';
 import { useRecoilValue } from 'recoil';
-import { apiRequest } from '@/api/apiRequest';
 import { useClickOutside } from '@/hooks/useClickOutside';
 import useToggle from '@/hooks/useToggle';
+import { useAuthenticationToggle } from '@/hooks/useAuthenticationToggle';
+import { useFilteredHeaderMenuList } from '@/hooks/usefilteredHeaderMenuList';
 
 const HeaderMenu = () => {
-    const navigate = useNavigate();
     const dropdownRef = useRef<HTMLDivElement>(null);
     const { isOpen, setIsOpen, toggle } = useToggle();
-    const isAuthenticated = useRecoilValue(isAuthenticatedSelector);
+    const isAuthenticatedValue = useRecoilValue(isAuthenticatedSelector); // 로그인 여부
+    const toggleAuthentication = useAuthenticationToggle(setIsOpen); // 로그인 & 로그아웃 로직
+    const filteredMenus = useFilteredHeaderMenuList(); // 어드민 유형에 따라 필터링된 메뉴
 
     useClickOutside(dropdownRef, () => setIsOpen(false));
-
-    const handleAuthClick = () => {
-        if (isAuthenticated) {
-            // 로그아웃
-            apiRequest({ url: '/api/auth/logout', method: 'post' });
-            navigate('/');
-        } else {
-            // 로그인
-            navigate('/admin/login');
-        }
-        setIsOpen(false);
-    };
 
     return (
         <>
@@ -50,16 +39,16 @@ const HeaderMenu = () => {
 
                 {/* 드롭다운 매뉴 */}
                 <DropdownNavigator ref={dropdownRef} $isOpen={isOpen}>
-                    <LoginButton onClick={handleAuthClick}>
+                    <LoginButton onClick={toggleAuthentication}>
                         <h2>
-                            {isAuthenticated
+                            {isAuthenticatedValue
                                 ? '어드민 로그아웃'
                                 : '어드민 로그인'}
                         </h2>
                         <NavigateArrow />
                     </LoginButton>
                     <MenuList>
-                        {navigations.map((menu, index) => (
+                        {filteredMenus.map((menu, index) => (
                             <MenuItem
                                 key={`navigate-menu-${index}`}
                                 onClick={toggle}
@@ -111,7 +100,7 @@ const DropdownNavigator = styled.div<{ $isOpen: boolean }>`
     top: 55px;
     right: 0px;
     width: 100%;
-    height: ${({ $isOpen }) => ($isOpen ? '212px' : '0')};
+    height: ${({ $isOpen }) => ($isOpen ? 'auto' : '0')};
     padding: ${({ $isOpen }) => ($isOpen ? '20px 36px 30px' : '0 36px')};
     border-bottom-left-radius: 10px;
     border-bottom-right-radius: 10px;
