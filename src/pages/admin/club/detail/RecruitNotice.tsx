@@ -13,6 +13,7 @@ import { inputChangeHandler } from '@/utils/inputChangeHandler';
 import { apiRequest } from '@/api/apiRequest';
 import { clubIdselector } from '@/store/clubIdState';
 import { IRecruitNoticeValue } from '@/types';
+import useBulletPointConverter from '@/hooks/useBulletPointConverter';
 
 export default function RecruitNotice() {
     const clubId = useRecoilValue(clubIdselector);
@@ -63,12 +64,23 @@ export default function RecruitNotice() {
                             <Label>{recruitNotice.label}</Label>
                             <TextArea
                                 name={recruitNotice.name}
+                                value={
+                                    inputValue[
+                                        recruitNotice.name as keyof IRecruitNoticeValue
+                                    ]
+                                }
                                 size="large"
                                 backgroundColor="gray"
                                 placeholder={recruitNotice.placeholder}
                                 maxLength={500}
                                 onChange={(e) =>
                                     inputChangeHandler<IRecruitNoticeValue>({
+                                        e,
+                                        setInputValue,
+                                    })
+                                }
+                                onKeyDown={(e) =>
+                                    useBulletPointConverter({
                                         e,
                                         setInputValue,
                                     })
