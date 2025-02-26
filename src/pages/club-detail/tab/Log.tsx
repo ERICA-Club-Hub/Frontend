@@ -1,36 +1,41 @@
 import styled from 'styled-components';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { ActivityLogModal } from '../ActivityLogModal';
 import { apiRequest } from '@/api/apiRequest';
-
-interface LogProps {
-    clubName?: string | null;
-    clubImg?: string | null;
-    clubId: string;
-}
+import { ClubDetailContext } from '../ClubDetailPage';
 
 interface ActivityThumbnailList {
     activityId: number;
     thumbnailUrl: string;
 }
 
-export default function Log({ clubId, clubImg, clubName }: LogProps) {
+export default function Log() {
     const [activityThumbnailList, setActivityThumbnailList] = useState<
         ActivityThumbnailList[]
     >([]);
     const [modalOpen, setModalOpen] = useState<boolean>(false);
     const [selectedImageId, setSelectedImageId] = useState<number>(0);
     const [selectedImageUrl, setSelectedImageUrl] = useState<string>('');
+    const context = useContext(ClubDetailContext);
+    const nowUrl = context?.nowUrl;
+    const clubId = context?.clubId;
+    const clubName = context?.clubName;
+    const clubImg = context?.clubImg;
 
     useEffect(() => {
-        const getActivityThumbnailList = async (clubId: string) => {
+        const getActivityThumbnailList = async (clubId?: string) => {
+            const requestUrl =
+                nowUrl === 'club-detail-preview'
+                    ? `/api/activities/club/${clubId}`
+                    : `/api/activities/club/${clubId}`;
             const response = await apiRequest({
-                url: `/api/activities/club/${clubId}`,
+                url: requestUrl,
+                requireToken: nowUrl === 'club-detail-preview',
             });
             setActivityThumbnailList(response.result.activityThumbnailDTOList);
         };
         getActivityThumbnailList(clubId);
-    }, [clubId]);
+    }, [clubId, nowUrl]);
 
     const handlClickImg = (id: number, url: string) => {
         setSelectedImageUrl(url);

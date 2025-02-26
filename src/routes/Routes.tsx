@@ -20,6 +20,7 @@ import {
 import { RedirectIfAuthenticated } from './RedirectIfAuthenticated';
 import { AuthGuard } from './AuthGuard';
 import UnionAdminGuard from './UnionAdminGuard';
+import ClubDetailPreview from '@/pages/club-detail-preview/ClubDetailPreview';
 
 export default function AppRoutes() {
     return (
@@ -41,6 +42,12 @@ export default function AppRoutes() {
 
             {/* 자주 묻는 질문 페이지 */}
             <Route path="/faq" element={<FAQPage />} />
+
+            {/* 동아리 등록 및 수정의 미리보기 페이지 */}
+            <Route
+                path="/club-detail-preview/:id"
+                element={<ClubDetailPreview />}
+            />
 
             {/* 로그인됐을 때 로그인 페이지 접근 제한 */}
             <Route path="/admin/login" element={<RedirectIfAuthenticated />}>
