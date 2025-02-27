@@ -1,31 +1,35 @@
 import { apiRequest } from '@/api/apiRequest';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import styled from 'styled-components';
-
-interface RecruitProps {
-    clubId: string;
-}
+import { ClubDetailContext } from '../ClubDetailPage';
 
 interface RecruitContent {
     due: string;
     notice: string;
-    ect: string;
+    etc: string;
 }
 
-export default function Recruit({ clubId }: RecruitProps) {
+export default function Recruit() {
     const [recruitContent, setRecruitContent] = useState<RecruitContent>();
+    const context = useContext(ClubDetailContext);
+    const nowUrl = context?.nowUrl;
+    const clubId = context?.clubId;
     useEffect(() => {
-        const getRecruit = async (clubId: string) => {
+        const getRecruit = async (clubId?: string) => {
+            const requestUrl =
+                nowUrl === 'club-detail-preview'
+                    ? `/api/clubs/club-admin/${clubId}/recruitment/draft`
+                    : `/api/clubs/${clubId}/recruitment`;
             const recruitResponse = await apiRequest({
-                url: `/api/clubs/${clubId}/recruitment`,
+                url: requestUrl,
+                requireToken: nowUrl === 'club-detail-preview',
             });
             setRecruitContent(recruitResponse.result);
         };
         getRecruit(clubId);
-    }, [clubId]);
-    console.log(recruitContent);
+    }, [clubId, nowUrl]);
     return recruitContent?.due &&
-        recruitContent.ect &&
+        recruitContent.etc &&
         recruitContent.notice ? (
         <Container>
             <ContentBlock>
@@ -38,7 +42,7 @@ export default function Recruit({ clubId }: RecruitProps) {
             </ContentBlock>
             <ContentBlock>
                 <Title>💡 기타 동아리 모집 안내</Title>
-                <ContentSpan>{recruitContent.ect}</ContentSpan>
+                <ContentSpan>{recruitContent.etc}</ContentSpan>
             </ContentBlock>
         </Container>
     ) : (

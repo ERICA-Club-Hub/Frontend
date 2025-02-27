@@ -3,26 +3,15 @@ import Log from './tab/Log';
 import Recruit from './tab/Recruit';
 
 interface TabContentsProps {
-    clubName?: string | null;
-    clubImg?: string | null;
     activeTab: string;
-    clubId: string;
 }
 
-export default function TabContents({
-    activeTab,
-    clubId,
-    clubName,
-    clubImg,
-}: TabContentsProps) {
-    console.log(activeTab);
+export default function TabContents({ activeTab }: TabContentsProps) {
     if (activeTab === 'intro') {
-        return <Intro clubId={clubId}></Intro>;
+        return <Intro></Intro>;
     } else if (activeTab === 'recruit') {
-        return <Recruit clubId={clubId}></Recruit>;
+        return <Recruit></Recruit>;
     } else {
-        return (
-            <Log clubName={clubName} clubImg={clubImg} clubId={clubId}></Log>
-        );
+        return <Log></Log>;
     }
 }

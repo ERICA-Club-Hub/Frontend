@@ -65,8 +65,6 @@ export const apiRequest = async ({
                 console.error(error);
             }
         }
-        // axios에러가 아닌 경우 (ex. 문법 오류, 타입 오류 등등..)로 구분
-        console.error(error);
         throw error;
     }
 };

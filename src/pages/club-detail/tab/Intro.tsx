@@ -1,10 +1,7 @@
 import { apiRequest } from '@/api/apiRequest';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import styled from 'styled-components';
-
-interface IntroProps {
-    clubId: string;
-}
+import { ClubDetailContext } from '../ClubDetailPage';
 
 interface Schedule {
     month: string;
@@ -16,32 +13,51 @@ interface ClubIntro {
     recruitment: string | null;
 }
 
-export default function Intro({ clubId }: IntroProps) {
+export default function Intro() {
+    // const nowUrl = useLocation().pathname.split('/')[1];
+    const context = useContext(ClubDetailContext);
+    const nowUrl = context?.nowUrl;
+    const clubId = context?.clubId;
     const [schedules, setSchedules] = useState<Schedule[]>();
     const [clubIntro, setClubIntro] = useState<ClubIntro>();
 
     useEffect(() => {
         const getSchedules = async (clubId: string) => {
+            const requestUrl =
+                nowUrl === 'club-detail-preview'
+                    ? `/api/clubs/${clubId}/schedules` // 이부분 나중에 api 개발되면 수정
+                    : `/api/clubs/${clubId}/schedules`;
             if (clubId) {
                 const schedulesResponse = await apiRequest({
-                    url: `/api/clubs/${clubId}/schedules`,
+                    url: requestUrl,
+                    requireToken: nowUrl === 'club-detail-preview',
                 });
                 setSchedules(schedulesResponse.result.activities);
             }
         };
         const getClubIntro = async (clubId: string) => {
-            if (clubId) {
-                const clubIntroResponse = await apiRequest({
-                    url: `/api/clubs/${clubId}/introduction`,
-                });
-                setClubIntro(clubIntroResponse.result);
+            try {
+                const requestUrl =
+                    nowUrl === 'club-detail-preview'
+                        ? `/api/clubs/club-admin/${clubId}/introduction/draft`
+                        : `/api/clubs/${clubId}/introduction`;
+                if (clubId) {
+                    const clubIntroResponse = await apiRequest({
+                        url: requestUrl,
+                        requireToken: nowUrl === 'club-detail-preview',
+                    });
+                    setClubIntro(clubIntroResponse.result);
+                }
+            } catch (error) {
+                // 컴포넌트 내부에서 하는 에러 처리 지움(인터셉트로 대체)
+                console.error(error);
             }
         };
         if (clubId) {
             getSchedules(clubId);
             getClubIntro(clubId);
         }
-    }, [clubId]);
+    }, [clubId, nowUrl]);
     return (
         <div>
             <Container>

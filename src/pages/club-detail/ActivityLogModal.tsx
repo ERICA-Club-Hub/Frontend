@@ -75,19 +75,19 @@ const ActivityLogModal = ({
                                 <CloseButton
                                     onClick={() => setModalOpen(false)}
                                 >
-                                    <ModalX>X</ModalX>
+                                    <CloseIcon />
                                 </CloseButton>
                             </Header>
                             <ImageSection>
                                 <NavButton onClick={handlePrevImage}>
-                                    ＜
+                                    <ArrowLeft></ArrowLeft>
                                 </NavButton>
                                 <MainImage
                                     src={activityList[currentIdx].imageUrl}
                                     alt="activity log"
                                 />
                                 <NavButton onClick={handleNextImage}>
-                                    ＞
+                                    <ArrowRight></ArrowRight>
                                 </NavButton>
                             </ImageSection>
                             <ContentSection>
@@ -179,6 +179,26 @@ const NavButton = styled.button`
     font-weight: 800;
 `;
 
+const ArrowLeft = styled.div`
+    width: 12px;
+    height: 12px;
+    border: solid 2px black;
+    border-width: 0 2px 2px 0;
+    transform: rotate(135deg);
+    display: inline-block;
+    background-color: transparent;
+`;
+
+const ArrowRight = styled.div`
+    width: 12px;
+    height: 12px;
+    border: solid 2px black;
+    border-width: 0 2px 2px 0;
+    transform: rotate(315deg);
+    display: inline-block;
+    background-color: transparent;
+`;
+
 const MainImage = styled.img`
     width: 210px;
     height: 210px;
@@ -206,15 +226,32 @@ const Description = styled.p`
     line-height: 18px;
 `;
 
-const ModalX = styled.span`
-    align-items: center;
-    display: flex;
-    padding: 5px;
-    width: 10px;
-    height: 10px;
-    font-weight: 2000;
-    font-size: 20px;
-    margin-bottom: 9px;
+const CloseIcon = styled.div`
+    width: 20px;
+    height: 20px;
+    position: relative;
+    cursor: pointer;
+    border: none;
+    background: none;
+
+    &:before,
+    &:after {
+        content: '';
+        position: absolute;
+        width: 2px;
+        height: 20px;
+        background-color: black;
+        top: 0;
+        left: 50%;
+    }
+
+    &:before {
+        transform: rotate(45deg);
+    }
+
+    &:after {
+        transform: rotate(-45deg);
+    }
 `;
 
 export { ActivityLogModal };
