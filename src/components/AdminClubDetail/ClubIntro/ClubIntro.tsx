@@ -8,6 +8,7 @@ import { useRecoilValue } from 'recoil';
 import { clubIdselector } from '@/store/clubIdState';
 import { MonthlyEventSchedule } from './MonthlyEventSchedule';
 import { ClubDescription } from './ClubDescription';
+import { ClubIntroProvider } from '@/contexts/ClubIntroContext';
 
 function ClubIntro() {
     const clubId = useRecoilValue(clubIdselector);
@@ -49,41 +50,44 @@ function ClubIntro() {
     };
 
     return (
-        <Container>
-            {/* 주요 활동 일정 입력 */}
-            <MonthlyEventSchedule
-                schedules={schedules}
-                setSchedules={setSchedules}
-            />
+        <ClubIntroProvider
+            value={{
+                schedules,
+                setSchedules,
+                inputValue,
+                setInputValue,
+            }}
+        >
+            <Container>
+                {/* 주요 활동 일정 입력 */}
+                <MonthlyEventSchedule />
 
-            {/* 동아리 소개글 */}
-            <ClubDescription
-                inputValue={inputValue}
-                setInputValue={setInputValue}
-            />
+                {/* 동아리 소개글 */}
+                <ClubDescription />
 
-            <ButtonGroupWrapper>
-                <Button
-                    name="preview"
-                    type="button"
-                    size="small"
-                    variant="outlined"
-                    isDisabled={() => false}
-                    onClick={handleSubmit}
-                >
-                    미리보기
-                </Button>
-                <Button
-                    name="save"
-                    type="button"
-                    size="small"
-                    isDisabled={() => false}
-                    onClick={handleSubmit}
-                >
-                    저장하기
-                </Button>
-            </ButtonGroupWrapper>
-        </Container>
+                <ButtonGroupWrapper>
+                    <Button
+                        name="preview"
+                        type="button"
+                        size="small"
+                        variant="outlined"
+                        isDisabled={() => false}
+                        onClick={handleSubmit}
+                    >
+                        미리보기
+                    </Button>
+                    <Button
+                        name="save"
+                        type="button"
+                        size="small"
+                        isDisabled={() => false}
+                        onClick={handleSubmit}
+                    >
+                        저장하기
+                    </Button>
+                </ButtonGroupWrapper>
+            </Container>
+        </ClubIntroProvider>
     );
 }
 

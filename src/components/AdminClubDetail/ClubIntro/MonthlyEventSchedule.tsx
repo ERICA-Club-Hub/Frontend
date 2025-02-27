@@ -3,13 +3,12 @@ import { Label, SectionWrapper } from '@/styles/admin-club-detail/style';
 import styled from 'styled-components';
 import PlusIcon from '@/assets/common/plus-icon.svg?react';
 import { EventSchedule } from './EventSchedule';
-import { IMonthlyEventSchedule } from '@/types';
+import useClubIntroContext from '@/hooks/useClubIntroContext';
 
-function MonthlyEventSchedule({
-    schedules,
-    setSchedules,
-}: IMonthlyEventSchedule) {
-    console.log(schedules, setSchedules);
+function MonthlyEventSchedule() {
+    const { schedules, setSchedules } = useClubIntroContext();
+    console.log(schedules);
+
     const [eventSchedules, setEventSchedules] = useState([
         <EventSchedule key={`event-schedule-1`} />,
     ]);

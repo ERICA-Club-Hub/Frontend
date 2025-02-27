@@ -1,11 +1,14 @@
 import { TextArea } from '@/components/Common/TextArea';
 import { clubIntroList } from '@/constants/club-detail-register';
+import useClubIntroContext from '@/hooks/useClubIntroContext';
 import { Label, SectionWrapper } from '@/styles/admin-club-detail/style';
-import { IClubDescription, IClubIntroValue } from '@/types';
+import { IClubIntroValue } from '@/types';
 import { inputChangeHandler } from '@/utils/inputChangeHandler';
 import styled from 'styled-components';
 
-function ClubDescription({ inputValue, setInputValue }: IClubDescription) {
+function ClubDescription() {
+    const { inputValue, setInputValue } = useClubIntroContext();
+
     return (
         <ClubIntroFormContainer>
             <h2>동아리 소개글 작성</h2>
