@@ -11,7 +11,7 @@ interface ISummaryInfoValue {
     leaderName: string;
     leaderPhone: string;
     activities: string;
-    membershipFee: string;
+    membershipFee: number | null;
     snsUrl: string;
     applicationUrl: string;
 }

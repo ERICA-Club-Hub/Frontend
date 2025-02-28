@@ -17,7 +17,8 @@ import { inputChangeHandler } from '@/utils/inputChangeHandler';
 import { ISummaryInfoValue } from '@/types';
 import { useRecoilValue } from 'recoil';
 import { clubIdselector } from '@/store/clubIdState';
-import { apiRequest } from '@/api/apiRequest';
+import useClubDetailQueries from '@/hooks/queries/useClubDetailQueries';
+import useClubDetailMutation from '@/hooks/queries/useClubDetailMutation';
 
 function SummaryInfo() {
     const clubId = useRecoilValue(clubIdselector);
@@ -27,33 +28,31 @@ function SummaryInfo() {
         leaderName: '',
         leaderPhone: '',
         activities: '',
-        membershipFee: '',
+        membershipFee: null,
         snsUrl: '',
         applicationUrl: '',
     });
-    const [selectedValue, setSelectedValue] = useState<string>('');
+
+    const { useSummaryInfoQuery } = useClubDetailQueries();
+    useSummaryInfoQuery({ clubId, setInputValue }); // 데이터 fetch
+
+    const { useSaveSummaryInfoMutation } = useClubDetailMutation();
+    const saveSummaryInfoMutation = useSaveSummaryInfoMutation({
+        clubId,
+        inputValue,
+    });
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
         try {
-            const res = await apiRequest({
-                method: 'post',
-                url: `/api/clubs/club-admin/${clubId}`,
-                data: inputValue,
-                requireToken: true,
-            });
-            console.log(res);
+            saveSummaryInfoMutation.mutate(); // 데이터 저장
         } catch (err) {
             console.error('저장 실패', err);
         }
     };
 
-    const handleRecruitmentStatus = (item: {
-        label: string;
-        value: string;
-    }) => {
-        setSelectedValue(item.label);
+    const handleRecruitmentStatus = (item: { value: string }) => {
         setInputValue({
             ...inputValue,
             recruitmentStatus: item.value,
@@ -66,7 +65,7 @@ function SummaryInfo() {
         inputValue.leaderName.length > 0 &&
         inputValue.leaderPhone.length > 0 &&
         inputValue.activities.length > 0 &&
-        inputValue.membershipFee.length > 0 &&
+        inputValue.membershipFee &&
         inputValue.applicationUrl.length > 0;
 
     return (
@@ -76,8 +75,18 @@ function SummaryInfo() {
                 <Label>동아리 모집 여부</Label>
                 <Dropdown setIsOpen={setIsOpen}>
                     <Dropdown.Header onClick={toggle}>
-                        <DropdownHeaderWrapper $selectedValue={selectedValue}>
-                            <h4>{selectedValue || '모집기준 선택'}</h4>
+                        <DropdownHeaderWrapper
+                            $selectedValue={inputValue.recruitmentStatus}
+                        >
+                            <h4>
+                                {inputValue.recruitmentStatus === 'UPCOMING'
+                                    ? '모집예정'
+                                    : inputValue.recruitmentStatus === 'OPEN'
+                                    ? '모집중'
+                                    : inputValue.recruitmentStatus === 'CLOSED'
+                                    ? '모집완료'
+                                    : '모집기준 선택'}
+                            </h4>
                             <IconWrapper $isOpen={isOpen}>
                                 <DropdownArrow />
                             </IconWrapper>
@@ -91,7 +100,10 @@ function SummaryInfo() {
                                     onClick={() =>
                                         handleRecruitmentStatus(item)
                                     }
-                                    $isSelected={selectedValue === item.label}
+                                    $isSelected={
+                                        inputValue.recruitmentStatus ===
+                                        item.label
+                                    }
                                 >
                                     {item.label}
                                 </DropdownItem>
@@ -124,6 +136,16 @@ function SummaryInfo() {
                                 )}
                             </LabelContainer>
                             <InputField
+                                value={
+                                    inputValue[
+                                        summaryInfo.name as keyof ISummaryInfoValue
+                                    ] ?? ''
+                                }
+                                type={
+                                    summaryInfo.name === 'membershipFee'
+                                        ? 'number'
+                                        : 'text'
+                                }
                                 name={summaryInfo.name}
                                 inputSize={'medium'}
                                 backgroundColor={'gray'}
