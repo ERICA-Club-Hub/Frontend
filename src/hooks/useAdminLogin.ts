@@ -12,17 +12,17 @@ const useAdminLogin = () => {
     const setAdminType = useSetRecoilState(adminType);
     const setClubId = useSetRecoilState(clubId);
 
-    // UMC 임시 코드  KCZ9YB
-
     const handleLogin = async (navStatus: number, code: string) => {
         try {
-            // 총동연 로그인 && 사전에 지급된 총동연 코드(NM3T78)와 일치할 때
+            // 총동연 로그인 && 사전에 지급된 총동연 코드와 일치할 때
             // 동아리 대표 로그인 && 사전 지급된 총동연 코드가 아닐 때에만 (총동연 코드는 총동연 로그인 란에서만 사용하도록 예외처리!)
-            // 서비스 관리자 코드 (A3T78H)는 어디서든 사용 가능
+            // 서비스 관리자 코드는 어디서든 사용 가능
             if (
-                (navStatus === 2 && code === 'NM3T78') ||
-                (navStatus === 1 && code !== 'NM3T78') ||
-                code === 'A3T78H'
+                (navStatus === 2 &&
+                    code === import.meta.env.VITE_UNION_ADMIN_CODE) ||
+                (navStatus === 1 &&
+                    code !== import.meta.env.VITE_UNION_ADMIN_CODE) ||
+                code === import.meta.env.VITE_SERVICE_ADMIN_CODE
             ) {
                 // 로그인 요청 (성공 시 자동으로 토큰 저장)
                 const res = await apiRequest({
