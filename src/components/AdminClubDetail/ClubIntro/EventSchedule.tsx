@@ -1,7 +1,6 @@
 import useToggle from '@/hooks/useToggle';
 import styled from 'styled-components';
 import { Dropdown, InputField } from '../../Common';
-import { useEffect, useState } from 'react';
 import DropdownArrow from '@/assets/common/dropdown_arrow.svg?react';
 import { months } from '@/constants/club-detail-register';
 import useClubIntroContext from '@/hooks/useClubIntroContext';
@@ -15,34 +14,37 @@ function EventSchedule({
     index: number;
 }) {
     const { isOpen, setIsOpen, toggle } = useToggle();
-    const { schedules, setSchedules } = useClubIntroContext();
-    const [scheduleValue, setScheduleValue] =
-        useState<IEventScheduleValue>(schedule); // 단일 schedule 객체 값 상태로 분리
+    const { setSchedules } = useClubIntroContext();
 
     // 월 선택
     const handleMonthValue = (month: string) => {
-        const monthValue = parseInt(month); // number 타입으로 변환
+        const monthValue = parseInt(month); // number 타입으로 변환 ('10월' -> 10)
 
-        setScheduleValue({ ...scheduleValue, month: monthValue });
+        setSchedules((prevSchedules) => {
+            let updatedSchedules = [...prevSchedules];
+            updatedSchedules[index] = {
+                ...prevSchedules[index],
+                month: monthValue,
+            };
+
+            return updatedSchedules;
+        });
         toggle();
     };
 
     // 일정 내용 입력
     const handleInputValue = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
-        setScheduleValue({ ...scheduleValue, [name]: value });
-    };
-
-    // schedules 배열의 index에 scheduleValue를 업데이트
-    useEffect(() => {
         setSchedules((prevSchedules) => {
             let updatedSchedules = [...prevSchedules];
-            updatedSchedules[index] = scheduleValue;
+            updatedSchedules[index] = {
+                ...prevSchedules[index],
+                [name]: value,
+            };
 
             return updatedSchedules;
         });
-        console.log(schedules);
-    }, [scheduleValue]);
+    };
 
     return (
         <Container>
@@ -72,7 +74,7 @@ function EventSchedule({
             </Dropdown>
 
             <InputField
-                value={scheduleValue.content}
+                value={schedule.content}
                 name="content"
                 onChange={handleInputValue}
                 inputSize="small"
