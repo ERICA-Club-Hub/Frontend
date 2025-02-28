@@ -24,7 +24,7 @@ interface IClubIntroValue {
 
 interface IEventScheduleValue {
     month: number;
-    date: string;
+    content: string;
 }
 
 interface IRecruitNoticeValue {

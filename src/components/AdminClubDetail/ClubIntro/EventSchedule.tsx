@@ -1,35 +1,68 @@
 import useToggle from '@/hooks/useToggle';
 import styled from 'styled-components';
 import { Dropdown, InputField } from '../../Common';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import DropdownArrow from '@/assets/common/dropdown_arrow.svg?react';
 import { months } from '@/constants/club-detail-register';
+import useClubIntroContext from '@/hooks/useClubIntroContext';
+import { IEventScheduleValue } from '@/types';
 
-function EventSchedule() {
+function EventSchedule({
+    schedule,
+    index,
+}: {
+    schedule: IEventScheduleValue;
+    index: number;
+}) {
     const { isOpen, setIsOpen, toggle } = useToggle();
-    const [selectedValue, setSelectedValue] = useState<string>('');
+    const { schedules, setSchedules } = useClubIntroContext();
+    const [scheduleValue, setScheduleValue] =
+        useState<IEventScheduleValue>(schedule); // 단일 schedule 객체 값 상태로 분리
+
+    // 월 선택
+    const handleMonthValue = (month: string) => {
+        const monthValue = parseInt(month); // number 타입으로 변환
+
+        setScheduleValue({ ...scheduleValue, month: monthValue });
+        toggle();
+    };
+
+    // 일정 내용 입력
+    const handleInputValue = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const { name, value } = e.target;
+        setScheduleValue({ ...scheduleValue, [name]: value });
+    };
+
+    // schedules 배열의 index에 scheduleValue를 업데이트
+    useEffect(() => {
+        setSchedules((prevSchedules) => {
+            let updatedSchedules = [...prevSchedules];
+            updatedSchedules[index] = scheduleValue;
+
+            return updatedSchedules;
+        });
+        console.log(schedules);
+    }, [scheduleValue]);
 
     return (
         <Container>
             <Dropdown setIsOpen={setIsOpen}>
                 <Dropdown.Header onClick={toggle}>
-                    <DropdownHeaderWrapper $selectedValue={selectedValue}>
-                        <h4>{selectedValue || '1월'}</h4>
+                    <DropdownHeaderWrapper>
+                        <h4>{`${schedule.month}월`}</h4>
                         <IconWrapper>
                             <DropdownArrow />
                         </IconWrapper>
                     </DropdownHeaderWrapper>
                 </Dropdown.Header>
+
                 <Dropdown.Menu isOpen={isOpen}>
                     <DropdownItemList>
                         {months.map((month, index) => (
                             <DropdownItem
                                 key={`recruit-status-${index}`}
-                                onClick={() => {
-                                    setSelectedValue(month);
-                                    toggle();
-                                }}
-                                $isSelected={selectedValue === month}
+                                onClick={() => handleMonthValue(month)}
+                                $isSelected={schedule.month === parseInt(month)}
                             >
                                 {month}
                             </DropdownItem>
@@ -39,6 +72,9 @@ function EventSchedule() {
             </Dropdown>
 
             <InputField
+                value={scheduleValue.content}
+                name="content"
+                onChange={handleInputValue}
                 inputSize="small"
                 backgroundColor="gray"
                 placeholder="일정을 입력해 주세요."
@@ -55,7 +91,7 @@ const Container = styled.div`
     gap: 5px;
 `;
 
-const DropdownHeaderWrapper = styled.div<{ $selectedValue: string }>`
+const DropdownHeaderWrapper = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;

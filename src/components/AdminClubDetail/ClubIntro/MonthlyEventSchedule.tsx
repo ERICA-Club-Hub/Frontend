@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { Label, SectionWrapper } from '@/styles/admin-club-detail/style';
 import styled from 'styled-components';
 import PlusIcon from '@/assets/common/plus-icon.svg?react';
@@ -7,20 +6,9 @@ import useClubIntroContext from '@/hooks/useClubIntroContext';
 
 function MonthlyEventSchedule() {
     const { schedules, setSchedules } = useClubIntroContext();
-    console.log(schedules);
-
-    const [eventSchedules, setEventSchedules] = useState([
-        <EventSchedule key={`event-schedule-1`} />,
-    ]);
-
     // 월별 일정 추가
     const handleAddEventSchedule = () => {
-        setEventSchedules([
-            ...eventSchedules,
-            <EventSchedule
-                key={`event-schedule-${eventSchedules.length + 1}`}
-            />,
-        ]);
+        setSchedules([...schedules, { month: 1, content: '' }]);
     };
 
     return (
@@ -29,7 +17,13 @@ function MonthlyEventSchedule() {
 
             <EventScheduleForm>
                 {/* 일정 컴포넌트 리스트 */}
-                {eventSchedules}
+                {schedules.map((schedule, index) => (
+                    <EventSchedule
+                        key={`event-schedule-${index}`}
+                        schedule={schedule}
+                        index={index}
+                    />
+                ))}
 
                 {/* 일정 추가하기 버튼 */}
                 <AddScheduleButton onClick={handleAddEventSchedule}>

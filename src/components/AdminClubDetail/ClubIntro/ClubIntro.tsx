@@ -12,7 +12,9 @@ import { ClubIntroProvider } from '@/contexts/ClubIntroContext';
 
 function ClubIntro() {
     const clubId = useRecoilValue(clubIdselector);
-    const [schedules, setSchedules] = useState<IEventScheduleValue[]>([]);
+    const [schedules, setSchedules] = useState<IEventScheduleValue[]>([
+        { month: 1, content: '' },
+    ]);
     const [inputValue, setInputValue] = useState<IClubIntroValue>({
         introduction: '',
         activity: '',
