@@ -58,7 +58,10 @@ const ClubDetailPage = () => {
     useEffect(() => {
         const getClubDetail = async (id: string) => {
             const requestUrl =
-                nowUrl === 'club' ? `/api/clubs/${id}` : `/api/clubs/${id}`; // 이거 뒷부분은 api 추가되면 수정
+                nowUrl === 'club'
+                    ? `/api/clubs/${id}`
+                    : `/api/clubs/${id}/draft`;
+            console.log(requestUrl, nowUrl === 'club-detail-preview');
             const response = await apiRequest({
                 url: requestUrl,
                 requireToken: nowUrl === 'club-detail-preview',
