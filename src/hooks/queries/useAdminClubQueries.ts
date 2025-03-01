@@ -27,21 +27,20 @@ const useRegisterInfoQuery = ({
                 method: 'GET',
             });
         },
-        select: (data) => ({
-            clubName: data.result.name,
-            leaderEmail: data.result.leaderEmail,
-            category: data.result.category,
-            oneLiner: data.result.description,
-            image: data.result.profileImageUrl,
-        }),
         staleTime: 5 * 60 * 1000,
     });
 
-    // 데이터 불러오기 성공 시, 요약정보 상태 업데이트
+    // 데이터 불러오기 성공 시, 등록 정보 상태 업데이트
     useEffect(() => {
         if (isSuccess && data) {
-            setInputValue(data);
-            setPreviewImg(data.image);
+            setInputValue({
+                clubName: data.result.name,
+                leaderEmail: data.result.leaderEmail,
+                category: data.result.category,
+                oneLiner: data.result.description,
+            });
+            // 이미지 미리보기 업데이트
+            setPreviewImg(data.result.profileImageUrl);
         }
 
         if (isError) {

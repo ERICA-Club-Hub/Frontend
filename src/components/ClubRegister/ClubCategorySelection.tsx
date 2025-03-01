@@ -11,7 +11,7 @@ interface IClubCategorySelection {
     setInputValue: React.Dispatch<React.SetStateAction<IClubRegisterValue>>;
 }
 
-export default function ClubCategorySelection({
+function ClubCategorySelection({
     inputValue,
     setInputValue,
 }: IClubCategorySelection) {
@@ -60,6 +60,8 @@ export default function ClubCategorySelection({
         </InnerWrapper>
     );
 }
+
+export { ClubCategorySelection };
 
 const DropdownHeaderWrapper = styled.strong<{ $selectedValue: string }>`
     display: flex;

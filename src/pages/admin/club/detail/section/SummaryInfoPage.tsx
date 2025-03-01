@@ -32,7 +32,7 @@ function SummaryInfoPage() {
     const { useSummaryInfoQuery } = useClubDetailQueries();
     const { isPending } = useSummaryInfoQuery({ clubId, setInputValue });
 
-    // 데이터 저장
+    // 데이터 저장 mutation 호출
     const { useSaveSummaryInfoMutation } = useAdminClubMutation();
     const saveSummaryInfoMutation = useSaveSummaryInfoMutation({
         clubId,

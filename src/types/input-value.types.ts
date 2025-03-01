@@ -4,7 +4,6 @@ interface IClubRegisterValue {
     category: string;
     oneLiner: string;
     briefIntroduction?: string | undefined;
-    image: File | null;
 }
 
 interface ISummaryInfoValue {

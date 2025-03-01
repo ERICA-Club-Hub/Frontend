@@ -1,17 +1,18 @@
 import { useState } from 'react';
-import { InputField } from '@/components/Common';
 import styled from 'styled-components';
+import { useRecoilValue } from 'recoil';
+import { InputField } from '@/components/Common';
 import Button from '@/components/Common/Button';
 import { TextArea } from '@/components/Common/TextArea';
 import { IClubRegisterValue } from '@/types';
 import { inputChangeHandler } from '@/utils/inputChangeHandler';
-import ClubImageUpload from './ClubImageUpload';
 import { GuideText, InnerWrapper, Label } from '@/styles/admin-club-register';
-import ClubCategorySelection from './ClubCategorySelection';
 import useBulletPointConverter from '@/hooks/actions/useBulletPointConverter';
 import useAdminClubQueries from '@/hooks/queries/useAdminClubQueries';
-import { useRecoilValue } from 'recoil';
 import { clubIdselector } from '@/store/clubIdState';
+import ClubImageUpload from './ClubImageUpload';
+import { ClubCategorySelection } from './ClubCategorySelection';
+import useAdminClubMutation from '@/hooks/queries/useAdminClubMutation';
 
 function ClubRegisterForm({ editMode }: { editMode: boolean }) {
     const clubId = useRecoilValue(clubIdselector);
@@ -21,11 +22,11 @@ function ClubRegisterForm({ editMode }: { editMode: boolean }) {
         category: '',
         oneLiner: '',
         briefIntroduction: '',
-        image: null,
     });
+    const [postImg, setPostImg] = useState<File | null>(null); // 요청 이미지
     const [previewImg, setPreviewImg] = useState<string | ArrayBuffer | null>(
         '',
-    );
+    ); // 미리보기 이미지
 
     // 데이터 fetch
     const { useRegisterInfoQuery } = useAdminClubQueries();
@@ -35,33 +36,34 @@ function ClubRegisterForm({ editMode }: { editMode: boolean }) {
         setPreviewImg,
     });
 
+    // FormData 생성
+    const formData: FormData = new FormData();
+    formData.append(
+        'requestBody',
+        new Blob([JSON.stringify({ ...inputValue, briefIntroduction: '' })], {
+            type: 'application/json',
+        }),
+    );
+    if (postImg) {
+        formData.append('image', postImg);
+    }
+
+    // 등록 정보 수정 mutation 호출
+    const { useEditClubRegisterMutation } = useAdminClubMutation();
+    const editClubRegisterMutation = useEditClubRegisterMutation({
+        clubId,
+        formData,
+    });
+
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
-        const formData = new FormData();
-        formData.append(
-            'requestBody',
-            new Blob([JSON.stringify(inputValue)], {
-                type: 'application/json',
-            }),
-        );
-        if (inputValue.image) {
-            formData.append('image', inputValue.image);
+        // 수정모드일 때
+        if (editMode) {
+            editClubRegisterMutation.mutate(); // 등록 정보 수정하기
+        } else {
+            // 등록모드일 때
         }
-
-        // try {
-        //     await apiRequest({
-        //         url: '/api/clubs/registrations',
-        //         method: 'POST',
-        //         data: formData,
-        //         headers: {
-        //             'Content-Type': 'multipart/form-data',
-        //         },
-        //         requireToken: true,
-        //     });
-        // } catch (error) {
-        //     console.error('등록 실패', error);
-        // }
     };
 
     const isValid =
@@ -69,7 +71,7 @@ function ClubRegisterForm({ editMode }: { editMode: boolean }) {
             inputValue.leaderEmail.length > 0 &&
             inputValue.category.length > 0 &&
             inputValue.oneLiner.length > 0) ||
-        (editMode &&
+        (!editMode &&
             inputValue.briefIntroduction &&
             inputValue.briefIntroduction.length > 0);
 
@@ -141,7 +143,7 @@ function ClubRegisterForm({ editMode }: { editMode: boolean }) {
 
                 {/* 동아리 사진 업로드 */}
                 <ClubImageUpload
-                    setInputValue={setInputValue}
+                    setPostImg={setPostImg}
                     previewImg={previewImg}
                     setPreviewImg={setPreviewImg}
                 />

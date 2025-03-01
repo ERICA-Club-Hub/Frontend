@@ -29,7 +29,7 @@ function RecruitNoticePage() {
     const { useRecruitNoticeQuery } = useAdminClubQueries();
     const { isPending } = useRecruitNoticeQuery({ clubId, setInputValue });
 
-    // 데이터 저장
+    // 데이터 저장 mutation 호출
     const { useSaveRecruitNoticeMutation } = useAdminClubMutation();
     const saveRecruitNoticeMutation = useSaveRecruitNoticeMutation({
         clubId,
