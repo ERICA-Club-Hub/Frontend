@@ -1,12 +1,12 @@
 const adminNavigationMenus = [
     {
         title: '어드민 페이지',
-        adminType: ['union'],
+        adminType: ['union', 'service'],
         url: '/admin/union',
     },
     {
         title: '어드민 페이지',
-        adminType: ['service', 'club'],
+        adminType: ['club'],
         url: '/admin/club',
     },
 ];
