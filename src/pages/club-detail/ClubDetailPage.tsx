@@ -2,7 +2,6 @@ import { createContext, useEffect, useState } from 'react';
 import Button from '@/components/Common/Button';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import styled from 'styled-components';
-import logo from '../../../src/assets/react.svg';
 import sns from '../../assets/common/sns.svg';
 import jjang from '../../assets/common/jjang.svg';
 import card from '../../assets/common/card.svg';
@@ -11,6 +10,7 @@ import label from '../../assets/common/label.svg';
 import TabContents from './TabContents';
 import { apiRequest } from '@/api/apiRequest';
 import { ClubDetailProvider } from '@/contexts/ClubDetailContext';
+import { DEFAULT_CLUB_IMAGE } from '@/utils/getDefaultImg';
 
 // tab 항목에서 활성화 여부를 판단할 props
 interface TabButtonProps {
@@ -23,7 +23,7 @@ interface RecruitStateProps {
 
 type activeTab = 'intro' | 'recruit' | 'log';
 
-type recuirementStatus = 'RECRUITING' | 'UPCOMING' | 'CLOSE'; // 이거 타입명 수정해야함
+type recuirementStatus = 'RECRUITING' | 'UPCOMING' | 'CLOSE';
 
 interface clubInfoSummation {
     name: string | null;
@@ -36,6 +36,7 @@ interface clubInfoSummation {
     snsUrl: string | null;
     recruitmentStatus: recuirementStatus | null;
     applicationUrl?: string | null;
+    profileImageUrl?: string | null;
 }
 
 export interface ClubDetailContextType {
@@ -75,6 +76,7 @@ const ClubDetailPage = () => {
                     recruitmentStatus:
                         response.result.recruitmentStatus || '없음',
                     applicationUrl: response.result.applicationUrl || '없음',
+                    profileImageUrl: response.result.profileImageUrl || '없음',
                 });
             }
         };
@@ -100,7 +102,7 @@ const ClubDetailPage = () => {
             value={{
                 nowUrl: nowUrl,
                 clubName: clubDetail?.name || null,
-                clubImg: logo,
+                clubImg: clubDetail?.profileImageUrl || DEFAULT_CLUB_IMAGE,
                 clubId: id,
             }}
         >
@@ -115,7 +117,10 @@ const ClubDetailPage = () => {
             )}
             <PageContainer $nowUrl={nowUrl}>
                 <ClubHeader>
-                    <ClubImage src={logo} alt="Club Logo" />
+                    <ClubImage
+                        src={clubDetail?.profileImageUrl || DEFAULT_CLUB_IMAGE}
+                        alt="Club Logo"
+                    />
                     <PreviewWrapper>
                         <Preview>{clubDetail?.description}</Preview>
                         <ClubTitle>{clubDetail?.name}</ClubTitle>
