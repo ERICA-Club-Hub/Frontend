@@ -21,9 +21,10 @@ import {
     UnionNoticePage,
 } from '@/pages';
 import { RedirectIfAuthenticated } from './RedirectIfAuthenticated';
+import ClubDetailPreview from '@/pages/club-detail-preview/ClubDetailPreview';
 import { AuthGuard } from './AuthGuard';
 import UnionAdminGuard from './UnionAdminGuard';
-import ClubDetailPreview from '@/pages/club-detail-preview/ClubDetailPreview';
+import ClubAdminGurad from './ClubAdminGurad';
 
 export default function AppRoutes() {
     return (
@@ -65,9 +66,9 @@ export default function AppRoutes() {
             <Route path="/admin" element={<AuthGuard />}>
                 {/* 동아리 어드민 */}
                 {/* 서비스 관리자, 동아리 대표 접근 가능 */}
-                <Route path="/admin/club/:id">
+                <Route path="/admin/club/:id" element={<ClubAdminGurad />}>
                     {/* 동아리 어드민 홈*/}
-                    <Route path="/admin/club/:id" element={<AdminClubPage />} />
+                    <Route index element={<AdminClubPage />} />
 
                     {/* 동아리 활동 로그 */}
                     <Route
