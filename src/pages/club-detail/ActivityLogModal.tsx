@@ -1,5 +1,5 @@
 import { apiRequest } from '@/api/apiRequest';
-import { useClickOutside } from '@/hooks/useClickOutside';
+import { useClickOutside } from '@/hooks/actions/useClickOutside';
 import { DEFAULT_CLUB_IMAGE } from '@/utils/getDefaultImg';
 import { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';

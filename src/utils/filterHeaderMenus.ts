@@ -3,7 +3,7 @@ import { adminTypeSelector, isAuthenticatedSelector } from '@/store/authState';
 import { clubIdselector } from '@/store/clubIdState';
 import { useRecoilValue } from 'recoil';
 
-export const useFilteredHeaderMenuList = () => {
+export const filterHeaderMenus = () => {
     const adminType = useRecoilValue(adminTypeSelector);
     const clubId = useRecoilValue(clubIdselector);
     const isAuthenticated = useRecoilValue(isAuthenticatedSelector);

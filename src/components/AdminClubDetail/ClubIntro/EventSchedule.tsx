@@ -1,8 +1,8 @@
-import useToggle from '@/hooks/useToggle';
+import useToggle from '@/hooks/actions/useToggle';
 import styled from 'styled-components';
 import DropdownArrow from '@/assets/common/dropdown_arrow.svg?react';
 import { months } from '@/constants/club-detail-register';
-import useClubIntroContext from '@/hooks/useClubIntroContext';
+import useClubIntroContext from '@/hooks/contexts/useClubIntroContext';
 import { IEventScheduleValue } from '@/types';
 import { Dropdown, InputField } from '@/components/Common';
 

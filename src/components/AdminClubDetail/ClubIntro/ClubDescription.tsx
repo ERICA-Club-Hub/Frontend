@@ -1,8 +1,8 @@
 import { apiRequest } from '@/api/apiRequest';
 import { TextArea } from '@/components/Common/TextArea';
 import { clubIntroList } from '@/constants/club-detail-register';
-import useBulletPointConverter from '@/hooks/useBulletPointConverter';
-import useClubIntroContext from '@/hooks/useClubIntroContext';
+import useBulletPointConverter from '@/hooks/actions/useBulletPointConverter';
+import useClubIntroContext from '@/hooks/contexts/useClubIntroContext';
 import { clubIdselector } from '@/store/clubIdState';
 import { Label, SectionWrapper } from '@/styles/admin-club-detail/style';
 import { IClubIntroValue } from '@/types';

@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import ExpandArrowIcon from '@/assets/common/expand-arrow.svg?react';
 import Button from '@/components/Common/Button';
 import { uploadImageWithPreview } from '@/utils';
-import useToggle from '@/hooks/useToggle';
+import useToggle from '@/hooks/actions/useToggle';
 import { clubCategory } from '@/constants';
 import { TextArea } from '@/components/Common/TextArea';
 import { apiRequest } from '@/api/apiRequest';

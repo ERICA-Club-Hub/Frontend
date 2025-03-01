@@ -8,17 +8,17 @@ import { Link } from 'react-router-dom';
 import { ArrowLinkButton } from './ArrowLinkButton';
 import { isAuthenticatedSelector } from '@/store/authState';
 import { useRecoilValue } from 'recoil';
-import { useClickOutside } from '@/hooks/useClickOutside';
-import useToggle from '@/hooks/useToggle';
-import { useAuthenticationToggle } from '@/hooks/useAuthenticationToggle';
-import { useFilteredHeaderMenuList } from '@/hooks/usefilteredHeaderMenuList';
+import { useClickOutside } from '@/hooks/actions/useClickOutside';
+import useToggle from '@/hooks/actions/useToggle';
+import { useAuthenticationToggle } from '@/hooks/auth/useAuthenticationToggle';
+import { filterHeaderMenus } from '@/utils/filterHeaderMenus';
 
 const HeaderMenu = () => {
     const dropdownRef = useRef<HTMLDivElement>(null);
     const { isOpen, setIsOpen, toggle } = useToggle();
     const isAuthenticatedValue = useRecoilValue(isAuthenticatedSelector); // 로그인 여부
     const toggleAuthentication = useAuthenticationToggle(setIsOpen); // 로그인 & 로그아웃 로직
-    const filteredMenus = useFilteredHeaderMenuList(); // 어드민 유형에 따라 필터링된 메뉴
+    const filteredMenus = filterHeaderMenus(); // 어드민 유형에 따라 필터링된 메뉴
 
     useClickOutside(dropdownRef, () => setIsOpen(false));
 
