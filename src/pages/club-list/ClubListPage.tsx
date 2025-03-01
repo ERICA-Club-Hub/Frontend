@@ -5,6 +5,7 @@ import MainpageCard from '../../components/Common/MainpageCard';
 import SortingDropdown from '../../components/Common/SortingDropdown';
 import { apiRequest } from '../../api/apiRequest';
 import ErrorIcon from '@/assets/common/error-icon.svg?react';
+import { getCategoryEmoji, getCategoryMapping } from '@/utils/getCategoryEmoji';
 
 const AnnouncementContainer = styled.div`
     display: flex;
@@ -16,14 +17,14 @@ const AnnouncementContainer = styled.div`
     position: relative;
 `;
 
-
 const MainAnnouncement = styled.button<{ $imageUrl: string }>`
     position: relative;
     width: 200px;
     height: 200px;
     flex-shrink: 0;
     border-radius: 10px;
-    background: ${props => `url(${props.$imageUrl})`} lightgray 50% / cover no-repeat;
+    background: ${(props) => `url(${props.$imageUrl})`} lightgray 50% / cover
+        no-repeat;
     border: none;
     cursor: pointer;
 `;
@@ -45,10 +46,10 @@ const StatusIndicator = styled.div`
 `;
 
 const StatusDot = styled.div<{ $active: boolean }>`
-    width: ${props => props.$active ? '10px' : '4px'};
+    width: ${(props) => (props.$active ? '10px' : '4px')};
     height: 4px;
     border-radius: 2px;
-    background-color: ${props => props.$active ? '#33639C' : '#DAEBFF'};
+    background-color: ${(props) => (props.$active ? '#33639C' : '#DAEBFF')};
     transition: all 0.3s ease;
 `;
 
@@ -57,8 +58,11 @@ const SubAnnouncement = styled.button<{ $imageUrl: string }>`
     height: 200px;
     flex-shrink: 0;
     border-radius: 10px;
-    background: ${props => `linear-gradient(0deg, rgba(0, 0, 0, 0.40) 0%, rgba(0, 0, 0, 0.40) 100%), 
-                url(${props.$imageUrl})`} lightgray 50% / cover no-repeat;
+    background: ${(
+            props,
+        ) => `linear-gradient(0deg, rgba(0, 0, 0, 0.40) 0%, rgba(0, 0, 0, 0.40) 100%), 
+                url(${props.$imageUrl})`}
+        lightgray 50% / cover no-repeat;
     border: none;
     cursor: pointer;
 `;
@@ -75,16 +79,16 @@ const ArrowButton = styled.button`
     top: 50%;
     transform: translateY(-50%);
     z-index: 1;
-    
+
     &:first-child {
         left: 50%;
         transform: translateX(-150px) translateY(-50%);
     }
-    
+
     &:last-child {
         right: 50%;
         transform: translateX(150px) translateY(-50%);
-    }  
+    }
 `;
 
 const ClubSearchContainer = styled.div`
@@ -213,7 +217,9 @@ const ClubListPage = () => {
 
                 if (response?.result?.announcementDTOList) {
                     // 최대 5개까지만 설정
-                    setAnnouncements(response.result.announcementDTOList.slice(0, 5));
+                    setAnnouncements(
+                        response.result.announcementDTOList.slice(0, 5),
+                    );
                 }
             } catch (error) {
                 console.error('공지사항을 불러오는데 실패했습니다:', error);
@@ -225,22 +231,24 @@ const ClubListPage = () => {
 
     // 이전 이미지 버튼 클릭 시 실행되는 함수
     const handlePrev = () => {
-        setCurrentIndex((prev) => 
-            prev === 0 ? announcements.length - 1 : prev - 1
+        setCurrentIndex((prev) =>
+            prev === 0 ? announcements.length - 1 : prev - 1,
         );
     };
 
     // 다음 이미지 버튼 클릭 시 실행되는 함수
     const handleNext = () => {
-        setCurrentIndex((prev) => 
-            prev === announcements.length - 1 ? 0 : prev + 1
+        setCurrentIndex((prev) =>
+            prev === announcements.length - 1 ? 0 : prev + 1,
         );
     };
 
     // 현재 표시할 이미지 아이템 배열 반환
     const getDisplayItems = () => {
-        const prevIndex = currentIndex === 0 ? announcements.length - 1 : currentIndex - 1;
-        const nextIndex = currentIndex === announcements.length - 1 ? 0 : currentIndex + 1;
+        const prevIndex =
+            currentIndex === 0 ? announcements.length - 1 : currentIndex - 1;
+        const nextIndex =
+            currentIndex === announcements.length - 1 ? 0 : currentIndex + 1;
 
         return [
             announcements[prevIndex],
@@ -257,7 +265,7 @@ const ClubListPage = () => {
         try {
             setIsLoading(true); // 로딩 상태 설정
             const params: Record<string, string> = {}; // 쿼리 파라미터 초기화
-            
+
             // 필터링 조건만 쿼리 파라미터로 전달
             if (searchTerm.trim()) {
                 params.keyword = searchTerm.trim();
@@ -275,24 +283,31 @@ const ClubListPage = () => {
             const url = `/api/clubs${queryString ? `?${queryString}` : ''}`; // 쿼리 파라미터가 있으면 쿼리 파라미터를 추가
 
             // 동아리 목록 조회 API 호출
-            const response = await apiRequest({
+            const response = (await apiRequest({
                 url,
-                method: 'GET'
-            }) as ApiResponse;
+                method: 'GET',
+            })) as ApiResponse;
 
             // 동아리 목록 조회 API 응답 처리
             if (response?.result?.clubs) {
                 const sortedClubs = [...response.result.clubs];
-                
+
                 // 프론트엔드에서 정렬 처리
-                if (sortOrder === 'category') { // 카테고리로 정렬
-                    sortedClubs.sort((a, b) => 
-                        getCategoryMapping(a.category).localeCompare(getCategoryMapping(b.category))
+                if (sortOrder === 'category') {
+                    // 카테고리로 정렬
+                    sortedClubs.sort((a, b) =>
+                        getCategoryMapping(a.category).localeCompare(
+                            getCategoryMapping(b.category),
+                        ),
                     );
-                } else if (sortOrder === 'recruitment') { // 모집상태로 정렬
-                    sortedClubs.sort((a, b) => 
-                        getRecruitmentStatusMapping(a.recruitmentStatus)
-                            .localeCompare(getRecruitmentStatusMapping(b.recruitmentStatus))
+                } else if (sortOrder === 'recruitment') {
+                    // 모집상태로 정렬
+                    sortedClubs.sort((a, b) =>
+                        getRecruitmentStatusMapping(
+                            a.recruitmentStatus,
+                        ).localeCompare(
+                            getRecruitmentStatusMapping(b.recruitmentStatus),
+                        ),
                     );
                 } else {
                     // 가나다순 정렬 (기본값)
@@ -318,19 +333,6 @@ const ClubListPage = () => {
         // 엔터나 검색 버튼 클릭 시에도 searchTerm이 변경되어 자동으로 fetchClubs가 호출됨
     };
 
-    // 카테고리별 이모지 매핑 함수
-    const getCategoryEmoji = (category: string) => {
-        const emojiMap: { [key: string]: string } = {
-            '연합동아리': '🧩',
-            '예술분과': '🎨',
-            '봉사분과': '💌',
-            '학술교양분과': '🎓',
-            '체육분과': '⚽',
-            '종교분과': '🙏'
-            };
-        return emojiMap[category] || '📌';
-    };
-
     // 분과 선택 시 실행되는 함수
     const handleCategorySelect = (value: string) => {
         setCategoryFilter(value);
@@ -349,25 +351,12 @@ const ClubListPage = () => {
         console.log('정렬 기준 선택:', value);
     };
 
-    // 카테고리 매핑 함수
-    const getCategoryMapping = (category: string) => {
-        const categoryMap: { [key: string]: string } = {
-            'SPORTS': '체육분과',
-            'ART': '예술분과',
-            'VOLUNTEER': '봉사분과',
-            'ACADEMIC': '학술교양분과',
-            'RELIGION': '종교분과',
-            'UNION': '연합동아리'
-        };
-        return categoryMap[category] || category;
-    };
-
-    // 모집상태 매핑 함수   
+    // 모집상태 매핑 함수
     const getRecruitmentStatusMapping = (status: string) => {
         const statusMap: { [key: string]: string } = {
-            'UPCOMING': '모집예정',
-            'OPEN': '모집중',
-            'CLOSED': '모집마감'
+            UPCOMING: '모집예정',
+            OPEN: '모집중',
+            CLOSED: '모집마감',
         };
         return statusMap[status] || status;
     };
@@ -378,62 +367,77 @@ const ClubListPage = () => {
                 {announcements.length > 0 && (
                     <>
                         <ArrowButton onClick={handlePrev}>
-                            <img src="/src/assets/common/main_prev_arrow.svg" alt="이전" />
+                            <img
+                                src="/src/assets/common/main_prev_arrow.svg"
+                                alt="이전"
+                            />
                         </ArrowButton>
-                        <SubAnnouncement 
-                            $imageUrl={displayItems[0].thumbnailUrl} 
+                        <SubAnnouncement
+                            $imageUrl={displayItems[0].thumbnailUrl}
                             data-index={displayItems[0].announcementId}
-                            onClick={() => window.location.href = displayItems[0].url}
+                            onClick={() =>
+                                (window.location.href = displayItems[0].url)
+                            }
                         />
-                        <MainAnnouncement 
-                            $imageUrl={displayItems[1].thumbnailUrl} 
+                        <MainAnnouncement
+                            $imageUrl={displayItems[1].thumbnailUrl}
                             data-index={displayItems[1].announcementId}
-                            onClick={() => window.location.href = displayItems[1].url}
+                            onClick={() =>
+                                (window.location.href = displayItems[1].url)
+                            }
                         >
                             <StatusIndicator>
                                 {announcements.map((_, index) => (
-                                    <StatusDot 
-                                        key={index} 
-                                        $active={index === currentIndex} 
+                                    <StatusDot
+                                        key={index}
+                                        $active={index === currentIndex}
                                     />
                                 ))}
                             </StatusIndicator>
                         </MainAnnouncement>
-                        <SubAnnouncement 
-                            $imageUrl={displayItems[2].thumbnailUrl} 
+                        <SubAnnouncement
+                            $imageUrl={displayItems[2].thumbnailUrl}
                             data-index={displayItems[2].announcementId}
-                            onClick={() => window.location.href = displayItems[2].url}
+                            onClick={() =>
+                                (window.location.href = displayItems[2].url)
+                            }
                         />
                         <ArrowButton onClick={handleNext}>
-                            <img src="/src/assets/common/main_next_arrow.svg" alt="다음" />
+                            <img
+                                src="/src/assets/common/main_next_arrow.svg"
+                                alt="다음"
+                            />
                         </ArrowButton>
                     </>
                 )}
             </AnnouncementContainer>
-            
+
             <ClubSearchContainer>
                 <SearchInputWrapper>
-                    <InputField 
+                    <InputField
                         inputSize="large"
                         placeholder="원하는 동아리를 검색해 보세요."
                         value={searchTerm}
                         onChange={(e) => setSearchTerm(e.target.value)}
                     />
                     <SearchIcon onClick={handleSearch}>
-                        <img 
-                            src="/src/assets/common/reading_glass.svg" 
+                        <img
+                            src="/src/assets/common/reading_glass.svg"
                             alt="검색"
                         />
                     </SearchIcon>
                 </SearchInputWrapper>
 
                 <DropdownContainer>
-                    <SortingDropdown 
+                    <SortingDropdown
                         key="sort-dropdown"
                         options={[
                             { label: '가나다순으로 정렬', value: 'none' },
                             { label: '카테고리로 정렬', value: 'category' },
-                            { label: '모집기준으로 정렬', value: 'recruitment' }
+                            {
+                                label: '모집기준으로 정렬',
+                                value: 'recruitment',
+                            },
                         ]}
                         onSelect={handleSort}
                         defaultText="가나다순으로 정렬"
@@ -441,7 +445,7 @@ const ClubListPage = () => {
                         align="left"
                     />
                     <RightDropdowns>
-                        <SortingDropdown 
+                        <SortingDropdown
                             key="category-dropdown"
                             options={[
                                 { label: '선택없음', value: 'none' },
@@ -457,13 +461,13 @@ const ClubListPage = () => {
                             value={categoryFilter}
                             align="right"
                         />
-                        <SortingDropdown 
+                        <SortingDropdown
                             key="recruitment-dropdown"
                             options={[
                                 { label: '선택없음', value: 'none' },
                                 { label: '모집예정', value: 'upcoming' },
                                 { label: '모집중', value: 'open' },
-                                { label: '모집마감', value: 'closed' }
+                                { label: '모집마감', value: 'closed' },
                             ]}
                             onSelect={handleRecruitmentStatusSelect}
                             defaultText="선택없음"
@@ -477,22 +481,28 @@ const ClubListPage = () => {
                     {isLoading ? (
                         <div>로딩 중...</div>
                     ) : clubs && clubs.length > 0 ? (
-                        clubs.map(club => {
-                            const mappedCategory = getCategoryMapping(club.category);
-                            const mappedStatus = getRecruitmentStatusMapping(club.recruitmentStatus);
+                        clubs.map((club) => {
+                            const mappedCategory = getCategoryMapping(
+                                club.category,
+                            );
+                            const mappedStatus = getRecruitmentStatusMapping(
+                                club.recruitmentStatus,
+                            );
                             return (
-                                <MainpageCard 
+                                <MainpageCard
                                     key={club.id}
                                     title={club.name}
                                     subtitle={club.description}
                                     tags={[
-                                        { 
-                                            type: '동아리 및 질문', 
-                                            text: `${getCategoryEmoji(mappedCategory)} ${mappedCategory}` 
+                                        {
+                                            type: '동아리 및 질문',
+                                            text: `${getCategoryEmoji(
+                                                mappedCategory,
+                                            )} ${mappedCategory}`,
                                         },
-                                        { 
-                                            type: mappedStatus as TagType, 
-                                            text: mappedStatus 
+                                        {
+                                            type: mappedStatus as TagType,
+                                            text: mappedStatus,
                                         },
                                     ]}
                                     onClick={() => console.log('카드 클릭')}

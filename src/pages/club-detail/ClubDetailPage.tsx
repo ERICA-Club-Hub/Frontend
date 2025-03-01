@@ -11,6 +11,7 @@ import TabContents from './TabContents';
 import { apiRequest } from '@/api/apiRequest';
 import { ClubDetailProvider } from '@/contexts/ClubDetailContext';
 import { DEFAULT_CLUB_IMAGE } from '@/utils/getDefaultImg';
+import { getCategoryEmoji, getCategoryMapping } from '@/utils/getCategoryEmoji';
 
 // tab 항목에서 활성화 여부를 판단할 props
 interface TabButtonProps {
@@ -28,7 +29,7 @@ type recuirementStatus = 'RECRUITING' | 'UPCOMING' | 'CLOSE';
 interface clubInfoSummation {
     name: string | null;
     description: string | null;
-    category: string[] | null;
+    category: string | '';
     leaderName: string | null;
     leaderPhone: string | null;
     activities: string | null;
@@ -50,7 +51,19 @@ const ClubDetailContext = createContext<ClubDetailContextType | null>(null); // 
 
 const ClubDetailPage = () => {
     const navigate = useNavigate();
-    const [clubDetail, setClubDetail] = useState<clubInfoSummation>();
+    const [clubDetail, setClubDetail] = useState<clubInfoSummation>({
+        name: '없음',
+        description: '없음',
+        category: '없음',
+        leaderName: '없음',
+        leaderPhone: '없음',
+        activities: '없음',
+        membershipFee: '없음',
+        snsUrl: '없음',
+        recruitmentStatus: 'CLOSE',
+        applicationUrl: '없음',
+        profileImageUrl: '없음',
+    });
     const params = useParams();
     const id = params.id?.toString() || '';
     const nowUrl = useLocation().pathname.split('/')[1];
@@ -61,7 +74,6 @@ const ClubDetailPage = () => {
                 nowUrl === 'club'
                     ? `/api/clubs/${id}`
                     : `/api/clubs/${id}/draft`;
-            console.log(requestUrl, nowUrl === 'club-detail-preview');
             const response = await apiRequest({
                 url: requestUrl,
                 requireToken: nowUrl === 'club-detail-preview',
@@ -128,7 +140,13 @@ const ClubDetailPage = () => {
                         <Preview>{clubDetail?.description}</Preview>
                         <ClubTitle>{clubDetail?.name}</ClubTitle>
                         <ClubTags>
-                            <Tag>{clubDetail?.category}</Tag>
+                            <Tag>
+                                {`${getCategoryEmoji(
+                                    getCategoryMapping(clubDetail?.category),
+                                )}\u00A0\u00A0${getCategoryMapping(
+                                    clubDetail?.category,
+                                )}`}
+                            </Tag>
                             {clubDetail && (
                                 <RecruitState $state={getRecruitState()}>
                                     {getRecruitState()}
