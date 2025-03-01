@@ -8,13 +8,16 @@ import {
     AdminResourcesRegisterPage,
     AdminUnionPage,
     ClubDetailPage,
+    ClubIntroPage,
     ClubListPage,
     ErrorPage,
     FAQPage,
     ModifyClubRegisterPage,
+    RecruitNoticePage,
     RegisterClubPage,
     ResourcesPage,
     ServiceNoticePage,
+    SummaryInfoPage,
     UnionNoticePage,
 } from '@/pages';
 import { RedirectIfAuthenticated } from './RedirectIfAuthenticated';
@@ -75,7 +78,22 @@ export default function AppRoutes() {
                     <Route
                         path="/admin/club/:id"
                         element={<AdminClubDetailPage />}
-                    />
+                    >
+                        {/* 상세페이지 섹션 (요약정보, 동아리 소개, 모집안내) */}
+                        <Route
+                            path="/admin/club/:id/summary-info"
+                            element={<SummaryInfoPage />}
+                        />
+                        <Route
+                            path="/admin/club/:id/club-intro"
+                            element={<ClubIntroPage />}
+                        />
+                        <Route
+                            path="/admin/club/:id/recruit-notice"
+                            element={<RecruitNoticePage />}
+                        />
+                    </Route>
+
                     {/* 동아리 등록 정보 수정 페이지 */}
                     <Route
                         path="/admin/club/modify"

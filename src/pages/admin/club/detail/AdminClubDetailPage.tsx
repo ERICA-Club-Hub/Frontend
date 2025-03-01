@@ -2,14 +2,40 @@ import { TopNavigator } from '@/components/Common';
 import { clubDetailRegisterNavigations } from '@/constants';
 import { useState } from 'react';
 import styled from 'styled-components';
-import {
-    ClubIntro,
-    RecruitNotice,
-    SummaryInfo,
-} from '@/components/AdminClubDetail';
+import { Outlet, useLocation, useNavigate, useParams } from 'react-router-dom';
 
 const AdminClubDetailPage = () => {
-    const [navStatus, setNavStatus] = useState<number>(1);
+    const { id: clubId } = useParams();
+    const location = useLocation();
+    const navigate = useNavigate();
+
+    // location.pathname을 기반으로 초기 navStatus 설정 (새로 고침 시 초기 값으로 라우팅 방지)
+    const getInitialNavStatus = (path: string) => {
+        if (path.includes('summary-info')) return 1;
+        if (path.includes('club-intro')) return 2;
+        if (path.includes('recruit-notice')) return 3;
+        return 1; // 기본값 (summary-info)
+    };
+
+    const [navStatus, setNavStatus] = useState<number>(() =>
+        getInitialNavStatus(location.pathname),
+    );
+
+    // navStatus 변경 시 라우팅
+    const handleNavClick = (id: number) => {
+        if (navStatus !== id) {
+            setNavStatus(id);
+            navigate(
+                `/admin/club/${clubId}/${
+                    id === 1
+                        ? 'summary-info'
+                        : id === 2
+                        ? 'club-intro'
+                        : 'recruit-notice'
+                }`,
+            );
+        }
+    };
 
     return (
         <Container>
@@ -17,13 +43,10 @@ const AdminClubDetailPage = () => {
                 <TopNavigator
                     navStatus={navStatus}
                     navList={clubDetailRegisterNavigations}
-                    onClick={(id: number) => setNavStatus(id)}
+                    onClick={(id: number) => handleNavClick(id)}
                 />
             </TopNavigatorWrapper>
-
-            {navStatus === 1 && <SummaryInfo />}
-            {navStatus === 2 && <ClubIntro />}
-            {navStatus === 3 && <RecruitNotice />}
+            <Outlet />
         </Container>
     );
 };
