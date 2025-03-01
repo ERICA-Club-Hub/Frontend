@@ -3,7 +3,8 @@ interface IClubRegisterValue {
     leaderEmail: string;
     category: string;
     oneLiner: string;
-    briefIntroduction: string;
+    briefIntroduction?: string | undefined;
+    image: File | null;
 }
 
 interface ISummaryInfoValue {

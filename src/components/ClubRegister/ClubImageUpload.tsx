@@ -1,18 +1,22 @@
+import { IClubRegisterValue } from '@/types';
 import { uploadImageWithPreview } from '@/utils';
-import { useState } from 'react';
 import styled from 'styled-components';
 
-export default function ClubImageUpload({
-    setPostImg,
-}: {
-    setPostImg: React.Dispatch<React.SetStateAction<File | null>>;
-}) {
-    const [previewImg, setPreviewImg] = useState<string | ArrayBuffer | null>(
-        '',
-    );
+interface IClubImageUpload {
+    setInputValue: React.Dispatch<React.SetStateAction<IClubRegisterValue>>;
+    previewImg: string | ArrayBuffer | null;
+    setPreviewImg: React.Dispatch<
+        React.SetStateAction<string | ArrayBuffer | null>
+    >;
+}
 
+export default function ClubImageUpload({
+    setInputValue,
+    previewImg,
+    setPreviewImg,
+}: IClubImageUpload) {
     const handleImgUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
-        uploadImageWithPreview(e, setPostImg, setPreviewImg);
+        uploadImageWithPreview(e, setInputValue, setPreviewImg);
     };
 
     return (

@@ -1,15 +1,18 @@
-import { SetPreviewImgType } from '@/types';
+import { IClubRegisterValue, SetPreviewImgType } from '@/types';
 
 const uploadImageWithPreview = (
     e: React.ChangeEvent<HTMLInputElement>,
-    setPostImg: React.Dispatch<React.SetStateAction<File | null>>,
+    setInputValue: React.Dispatch<React.SetStateAction<IClubRegisterValue>>,
     setPreviewImg: SetPreviewImgType,
 ) => {
     const { files } = e.target;
     const uploadFile = files![0];
 
     // API로 요청할 이미지 파일
-    setPostImg(uploadFile);
+    setInputValue((prev) => ({
+        ...prev,
+        image: uploadFile,
+    }));
 
     let fileRead = new FileReader();
     fileRead.readAsDataURL(uploadFile); // url로 변환

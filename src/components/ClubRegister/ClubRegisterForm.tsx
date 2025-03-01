@@ -3,22 +3,37 @@ import { InputField } from '@/components/Common';
 import styled from 'styled-components';
 import Button from '@/components/Common/Button';
 import { TextArea } from '@/components/Common/TextArea';
-import { apiRequest } from '@/api/apiRequest';
 import { IClubRegisterValue } from '@/types';
 import { inputChangeHandler } from '@/utils/inputChangeHandler';
 import ClubImageUpload from './ClubImageUpload';
 import { GuideText, InnerWrapper, Label } from '@/styles/admin-club-register';
 import ClubCategorySelection from './ClubCategorySelection';
+import useBulletPointConverter from '@/hooks/actions/useBulletPointConverter';
+import useAdminClubQueries from '@/hooks/queries/useAdminClubQueries';
+import { useRecoilValue } from 'recoil';
+import { clubIdselector } from '@/store/clubIdState';
 
 function ClubRegisterForm({ editMode }: { editMode: boolean }) {
+    const clubId = useRecoilValue(clubIdselector);
     const [inputValue, setInputValue] = useState<IClubRegisterValue>({
         clubName: '',
         leaderEmail: '',
         category: '',
         oneLiner: '',
         briefIntroduction: '',
+        image: null,
     });
-    const [postImg, setPostImg] = useState<File | null>(null);
+    const [previewImg, setPreviewImg] = useState<string | ArrayBuffer | null>(
+        '',
+    );
+
+    // 데이터 fetch
+    const { useRegisterInfoQuery } = useAdminClubQueries();
+    useRegisterInfoQuery({
+        clubId,
+        setInputValue,
+        setPreviewImg,
+    });
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -30,31 +45,33 @@ function ClubRegisterForm({ editMode }: { editMode: boolean }) {
                 type: 'application/json',
             }),
         );
-        if (postImg) {
-            formData.append('image', postImg);
+        if (inputValue.image) {
+            formData.append('image', inputValue.image);
         }
 
-        try {
-            await apiRequest({
-                url: '/api/clubs/registrations',
-                method: 'POST',
-                data: formData,
-                headers: {
-                    'Content-Type': 'multipart/form-data',
-                },
-                requireToken: true,
-            });
-        } catch (error) {
-            console.error('등록 실패', error);
-        }
+        // try {
+        //     await apiRequest({
+        //         url: '/api/clubs/registrations',
+        //         method: 'POST',
+        //         data: formData,
+        //         headers: {
+        //             'Content-Type': 'multipart/form-data',
+        //         },
+        //         requireToken: true,
+        //     });
+        // } catch (error) {
+        //     console.error('등록 실패', error);
+        // }
     };
 
     const isValid =
-        inputValue.clubName.length > 0 &&
-        inputValue.leaderEmail.length > 0 &&
-        inputValue.category.length > 0 &&
-        inputValue.oneLiner.length > 0 &&
-        inputValue.briefIntroduction.length > 0;
+        (inputValue.clubName.length > 0 &&
+            inputValue.leaderEmail.length > 0 &&
+            inputValue.category.length > 0 &&
+            inputValue.oneLiner.length > 0) ||
+        (editMode &&
+            inputValue.briefIntroduction &&
+            inputValue.briefIntroduction.length > 0);
 
     return (
         <Container>
@@ -74,6 +91,7 @@ function ClubRegisterForm({ editMode }: { editMode: boolean }) {
                 <InnerWrapper>
                     <Label htmlFor="clubName">동아리 이름</Label>
                     <InputField
+                        value={inputValue.clubName}
                         id="clubName"
                         type="text"
                         placeholder="동아리 이름을 정확하게 입력해 주세요."
@@ -99,6 +117,7 @@ function ClubRegisterForm({ editMode }: { editMode: boolean }) {
                     </Label>
                     <GuideText>승인 결과가 이메일로 전송됩니다.</GuideText>
                     <InputField
+                        value={inputValue.leaderEmail}
                         id="leaderEmail"
                         type="text"
                         placeholder="동아리 이름을 정확하게 입력해 주세요."
@@ -121,12 +140,17 @@ function ClubRegisterForm({ editMode }: { editMode: boolean }) {
                 />
 
                 {/* 동아리 사진 업로드 */}
-                <ClubImageUpload setPostImg={setPostImg} />
+                <ClubImageUpload
+                    setInputValue={setInputValue}
+                    previewImg={previewImg}
+                    setPreviewImg={setPreviewImg}
+                />
 
                 {/* 동아리 한 줄 소개 */}
                 <InnerWrapper>
                     <Label htmlFor="oneLiner">동아리 한 줄 소개</Label>
                     <InputField
+                        value={inputValue.oneLiner}
                         id="oneLiner"
                         type="text"
                         placeholder="동아리를 한 줄로 소개해 주세요."
@@ -143,22 +167,34 @@ function ClubRegisterForm({ editMode }: { editMode: boolean }) {
                 </InnerWrapper>
 
                 {/* 동아리 간단 소개 */}
-                <InnerWrapper>
-                    <Label htmlFor="briefIntroduction">동아리 간단 소개</Label>
-                    <TextArea
-                        id="briefIntroduction"
-                        placeholder="동아리에 대해 간단히 소개해 주세요."
-                        size="medium"
-                        name="briefIntroduction"
-                        maxLength={100}
-                        onChange={(e) =>
-                            inputChangeHandler<IClubRegisterValue>({
-                                e,
-                                setInputValue,
-                            })
-                        }
-                    />
-                </InnerWrapper>
+                {/* 서비스 관리자가 확인하기 위한 데이터라서 수정모드에서는 불러오지 않음 */}
+                {editMode || (
+                    <InnerWrapper>
+                        <Label htmlFor="briefIntroduction">
+                            동아리 간단 소개
+                        </Label>
+                        <TextArea
+                            id="briefIntroduction"
+                            placeholder="동아리에 대해 간단히 소개해 주세요."
+                            size="medium"
+                            name="briefIntroduction"
+                            maxLength={100}
+                            value={inputValue.briefIntroduction}
+                            onChange={(e) =>
+                                inputChangeHandler<IClubRegisterValue>({
+                                    e,
+                                    setInputValue,
+                                })
+                            }
+                            onKeyDown={(e) =>
+                                useBulletPointConverter({
+                                    e,
+                                    setInputValue,
+                                })
+                            }
+                        />
+                    </InnerWrapper>
+                )}
 
                 <Button type="submit" size="large" disabled={!isValid}>
                     {editMode ? '동아리 등록 정보 수정하기' : '동아리 등록하기'}
