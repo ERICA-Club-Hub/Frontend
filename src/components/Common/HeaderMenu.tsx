@@ -99,9 +99,12 @@ const DropdownNavigator = styled.div<{ $isOpen: boolean }>`
     position: absolute;
     top: 55px;
     right: 0px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     width: 100%;
     height: ${({ $isOpen }) => ($isOpen ? 'auto' : '0')};
-    padding: ${({ $isOpen }) => ($isOpen ? '20px 36px 30px' : '0 36px')};
+    padding: ${({ $isOpen }) => ($isOpen ? '20px 0 30px 0' : '0 36px')};
     border-bottom-left-radius: 10px;
     border-bottom-right-radius: 10px;
 
@@ -115,6 +118,7 @@ const LoginButton = styled.button`
     display: flex;
     align-items: center;
     gap: 5px;
+    width: 288px;
     margin-bottom: 30px;
     cursor: pointer;
 
