@@ -4,6 +4,7 @@ import {
     IRecruitNoticeValue,
     ISummaryInfoValue,
 } from '@/types';
+import convertImageToFile from '@/utils/convertImageToFile';
 import { useQuery } from '@tanstack/react-query';
 import { useEffect } from 'react';
 
@@ -12,12 +13,14 @@ const useRegisterInfoQuery = ({
     clubId,
     setInputValue,
     setPreviewImg,
+    setPostImg,
 }: {
     clubId: number | null;
     setInputValue: React.Dispatch<React.SetStateAction<IClubRegisterValue>>;
     setPreviewImg: React.Dispatch<
         React.SetStateAction<string | ArrayBuffer | null>
     >;
+    setPostImg: React.Dispatch<React.SetStateAction<File | null>>;
 }) => {
     const { isSuccess, data, isError } = useQuery({
         queryKey: [clubId, 'registerInfo'],
@@ -39,8 +42,16 @@ const useRegisterInfoQuery = ({
                 category: data.result.category,
                 oneLiner: data.result.description,
             });
+
+            console.log(data);
+
             // 이미지 미리보기 업데이트
             setPreviewImg(data.result.profileImageUrl);
+
+            // 이미지 파일로 변환 후 상태 업데이트
+            convertImageToFile(data.profileImageUrl).then((imageFile) => {
+                setPostImg(imageFile || null);
+            });
         }
 
         if (isError) {

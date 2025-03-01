@@ -15,7 +15,7 @@ export { RootLayout };
 
 const Container = styled.main`
     min-width: 360px;
-    max-width: 400px;
+    max-width: 600px;
     min-height: 100vh;
     padding-top: 55px;
     margin: 0 auto;

@@ -34,13 +34,19 @@ function ClubRegisterForm({ editMode }: { editMode: boolean }) {
         clubId,
         setInputValue,
         setPreviewImg,
+        setPostImg,
     });
 
     // FormData 생성
     const formData: FormData = new FormData();
+    const requestBody = {
+        ...inputValue,
+        // 간단한 소개 폼이 등록 정보 수정에는 없는데 API 요청 폼에는 추가해줘야 해서 예외처리
+        briefIntroduction: inputValue.briefIntroduction || '',
+    };
     formData.append(
         'requestBody',
-        new Blob([JSON.stringify({ ...inputValue, briefIntroduction: '' })], {
+        new Blob([JSON.stringify(requestBody)], {
             type: 'application/json',
         }),
     );

@@ -79,7 +79,7 @@ const Container = styled.header`
     align-items: center;
     width: 100%;
     min-width: 360px;
-    max-width: 400px;
+    max-width: 600px;
     height: 55px;
     padding: 0 20px;
 
