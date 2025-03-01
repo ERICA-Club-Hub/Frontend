@@ -10,11 +10,11 @@ import {
     ClubDetailPage,
     ClubIntroPage,
     ClubListPage,
+    ClubRegisterPage,
+    EditClubRegisterPage,
     ErrorPage,
     FAQPage,
-    ModifyClubRegisterPage,
     RecruitNoticePage,
-    RegisterClubPage,
     ResourcesPage,
     ServiceNoticePage,
     SummaryInfoPage,
@@ -60,7 +60,7 @@ export default function AppRoutes() {
             </Route>
 
             {/* 동아리 등록 페이지 */}
-            <Route path="/admin/club/register" element={<RegisterClubPage />} />
+            <Route path="/admin/club/register" element={<ClubRegisterPage />} />
 
             {/* 어드민 접근 권한 필요 -> 권한 없을 때 메인으로 리다이렉트 */}
             <Route path="/admin" element={<AuthGuard />}>
@@ -97,8 +97,8 @@ export default function AppRoutes() {
 
                     {/* 동아리 등록 정보 수정 페이지 */}
                     <Route
-                        path="/admin/club/:id/modify"
-                        element={<ModifyClubRegisterPage />}
+                        path="/admin/club/:id/register/edit"
+                        element={<EditClubRegisterPage />}
                     />
                 </Route>
 
