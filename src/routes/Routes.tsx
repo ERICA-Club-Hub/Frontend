@@ -64,14 +64,14 @@ export default function AppRoutes() {
             {/* 어드민 접근 권한 필요 -> 권한 없을 때 메인으로 리다이렉트 */}
             <Route path="/admin" element={<AuthGuard />}>
                 {/* 동아리 어드민 */}
-                {/* 총동연, 서비스 관리자, 동아리 대표 모두 접근 가능 */}
-                <Route path="/admin/club">
+                {/* 서비스 관리자, 동아리 대표 접근 가능 */}
+                <Route path="/admin/club/:id">
                     {/* 동아리 어드민 홈*/}
-                    <Route path="/admin/club" element={<AdminClubPage />} />
+                    <Route path="/admin/club/:id" element={<AdminClubPage />} />
 
                     {/* 동아리 활동 로그 */}
                     <Route
-                        path="/admin/club/activity"
+                        path="/admin/club/:id/activity"
                         element={<AdminActivityLogPage />}
                     />
                     {/* 동아리 상세 페이지  */}
@@ -96,13 +96,13 @@ export default function AppRoutes() {
 
                     {/* 동아리 등록 정보 수정 페이지 */}
                     <Route
-                        path="/admin/club/modify"
+                        path="/admin/club/:id/modify"
                         element={<ModifyClubRegisterPage />}
                     />
                 </Route>
 
                 {/* 총동연 어드민 */}
-                {/* 총동연, 서비스 관리자만 접근 가능 */}
+                {/* 총동연, 서비스 관리자 접근 가능 */}
                 <Route path="/admin/union" element={<UnionAdminGuard />}>
                     {/* 총동연 어드민 홈*/}
                     <Route path="/admin/union" element={<AdminUnionPage />} />
