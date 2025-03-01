@@ -6,6 +6,9 @@ export * from './admin/auth/register/ModifyClubRegisterPage';
 export * from './admin/club/main/AdminClubPage';
 export * from './admin/club/activity/AdminActivityLogPage';
 export * from './admin/club/detail/AdminClubDetailPage';
+export * from './admin/club/detail/section/ClubIntroPage';
+export * from './admin/club/detail/section/RecruitNoticePage';
+export * from './admin/club/detail/section/SummaryInfoPage';
 
 export * from './admin/union/main/AdminUnionPage';
 export * from './admin/union/notice/AdminNoticePage';

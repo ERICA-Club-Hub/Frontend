@@ -5,8 +5,8 @@ interface IClubRegisterState {
     image: string | ArrayBuffer | null;
 }
 
-type SetUploadImgUrlType = React.Dispatch<
+type SetPreviewImgType = React.Dispatch<
     React.SetStateAction<string | ArrayBuffer | null>
 >;
 
-export type { IClubRegisterState, SetUploadImgUrlType };
+export type { IClubRegisterState, SetPreviewImgType };

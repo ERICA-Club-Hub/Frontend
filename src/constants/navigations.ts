@@ -1,12 +1,12 @@
 const adminNavigationMenus = [
     {
         title: '어드민 페이지',
-        adminType: ['union'],
+        adminType: ['union', 'service'],
         url: '/admin/union',
     },
     {
         title: '어드민 페이지',
-        adminType: ['service', 'club'],
+        adminType: ['club'],
         url: '/admin/club',
     },
 ];
@@ -52,12 +52,12 @@ const loginNavigations = [
 ];
 
 const clubCategory = [
-    '봉사분과',
-    '예술분과',
-    '종교분과',
-    '체육분과',
-    '학술교양분과',
-    '연합동아리',
+    { label: '봉사분과', name: 'VOLUNTEER' },
+    { label: '예술분과', name: 'ART' },
+    { label: '체육분과', name: 'SPORTS' },
+    { label: '봉사분과', name: 'RELIGION' },
+    { label: '봉사분과', name: 'ACADEMIC' },
+    { label: '봉사분과', name: 'UNION' },
 ];
 
 export {

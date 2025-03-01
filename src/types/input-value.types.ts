@@ -11,9 +11,20 @@ interface ISummaryInfoValue {
     leaderName: string;
     leaderPhone: string;
     activities: string;
-    membershipFee: string;
+    membershipFee: number | null;
     snsUrl: string;
     applicationUrl: string;
+}
+
+interface IClubIntroValue {
+    introduction: string;
+    activity: string;
+    recruitment: string;
+}
+
+interface IEventScheduleValue {
+    month: number;
+    content: string;
 }
 
 interface IRecruitNoticeValue {
@@ -22,4 +33,10 @@ interface IRecruitNoticeValue {
     etc: string;
 }
 
-export type { IClubRegisterValue, ISummaryInfoValue, IRecruitNoticeValue };
+export type {
+    IClubRegisterValue,
+    ISummaryInfoValue,
+    IClubIntroValue,
+    IEventScheduleValue,
+    IRecruitNoticeValue,
+};

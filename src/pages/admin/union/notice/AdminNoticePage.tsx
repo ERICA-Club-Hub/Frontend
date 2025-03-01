@@ -1,7 +1,7 @@
 import { InputField } from '@/components/Common';
 import Button from '@/components/Common/Button';
-import { uploadImageWithPreview } from '@/utils';
-import { useState } from 'react';
+// import { uploadImageWithPreview } from '@/utils';
+// import { useState } from 'react';
 import styled from 'styled-components';
 
 const AdminNoticePage = () => {
@@ -11,17 +11,17 @@ const AdminNoticePage = () => {
     //     category: '',
     //     image: [],
     // });
-    const [uploadImgUrl, setUploadImgUrl] = useState<
-        string | ArrayBuffer | null
-    >('');
+    // const [uploadImgUrl, setUploadImgUrl] = useState<
+    //     string | ArrayBuffer | null
+    // >('');
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
     };
 
-    const handleImgUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
-        uploadImageWithPreview(e, setUploadImgUrl);
-    };
+    // const handleImgUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    //     uploadImageWithPreview(e, setUploadImgUrl);
+    // };
 
     return (
         <FormContainer onSubmit={handleSubmit}>
@@ -43,7 +43,7 @@ const AdminNoticePage = () => {
                     </span>
                 </div>
 
-                <ImageContainer>
+                {/* <ImageContainer>
                     <label htmlFor="image" className="image-preview">
                         {uploadImgUrl && (
                             <ImagePreview
@@ -62,7 +62,7 @@ const AdminNoticePage = () => {
                         accept=".jpg, .jpeg, .png"
                         onChange={handleImgUpload}
                     />
-                </ImageContainer>
+                </ImageContainer> */}
             </Wrapper>
 
             <Wrapper>
@@ -122,23 +122,23 @@ const Wrapper = styled.div`
     }
 `;
 
-const ImageContainer = styled.div`
-    width: 140px;
-    height: 140px;
-    display: flex;
+// const ImageContainer = styled.div`
+//     width: 140px;
+//     height: 140px;
+//     display: flex;
 
-    .image-preview {
-        width: 140px;
-        height: 140px;
-        border-radius: 10px;
-        background-color: ${({ theme }) => theme.colors.mediumGray};
-        cursor: pointer;
-    }
+//     .image-preview {
+//         width: 140px;
+//         height: 140px;
+//         border-radius: 10px;
+//         background-color: ${({ theme }) => theme.colors.mediumGray};
+//         cursor: pointer;
+//     }
 
-    input {
-        display: none;
-    }
-`;
+//     input {
+//         display: none;
+//     }
+// `;
 
 const Title = styled.h2`
     width: 100%;
@@ -147,12 +147,12 @@ const Title = styled.h2`
     color: ${({ theme }) => theme.colors.mainBlack};
 `;
 
-const ImagePreview = styled.img`
-    width: 100%;
-    height: 100%;
-    border-radius: 10px;
-    object-fit: cover;
-`;
+// const ImagePreview = styled.img`
+//     width: 100%;
+//     height: 100%;
+//     border-radius: 10px;
+//     object-fit: cover;
+// `;
 
 const ButtonWrapper = styled.div`
     width: 320px;
