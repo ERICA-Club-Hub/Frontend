@@ -26,6 +26,7 @@ import { AuthGuard } from './AuthGuard';
 import UnionAdminGuard from './UnionAdminGuard';
 import ClubAdminGurad from './ClubAdminGurad';
 import { AdminUnionNoticeRegisterPage } from '@/pages/admin/union/notice/AdminUnionNoticeRegisterPage';
+import AdminUnionNoticeEditPage from '@/pages/admin/union/notice/AdminUnionNoticeEditPage';
 
 export default function AppRoutes() {
     return (
@@ -108,6 +109,7 @@ export default function AppRoutes() {
                 <Route path="/admin/union" element={<UnionAdminGuard />}>
                     {/* 총동연 어드민 홈*/}
                     <Route path="/admin/union" element={<AdminUnionPage />} />
+
                     {/* 총동연 어드민 공지 */}
                     <Route
                         path="/admin/union/notice"
@@ -118,6 +120,12 @@ export default function AppRoutes() {
                     <Route
                         path="/admin/union/notice/register"
                         element={<AdminUnionNoticeRegisterPage />}
+                    />
+
+                    {/* 총동연 어드민 공지 수정 및 삭제 */}
+                    <Route
+                        path="/admin/union/notice/:id/register"
+                        element={<AdminUnionNoticeEditPage />}
                     />
 
                     {/* 총동연 자료 등록  */}

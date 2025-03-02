@@ -1,15 +1,15 @@
-import Card from '../../components/Common/Card';
+import Card from '../Common/Card';
 import styled from 'styled-components';
 import { useState, useEffect } from 'react';
 import { apiRequest } from '../../api/apiRequest';
 import Button from '../Common/Button';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
-const Container = styled.div<{ $editMode: boolean }>`
+const Container = styled.div<{ $mode: string }>`
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: ${({ $editMode }) => ($editMode ? '15px' : '19px')};
+    gap: ${({ $mode }) => ($mode === 'register' ? '15px' : '19px')};
     padding-top: 20px;
 `;
 
@@ -51,7 +51,8 @@ interface AnnouncementDTO {
     thumbnailUrl: string;
 }
 
-const UnionNotice = ({ editMode }: { editMode: boolean }) => {
+function UnionNoticeList({ mode }: { mode: string }) {
+    const navigate = useNavigate();
     const [announcements, setAnnouncements] = useState<AnnouncementDTOList>({
         announcementDTOList: [],
     });
@@ -88,20 +89,23 @@ const UnionNotice = ({ editMode }: { editMode: boolean }) => {
     }, []);
 
     // 카드 클릭 시 이동
-    const handleCardClick = (url: string) => {
-        if (editMode) {
-            // 수정 모드일 때 해당 총동연 공지사항 수정 페이지로 이동
+    const handleCardClick = (id: number, url: string) => {
+        if (mode === 'register') {
+            // 어드민 등록 모드일 때 해당 총동연 공지사항 수정 페이지로 이동
+            navigate(`/admin/union/notice/${id}/register`, {
+                state: { announcementId: id },
+            });
         } else {
-            // 수정 모드가 아닐 때 클릭 시 해당 URL로 이동
+            // 읽기 모드일 때 클릭 시 해당 URL로 이동
             window.location.href = url;
         }
     };
 
     return (
-        <Container $editMode={editMode}>
+        <Container $mode={mode}>
             <TitleWrapper>
                 <Title>총동연 공지사항</Title>
-                {editMode && (
+                {mode === 'register' && (
                     <Link to="/admin/union/notice/register">
                         <Button disabled={false}>공지사항 작성하기</Button>
                     </Link>
@@ -116,7 +120,12 @@ const UnionNotice = ({ editMode }: { editMode: boolean }) => {
                     announcements.announcementDTOList.map((announcement) => (
                         <CardWrapper
                             key={announcement.announcementId}
-                            onClick={() => handleCardClick(announcement.url)}
+                            onClick={() =>
+                                handleCardClick(
+                                    announcement.announcementId,
+                                    announcement.url,
+                                )
+                            }
                         >
                             <Card
                                 $variant="unionNotice"
@@ -132,6 +141,6 @@ const UnionNotice = ({ editMode }: { editMode: boolean }) => {
             </Body>
         </Container>
     );
-};
+}
 
-export { UnionNotice };
+export { UnionNoticeList };

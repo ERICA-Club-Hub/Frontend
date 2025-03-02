@@ -9,7 +9,7 @@ interface IThumbnailImageUpload {
     >;
 }
 
-export default function ThumbnailImageUpload({
+function ThumbnailImageUpload({
     setPostImg,
     previewImg,
     setPreviewImg,
@@ -20,7 +20,7 @@ export default function ThumbnailImageUpload({
 
     return (
         <ImageContainer>
-            <label htmlFor="image" className="image-preview">
+            <label htmlFor="image" className="image-preview-label">
                 {previewImg && (
                     <ImagePreview
                         src={typeof previewImg === 'string' ? previewImg : ''}
@@ -38,12 +38,14 @@ export default function ThumbnailImageUpload({
     );
 }
 
+export { ThumbnailImageUpload };
+
 const ImageContainer = styled.div`
     width: 140px;
     height: 140px;
     display: flex;
 
-    .image-preview {
+    .image-preview-label {
         width: 140px;
         height: 140px;
         border-radius: 10px;
