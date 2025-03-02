@@ -51,7 +51,7 @@ const useUpdateUnionNoticeMutation = ({
         },
         onSuccess: () => {
             queryClient.invalidateQueries({
-                queryKey: ['union', 'notice', announcementId],
+                queryKey: ['union', 'notice'],
             });
         },
         onError: (error) => {
