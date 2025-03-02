@@ -11,13 +11,13 @@ import {
 import { inputChangeHandler } from '@/utils/inputChangeHandler';
 import { ISummaryInfoValue } from '@/types';
 import { useRecoilValue } from 'recoil';
-import { clubIdselector } from '@/store/clubIdState';
+import { clubIdSelector } from '@/store/clubInfoState';
 import useClubDetailQueries from '@/hooks/queries/useAdminClubQueries';
 import { RecruitmentStatus } from '@/components/AdminClubDetail';
 import useAdminClubQueries from '@/hooks/queries/useAdminClubQueries';
 
 function SummaryInfoPage() {
-    const clubId = useRecoilValue(clubIdselector);
+    const clubId = useRecoilValue(clubIdSelector);
     const [inputValue, setInputValue] = useState<ISummaryInfoValue>({
         recruitmentStatus: '',
         leaderName: '',

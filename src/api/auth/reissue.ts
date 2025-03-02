@@ -1,10 +1,10 @@
 import axios from 'axios';
 import { removeAccessToken, setAccessToken } from '../../utils/tokenHandler';
 import { useRecoilValue } from 'recoil';
-import { clubIdselector } from '@/store/clubIdState';
+import { clubIdSelector } from '@/store/clubInfoState';
 
 export const reissueToken = async () => {
-    const clubId = useRecoilValue(clubIdselector);
+    const clubId = useRecoilValue(clubIdSelector);
 
     try {
         const response = await axios.post(

@@ -6,11 +6,11 @@ import useClubIntroContext from '@/hooks/contexts/useClubIntroContext';
 import { useQuery } from '@tanstack/react-query';
 import { apiRequest } from '@/api/apiRequest';
 import { useRecoilValue } from 'recoil';
-import { clubIdselector } from '@/store/clubIdState';
+import { clubIdSelector } from '@/store/clubInfoState';
 import { useEffect } from 'react';
 
 function MonthlyEventSchedule() {
-    const clubId = useRecoilValue(clubIdselector);
+    const clubId = useRecoilValue(clubIdSelector);
     const { schedules, setSchedules } = useClubIntroContext();
 
     // 월별 일정 추가

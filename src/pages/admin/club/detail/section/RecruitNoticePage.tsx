@@ -11,13 +11,13 @@ import {
 } from '@/styles/admin-club-detail/style';
 import { inputChangeHandler } from '@/utils/inputChangeHandler';
 import { apiRequest } from '@/api/apiRequest';
-import { clubIdselector } from '@/store/clubIdState';
+import { clubIdSelector } from '@/store/clubInfoState';
 import { IRecruitNoticeValue } from '@/types';
 import useBulletPointConverter from '@/hooks/actions/useBulletPointConverter';
 import useAdminClubQueries from '@/hooks/queries/useAdminClubQueries';
 
 function RecruitNoticePage() {
-    const clubId = useRecoilValue(clubIdselector);
+    const clubId = useRecoilValue(clubIdSelector);
     const [inputValue, setInputValue] = useState<IRecruitNoticeValue>({
         due: '',
         notice: '',
