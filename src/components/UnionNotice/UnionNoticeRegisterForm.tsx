@@ -21,10 +21,10 @@ function UnionNoticeRegisterForm({ mode }: { mode: string }) {
     const [previewImg, setPreviewImg] = useState<string | ArrayBuffer | null>( // 미리보기 이미지
         '',
     );
-    const [isClickedEditBtn, setIsClickedEditBtn] = useState<boolean>(false);
+    const [isEditBtnClicked, setIsEditBtnClicked] = useState<boolean>(false);
 
     // 총동연 특정 공지사항 정보 불러오기 Query 호출
-    if (announcementId && mode === 'edit') {
+    if (mode === 'edit' && announcementId) {
         const { useUnionNoticeQuery } = useUnionQueries();
         useUnionNoticeQuery({
             announcementId,
@@ -47,27 +47,43 @@ function UnionNoticeRegisterForm({ mode }: { mode: string }) {
         formData.append('thumbnail', postImg);
     }
 
-    // 총동연 공지사항 생성 Mutation 호출
-    const { useCreateUnionNoticeMutation } = useUnionQueries();
+    // 총동연 공지사항 CRUD Mutation 호출
+    const {
+        useCreateUnionNoticeMutation,
+        useUpdateUnionNoticeMutation,
+        useDeleteUnionNoticeMutation,
+    } = useUnionQueries();
     const createUnionNoticeMutation = useCreateUnionNoticeMutation({
         formData,
     });
+    const updateUnionNoticeMutation = useUpdateUnionNoticeMutation({
+        announcementId,
+        formData,
+    });
+    const deleteUnionNoticeMutation = useDeleteUnionNoticeMutation({
+        announcementId,
+    });
 
+    // 공지사항 저장하기
     const handleSaveUnionNotice = () => {
-        try {
-            // 등록 모드일 때 공지사항 생성
-            if (mode === 'register') {
-                createUnionNoticeMutation.mutate();
-            }
-            // 수정 모드일 때 공지사항 수정
-            else if (mode === 'edit') {
-            }
-            navigate('/admin/union/notice');
-        } catch (error) {
-            console.error('총동연 공지사항 API 요청 실패', error);
+        // 등록 모드일 때 공지사항 생성
+        if (mode === 'register') {
+            createUnionNoticeMutation.mutate();
         }
+        // 수정 모드일 때 공지사항 수정
+        else if (mode === 'edit') {
+            updateUnionNoticeMutation.mutate();
+        }
+        navigate('/admin/union/notice');
     };
 
+    // 공지사항 삭제하기
+    const handleDeleteUnionNotice = () => {
+        deleteUnionNoticeMutation.mutate();
+        navigate('/admin/union/notice');
+    };
+
+    // 공지사항 저장하기 버튼 활성화 여부
     const isValid =
         inputValue.title.length > 0 &&
         inputValue.url.length > 0 &&
@@ -85,6 +101,7 @@ function UnionNoticeRegisterForm({ mode }: { mode: string }) {
                     inputSize="medium"
                     backgroundColor="gray"
                     placeholder="제목을 입력해 주세요."
+                    disabled={mode === 'edit' && !isEditBtnClicked}
                     onChange={(e) =>
                         inputChangeHandler<IUnionNoticeValue>({
                             e,
@@ -107,6 +124,8 @@ function UnionNoticeRegisterForm({ mode }: { mode: string }) {
                     setPostImg={setPostImg}
                     previewImg={previewImg}
                     setPreviewImg={setPreviewImg}
+                    mode={mode}
+                    isEditBtnClicked={isEditBtnClicked}
                 />
             </Wrapper>
 
@@ -123,6 +142,7 @@ function UnionNoticeRegisterForm({ mode }: { mode: string }) {
                     inputSize="medium"
                     backgroundColor="gray"
                     placeholder="SNS 링크를 정확히 입력해 주세요."
+                    disabled={mode === 'edit' && !isEditBtnClicked}
                     onChange={(e) =>
                         inputChangeHandler<IUnionNoticeValue>({
                             e,
@@ -133,7 +153,7 @@ function UnionNoticeRegisterForm({ mode }: { mode: string }) {
             </Wrapper>
 
             <ButtonWrapper>
-                {mode === 'edit' && !isClickedEditBtn ? (
+                {mode === 'edit' && !isEditBtnClicked ? (
                     <>
                         <Button
                             type="button"
@@ -141,6 +161,7 @@ function UnionNoticeRegisterForm({ mode }: { mode: string }) {
                             variant="outlined"
                             outlineColor="#DC5151"
                             disabled={false}
+                            onClick={handleDeleteUnionNotice}
                         >
                             삭제하기
                         </Button>
@@ -149,7 +170,7 @@ function UnionNoticeRegisterForm({ mode }: { mode: string }) {
                             size="small"
                             variant="outlined"
                             disabled={!isValid}
-                            onClick={() => setIsClickedEditBtn(true)}
+                            onClick={() => setIsEditBtnClicked(true)}
                         >
                             수정하기
                         </Button>

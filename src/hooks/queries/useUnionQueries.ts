@@ -29,6 +29,60 @@ const useCreateUnionNoticeMutation = ({ formData }: { formData: FormData }) =>
         },
     });
 
+// 총동연 공지사항 수정
+const useUpdateUnionNoticeMutation = ({
+    announcementId,
+    formData,
+}: {
+    announcementId: number;
+    formData: FormData;
+}) =>
+    useMutation({
+        mutationFn: async () => {
+            return await apiRequest({
+                url: `/api/announcements/union-admin/${announcementId}`,
+                method: 'PATCH',
+                data: formData,
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                },
+                requireToken: true,
+            });
+        },
+        onSuccess: () => {
+            queryClient.invalidateQueries({
+                queryKey: ['union', 'notice', announcementId],
+            });
+        },
+        onError: (error) => {
+            console.error('총동연 공지사항 생성 실패', error);
+        },
+    });
+
+// 총동연 공지사항 식제
+const useDeleteUnionNoticeMutation = ({
+    announcementId,
+}: {
+    announcementId: number;
+}) =>
+    useMutation({
+        mutationFn: async () => {
+            return await apiRequest({
+                url: `/api/announcements/union-admin/${announcementId}`,
+                method: 'DELETE',
+                requireToken: true,
+            });
+        },
+        onSuccess: () => {
+            queryClient.invalidateQueries({
+                queryKey: ['union', 'notice'],
+            });
+        },
+        onError: (error) => {
+            console.error('총동연 공지사항 삭제 실패', error);
+        },
+    });
+
 // 총동연 특정 공지사항 정보 불러오기
 const useUnionNoticeQuery = ({
     announcementId,
@@ -80,8 +134,10 @@ const useUnionNoticeQuery = ({
 
 function useUnionQueries() {
     return {
-        useCreateUnionNoticeMutation,
         useUnionNoticeQuery,
+        useCreateUnionNoticeMutation,
+        useUpdateUnionNoticeMutation,
+        useDeleteUnionNoticeMutation,
     };
 }
 

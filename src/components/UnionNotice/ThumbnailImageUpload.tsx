@@ -7,12 +7,16 @@ interface IThumbnailImageUpload {
     setPreviewImg: React.Dispatch<
         React.SetStateAction<string | ArrayBuffer | null>
     >;
+    mode: string;
+    isEditBtnClicked: boolean;
 }
 
 function ThumbnailImageUpload({
     setPostImg,
     previewImg,
     setPreviewImg,
+    mode,
+    isEditBtnClicked,
 }: IThumbnailImageUpload) {
     const handleImgUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
         uploadImageWithPreview(e, setPostImg, setPreviewImg);
@@ -33,6 +37,7 @@ function ThumbnailImageUpload({
                 type="file"
                 accept=".jpg, .jpeg, .png"
                 onChange={handleImgUpload}
+                disabled={mode === 'edit' && !isEditBtnClicked}
             />
         </ImageContainer>
     );
