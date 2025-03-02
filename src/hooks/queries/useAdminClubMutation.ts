@@ -3,6 +3,37 @@ import { queryClient } from '@/config/queryClient';
 import { ClubIdType, IRecruitNoticeValue, ISummaryInfoValue } from '@/types';
 import { useMutation } from '@tanstack/react-query';
 
+// 동아리 등록 정보 수정
+const useEditClubRegisterMutation = ({
+    clubId,
+    formData,
+}: {
+    clubId: ClubIdType;
+    formData: FormData;
+}) =>
+    useMutation({
+        mutationFn: async () => {
+            return await apiRequest({
+                url: `/api/clubs/${clubId}/update`,
+                method: 'POST',
+                data: formData,
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                },
+                requireToken: true,
+            });
+        },
+        onSuccess: () => {
+            queryClient.invalidateQueries({
+                queryKey: [clubId, 'registerInfo'],
+            });
+        },
+        onError: (error) => {
+            console.error('동아리 등록정보 저장 실패', error);
+        },
+    });
+
+// 요약 정보 저장
 const useSaveSummaryInfoMutation = ({
     clubId,
     inputValue,
@@ -29,6 +60,7 @@ const useSaveSummaryInfoMutation = ({
         },
     });
 
+// 모집안내 저장
 const useSaveRecruitNoticeMutation = ({
     clubId,
     inputValue,
@@ -57,6 +89,7 @@ const useSaveRecruitNoticeMutation = ({
 
 export default function useAdminClubMutation() {
     return {
+        useEditClubRegisterMutation,
         useSaveSummaryInfoMutation,
         useSaveRecruitNoticeMutation,
     };

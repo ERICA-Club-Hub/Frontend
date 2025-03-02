@@ -1,7 +1,7 @@
 // 어드민
 export * from './admin/auth/login/AdminLoginPage';
-export * from './admin/auth/register/RegisterClubPage';
-export * from './admin/auth/register/ModifyClubRegisterPage';
+export * from './admin/auth/register/ClubRegisterPage';
+export * from './admin/auth/register/EditClubRegisterPage';
 
 export * from './admin/club/main/AdminClubPage';
 export * from './admin/club/activity/AdminActivityLogPage';

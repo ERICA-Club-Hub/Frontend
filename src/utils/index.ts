@@ -1,1 +1,1 @@
-export * from './imageHandler';
+export * from './uploadImageWithPreview';

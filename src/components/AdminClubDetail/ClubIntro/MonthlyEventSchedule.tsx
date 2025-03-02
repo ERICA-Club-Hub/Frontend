@@ -2,7 +2,7 @@ import { Label, SectionWrapper } from '@/styles/admin-club-detail/style';
 import styled from 'styled-components';
 import PlusIcon from '@/assets/common/plus-icon.svg?react';
 import { EventSchedule } from './EventSchedule';
-import useClubIntroContext from '@/hooks/useClubIntroContext';
+import useClubIntroContext from '@/hooks/contexts/useClubIntroContext';
 import { useQuery } from '@tanstack/react-query';
 import { apiRequest } from '@/api/apiRequest';
 import { useRecoilValue } from 'recoil';

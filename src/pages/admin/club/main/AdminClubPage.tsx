@@ -21,7 +21,10 @@ const AdminClubPage = () => {
                     <ArrowLinkButton size="large" url="/admin/club/activity">
                         활동로그 작성하기
                     </ArrowLinkButton>
-                    <ArrowLinkButton size="large" url="/admin/modify">
+                    <ArrowLinkButton
+                        size="large"
+                        url={`/admin/club/${clubId}/register/edit`}
+                    >
                         동아리 등록 정보 수정하기
                     </ArrowLinkButton>
                 </NavigationWrapper>

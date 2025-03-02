@@ -4,18 +4,20 @@ import {
     isAuthenticated,
     isAuthenticatedSelector,
 } from '@/store/authState';
+import { clubId } from '@/store/clubIdState';
 import { removeAccessToken } from '@/utils/tokenHandler';
 import { SetStateAction } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 
-export const useAuthenticationToggle = (
+export const useAuthToggle = (
     setIsOpen: React.Dispatch<SetStateAction<boolean>>,
 ) => {
     const navigate = useNavigate();
     const isAuthenticatedValue = useRecoilValue(isAuthenticatedSelector);
     const setAuthenticated = useSetRecoilState(isAuthenticated);
     const setAdminType = useSetRecoilState(adminType);
+    const setClubId = useSetRecoilState(clubId);
 
     // 로그인 -> 로그아웃 로직
     const handleLogout = () => {
@@ -27,6 +29,7 @@ export const useAuthenticationToggle = (
         removeAccessToken();
         setAuthenticated(false);
         setAdminType(null);
+        setClubId(null);
         navigate('/');
     };
 

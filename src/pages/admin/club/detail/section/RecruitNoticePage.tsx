@@ -13,7 +13,7 @@ import { inputChangeHandler } from '@/utils/inputChangeHandler';
 import { apiRequest } from '@/api/apiRequest';
 import { clubIdselector } from '@/store/clubIdState';
 import { IRecruitNoticeValue } from '@/types';
-import useBulletPointConverter from '@/hooks/useBulletPointConverter';
+import useBulletPointConverter from '@/hooks/actions/useBulletPointConverter';
 import useAdminClubQueries from '@/hooks/queries/useAdminClubQueries';
 import useAdminClubMutation from '@/hooks/queries/useAdminClubMutation';
 
@@ -29,7 +29,7 @@ function RecruitNoticePage() {
     const { useRecruitNoticeQuery } = useAdminClubQueries();
     const { isPending } = useRecruitNoticeQuery({ clubId, setInputValue });
 
-    // 데이터 저장
+    // 데이터 저장 mutation 호출
     const { useSaveRecruitNoticeMutation } = useAdminClubMutation();
     const saveRecruitNoticeMutation = useSaveRecruitNoticeMutation({
         clubId,

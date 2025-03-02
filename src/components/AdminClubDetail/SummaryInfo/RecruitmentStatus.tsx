@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import { Dropdown } from '@/components/Common';
 import DropdownArrow from '@/assets/common/dropdown_arrow.svg?react';
 import { Label, SectionWrapper } from '@/styles/admin-club-detail/style';
-import useToggle from '@/hooks/useToggle';
+import useToggle from '@/hooks/actions/useToggle';
 import { recruitStatus } from '@/constants/club-detail-register';
 import { ISummaryInfoValue } from '@/types';
 
