@@ -15,7 +15,6 @@ import { clubIdselector } from '@/store/clubIdState';
 import { IRecruitNoticeValue } from '@/types';
 import useBulletPointConverter from '@/hooks/actions/useBulletPointConverter';
 import useAdminClubQueries from '@/hooks/queries/useAdminClubQueries';
-import useAdminClubMutation from '@/hooks/queries/useAdminClubMutation';
 
 function RecruitNoticePage() {
     const clubId = useRecoilValue(clubIdselector);
@@ -30,7 +29,7 @@ function RecruitNoticePage() {
     const { isPending } = useRecruitNoticeQuery({ clubId, setInputValue });
 
     // 데이터 저장 mutation 호출
-    const { useSaveRecruitNoticeMutation } = useAdminClubMutation();
+    const { useSaveRecruitNoticeMutation } = useAdminClubQueries();
     const saveRecruitNoticeMutation = useSaveRecruitNoticeMutation({
         clubId,
         inputValue,

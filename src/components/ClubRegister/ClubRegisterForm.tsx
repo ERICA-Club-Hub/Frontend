@@ -8,11 +8,10 @@ import { IClubRegisterValue } from '@/types';
 import { inputChangeHandler } from '@/utils/inputChangeHandler';
 import { GuideText, InnerWrapper, Label } from '@/styles/admin-club-register';
 import useBulletPointConverter from '@/hooks/actions/useBulletPointConverter';
-import useAdminClubQueries from '@/hooks/queries/useAdminClubQueries';
 import { clubIdselector } from '@/store/clubIdState';
 import ClubImageUpload from './ClubImageUpload';
 import { ClubCategorySelection } from './ClubCategorySelection';
-import useAdminClubMutation from '@/hooks/queries/useAdminClubMutation';
+import useClubRegisterQueries from '@/hooks/queries/useClubRegisterQueries';
 
 function ClubRegisterForm({ editMode }: { editMode: boolean }) {
     const clubId = useRecoilValue(clubIdselector);
@@ -29,7 +28,7 @@ function ClubRegisterForm({ editMode }: { editMode: boolean }) {
     ); // 미리보기 이미지
 
     // 데이터 fetch
-    const { useRegisterInfoQuery } = useAdminClubQueries();
+    const { useRegisterInfoQuery } = useClubRegisterQueries();
     useRegisterInfoQuery({
         clubId,
         setInputValue,
@@ -55,7 +54,7 @@ function ClubRegisterForm({ editMode }: { editMode: boolean }) {
     }
 
     // 등록 정보 수정 mutation 호출
-    const { useEditClubRegisterMutation } = useAdminClubMutation();
+    const { useEditClubRegisterMutation } = useClubRegisterQueries();
     const editClubRegisterMutation = useEditClubRegisterMutation({
         clubId,
         formData,

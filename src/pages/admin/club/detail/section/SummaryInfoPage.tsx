@@ -13,8 +13,8 @@ import { ISummaryInfoValue } from '@/types';
 import { useRecoilValue } from 'recoil';
 import { clubIdselector } from '@/store/clubIdState';
 import useClubDetailQueries from '@/hooks/queries/useAdminClubQueries';
-import useAdminClubMutation from '@/hooks/queries/useAdminClubMutation';
 import { RecruitmentStatus } from '@/components/AdminClubDetail';
+import useAdminClubQueries from '@/hooks/queries/useAdminClubQueries';
 
 function SummaryInfoPage() {
     const clubId = useRecoilValue(clubIdselector);
@@ -33,7 +33,7 @@ function SummaryInfoPage() {
     const { isPending } = useSummaryInfoQuery({ clubId, setInputValue });
 
     // 데이터 저장 mutation 호출
-    const { useSaveSummaryInfoMutation } = useAdminClubMutation();
+    const { useSaveSummaryInfoMutation } = useAdminClubQueries();
     const saveSummaryInfoMutation = useSaveSummaryInfoMutation({
         clubId,
         inputValue,
