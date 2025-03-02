@@ -1,20 +1,30 @@
 import { ArrowLinkButton } from '@/components/Common';
+import { clubIdselector } from '@/store/clubIdState';
+import { useRecoilValue } from 'recoil';
 import styled from 'styled-components';
 
 const AdminClubPage = () => {
+    const clubId = useRecoilValue(clubIdselector);
+
     return (
         <Container>
             <Wrapper>
                 <h1>UMC ERICA님, 환영해요.</h1>
 
                 <NavigationWrapper>
-                    <ArrowLinkButton size="large" url="/admin/club/:id">
+                    <ArrowLinkButton
+                        size="large"
+                        url={`/admin/club/${clubId}/summary-info`}
+                    >
                         동아리 상세페이지 설정하기
                     </ArrowLinkButton>
                     <ArrowLinkButton size="large" url="/admin/club/activity">
                         활동로그 작성하기
                     </ArrowLinkButton>
-                    <ArrowLinkButton size="large" url="/admin/modify">
+                    <ArrowLinkButton
+                        size="large"
+                        url={`/admin/club/${clubId}/register/edit`}
+                    >
                         동아리 등록 정보 수정하기
                     </ArrowLinkButton>
                 </NavigationWrapper>

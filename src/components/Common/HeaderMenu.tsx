@@ -8,17 +8,17 @@ import { Link } from 'react-router-dom';
 import { ArrowLinkButton } from './ArrowLinkButton';
 import { isAuthenticatedSelector } from '@/store/authState';
 import { useRecoilValue } from 'recoil';
-import { useClickOutside } from '@/hooks/useClickOutside';
-import useToggle from '@/hooks/useToggle';
-import { useAuthenticationToggle } from '@/hooks/useAuthenticationToggle';
-import { useFilteredHeaderMenuList } from '@/hooks/usefilteredHeaderMenuList';
+import { useClickOutside } from '@/hooks/actions/useClickOutside';
+import useToggle from '@/hooks/actions/useToggle';
+import { filterHeaderMenus } from '@/utils/filterHeaderMenus';
+import { useAuthToggle } from '@/hooks/auth/useAuthToggle';
 
 const HeaderMenu = () => {
     const dropdownRef = useRef<HTMLDivElement>(null);
     const { isOpen, setIsOpen, toggle } = useToggle();
     const isAuthenticatedValue = useRecoilValue(isAuthenticatedSelector); // 로그인 여부
-    const toggleAuthentication = useAuthenticationToggle(setIsOpen); // 로그인 & 로그아웃 로직
-    const filteredMenus = useFilteredHeaderMenuList(); // 어드민 유형에 따라 필터링된 메뉴
+    const toggleAuthentication = useAuthToggle(setIsOpen); // 로그인 & 로그아웃 로직
+    const filteredMenus = filterHeaderMenus(); // 어드민 유형에 따라 필터링된 메뉴
 
     useClickOutside(dropdownRef, () => setIsOpen(false));
 
@@ -79,7 +79,7 @@ const Container = styled.header`
     align-items: center;
     width: 100%;
     min-width: 360px;
-    max-width: 400px;
+    max-width: 600px;
     height: 55px;
     padding: 0 20px;
 
@@ -99,9 +99,12 @@ const DropdownNavigator = styled.div<{ $isOpen: boolean }>`
     position: absolute;
     top: 55px;
     right: 0px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     width: 100%;
     height: ${({ $isOpen }) => ($isOpen ? 'auto' : '0')};
-    padding: ${({ $isOpen }) => ($isOpen ? '20px 36px 30px' : '0 36px')};
+    padding: ${({ $isOpen }) => ($isOpen ? '20px 0 30px 0' : '0 36px')};
     border-bottom-left-radius: 10px;
     border-bottom-right-radius: 10px;
 
@@ -115,6 +118,7 @@ const LoginButton = styled.button`
     display: flex;
     align-items: center;
     gap: 5px;
+    width: 288px;
     margin-bottom: 30px;
     cursor: pointer;
 

@@ -13,9 +13,11 @@ import { inputChangeHandler } from '@/utils/inputChangeHandler';
 import { apiRequest } from '@/api/apiRequest';
 import { clubIdselector } from '@/store/clubIdState';
 import { IRecruitNoticeValue } from '@/types';
-import useBulletPointConverter from '@/hooks/useBulletPointConverter';
+import useBulletPointConverter from '@/hooks/actions/useBulletPointConverter';
+import useAdminClubQueries from '@/hooks/queries/useAdminClubQueries';
+import useAdminClubMutation from '@/hooks/queries/useAdminClubMutation';
 
-export default function RecruitNotice() {
+function RecruitNoticePage() {
     const clubId = useRecoilValue(clubIdselector);
     const [inputValue, setInputValue] = useState<IRecruitNoticeValue>({
         due: '',
@@ -23,31 +25,34 @@ export default function RecruitNotice() {
         etc: '',
     });
 
+    // 데이터 fetch
+    const { useRecruitNoticeQuery } = useAdminClubQueries();
+    const { isPending } = useRecruitNoticeQuery({ clubId, setInputValue });
+
+    // 데이터 저장 mutation 호출
+    const { useSaveRecruitNoticeMutation } = useAdminClubMutation();
+    const saveRecruitNoticeMutation = useSaveRecruitNoticeMutation({
+        clubId,
+        inputValue,
+    });
+
     const handleSubmit = async (e: React.MouseEvent<HTMLButtonElement>) => {
         const target = e.target as HTMLButtonElement;
 
         try {
-            let res;
             // 저장하기
             if (target.name === 'save') {
-                res = await apiRequest({
-                    url: `/api/clubs/club-admin/${clubId}/recruitment`,
-                    method: 'POST',
-                    data: inputValue,
-                    requireToken: true,
-                });
+                saveRecruitNoticeMutation.mutate();
             }
             // 미리보기
             else if (target.name === 'preview') {
-                res = await apiRequest({
+                await apiRequest({
                     url: `/api/clubs/club-admin/${clubId}/recruitment/draft`,
                     method: 'POST',
                     data: inputValue,
                     requireToken: true,
                 });
             }
-
-            console.log(res);
         } catch (error) {
             console.error('저장하기 실패', error);
         }
@@ -63,16 +68,18 @@ export default function RecruitNotice() {
                         <RecruitNoticeForm key={`club-intro-${index}`}>
                             <Label>{recruitNotice.label}</Label>
                             <TextArea
+                                size="large"
+                                backgroundColor="gray"
+                                placeholder={
+                                    isPending ? '' : recruitNotice.placeholder
+                                }
+                                maxLength={500}
                                 name={recruitNotice.name}
                                 value={
                                     inputValue[
                                         recruitNotice.name as keyof IRecruitNoticeValue
                                     ]
                                 }
-                                size="large"
-                                backgroundColor="gray"
-                                placeholder={recruitNotice.placeholder}
-                                maxLength={500}
                                 onChange={(e) =>
                                     inputChangeHandler<IRecruitNoticeValue>({
                                         e,
@@ -116,7 +123,9 @@ export default function RecruitNotice() {
     );
 }
 
-const Container = styled.form`
+export { RecruitNoticePage };
+
+const Container = styled.div`
     display: flex;
     flex-direction: column;
 `;
