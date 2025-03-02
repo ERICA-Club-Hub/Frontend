@@ -116,7 +116,7 @@ export default function AppRoutes() {
 
                     <Route
                         path="/admin/union/resources"
-                        element={<AdminResourcesRegisterPage mode="edit" />}
+                        element={<AdminResourcesRegisterPage mode="manage" />}
                     />
                 </Route>
             </Route>

@@ -1,5 +1,7 @@
+import { apiRequest } from '@/api/apiRequest';
 import Button from '@/components/Common/Button';
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
 type mode = 'edit' | 'manage';
@@ -9,9 +11,14 @@ interface AdminResourcesRegisterPageProps {
 }
 
 const AdminResourcesRegisterPage = ({
-    mode = 'edit',
+    mode = 'manage',
 }: AdminResourcesRegisterPageProps) => {
     const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
+    const [inputValue, setInputValue] = useState<string>('');
+    const navigate = useNavigate();
+    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setInputValue(e.target.value);
+    };
     const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         if (e.target.files) {
             setSelectedFiles([...selectedFiles, ...Array.from(e.target.files)]);
@@ -20,12 +27,53 @@ const AdminResourcesRegisterPage = ({
     const removeItem = (index: number) => {
         setSelectedFiles(selectedFiles.filter((_, i) => i !== index));
     };
+
+    const postResources = async () => {
+        console.log(inputValue, selectedFiles);
+
+        const formData = new FormData();
+
+        // requestBody를 application/json 타입의 Blob으로 추가
+        const requestBodyBlob = new Blob(
+            [JSON.stringify({ title: inputValue })],
+            { type: 'application/json' },
+        );
+        formData.append('requestBody', requestBodyBlob);
+
+        // 파일 추가
+        if (selectedFiles && selectedFiles.length > 0) {
+            for (let i = 0; i < selectedFiles.length; i++) {
+                formData.append('files', selectedFiles[i]);
+            }
+        }
+
+        try {
+            const response = await apiRequest({
+                url: `/api/documents`,
+                method: 'POST',
+                data: formData,
+                // 헤더 명시적 설정 제거 (Axios가 알아서 처리)
+                requireToken: true,
+            });
+            console.log('성공 응답:', response);
+
+            navigate('/resources');
+
+            return response;
+        } catch (error) {
+            console.error('에러 응답:', error);
+            throw error;
+        }
+    };
     return (
         <Container>
             <CardContainer>
                 <CardContent>
                     <CardTitle>자료 제목을 입력해 주세요.</CardTitle>
-                    <CardInput placeholder="자료 제목을 정확히 입력해 주세요." />
+                    <CardInput
+                        onChange={handleInputChange}
+                        placeholder="자료 제목을 정확히 입력해 주세요."
+                    />
                 </CardContent>
                 <CardContent>
                     <CardTitle>자료를 업로드 해주세요.</CardTitle>
@@ -67,6 +115,7 @@ const AdminResourcesRegisterPage = ({
                             size="small"
                             variant="filled"
                             isDisabled={() => false}
+                            onClick={postResources}
                         >
                             저장하기
                         </Button>
