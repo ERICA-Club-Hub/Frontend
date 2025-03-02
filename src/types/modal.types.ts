@@ -6,4 +6,10 @@ interface IModal {
     toggle: () => void;
 }
 
-export type { IModal };
+interface IActionModal {
+    isOpen: boolean;
+    toggle: () => void;
+    action: () => void;
+}
+
+export type { IModal, IActionModal };
