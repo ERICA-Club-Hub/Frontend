@@ -1,9 +1,9 @@
 import Card from '../Common/Card';
 import styled from 'styled-components';
-import { useState, useEffect } from 'react';
-import { apiRequest } from '../../api/apiRequest';
+import { useState } from 'react';
 import Button from '../Common/Button';
 import { Link, useNavigate } from 'react-router-dom';
+import useUnionQueries from '@/hooks/queries/useUnionQueries';
 
 const Container = styled.div<{ $mode: string }>`
     display: flex;
@@ -39,7 +39,7 @@ const CardWrapper = styled.div`
     }
 `;
 
-interface AnnouncementDTOList {
+export interface AnnouncementDTOList {
     announcementDTOList: AnnouncementDTO[];
 }
 
@@ -56,37 +56,13 @@ function UnionNoticeList({ mode }: { mode: string }) {
     const [announcements, setAnnouncements] = useState<AnnouncementDTOList>({
         announcementDTOList: [],
     });
-    const [isLoading, setIsLoading] = useState(true);
-    const [error, setError] = useState<string | null>(null);
 
-    useEffect(() => {
-        const fetchAnnouncements = async () => {
-            setIsLoading(true);
-            setError(null);
-            try {
-                const response = await apiRequest({
-                    url: '/api/announcements',
-                });
-
-                console.log('API 응답:', response);
-
-                if (!response?.result) {
-                    throw new Error('데이터를 불러오는데 실패했습니다.');
-                }
-
-                setAnnouncements(response.result);
-            } catch (error) {
-                console.error('공지사항을 불러오는데 실패했습니다:', error);
-                setError(
-                    '공지사항을 불러오는데 실패했습니다. 다시 시도해 주세요.',
-                );
-            } finally {
-                setIsLoading(false);
-            }
-        };
-
-        fetchAnnouncements();
-    }, []);
+    // 총동연 공지사항 목록 불러오기
+    const { useUnionNoticeListQuery } = useUnionQueries();
+    // 로딩, 에러 상태
+    const { isPending, isError } = useUnionNoticeListQuery({
+        setAnnouncements,
+    });
 
     // 카드 클릭 시 이동
     const handleCardClick = (id: number, url: string) => {
@@ -112,10 +88,10 @@ function UnionNoticeList({ mode }: { mode: string }) {
                 )}
             </TitleWrapper>
             <Body>
-                {isLoading ? (
+                {isPending ? (
                     <div>로딩중...</div>
-                ) : error ? (
-                    <div>{error}</div>
+                ) : isError ? (
+                    <div>{isError}</div>
                 ) : announcements?.announcementDTOList?.length > 0 ? (
                     announcements.announcementDTOList.map((announcement) => (
                         <CardWrapper

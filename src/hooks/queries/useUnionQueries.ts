@@ -1,4 +1,5 @@
 import { apiRequest } from '@/api/apiRequest';
+import { AnnouncementDTOList } from '@/components/UnionNotice';
 import { queryClient } from '@/config/queryClient';
 import { IUnionNoticeValue } from '@/types';
 import convertImageToFile from '@/utils/convertImageToFile';
@@ -83,6 +84,37 @@ const useDeleteUnionNoticeMutation = ({
         },
     });
 
+// 총동연 전체 공지사항 정보 불러오기
+const useUnionNoticeListQuery = ({
+    setAnnouncements,
+}: {
+    setAnnouncements: React.Dispatch<React.SetStateAction<AnnouncementDTOList>>;
+}) => {
+    const { isPending, isSuccess, data, isError } = useQuery({
+        queryKey: ['union', 'notice'],
+        queryFn: async () => {
+            return await apiRequest({
+                url: `/api/announcements`,
+                method: 'GET',
+            });
+        },
+        staleTime: 5 * 60 * 1000, // 5분
+    });
+
+    // 데이터 불러오기 성공 시, 등록 정보 상태 업데이트
+    useEffect(() => {
+        if (isSuccess && data) {
+            setAnnouncements(data.result);
+        }
+
+        if (isError) {
+            console.error('동아리 총동연 전체 공지사항 불러오기 실패');
+        }
+    }, [isSuccess, data]);
+
+    return { isPending, isError };
+};
+
 // 총동연 특정 공지사항 정보 불러오기
 const useUnionNoticeQuery = ({
     announcementId,
@@ -134,6 +166,7 @@ const useUnionNoticeQuery = ({
 
 function useUnionQueries() {
     return {
+        useUnionNoticeListQuery,
         useUnionNoticeQuery,
         useCreateUnionNoticeMutation,
         useUpdateUnionNoticeMutation,
