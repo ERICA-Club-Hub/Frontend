@@ -4,7 +4,7 @@ import Button from '@/components/Common/Button';
 // import { useState } from 'react';
 import styled from 'styled-components';
 
-const AdminNoticePage = () => {
+const AdminUnionNoticeRegisterPage = () => {
     // const [inputValue, setInputValue] = useState({
     //     name: '',
     //     email: '',
@@ -87,7 +87,7 @@ const AdminNoticePage = () => {
     );
 };
 
-export { AdminNoticePage };
+export { AdminUnionNoticeRegisterPage };
 
 const FormContainer = styled.form`
     display: flex;

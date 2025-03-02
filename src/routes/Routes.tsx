@@ -4,8 +4,8 @@ import {
     AdminClubDetailPage,
     AdminClubPage,
     AdminLoginPage,
-    AdminNoticePage,
     AdminResourcesRegisterPage,
+    AdminUnionNoticePage,
     AdminUnionPage,
     ClubDetailPage,
     ClubIntroPage,
@@ -25,6 +25,7 @@ import ClubDetailPreview from '@/pages/club-detail-preview/ClubDetailPreview';
 import { AuthGuard } from './AuthGuard';
 import UnionAdminGuard from './UnionAdminGuard';
 import ClubAdminGurad from './ClubAdminGurad';
+import { AdminUnionNoticeRegisterPage } from '@/pages/admin/union/notice/AdminUnionNoticeRegister';
 
 export default function AppRoutes() {
     return (
@@ -107,13 +108,19 @@ export default function AppRoutes() {
                 <Route path="/admin/union" element={<UnionAdminGuard />}>
                     {/* 총동연 어드민 홈*/}
                     <Route path="/admin/union" element={<AdminUnionPage />} />
-                    {/* 총동연 공지 등록 */}
+                    {/* 총동연 어드민 공지 */}
                     <Route
                         path="/admin/union/notice"
-                        element={<AdminNoticePage />}
+                        element={<AdminUnionNoticePage />}
                     />
-                    {/* 총동연 자료 등록  */}
 
+                    {/* 총동연 어드민 공지 등록 */}
+                    <Route
+                        path="/admin/union/notice/register"
+                        element={<AdminUnionNoticeRegisterPage />}
+                    />
+
+                    {/* 총동연 자료 등록  */}
                     <Route
                         path="/admin/union/resources"
                         element={<AdminResourcesRegisterPage mode="edit" />}
