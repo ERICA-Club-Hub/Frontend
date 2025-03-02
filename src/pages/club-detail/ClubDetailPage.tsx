@@ -124,7 +124,7 @@ const ClubDetailPage = () => {
             {nowUrl === 'club-detail-preview' && (
                 <BackButton
                     onClick={() => {
-                        navigate('/admin/club/register');
+                        navigate(`/admin/club/${id}/summary-info`);
                     }}
                 >
                     ＜ 돌아가기
