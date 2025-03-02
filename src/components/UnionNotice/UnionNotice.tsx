@@ -20,9 +20,6 @@ const TitleWrapper = styled.div`
 `;
 
 const Title = styled.div`
-    display: flex;
-    justify-content: flex-start;
-    align-items: flex-start;
     font-size: 16px;
     font-weight: 600;
     line-height: normal;

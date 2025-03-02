@@ -25,7 +25,7 @@ import ClubDetailPreview from '@/pages/club-detail-preview/ClubDetailPreview';
 import { AuthGuard } from './AuthGuard';
 import UnionAdminGuard from './UnionAdminGuard';
 import ClubAdminGurad from './ClubAdminGurad';
-import { AdminUnionNoticeRegisterPage } from '@/pages/admin/union/notice/AdminUnionNoticeRegister';
+import { AdminUnionNoticeRegisterPage } from '@/pages/admin/union/notice/AdminUnionNoticeRegisterPage';
 
 export default function AppRoutes() {
     return (

@@ -33,10 +33,16 @@ interface IRecruitNoticeValue {
     etc: string;
 }
 
+interface IUnionNoticeValue {
+    title: string;
+    url: string;
+}
+
 export type {
     IClubRegisterValue,
     ISummaryInfoValue,
     IClubIntroValue,
     IEventScheduleValue,
     IRecruitNoticeValue,
+    IUnionNoticeValue,
 };
