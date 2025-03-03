@@ -23,7 +23,7 @@ const Title = styled.div`
     font-size: 16px;
     font-weight: 600;
     line-height: normal;
-    color: #{({ theme }) => theme.colors.mainBlack};
+    color: ${({ theme }) => theme.colors.mainBlack};
 `;
 
 const Body = styled.div`
