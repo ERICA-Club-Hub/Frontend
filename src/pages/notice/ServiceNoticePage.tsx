@@ -3,32 +3,45 @@ import styled from 'styled-components';
 import { useState, useEffect } from 'react';
 import { apiRequest } from '../../api/apiRequest';
 
+const PageContainer = styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+`;
+
+const ContentWrapper = styled.div`
+    width: 320px;
+    display: flex;
+    flex-direction: column;
+`;
+
 const Title = styled.div`
     color: #232323;
-    font-family: Pretendard;
+    font-family: "Pretendard";
     font-size: 16px;
     font-weight: 600;
     line-height: normal;
-    margin: 20px;
+    margin: 20px 0px;
 `;
 
 const Body = styled.div`
     display: flex;
     flex-direction: column;
-    margin: 20px;
+    width: 100%;
     align-items: flex-start;
 `;
 
 const CardContainer = styled.div`
     display: flex;
     flex-direction: column;
-    width: 320px;
+    width: 100%;
     padding-bottom: 8px;
 `;
 
 const ContentBox = styled.div<{ $isVisible: boolean }>`
     max-height: ${(props) => (props.$isVisible ? '200px' : '0')};
-    width: 360px;
+    width: 100%;
     flex-shrink: 0;
     border-radius: 10px;
     border: 1px solid var(--Gray-4, #f7f7f7);
@@ -38,7 +51,7 @@ const ContentBox = styled.div<{ $isVisible: boolean }>`
 `;
 
 const ContentText = styled.div`
-    width: 320px;
+    width: 100%;
     color: var(--Gray-1, #606060);
     font-family: Pretendard;
     font-size: 14px;
@@ -131,39 +144,41 @@ const ServiceNoticePage = () => {
     };
 
     return (
-        <div>
-            <Title>서비스 공지사항</Title>
-            <Body>
-                {isLoading && page === 0 ? (
-                    <div>로딩 중...</div>
-                ) : error ? (
-                    <div>{error}</div>
-                ) : noticeItems.length > 0 ? (
-                    <>
-                        {noticeItems.map((item, index) => (
-                            <CardContainer key={index}>
-                                <Card
-                                    $variant="serviceNotice"
-                                    title={item.title}
-                                    date={item.createdAt}
-                                    isRotated={rotatedStates[index]}
-                                    onClick={() => handleCardClick(index)}
-                                />
-                                <ContentBox $isVisible={rotatedStates[index]}>
-                                    <ContentText>{item.content}</ContentText>
-                                </ContentBox>
-                            </CardContainer>
-                        ))}
-                        {hasMore && !isLoading && (
-                            <button onClick={loadMore}>더 보기</button>
-                        )}
-                        {isLoading && <div>로딩 중...</div>}
-                    </>
-                ) : (
-                    <div>등록된 공지사항이 없습니다.</div>
-                )}
-            </Body>
-        </div>
+        <PageContainer>
+            <ContentWrapper>
+                <Title>서비스 공지사항</Title>
+                <Body>
+                    {isLoading && page === 0 ? (
+                        <div>로딩 중...</div>
+                    ) : error ? (
+                        <div>{error}</div>
+                    ) : noticeItems.length > 0 ? (
+                        <>
+                            {noticeItems.map((item, index) => (
+                                <CardContainer key={index}>
+                                    <Card
+                                        $variant="serviceNotice"
+                                        title={item.title}
+                                        date={item.createdAt}
+                                        isRotated={rotatedStates[index]}
+                                        onClick={() => handleCardClick(index)}
+                                    />
+                                    <ContentBox $isVisible={rotatedStates[index]}>
+                                        <ContentText>{item.content}</ContentText>
+                                    </ContentBox>
+                                </CardContainer>
+                            ))}
+                            {hasMore && !isLoading && (
+                                <button onClick={loadMore}>더 보기</button>
+                            )}
+                            {isLoading && <div>로딩 중...</div>}
+                        </>
+                    ) : (
+                        <div>등록된 공지사항이 없습니다.</div>
+                    )}
+                </Body>
+            </ContentWrapper>
+        </PageContainer>
     );
 };
 
