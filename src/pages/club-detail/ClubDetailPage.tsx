@@ -12,6 +12,7 @@ import { apiRequest } from '@/api/apiRequest';
 import { ClubDetailProvider } from '@/contexts/ClubDetailContext';
 import { DEFAULT_CLUB_IMAGE } from '@/utils/getDefaultImg';
 import { getCategoryEmoji, getCategoryMapping } from '@/utils/getCategoryEmoji';
+import arrow from '../../assets/common/Expand_right.svg';
 
 // tab 항목에서 활성화 여부를 판단할 props
 interface TabButtonProps {
@@ -155,7 +156,8 @@ const ClubDetailPage = () => {
                                 navigate(`/admin/club/${id}/summary-info`);
                             }}
                         >
-                            ＜ 돌아가기
+                            <img src={arrow} />
+                            돌아가기
                         </BackButton>
                     )}
                     <ClubHeader>
@@ -284,6 +286,7 @@ const ClubDetailPage = () => {
 
 const PreviewContainer = styled.div``;
 const BackButton = styled.div`
+    display: flex;
     margin-top: 15px;
     margin-bottom: 15px;
     align-self: flex-start;
