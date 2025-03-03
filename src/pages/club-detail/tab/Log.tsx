@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { useContext, useEffect, useState } from 'react';
-import { ActivityLogModal } from '../ActivityLogModal';
+import { ActivityLogModal } from '../../../components/ClubDetail/ActivityLogModal';
 import { apiRequest } from '@/api/apiRequest';
 import { ClubDetailContext } from '../ClubDetailPage';
 

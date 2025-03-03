@@ -97,7 +97,6 @@ export default function Intro() {
             getClubIntro(clubId);
         }
     }, [clubId, nowUrl]);
-    console.log(schedules);
     return (
         <div>
             <Container>
