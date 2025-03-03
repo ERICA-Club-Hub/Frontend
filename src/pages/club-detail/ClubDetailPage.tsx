@@ -267,6 +267,7 @@ const ClubDetailPage = () => {
                             모집안내
                         </TabButton>
                         <TabButton
+                            disabled={nowUrl === 'club-detail-preview'}
                             onClick={() => setActiveTab('log')}
                             $isActive={activeTab === 'log'}
                         >
@@ -427,6 +428,10 @@ const TabButton = styled.button<TabButtonProps>`
     color: #000000;
     font-weight: 500;
     cursor: pointer;
+    &:disabled {
+        color: #cccccc;
+        cursor: not-allowed;
+    }
 `;
 
 export { ClubDetailPage, ClubDetailContext };
