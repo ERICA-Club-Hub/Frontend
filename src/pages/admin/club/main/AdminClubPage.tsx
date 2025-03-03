@@ -1,15 +1,16 @@
 import { ArrowLinkButton } from '@/components/Common';
-import { clubIdselector } from '@/store/clubIdState';
+import { clubIdSelector, clubNameSelector } from '@/store/clubInfoState';
 import { useRecoilValue } from 'recoil';
 import styled from 'styled-components';
 
 const AdminClubPage = () => {
-    const clubId = useRecoilValue(clubIdselector);
+    const clubId = useRecoilValue(clubIdSelector);
+    const clubName = useRecoilValue(clubNameSelector);
 
     return (
         <Container>
             <Wrapper>
-                <h1>UMC ERICA님, 환영해요.</h1>
+                <h1>{clubName}님, 환영해요.</h1>
 
                 <NavigationWrapper>
                     <ArrowLinkButton

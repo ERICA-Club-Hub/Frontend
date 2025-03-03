@@ -1,6 +1,6 @@
 import { apiRequest } from '@/api/apiRequest';
 import { adminType, isAuthenticated } from '@/store/authState';
-import { clubId } from '@/store/clubIdState';
+import { clubId, clubName } from '@/store/clubInfoState';
 import { useState } from 'react';
 import { useSetRecoilState } from 'recoil';
 
@@ -9,6 +9,7 @@ const useAdminLogin = () => {
     const setAuthenticated = useSetRecoilState(isAuthenticated);
     const setAdminType = useSetRecoilState(adminType);
     const setClubId = useSetRecoilState(clubId);
+    const setClubName = useSetRecoilState(clubName);
 
     const handleLogin = async (navStatus: number, code: string) => {
         try {
@@ -44,8 +45,9 @@ const useAdminLogin = () => {
                     // 동아리 대표
                     setAdminType('club');
                 }
-
-                setClubId(res.result); // clubId 저장
+                console.log(res.result);
+                setClubId(res.result.clubId); // clubId 저장
+                setClubName(res.result.clubName); // clubId 저장
             } else {
                 setIsValidate(false);
             }

@@ -5,7 +5,7 @@ import Button from '@/components/Common/Button';
 import { IClubIntroValue, IEventScheduleValue } from '@/types';
 import { apiRequest } from '@/api/apiRequest';
 import { useRecoilValue } from 'recoil';
-import { clubIdselector } from '@/store/clubIdState';
+import { clubIdSelector } from '@/store/clubInfoState';
 import { ClubIntroProvider } from '@/contexts/ClubIntroContext';
 import { useMutation } from '@tanstack/react-query';
 import { queryClient } from '@/config/queryClient';
@@ -15,7 +15,7 @@ import {
 } from '@/components/AdminClubDetail';
 
 function ClubIntroPage() {
-    const clubId = useRecoilValue(clubIdselector);
+    const clubId = useRecoilValue(clubIdSelector);
 
     const [schedules, setSchedules] = useState<IEventScheduleValue[]>([
         { month: 1, content: '' },

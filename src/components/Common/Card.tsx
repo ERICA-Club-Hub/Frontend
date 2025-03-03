@@ -19,21 +19,24 @@ const CardWrapper = styled.button<{ $variant?: string }>`
     position: relative;
     display: flex;
     border-radius: 10px;
-    background: #FFFFFF;
-    border: 1px solid var(--Gray-4, #F7F7F7);
+    background: #ffffff;
+    border: 1px solid var(--Gray-4, #f7f7f7);
     align-items: center;
     cursor: pointer;
     padding: 0;
     transition: background-color 0.2s ease;
-    
+
     &:hover {
         background-color: #f5f5f5;
     }
-    
-    ${({ $variant }) => 
-        ($variant === 'serviceNotice' || $variant === 'resources' || $variant === 'FAQ') && css`
+
+    ${({ $variant }) =>
+        ($variant === 'serviceNotice' ||
+            $variant === 'resources' ||
+            $variant === 'FAQ') &&
+        css`
             padding: 0 20px;
-    `}
+        `}
 `;
 
 const CardImage = styled.div<{ $imagePath?: string }>`
@@ -42,8 +45,10 @@ const CardImage = styled.div<{ $imagePath?: string }>`
     flex-shrink: 0;
     border-radius: 5px;
     margin: 8px 15px 8px 8px;
-    background: ${({ $imagePath }) => 
-        $imagePath ? `url(${$imagePath}) lightgray 50% / cover no-repeat` : 'lightgray'};
+    background: ${({ $imagePath }) =>
+        $imagePath
+            ? `url(${$imagePath}) lightgray 50% / cover no-repeat`
+            : 'lightgray'};
 `;
 
 const TitleDateWrapper = styled.div<{ $variant?: string }>`
@@ -65,7 +70,7 @@ const CardTitle = styled.div`
 `;
 
 const CardDate = styled.div`
-    color: #AEAEAE;
+    color: #aeaeae;
     font-family: Pretendard;
     font-size: 12px;
     font-style: normal;
@@ -79,7 +84,8 @@ const IconBase = styled.img<{ $isRotated?: boolean }>`
     height: 24px;
     margin-left: auto;
     transition: transform 0.3s ease;
-    transform: ${({ $isRotated }) => $isRotated ? 'rotate(90deg)' : 'rotate(0deg)'};
+    transform: ${({ $isRotated }) =>
+        $isRotated ? 'rotate(90deg)' : 'rotate(0deg)'};
 `;
 
 const TagWrapper = styled.div`
@@ -87,7 +93,15 @@ const TagWrapper = styled.div`
     flex-wrap: wrap;
 `;
 
-const Card = ({ $variant = 'unionNotice', $imagePath, title, date, questionType, onClick, isRotated }: CardProps) => {
+const Card = ({
+    $variant = 'unionNotice',
+    $imagePath,
+    title,
+    date,
+    questionType,
+    onClick,
+    isRotated,
+}: CardProps) => {
     return (
         <CardWrapper $variant={$variant} onClick={onClick} type="button">
             {$variant === 'unionNotice' && (
@@ -106,9 +120,9 @@ const Card = ({ $variant = 'unionNotice', $imagePath, title, date, questionType,
                         <CardTitle>{title}</CardTitle>
                         <CardDate>{date}</CardDate>
                     </TitleDateWrapper>
-                    <IconBase 
-                        src={rightArrowIcon} 
-                        alt="right arrow" 
+                    <IconBase
+                        src={rightArrowIcon}
+                        alt="right arrow"
                         $isRotated={isRotated}
                     />
                 </>
@@ -132,9 +146,9 @@ const Card = ({ $variant = 'unionNotice', $imagePath, title, date, questionType,
                             <Tag type="동아리 및 질문">{questionType}</Tag>
                         </TagWrapper>
                     </TitleDateWrapper>
-                    <IconBase 
-                        src={rightArrowIcon} 
-                        alt="right arrow" 
+                    <IconBase
+                        src={rightArrowIcon}
+                        alt="right arrow"
                         $isRotated={isRotated}
                     />
                 </>

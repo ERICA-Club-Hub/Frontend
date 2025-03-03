@@ -15,10 +15,10 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 }
 
 interface StyledButtonProps {
-    size: ButtonSize;
-    variant: VariantType;
-    disabled: boolean;
-    outlineColor?: string;
+    $size: ButtonSize;
+    $variant: VariantType;
+    $disabled: boolean;
+    $outlineColor?: string;
 }
 
 const getButtonSize = (size: ButtonSize) => {
@@ -69,11 +69,11 @@ const Button = ({
 }: ButtonProps) => {
     return (
         <StyledButton
-            size={size}
-            variant={variant}
-            disabled={isDisabled()}
+            $size={size}
+            $variant={variant}
+            $disabled={isDisabled()}
             onClick={handleClick}
-            outlineColor={outlineColor}
+            $outlineColor={outlineColor}
             {...props}
         >
             {children}
@@ -87,22 +87,22 @@ const StyledButton = styled.button<StyledButtonProps>`
     justify-content: center;
     border-radius: 10px;
     font-weight: 600;
-    background-color: ${({ variant, theme }) =>
-        variant === 'outlined' ? theme.colors.white : theme.colors.mainBlue};
-    color: ${({ variant, theme, outlineColor }) =>
-        variant === 'outlined'
-            ? outlineColor || theme.colors.mainBlue
+    background-color: ${({ $variant, theme }) =>
+        $variant === 'outlined' ? theme.colors.white : theme.colors.mainBlue};
+    color: ${({ $variant, theme, $outlineColor }) =>
+        $variant === 'outlined'
+            ? $outlineColor || theme.colors.mainBlue
             : theme.colors.white};
-    border: ${({ variant, theme, outlineColor }) =>
-        variant === 'outlined'
-            ? `1px solid ${outlineColor || theme.colors.mainBlue}`
+    border: ${({ $variant, theme, $outlineColor }) =>
+        $variant === 'outlined'
+            ? `1px solid ${$outlineColor || theme.colors.mainBlue}`
             : 'none'};
     cursor: pointer;
     transition: all 0.2s ease;
     gap: 10px;
     line-height: 1.2;
 
-    ${({ size }) => getButtonSize(size)}
+    ${({ $size }) => getButtonSize($size)}
 
     &:active:not(:disabled) {
         transform: scale(0.98);
