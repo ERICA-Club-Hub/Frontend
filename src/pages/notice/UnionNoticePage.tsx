@@ -66,8 +66,6 @@ const UnionNoticePage = () => {
                     url: '/api/announcements',
                 });
 
-                console.log('API 응답:', response);
-
                 if (!response?.result) {
                     throw new Error('데이터를 불러오는데 실패했습니다.');
                 }

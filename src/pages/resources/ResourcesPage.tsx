@@ -121,8 +121,6 @@ const ResourcesPage = () => {
                     method: 'GET',
                 });
 
-                console.log('API 응답:', response);
-
                 const documentList = response?.result?.documentDTOList || [];
                 setDocuments(documentList);
             } catch (error) {
@@ -142,8 +140,6 @@ const ResourcesPage = () => {
                 url: `/api/documents/${documentId}`,
                 method: 'GET',
             });
-
-            console.log('파일 목록 API 응답:', response);
 
             const files = response?.result?.fileDTOList || [];
             setSelectedFiles(files);

@@ -89,8 +89,6 @@ const ServiceNoticePage = () => {
                     url: `/api/service-announcements?page=${page}&size=${size}`,
                 });
 
-                console.log('API 응답:', response);
-
                 // 날짜 형식 변환 및 필드 매핑
                 const notices =
                     response?.result?.serviceAnnouncements.map(
