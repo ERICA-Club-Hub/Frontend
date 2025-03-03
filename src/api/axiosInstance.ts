@@ -5,7 +5,7 @@ export const axiosInstance: AxiosInstance = axios.create({
     baseURL: import.meta.env.VITE_BASE_URL,
     withCredentials: false, // jwt 쿠키로 관리 안해서 false로
     headers: {
-        'Content-Type': 'application/json',
+        'Content-Type': null, // null로 해둬도 axios가 알아서 객체 감지한다고 합니다
     },
     timeout: 3000,
 });

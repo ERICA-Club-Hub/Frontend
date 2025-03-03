@@ -16,16 +16,38 @@ export default function Recruit() {
     const clubId = context?.clubId;
     useEffect(() => {
         const getRecruit = async (clubId?: string) => {
-            const requestUrl =
-                nowUrl === 'club-detail-preview'
-                    ? `/api/clubs/club-admin/${clubId}/recruitment/draft`
-                    : `/api/clubs/${clubId}/recruitment`;
-            const recruitResponse = await apiRequest({
-                url: requestUrl,
-                requireToken: nowUrl === 'club-detail-preview',
-            });
-            setRecruitContent(recruitResponse.result);
+            try {
+                // 첫 번째 요청 시도: 미리보기(draft) 또는 일반 조회
+                const requestUrl =
+                    nowUrl === 'club-detail-preview'
+                        ? `/api/clubs/club-admin/${clubId}/recruitment/draft`
+                        : `/api/clubs/${clubId}/recruitment`;
+
+                try {
+                    const recruitResponse = await apiRequest({
+                        url: requestUrl,
+                        requireToken: nowUrl === 'club-detail-preview',
+                    });
+                    setRecruitContent(recruitResponse.result);
+                } catch (error) {
+                    if (nowUrl === 'club-detail-preview') {
+                        console.log('미리보기 데이터 없음, 원본 데이터 요청');
+                        const response = await apiRequest({
+                            url: `/api/clubs/${clubId}/recruitment`,
+                        });
+                        setRecruitContent(response.result);
+                    } else {
+                        console.error(
+                            '모집 정보를 가져오는데 실패했습니다:',
+                            error,
+                        );
+                    }
+                }
+            } catch (error) {
+                console.error('데이터 요청 실패:', error);
+            }
         };
+
         getRecruit(clubId);
     }, [clubId, nowUrl]);
     return recruitContent?.due &&

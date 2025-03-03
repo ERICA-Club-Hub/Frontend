@@ -23,36 +23,75 @@ export default function Intro() {
 
     useEffect(() => {
         const getSchedules = async (clubId: string) => {
-            const requestUrl =
-                nowUrl === 'club-detail-preview'
-                    ? `/api/clubs/${clubId}/schedules` // 이부분 나중에 api 개발되면 수정
-                    : `/api/clubs/${clubId}/schedules`;
-            if (clubId) {
+            try {
+                const requestUrl =
+                    nowUrl === 'club-detail-preview'
+                        ? `/api/clubs/club-admin/${clubId}/schedules/draft`
+                        : `/api/clubs/${clubId}/schedules`;
+
                 const schedulesResponse = await apiRequest({
                     url: requestUrl,
                     requireToken: nowUrl === 'club-detail-preview',
                 });
-                setSchedules(schedulesResponse.result.activities);
+
+                // schedules/draft는 내용이 없어도 200 코드에 빈 배열을 반환함
+                // 미리보기 모드이고 schedules 배열이 비어있으면 원본 데이터 요청
+                if (
+                    nowUrl === 'club-detail-preview' &&
+                    (!schedulesResponse.result.schedules ||
+                        schedulesResponse.result.schedules.length === 0)
+                ) {
+                    console.log('미리보기 데이터 없음, 원본 데이터 요청');
+                    const response = await apiRequest({
+                        url: `/api/clubs/${clubId}/schedules`,
+                    });
+                    setSchedules(response.result.schedules);
+                } else {
+                    setSchedules(schedulesResponse.result.schedules);
+                }
+                console.log(schedulesResponse);
+            } catch (error) {
+                console.error('월별 일정 데이터 요청 실패:', error);
             }
         };
+
         const getClubIntro = async (clubId: string) => {
             try {
                 const requestUrl =
                     nowUrl === 'club-detail-preview'
                         ? `/api/clubs/club-admin/${clubId}/introduction/draft`
                         : `/api/clubs/${clubId}/introduction`;
-                if (clubId) {
+
+                try {
+                    // 첫 번째 요청 시도
                     const clubIntroResponse = await apiRequest({
                         url: requestUrl,
                         requireToken: nowUrl === 'club-detail-preview',
                     });
                     setClubIntro(clubIntroResponse.result);
+                } catch (error) {
+                    // introduction/draft는 내용이 없을 때 404를 반환함
+                    // 미리보기 모드일 경우에만 원본 데이터로 대체
+                    if (nowUrl === 'club-detail-preview') {
+                        console.log(
+                            '미리보기 소개 데이터 없음, 원본 데이터 요청',
+                        );
+                        const response = await apiRequest({
+                            url: `/api/clubs/${clubId}/introduction`,
+                        });
+                        setClubIntro(response.result);
+                    } else {
+                        console.error(
+                            '클럽 소개 정보를 가져오는데 실패했습니다:',
+                            error,
+                        );
+                    }
                 }
             } catch (error) {
-                // 컴포넌트 내부에서 하는 에러 처리 지움(인터셉트로 대체)
-                console.error(error);
+                console.error('클럽 소개 데이터 요청 실패:', error);
             }
         };
+
         if (clubId) {
             getSchedules(clubId);
             getClubIntro(clubId);

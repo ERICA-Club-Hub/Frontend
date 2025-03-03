@@ -131,7 +131,7 @@ export default function AppRoutes() {
                     {/* 총동연 자료 등록  */}
                     <Route
                         path="/admin/union/resources"
-                        element={<AdminResourcesRegisterPage mode="edit" />}
+                        element={<AdminResourcesRegisterPage mode="manage" />}
                     />
                 </Route>
             </Route>
