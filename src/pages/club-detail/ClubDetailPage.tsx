@@ -62,7 +62,7 @@ const ClubDetailPage = () => {
         snsUrl: '없음',
         recruitmentStatus: 'CLOSE',
         applicationUrl: '없음',
-        profileImageUrl: '없음',
+        profileImageUrl: null,
     });
     const params = useParams();
     const id = params.id?.toString() || '';
@@ -378,7 +378,7 @@ const ClubDetails = styled.div`
     padding: 15px;
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 11.5px;
 `;
 
 const DividHr = styled.hr`
