@@ -4,7 +4,7 @@ import {
     isAuthenticated,
     isAuthenticatedSelector,
 } from '@/store/authState';
-import { clubId } from '@/store/clubIdState';
+import { clubId } from '@/store/clubInfoState';
 import { removeAccessToken } from '@/utils/tokenHandler';
 import { SetStateAction } from 'react';
 import { useNavigate } from 'react-router-dom';

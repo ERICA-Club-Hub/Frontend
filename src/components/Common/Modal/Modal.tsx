@@ -83,15 +83,14 @@ const Dialog = styled.dialog<{ $isOpen: boolean }>`
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    min-width: 300px;
     padding: 0;
     border: none;
-    background-color: ${({ theme }) => theme.colors.white};
+    background-color: transparent;
     animation: ${({ $isOpen }) => ($isOpen ? fadeIn : fadeOut)} 0.4s ease;
     &[open]::backdrop {
         animation: ${showBackdrop} 0.4s ease;
     }
     &::backdrop {
-        background-color: rgba(0, 0, 0, 0.1);
+        background-color: rgba(35, 35, 35, 0.4);
     }
 `;

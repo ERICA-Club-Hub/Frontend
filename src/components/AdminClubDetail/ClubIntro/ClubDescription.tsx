@@ -3,7 +3,7 @@ import { TextArea } from '@/components/Common/TextArea';
 import { clubIntroList } from '@/constants/club-detail-register';
 import useBulletPointConverter from '@/hooks/actions/useBulletPointConverter';
 import useClubIntroContext from '@/hooks/contexts/useClubIntroContext';
-import { clubIdselector } from '@/store/clubIdState';
+import { clubIdSelector } from '@/store/clubInfoState';
 import { Label, SectionWrapper } from '@/styles/admin-club-detail/style';
 import { IClubIntroValue } from '@/types';
 import { inputChangeHandler } from '@/utils/inputChangeHandler';
@@ -13,7 +13,7 @@ import { useRecoilValue } from 'recoil';
 import styled from 'styled-components';
 
 function ClubDescription() {
-    const clubId = useRecoilValue(clubIdselector);
+    const clubId = useRecoilValue(clubIdSelector);
     const { inputValue, setInputValue } = useClubIntroContext();
     const { isSuccess, data, isError } = useQuery({
         queryKey: [clubId, 'clubDescription'],

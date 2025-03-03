@@ -5,7 +5,7 @@ import MainpageCard from '../../components/Common/MainpageCard';
 import SortingDropdown from '../../components/Common/SortingDropdown';
 import { apiRequest } from '../../api/apiRequest';
 import ErrorIcon from '@/assets/common/error-icon.svg?react';
-import { getCategoryEmoji, getCategoryMapping } from '@/utils/getCategoryEmoji';
+import { getCategoryEmoji } from '@/utils/getCategoryEmoji';
 
 const AnnouncementContainer = styled.div`
     display: flex;
@@ -302,12 +302,10 @@ const ClubListPage = () => {
                     );
                 } else if (sortOrder === 'recruitment') {
                     // 모집상태로 정렬
-                    sortedClubs.sort((a, b) =>
-                        getRecruitmentStatusMapping(
-                            a.recruitmentStatus,
-                        ).localeCompare(
-                            getRecruitmentStatusMapping(b.recruitmentStatus),
-                        ),
+                    sortedClubs.sort(
+                        (a, b) =>
+                            getRecruitmentStatusOrder(a.recruitmentStatus) -
+                            getRecruitmentStatusOrder(b.recruitmentStatus),
                     );
                 } else {
                     // 가나다순 정렬 (기본값)
@@ -336,19 +334,30 @@ const ClubListPage = () => {
     // 분과 선택 시 실행되는 함수
     const handleCategorySelect = (value: string) => {
         setCategoryFilter(value);
-        console.log('분과 선택:', value);
     };
 
     // 모집상태 선택 시 실행되는 함수
     const handleRecruitmentStatusSelect = (value: string) => {
         setRecruitmentStatus(value);
-        console.log('모집상태 선택:', value);
     };
 
     // 정렬 기준 선택 시 실행되는 함수
     const handleSort = (value: string) => {
         setSortOrder(value);
         console.log('정렬 기준 선택:', value);
+    };
+
+    // 카테고리 매핑 함수
+    const getCategoryMapping = (category: string) => {
+        const categoryMap: { [key: string]: string } = {
+            SPORTS: '체육분과',
+            ART: '예술분과',
+            VOLUNTEER: '봉사분과',
+            ACADEMIC: '학술교양분과',
+            RELIGION: '종교분과',
+            UNION: '연합동아리',
+        };
+        return categoryMap[category] || category;
     };
 
     // 모집상태 매핑 함수
@@ -359,6 +368,22 @@ const ClubListPage = () => {
             CLOSED: '모집마감',
         };
         return statusMap[status] || status;
+    };
+
+    const getRecruitmentStatusOrder = (status: string) => {
+        const statusOrder: { [key: string]: number } = {
+            OPEN: 1, // 모집중
+            UPCOMING: 2, // 모집예정
+            CLOSED: 3, // 모집마감
+        };
+        return statusOrder[status] || 999;
+    };
+
+    // 동아리 상세 페이지로 이동
+    const handleCardClick = (clubId: number) => {
+        window.location.href = `/club/${clubId}`;
+        // 또는 React Router를 사용하는 경우:
+        // navigate(`/club/${clubId}`);
     };
 
     return (
@@ -505,7 +530,7 @@ const ClubListPage = () => {
                                             text: mappedStatus,
                                         },
                                     ]}
-                                    onClick={() => console.log('카드 클릭')}
+                                    onClick={() => handleCardClick(club.id)}
                                 />
                             );
                         })

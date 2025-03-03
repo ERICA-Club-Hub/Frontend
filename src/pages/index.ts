@@ -11,7 +11,7 @@ export * from './admin/club/detail/section/RecruitNoticePage';
 export * from './admin/club/detail/section/SummaryInfoPage';
 
 export * from './admin/union/main/AdminUnionPage';
-export * from './admin/union/notice/AdminNoticePage';
+export * from './admin/union/notice/AdminUnionNoticePage';
 export * from './admin/union/resources/AdminResourcesRegisterPage';
 
 export * from './club-detail/ClubDetailPage';

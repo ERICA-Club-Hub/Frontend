@@ -1,11 +1,11 @@
 import { adminNavigationMenus, navigationMenus } from '@/constants';
 import { adminTypeSelector, isAuthenticatedSelector } from '@/store/authState';
-import { clubIdselector } from '@/store/clubIdState';
+import { clubIdSelector } from '@/store/clubInfoState';
 import { useRecoilValue } from 'recoil';
 
 export const filterHeaderMenus = () => {
     const adminType = useRecoilValue(adminTypeSelector);
-    const clubId = useRecoilValue(clubIdselector);
+    const clubId = useRecoilValue(clubIdSelector);
     const isAuthenticated = useRecoilValue(isAuthenticatedSelector);
     let filteredMenus = [...navigationMenus]; // 기본 메뉴 리스트
 
