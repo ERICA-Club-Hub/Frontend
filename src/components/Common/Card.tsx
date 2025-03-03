@@ -14,7 +14,7 @@ interface CardProps {
 }
 
 const CardWrapper = styled.button<{ $variant?: string }>`
-    width: 360px;
+    width: 320px;
     height: 71px;
     position: relative;
     display: flex;
