@@ -2,26 +2,38 @@ import Card from "../../components/Common/Card"
 import styled from 'styled-components';
 import { useState } from 'react';
 
+const PageContainer = styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+`;
+
+const ContentWrapper = styled.div`
+    width: 320px;
+    display: flex;
+    flex-direction: column;
+`;
+
 const Title = styled.div`
     color: #232323;
     font-family: Pretendard;
     font-size: 16px;
     font-weight: 600;
     line-height: normal;
-    margin: 20px;
+    margin: 20px 0px;
 `;
 
 const Body = styled.div`
     display: flex;
     flex-direction: column;
-    margin: 20px;
-    align-items: flex-start;
+    width: 100%;
 `;
 
 const CardContainer = styled.div`
     display: flex;
     flex-direction: column;
-    width: 360px;
+    width: 100%;
     padding-bottom: 8px;
 `;
 
@@ -54,8 +66,6 @@ interface NoticeItem {
     content: string;
 }
 
-
-
 const FAQPage = () => {
     const [rotatedStates, setRotatedStates] = useState<{ [key: number]: boolean }>({});
     
@@ -79,27 +89,31 @@ const FAQPage = () => {
         }));
     };
 
-    return <div>
-        <Title>FAQ 페이지</Title>
-        <Body>
-            {noticeItems.map((item, index) => (
-                <CardContainer key={index}>
-                    <Card 
-                        $variant="FAQ" 
-                        title={item.title}
-                        questionType={item.questionType}
-                        isRotated={rotatedStates[index]}
-                        onClick={() => handleCardClick(index)}
-                    />
-                    <ContentBox $isVisible={rotatedStates[index]}>
-                        <ContentText>
-                            {item.content}
-                        </ContentText>
-                    </ContentBox>
-                </CardContainer>
-            ))}
-        </Body>
-    </div>;
+    return (
+        <PageContainer>
+            <ContentWrapper>
+                <Title>FAQ 페이지</Title>
+                <Body>
+                    {noticeItems.map((item, index) => (
+                        <CardContainer key={index}>
+                            <Card 
+                                $variant="FAQ" 
+                                title={item.title}
+                                questionType={item.questionType}
+                                isRotated={rotatedStates[index]}
+                                onClick={() => handleCardClick(index)}
+                            />
+                            <ContentBox $isVisible={rotatedStates[index]}>
+                                <ContentText>
+                                    {item.content}
+                                </ContentText>
+                            </ContentBox>
+                        </CardContainer>
+                    ))}
+                </Body>
+            </ContentWrapper>
+        </PageContainer>
+    );
 };
 
 export { FAQPage };

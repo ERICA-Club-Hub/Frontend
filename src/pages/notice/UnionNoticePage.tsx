@@ -3,26 +3,38 @@ import styled from 'styled-components';
 import { useState, useEffect } from 'react';
 import { apiRequest } from '../../api/apiRequest';
 
+const PageContainer = styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+`;
+
+const ContentWrapper = styled.div`
+    width: 320px;
+    display: flex;
+    flex-direction: column;
+`;
+
 const Title = styled.div`
     color: #232323;
-    font-family: Pretendard;
+    font-family: "Pretendard";
     font-size: 16px;
     font-weight: 600;
     line-height: normal;
-    margin: 20px;
+    margin: 20px 0px;
 `;
 
 const Body = styled.div`
     display: flex;
     flex-direction: column;
     gap: 8px;
-    margin: 20px;
 `;
 
 const CardWrapper = styled.div`
     cursor: pointer;
     &:hover {
-        opacity: 0.8;
+        opacity: 0.8
     }
 `;
 
@@ -80,32 +92,34 @@ const UnionNoticePage = () => {
     };
 
     return (
-        <div>
-            <Title>총동연 공지사항</Title>
-            <Body>
-                {isLoading ? (
-                    <div>로딩중...</div>
-                ) : error ? (
-                    <div>{error}</div>
-                ) : announcements?.announcementDTOList?.length > 0 ? (
-                    announcements.announcementDTOList.map((announcement) => (
-                        <CardWrapper
-                            key={announcement.announcementId}
-                            onClick={() => handleCardClick(announcement.url)}
-                        >
-                            <Card
-                                $variant="unionNotice"
-                                $imagePath={announcement.thumbnailUrl}
-                                title={announcement.title}
-                                date={announcement.date}
-                            />
-                        </CardWrapper>
-                    ))
-                ) : (
-                    <div>등록된 공지사항이 없습니다.</div>
-                )}
-            </Body>
-        </div>
+        <PageContainer>
+            <ContentWrapper>
+                <Title>총동연 공지사항</Title>
+                <Body>
+                    {isLoading ? (
+                        <div>로딩중...</div>
+                    ) : error ? (
+                        <div>{error}</div>
+                    ) : announcements?.announcementDTOList?.length > 0 ? (
+                        announcements.announcementDTOList.map((announcement) => (
+                            <CardWrapper
+                                key={announcement.announcementId}
+                                onClick={() => handleCardClick(announcement.url)}
+                            >
+                                <Card
+                                    $variant="unionNotice"
+                                    $imagePath={announcement.thumbnailUrl}
+                                    title={announcement.title}
+                                    date={announcement.date}
+                                />
+                            </CardWrapper>
+                        ))
+                    ) : (
+                        <div>등록된 공지사항이 없습니다.</div>
+                    )}
+                </Body>
+            </ContentWrapper>
+        </PageContainer>
     );
 };
 
