@@ -4,20 +4,33 @@ import { useState, useEffect } from 'react';
 import downloadIcon from '../../assets/common/card_download.svg';
 import { apiRequest } from '@/api/apiRequest';
 
+const PageContainer = styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+`;
+
+const ContentWrapper = styled.div`
+    width: 320px;
+    display: flex;
+    flex-direction: column;
+`;
+
 const Title = styled.div`
     color: #232323;
     font-family: Pretendard;
     font-size: 16px;
     font-weight: 600;
     line-height: normal;
-    margin: 20px;
+    margin: 20px 0px;
 `;
 
 const Body = styled.div`
     display: flex;
     flex-direction: column;
     gap: 8px;
-    margin: 20px;
+    width: 100%;
 `;
 
 const ModalOverlay = styled.div`
@@ -108,8 +121,6 @@ const ResourcesPage = () => {
                     method: 'GET',
                 });
 
-                console.log('API 응답:', response);
-
                 const documentList = response?.result?.documentDTOList || [];
                 setDocuments(documentList);
             } catch (error) {
@@ -130,8 +141,6 @@ const ResourcesPage = () => {
                 method: 'GET',
             });
 
-            console.log('파일 목록 API 응답:', response);
-
             const files = response?.result?.fileDTOList || [];
             setSelectedFiles(files);
             setIsModalOpen(true);
@@ -142,10 +151,11 @@ const ResourcesPage = () => {
     };
 
     return (
-        <div>
-            <Title>자료실</Title>
-            <Body>
-                {isLoading ? (
+        <PageContainer>
+            <ContentWrapper>
+                <Title>자료실</Title>
+                <Body>
+                    {isLoading ? (
                     <div>로딩 중...</div>
                 ) : error ? (
                     <div>{error}</div>
@@ -181,9 +191,10 @@ const ResourcesPage = () => {
                             </DownloadButton>
                         ))}
                     </ModalContent>
-                </ModalOverlay>
-            )}
-        </div>
+                    </ModalOverlay>
+                )}
+            </ContentWrapper>
+        </PageContainer>
     );
 };
 
