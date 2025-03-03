@@ -25,14 +25,15 @@ export default function Intro() {
         const getSchedules = async (clubId: string) => {
             const requestUrl =
                 nowUrl === 'club-detail-preview'
-                    ? `/api/clubs/${clubId}/schedules` // 이부분 나중에 api 개발되면 수정
+                    ? `/api/clubs/club-admin/${clubId}/schedules/draft`
                     : `/api/clubs/${clubId}/schedules`;
             if (clubId) {
                 const schedulesResponse = await apiRequest({
                     url: requestUrl,
                     requireToken: nowUrl === 'club-detail-preview',
                 });
-                setSchedules(schedulesResponse.result.activities);
+                setSchedules(schedulesResponse.result.schedules);
+                console.log(schedulesResponse);
             }
         };
         const getClubIntro = async (clubId: string) => {
@@ -58,6 +59,7 @@ export default function Intro() {
             getClubIntro(clubId);
         }
     }, [clubId, nowUrl]);
+    console.log(schedules);
     return (
         <div>
             <Container>
