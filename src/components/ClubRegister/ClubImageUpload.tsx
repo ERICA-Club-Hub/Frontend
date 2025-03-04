@@ -20,7 +20,10 @@ export default function ClubImageUpload({
 
     return (
         <Container>
-            <Label>동아리 사진 업로드</Label>
+            <TitleWrapper>
+                <Label>동아리 사진 업로드</Label>
+                <OptionGuideText>(선택)</OptionGuideText>
+            </TitleWrapper>
             <ImageContainer>
                 <div className="image-upload-container">
                     <label htmlFor="image" className="image-preview">
@@ -55,18 +58,29 @@ export default function ClubImageUpload({
     );
 }
 
+const Container = styled.div`
+    display: flex;
+    flex-direction: column;
+`;
+
 const Label = styled.label`
-    width: 100%;
-    padding-left: 7px;
-    margin-bottom: 10px;
     font-size: 16px;
     font-weight: 600;
     color: ${({ theme }) => theme.colors.mainBlack};
 `;
 
-const Container = styled.div`
+const TitleWrapper = styled.div`
+    padding-left: 7px;
     display: flex;
-    flex-direction: column;
+    gap: 5px;
+    width: 100%;
+    margin-bottom: 10px;
+`;
+
+const OptionGuideText = styled.span`
+    font-size: 14px;
+    font-weight: 400;
+    color: ${({ theme }) => theme.colors.subGray};
 `;
 
 const ImageContainer = styled.div`

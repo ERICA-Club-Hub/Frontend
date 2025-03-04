@@ -54,10 +54,10 @@ const loginNavigations = [
 const clubCategory = [
     { label: '봉사분과', name: 'VOLUNTEER' },
     { label: '예술분과', name: 'ART' },
+    { label: '종교분과', name: 'RELIGION' },
     { label: '체육분과', name: 'SPORTS' },
-    { label: '봉사분과', name: 'RELIGION' },
-    { label: '봉사분과', name: 'ACADEMIC' },
-    { label: '봉사분과', name: 'UNION' },
+    { label: '학술교양분과', name: 'ACADEMIC' },
+    { label: '연합동아리', name: 'UNION' },
 ];
 
 export {

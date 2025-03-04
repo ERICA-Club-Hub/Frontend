@@ -12,8 +12,10 @@ import { clubIdSelector } from '@/store/clubInfoState';
 import ClubImageUpload from './ClubImageUpload';
 import { ClubCategorySelection } from './ClubCategorySelection';
 import useClubRegisterQueries from '@/hooks/queries/useClubRegisterQueries';
+import { useNavigate } from 'react-router-dom';
 
 function ClubRegisterForm({ editMode }: { editMode: boolean }) {
+    const navigate = useNavigate();
     const clubId = useRecoilValue(clubIdSelector);
     const [inputValue, setInputValue] = useState<IClubRegisterValue>({
         clubName: '',
@@ -55,12 +57,14 @@ function ClubRegisterForm({ editMode }: { editMode: boolean }) {
         formData.append('image', postImg);
     }
 
-    // 등록 정보 수정 mutation 호출
-    const { useEditClubRegisterMutation } = useClubRegisterQueries();
+    // 등록 정보 생성 및 수정 mutation 호출
+    const { useClubRegisterMutation, useEditClubRegisterMutation } =
+        useClubRegisterQueries();
     const editClubRegisterMutation = useEditClubRegisterMutation({
         clubId,
         formData,
     });
+    const clubRegisterMutation = useClubRegisterMutation({ formData });
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -70,17 +74,24 @@ function ClubRegisterForm({ editMode }: { editMode: boolean }) {
             editClubRegisterMutation.mutate(); // 등록 정보 수정하기
         } else {
             // 등록모드일 때
+            try {
+                clubRegisterMutation.mutate(); // 동아리 등록하기
+                navigate('/admin/club/register/complete');
+            } catch (error) {
+                console.error('동아리 등록 실패');
+            }
         }
     };
 
     const isValid =
-        (inputValue.clubName.length > 0 &&
-            inputValue.leaderEmail.length > 0 &&
-            inputValue.category.length > 0 &&
-            inputValue.oneLiner.length > 0) ||
-        (!editMode &&
-            inputValue.briefIntroduction &&
-            inputValue.briefIntroduction.length > 0);
+        inputValue.clubName.length > 0 &&
+        inputValue.leaderEmail.length > 0 &&
+        inputValue.category.length > 0 &&
+        inputValue.oneLiner.length > 0 &&
+        // 등록 모드일 때는 간단소개 포함
+        !editMode &&
+        inputValue.briefIntroduction &&
+        inputValue.briefIntroduction.length > 0;
 
     return (
         <Container>

@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import Button from '@/components/Common/Button';
 
-export default function ClubRegisterSuccessPage() {
+export default function CompleteClubRegisterPage() {
     return (
         <Container>
             <Title>동아리 등록 요청이 완료되었습니다.</Title>

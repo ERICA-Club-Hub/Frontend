@@ -58,6 +58,25 @@ const useRegisterInfoQuery = ({
 };
 
 // 동아리 등록 정보 수정
+const useClubRegisterMutation = ({ formData }: { formData: FormData }) =>
+    useMutation({
+        mutationFn: async () => {
+            return await apiRequest({
+                url: `/api/clubs/registrations`,
+                method: 'POST',
+                data: formData,
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                },
+                requireToken: true,
+            });
+        },
+        onError: (error) => {
+            console.error('동아리 실패', error);
+        },
+    });
+
+// 동아리 등록 정보 수정
 const useEditClubRegisterMutation = ({
     clubId,
     formData,
@@ -90,6 +109,7 @@ const useEditClubRegisterMutation = ({
 function useClubRegisterQueries() {
     return {
         useRegisterInfoQuery,
+        useClubRegisterMutation,
         useEditClubRegisterMutation,
     };
 }
