@@ -1,9 +1,9 @@
 import styled from 'styled-components';
 import { useState, useEffect, useCallback } from 'react';
-import { InputField } from '../../components/Common/InputField';
-import MainpageCard from '../../components/Common/MainpageCard';
-import SortingDropdown from '../../components/Common/SortingDropdown';
-import { apiRequest } from '../../api/apiRequest';
+import { InputField } from '@/components/Common/InputField';
+import MainpageCard from '@/components/Common/MainpageCard';
+import SortingDropdown from '@/components/Common/SortingDropdown';
+import { apiRequest } from '@/api/apiRequest';
 import ErrorIcon from '@/assets/common/error-icon.svg?react';
 import { getCategoryEmoji } from '@/utils/getCategoryEmoji';
 
