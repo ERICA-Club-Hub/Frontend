@@ -39,7 +39,7 @@ const CardContainer = styled.div`
 
 const ContentBox = styled.div<{ $isVisible: boolean }>`
     max-height: ${props => props.$isVisible ? '200px' : '0'};
-    width: 360px;
+    width: 320px;
     flex-shrink: 0;
     border-radius: 10px;
     border: 1px solid var(--Gray-4, #F7F7F7);
@@ -49,7 +49,7 @@ const ContentBox = styled.div<{ $isVisible: boolean }>`
 `;
 
 const ContentText = styled.div`
-    width: 360px;
+    width: 320px;
     color: var(--Gray-1, #606060);
     font-family: Pretendard;
     font-size: 14px;
