@@ -15,7 +15,6 @@ import useClubRegisterQueries from '@/hooks/queries/useClubRegisterQueries';
 
 function ClubRegisterForm({ editMode }: { editMode: boolean }) {
     const clubId = useRecoilValue(clubIdSelector);
-    console.log(clubId);
     const [inputValue, setInputValue] = useState<IClubRegisterValue>({
         clubName: '',
         leaderEmail: '',
@@ -28,14 +27,16 @@ function ClubRegisterForm({ editMode }: { editMode: boolean }) {
         '',
     ); // 미리보기 이미지
 
-    // 데이터 fetch
-    const { useRegisterInfoQuery } = useClubRegisterQueries();
-    useRegisterInfoQuery({
-        clubId,
-        setInputValue,
-        setPreviewImg,
-        setPostImg,
-    });
+    // 수정모드일 때만 데이터 fetch
+    if (clubId) {
+        const { useRegisterInfoQuery } = useClubRegisterQueries();
+        useRegisterInfoQuery({
+            clubId,
+            setInputValue,
+            setPreviewImg,
+            setPostImg,
+        });
+    }
 
     // FormData 생성
     const formData: FormData = new FormData();

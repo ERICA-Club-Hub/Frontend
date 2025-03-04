@@ -27,6 +27,7 @@ import UnionAdminGuard from './UnionAdminGuard';
 import ClubAdminGurad from './ClubAdminGurad';
 import { AdminUnionNoticeRegisterPage } from '@/pages/admin/union/notice/AdminUnionNoticeRegisterPage';
 import AdminUnionNoticeEditPage from '@/pages/admin/union/notice/AdminUnionNoticeEditPage';
+import ClubRegisterSuccessPage from '@/pages/admin/auth/register/ClubRegisterSuccessPage';
 
 export default function AppRoutes() {
     return (
@@ -63,6 +64,12 @@ export default function AppRoutes() {
 
             {/* 동아리 등록 페이지 */}
             <Route path="/admin/club/register" element={<ClubRegisterPage />} />
+
+            {/* 동아리 등록 성공 페이지 */}
+            <Route
+                path="/admin/club/register/success"
+                element={<ClubRegisterSuccessPage />}
+            />
 
             {/* 어드민 접근 권한 필요 -> 권한 없을 때 메인으로 리다이렉트 */}
             <Route path="/admin" element={<AuthGuard />}>
