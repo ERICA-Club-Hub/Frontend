@@ -57,7 +57,7 @@ const useRegisterInfoQuery = ({
     }, [isSuccess, data]);
 };
 
-// 동아리 등록 정보 수정
+// 동아리 등록
 const useClubRegisterMutation = ({ formData }: { formData: FormData }) =>
     useMutation({
         mutationFn: async () => {
@@ -72,7 +72,7 @@ const useClubRegisterMutation = ({ formData }: { formData: FormData }) =>
             });
         },
         onError: (error) => {
-            console.error('동아리 실패', error);
+            console.error('동아리 등록 요청 실패', error);
         },
     });
 

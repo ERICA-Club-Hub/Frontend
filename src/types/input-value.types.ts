@@ -23,6 +23,8 @@ interface IClubIntroValue {
 }
 
 interface IEventScheduleValue {
+    id?: number | null;
+    scheduleId?: number | null;
     month: number;
     content: string;
 }

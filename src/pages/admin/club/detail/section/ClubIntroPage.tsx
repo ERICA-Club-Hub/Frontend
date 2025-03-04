@@ -3,22 +3,20 @@ import { ButtonGroupWrapper } from '@/styles/admin-club-detail/style';
 import { useState } from 'react';
 import Button from '@/components/Common/Button';
 import { IClubIntroValue, IEventScheduleValue } from '@/types';
-import { apiRequest } from '@/api/apiRequest';
 import { useRecoilValue } from 'recoil';
 import { clubIdSelector } from '@/store/clubInfoState';
 import { ClubIntroProvider } from '@/contexts/ClubIntroContext';
-import { useMutation } from '@tanstack/react-query';
-import { queryClient } from '@/config/queryClient';
 import {
     ClubDescription,
     MonthlyEventSchedule,
 } from '@/components/AdminClubDetail';
+import useAdminClubQueries from '@/hooks/queries/useAdminClubQueries';
 
 function ClubIntroPage() {
     const clubId = useRecoilValue(clubIdSelector);
 
     const [schedules, setSchedules] = useState<IEventScheduleValue[]>([
-        { month: 1, content: '' },
+        { month: 1, content: '', id: null },
     ]);
     const [inputValue, setInputValue] = useState<IClubIntroValue>({
         introduction: '',
@@ -26,35 +24,12 @@ function ClubIntroPage() {
         recruitment: '',
     });
 
-    const saveMutation = useMutation({
-        mutationFn: async () => {
-            const [introResponse, scheduleResponse] = await Promise.all([
-                apiRequest({
-                    url: `/api/clubs/club-admin/${clubId}/introduction`,
-                    method: 'POST',
-                    data: inputValue,
-                    requireToken: true,
-                }),
-                apiRequest({
-                    url: `/api/clubs/club-admin/${clubId}/schedules`,
-                    method: 'POST',
-                    data: schedules,
-                    requireToken: true,
-                }),
-            ]);
-
-            return { introResponse, scheduleResponse };
-        },
-        onSuccess: () => {
-            // 해당 쿼리키를 stale 상태로 변경
-            // -> 기존에 캐시된 데이터를 사용할 수 없도록 하여 이후 호출 시에 최신 데이터를 다시 가져오도록 트리거
-            queryClient.invalidateQueries({
-                queryKey: [clubId, 'clubDescription'],
-            });
-        },
-        onError: (error) => {
-            console.error('동아리 소개글 저장하기 실패', error);
-        },
+    // 동아리 소개글 저장하기 mutation 호출
+    const { useSaveClubIntroMutation } = useAdminClubQueries();
+    const saveClubIntroMutation = useSaveClubIntroMutation({
+        clubId,
+        schedules,
+        inputValue,
     });
 
     const handleSubmit = async (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -63,14 +38,14 @@ function ClubIntroPage() {
         try {
             // 저장하기
             if (target.name === 'save') {
-                saveMutation.mutate();
+                saveClubIntroMutation.mutate();
             }
             // 미리보기
             else if (target.name === 'preview') {
                 // 미리보기 API 호출 및 페이지 이동 로직 추가
             }
         } catch (error) {
-            console.error('저장하기 or 미리보기 실패', error);
+            console.error('동아리 소개 저장하기 or 미리보기 실패', error);
         }
     };
 

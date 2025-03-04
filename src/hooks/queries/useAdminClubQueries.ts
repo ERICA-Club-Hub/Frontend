@@ -1,6 +1,12 @@
 import { apiRequest } from '@/api/apiRequest';
 import { queryClient } from '@/config/queryClient';
-import { ClubIdType, IRecruitNoticeValue, ISummaryInfoValue } from '@/types';
+import {
+    ClubIdType,
+    IClubIntroValue,
+    IEventScheduleValue,
+    IRecruitNoticeValue,
+    ISummaryInfoValue,
+} from '@/types';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { useEffect } from 'react';
 
@@ -75,6 +81,79 @@ const useSaveSummaryInfoMutation = ({
         },
     });
 
+// 동아리 소개글 저장
+const useSaveClubIntroMutation = ({
+    clubId,
+    inputValue,
+    schedules,
+}: {
+    clubId: ClubIdType;
+    schedules: IEventScheduleValue[];
+    inputValue: IClubIntroValue;
+}) =>
+    useMutation({
+        mutationFn: async () => {
+            const [introResponse, scheduleResponse] = await Promise.all([
+                apiRequest({
+                    url: `/api/clubs/club-admin/${clubId}/introduction`,
+                    method: 'POST',
+                    data: inputValue,
+                    requireToken: true,
+                }),
+                apiRequest({
+                    url: `/api/clubs/club-admin/${clubId}/schedules`,
+                    method: 'POST',
+                    data: schedules,
+                    requireToken: true,
+                }),
+            ]);
+
+            return { introResponse, scheduleResponse };
+        },
+        onSuccess: () => {
+            // 해당 쿼리키를 stale 상태로 변경
+            // -> 기존에 캐시된 데이터를 사용할 수 없도록 하여 이후 호출 시에 최신 데이터를 다시 가져오도록 트리거
+            queryClient.invalidateQueries({
+                queryKey: ['eventSchedules'],
+            });
+        },
+        onError: (error) => {
+            console.error('동아리 소개글 저장하기 실패', error);
+        },
+    });
+// 월별 활동 일정 불러오기
+const useEventSchedulesQuery = ({
+    clubId,
+    setSchedules,
+}: {
+    clubId: number | null;
+    setSchedules: React.Dispatch<React.SetStateAction<any[]>>;
+}) => {
+    const { isSuccess, data, isError } = useQuery({
+        queryKey: ['eventSchedules'],
+        queryFn: async () => {
+            return await apiRequest({
+                url: `/api/clubs/${clubId}/schedules`,
+                method: 'GET',
+                requireToken: true,
+            });
+        },
+        select: (data) => data.result.schedules,
+        staleTime: 5 * 60 * 1000,
+    });
+
+    // 데이터 불러오기 성공 시, schedules 상태 업데이트
+    useEffect(() => {
+        if (isSuccess && data) {
+            setSchedules(data);
+        }
+
+        if (isError) {
+            console.error('동아리 일정 불러오기 실패');
+        }
+    }, [isSuccess, data]);
+};
+
 // 모집안내 정보 불러오기
 const useRecruitNoticeQuery = ({
     clubId,
@@ -146,6 +225,8 @@ function useAdminClubQueries() {
     return {
         useSummaryInfoQuery,
         useSaveSummaryInfoMutation,
+        useSaveClubIntroMutation,
+        useEventSchedulesQuery,
         useRecruitNoticeQuery,
         useSaveRecruitNoticeMutation,
     };

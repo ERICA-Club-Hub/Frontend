@@ -88,7 +88,7 @@ function ClubRegisterForm({ editMode }: { editMode: boolean }) {
         inputValue.leaderEmail.length > 0 &&
         inputValue.category.length > 0 &&
         inputValue.oneLiner.length > 0 &&
-        // 등록 모드일 때는 간단소개 포함
+        // 등록 모드일 때는 간단소개 포함 (예외 처리)
         !editMode &&
         inputValue.briefIntroduction &&
         inputValue.briefIntroduction.length > 0;
