@@ -52,7 +52,9 @@ const AdminResourcesRegisterPage = ({
                 url: `/api/documents`,
                 method: 'POST',
                 data: formData,
-                // 헤더 명시적 설정 제거 (Axios가 알아서 처리)
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                },
                 requireToken: true,
             });
             navigate('/resources');
