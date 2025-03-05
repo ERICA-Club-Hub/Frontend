@@ -324,12 +324,16 @@ const ClubInfo = styled.div`
     margin-bottom: 8px;
 `;
 
-const Preview = styled.div``;
+const Preview = styled.div`
+    color: #aeaeae;
+    font-weight: 700;
+    font-size: 13px;
+`;
 
 const ClubTitle = styled.h1`
-    font-size: 24px;
-    font-weight: bold;
-    margin-bottom: 8px;
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 11px;
 `;
 
 const ClubTags = styled.div`
