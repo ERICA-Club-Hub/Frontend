@@ -45,7 +45,7 @@ const useAdminLogin = () => {
                     // 동아리 대표
                     setAdminType('club');
                 }
-                console.log(res.result);
+
                 setClubId(res.result.clubId); // clubId 저장
                 setClubName(res.result.clubName); // clubId 저장
             } else {

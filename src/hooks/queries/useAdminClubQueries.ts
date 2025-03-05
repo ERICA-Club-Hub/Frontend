@@ -28,12 +28,12 @@ const useSummaryInfoQuery = ({
         },
         select: (data) => ({
             recruitmentStatus: data.result.recruitmentStatus,
-            leaderName: data.result.leaderName,
-            leaderPhone: data.result.leaderPhone,
-            activities: data.result.activities,
-            membershipFee: data.result.membershipFee,
-            snsUrl: data.result.snsUrl,
-            applicationUrl: data.result.applicationUrl,
+            leaderName: data.result.leaderName || '',
+            leaderPhone: data.result.leaderPhone || '',
+            activities: data.result.activities || '',
+            membershipFee: data.result.membershipFee || '',
+            snsUrl: data.result.snsUrl || '',
+            applicationUrl: data.result.applicationUrl || '',
         }),
         staleTime: 5 * 60 * 1000,
     });
@@ -121,6 +121,7 @@ const useSaveClubIntroMutation = ({
             console.error('동아리 소개글 저장하기 실패', error);
         },
     });
+
 // 월별 활동 일정 불러오기
 const useEventSchedulesQuery = ({
     clubId,
@@ -144,7 +145,7 @@ const useEventSchedulesQuery = ({
 
     // 데이터 불러오기 성공 시, schedules 상태 업데이트
     useEffect(() => {
-        if (isSuccess && data) {
+        if (isSuccess && data.length > 0) {
             setSchedules(data);
         }
 

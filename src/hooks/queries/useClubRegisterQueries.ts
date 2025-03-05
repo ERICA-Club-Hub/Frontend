@@ -40,8 +40,6 @@ const useRegisterInfoQuery = ({
                 oneLiner: data.result.description,
             });
 
-            console.log(data);
-
             // 이미지 미리보기 업데이트
             setPreviewImg(data.result.profileImageUrl);
 
@@ -52,14 +50,14 @@ const useRegisterInfoQuery = ({
         }
 
         if (isError) {
-            console.error('동아리 요약 정보 불러오기 실패');
+            console.error('동아리 등록 정보 불러오기 실패');
         }
     }, [isSuccess, data]);
 };
 
 // 동아리 등록
-const useClubRegisterMutation = ({ formData }: { formData: FormData }) =>
-    useMutation({
+const useClubRegisterMutation = ({ formData }: { formData: FormData }) => {
+    const { isSuccess, mutate } = useMutation({
         mutationFn: async () => {
             return await apiRequest({
                 url: `/api/clubs/registrations`,
@@ -75,6 +73,8 @@ const useClubRegisterMutation = ({ formData }: { formData: FormData }) =>
             console.error('동아리 등록 요청 실패', error);
         },
     });
+    return { isSuccess, mutate };
+};
 
 // 동아리 등록 정보 수정
 const useEditClubRegisterMutation = ({

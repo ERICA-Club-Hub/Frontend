@@ -29,16 +29,14 @@ function ClubRegisterForm({ editMode }: { editMode: boolean }) {
         '',
     ); // 미리보기 이미지
 
-    // 수정모드일 때만 데이터 fetch
-    if (clubId) {
-        const { useRegisterInfoQuery } = useClubRegisterQueries();
-        useRegisterInfoQuery({
-            clubId,
-            setInputValue,
-            setPreviewImg,
-            setPostImg,
-        });
-    }
+    // 수정모드일 때 데이터 fetch
+    const { useRegisterInfoQuery } = useClubRegisterQueries();
+    useRegisterInfoQuery({
+        clubId,
+        setInputValue,
+        setPreviewImg,
+        setPostImg,
+    });
 
     // FormData 생성
     const formData: FormData = new FormData();
@@ -72,16 +70,16 @@ function ClubRegisterForm({ editMode }: { editMode: boolean }) {
         // 수정모드일 때
         if (editMode) {
             editClubRegisterMutation.mutate(); // 등록 정보 수정하기
-        } else {
+        } else if (!editMode) {
             // 등록모드일 때
-            try {
-                clubRegisterMutation.mutate(); // 동아리 등록하기
-                navigate('/admin/club/register/complete');
-            } catch (error) {
-                console.error('동아리 등록 실패');
-            }
+            clubRegisterMutation.mutate();
         }
     };
+
+    // 등록 성공 시, 등록 완료 페이지로 이동
+    if (clubRegisterMutation.isSuccess) {
+        navigate('/admin/club/register/complete', { replace: true });
+    }
 
     const isValid =
         inputValue.clubName.length > 0 &&

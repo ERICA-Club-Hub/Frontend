@@ -40,12 +40,17 @@ function ClubIntroPage() {
             if (target.name === 'save') {
                 saveClubIntroMutation.mutate();
             }
+        } catch (error) {
+            console.error('동아리 소개 저장하기 실패', error);
+        }
+
+        try {
             // 미리보기
-            else if (target.name === 'preview') {
+            if (target.name === 'preview') {
                 // 미리보기 API 호출 및 페이지 이동 로직 추가
             }
         } catch (error) {
-            console.error('동아리 소개 저장하기 or 미리보기 실패', error);
+            console.error('미리보기 실패', error);
         }
     };
 
