@@ -1,11 +1,14 @@
 import styled from 'styled-components';
 import { useState, useEffect, useCallback } from 'react';
 import { InputField } from '@/components/Common/InputField';
+import { apiRequest } from '@/api/apiRequest';
+import { getCategoryEmoji } from '@/utils/getCategoryEmoji';
 import MainpageCard from '@/components/Common/MainpageCard';
 import SortingDropdown from '@/components/Common/SortingDropdown';
-import { apiRequest } from '@/api/apiRequest';
 import ErrorIcon from '@/assets/common/error-icon.svg?react';
-import { getCategoryEmoji } from '@/utils/getCategoryEmoji';
+import MainPrevArrow from '@/assets/common/main_prev_arrow.svg?react';
+import MainNextArrow from '@/assets/common/main_next_arrow.svg?react';
+import ReadingGlassIcon from '@/assets/common/reading_glass.svg?react';
 
 const AnnouncementContainer = styled.div`
     display: flex;
@@ -392,10 +395,7 @@ const ClubListPage = () => {
                 {announcements.length > 0 && (
                     <>
                         <ArrowButton onClick={handlePrev}>
-                            <img
-                                src="/src/assets/common/main_prev_arrow.svg"
-                                alt="이전"
-                            />
+                            <MainPrevArrow />
                         </ArrowButton>
                         <SubAnnouncement
                             $imageUrl={displayItems[0].thumbnailUrl}
@@ -428,10 +428,7 @@ const ClubListPage = () => {
                             }
                         />
                         <ArrowButton onClick={handleNext}>
-                            <img
-                                src="/src/assets/common/main_next_arrow.svg"
-                                alt="다음"
-                            />
+                            <MainNextArrow />
                         </ArrowButton>
                     </>
                 )}
@@ -446,10 +443,7 @@ const ClubListPage = () => {
                         onChange={(e) => setSearchTerm(e.target.value)}
                     />
                     <SearchIcon onClick={handleSearch}>
-                        <img
-                            src="/src/assets/common/reading_glass.svg"
-                            alt="검색"
-                        />
+                        <ReadingGlassIcon />
                     </SearchIcon>
                 </SearchInputWrapper>
 
