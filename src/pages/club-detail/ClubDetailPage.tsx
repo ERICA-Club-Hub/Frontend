@@ -10,9 +10,9 @@ import label from '../../assets/common/label.svg';
 import TabContents from './TabContents';
 import { apiRequest } from '@/api/apiRequest';
 import { ClubDetailProvider } from '@/contexts/ClubDetailContext';
-import { DEFAULT_CLUB_IMAGE } from '@/utils/getDefaultImg';
 import { getCategoryEmoji, getCategoryMapping } from '@/utils/getCategoryEmoji';
 import arrow from '../../assets/common/Expand_right.svg';
+import { DEFAULT_IMG } from '@/constants/DEFAULT_IMG';
 
 // tab 항목에서 활성화 여부를 판단할 props
 interface TabButtonProps {
@@ -144,7 +144,7 @@ const ClubDetailPage = () => {
             value={{
                 nowUrl: nowUrl,
                 clubName: clubDetail?.name || null,
-                clubImg: clubDetail?.profileImageUrl || DEFAULT_CLUB_IMAGE,
+                clubImg: clubDetail?.profileImageUrl || DEFAULT_IMG,
                 clubId: id,
             }}
         >
@@ -162,10 +162,7 @@ const ClubDetailPage = () => {
                     )}
                     <ClubHeader>
                         <ClubImage
-                            src={
-                                clubDetail?.profileImageUrl ||
-                                DEFAULT_CLUB_IMAGE
-                            }
+                            src={clubDetail?.profileImageUrl || DEFAULT_IMG}
                             alt="Club Logo"
                         />
                         <PreviewWrapper>
