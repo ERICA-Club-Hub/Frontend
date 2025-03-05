@@ -298,7 +298,7 @@ const PageContainer = styled.div<{ $nowUrl: string }>`
 
 const ClubHeader = styled.div`
     width: 320px;
-    height: 104px;
+    min-height: 104px;
     background: white;
     display: flex;
     padding: 17px;
@@ -335,7 +335,6 @@ const ClubTitle = styled.h1`
 const ClubTags = styled.div`
     display: flex;
     gap: 8px;
-    margin-bottom: 16px;
 `;
 
 const Tag = styled.span`
