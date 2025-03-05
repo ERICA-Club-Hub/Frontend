@@ -1,4 +1,4 @@
-import Card from "../../components/Common/Card"
+import Card from '@/components/Common/Card'
 import styled from 'styled-components';
 import { useState } from 'react';
 
