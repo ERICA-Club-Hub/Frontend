@@ -1,12 +1,11 @@
 import { Route, Routes } from 'react-router-dom';
 import {
-    AdminActivityLogPage,
     AdminClubDetailPage,
     AdminClubPage,
     AdminLoginPage,
-    AdminResourcesRegisterPage,
-    AdminUnionNoticePage,
-    AdminUnionPage,
+    // AdminResourcesRegisterPage,
+    // AdminUnionNoticePage,
+    // AdminUnionPage,
     ClubDetailPage,
     ClubIntroPage,
     ClubListPage,
@@ -23,11 +22,12 @@ import {
 import { RedirectIfAuthenticated } from './RedirectIfAuthenticated';
 import ClubDetailPreview from '@/pages/club-detail-preview/ClubDetailPreview';
 import { AuthGuard } from './AuthGuard';
-import UnionAdminGuard from './UnionAdminGuard';
+// import UnionAdminGuard from './UnionAdminGuard';
 import ClubAdminGurad from './ClubAdminGurad';
-import { AdminUnionNoticeRegisterPage } from '@/pages/admin/union/notice/AdminUnionNoticeRegisterPage';
-import AdminUnionNoticeEditPage from '@/pages/admin/union/notice/AdminUnionNoticeEditPage';
+// import AdminUnionNoticeEditPage from '@/pages/admin/union/notice/AdminUnionNoticeEditPage';
+// import { AdminUnionNoticeRegisterPage } from '@/pages/admin/union/notice/AdminUnionNoticeRegisterPage';
 import CompleteClubRegisterPage from '@/pages/admin/auth/register/CompleteClubRegisterPage';
+import SplashScreen from '@/pages/splash/SplashScreen';
 
 export default function AppRoutes() {
     return (
@@ -79,11 +79,6 @@ export default function AppRoutes() {
                     {/* 동아리 어드민 홈*/}
                     <Route index element={<AdminClubPage />} />
 
-                    {/* 동아리 활동 로그 */}
-                    <Route
-                        path="/admin/club/:id/activity"
-                        element={<AdminActivityLogPage />}
-                    />
                     {/* 동아리 상세 페이지  */}
                     <Route
                         path="/admin/club/:id"
@@ -113,35 +108,36 @@ export default function AppRoutes() {
 
                 {/* 총동연 어드민 */}
                 {/* 총동연, 서비스 관리자 접근 가능 */}
-                <Route path="/admin/union" element={<UnionAdminGuard />}>
-                    {/* 총동연 어드민 홈*/}
-                    <Route path="/admin/union" element={<AdminUnionPage />} />
+                {/* <Route path="/admin/union" element={<UnionAdminGuard />}> */}
+                {/* 총동연 어드민 홈*/}
+                {/* <Route path="/admin/union" element={<AdminUnionPage />} /> */}
 
-                    {/* 총동연 어드민 공지 */}
-                    <Route
+                {/* 총동연 어드민 공지 */}
+                {/* <Route
                         path="/admin/union/notice"
                         element={<AdminUnionNoticePage />}
-                    />
+                    /> */}
 
-                    {/* 총동연 어드민 공지 등록 */}
-                    <Route
+                {/* 총동연 어드민 공지 등록 */}
+                {/* <Route
                         path="/admin/union/notice/register"
                         element={<AdminUnionNoticeRegisterPage />}
-                    />
+                    /> */}
 
-                    {/* 총동연 어드민 공지 수정 및 삭제 */}
-                    <Route
+                {/* 총동연 어드민 공지 수정 및 삭제 */}
+                {/* <Route
                         path="/admin/union/notice/:id/register"
                         element={<AdminUnionNoticeEditPage />}
-                    />
+                    /> */}
 
-                    {/* 총동연 자료 등록  */}
-                    <Route
+                {/* 총동연 자료 등록  */}
+                {/* <Route
                         path="/admin/union/resources"
                         element={<AdminResourcesRegisterPage mode="manage" />}
                     />
-                </Route>
+                </Route> */}
             </Route>
+            <Route path="/splash" element={<SplashScreen />} />
 
             {/* 404 Not Found Page */}
             <Route path="*" element={<ErrorPage />} />

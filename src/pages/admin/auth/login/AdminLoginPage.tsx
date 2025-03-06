@@ -1,15 +1,15 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import { InputField, TopNavigator } from '@/components/Common';
+import { InputField } from '@/components/Common';
 import Button from '@/components/Common/Button';
-import { loginNavigations } from '@/constants';
+// import { loginNavigations } from '@/constants';
 import useAdminLogin from '@/hooks/auth/useAdminLogin';
 
 const AdminLoginPage = () => {
-    const [navStatus, setNavStatus] = useState<number>(1);
+    // const [navStatus, setNavStatus] = useState<number>(1);
     const [code, setCode] = useState<string>('');
-    const { isValidate, setIsValidate, handleLogin } = useAdminLogin();
+    const { isValidate, handleLogin } = useAdminLogin();
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setCode(e.target.value);
@@ -18,35 +18,35 @@ const AdminLoginPage = () => {
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         setCode('');
-        handleLogin(navStatus, code);
+        handleLogin(code);
     };
 
     // 동아리 <-> 총동연 로그인 변경 시 인증 상태 초기화
-    useEffect(() => {
-        setIsValidate(true);
-    }, [navStatus]);
+    // useEffect(() => {
+    //     setIsValidate(true);
+    // }, [navStatus]);
 
     return (
         <Container>
-            <TopNavigator
+            {/* <TopNavigator
                 navStatus={navStatus}
                 navList={loginNavigations}
                 onClick={(id: number) => setNavStatus(id)}
-            />
+            /> */}
             <LoginContainer>
                 <h2>
-                    {navStatus === 1
-                        ? '동아리 대표이신가요?'
-                        : '총동연 관리자이신가요?'}
+                    {/* {navStatus === 1 */}
+                    동아리 대표이신가요?
+                    {/* : '총동연 관리자이신가요?'} */}
                 </h2>
                 <Form onSubmit={handleSubmit}>
                     <InputField
                         value={code}
                         onChange={handleChange}
                         placeholder={
-                            navStatus === 1
-                                ? '부여받은 동아리 코드를 입력해 주세요.'
-                                : '부여받은 코드를 입력해 주세요.'
+                            // navStatus === 1
+                            '부여받은 동아리 코드를 입력해 주세요.'
+                            // : '부여받은 코드를 입력해 주세요.'
                         }
                         inputSize="large"
                         backgroundColor="white"
@@ -60,11 +60,9 @@ const AdminLoginPage = () => {
                     </ErrorText>
                 </Form>
 
-                {navStatus === 1 && (
-                    <Link to="/admin/club/register">
-                        <RegisterButton>동아리 등록하기</RegisterButton>
-                    </Link>
-                )}
+                <Link to="/admin/club/register">
+                    <RegisterButton>동아리 등록하기</RegisterButton>
+                </Link>
             </LoginContainer>
         </Container>
     );
