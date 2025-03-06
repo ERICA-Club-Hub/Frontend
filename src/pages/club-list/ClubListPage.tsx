@@ -6,90 +6,91 @@ import SortingDropdown from '@/components/Common/SortingDropdown';
 import { apiRequest } from '@/api/apiRequest';
 import ErrorIcon from '@/assets/common/error-icon.svg?react';
 import { getCategoryEmoji } from '@/utils/getCategoryEmoji';
+import mainBannerImg from '@/assets/images/main-banner.svg';
 
-const AnnouncementContainer = styled.div`
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 25vh;
-    gap: 10px;
-    overflow: hidden;
-    position: relative;
-`;
+// const AnnouncementContainer = styled.div`
+//     display: flex;
+//     justify-content: center;
+//     align-items: center;
+//     height: 25vh;
+//     gap: 10px;
+//     overflow: hidden;
+//     position: relative;
+// `;
 
-const MainAnnouncement = styled.button<{ $imageUrl: string }>`
-    position: relative;
-    width: 200px;
-    height: 200px;
-    flex-shrink: 0;
-    border-radius: 10px;
-    background: ${(props) => `url(${props.$imageUrl})`} lightgray 50% / cover
-        no-repeat;
-    border: none;
-    cursor: pointer;
-`;
+// const MainAnnouncement = styled.button<{ $imageUrl: string }>`
+//     position: relative;
+//     width: 200px;
+//     height: 200px;
+//     flex-shrink: 0;
+//     border-radius: 10px;
+//     background: ${(props) => `url(${props.$imageUrl})`} lightgray 50% / cover
+//         no-repeat;
+//     border: none;
+//     cursor: pointer;
+// `;
 
-const StatusIndicator = styled.div`
-    position: absolute;
-    bottom: -20px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 42px;
-    height: 8px;
-    flex-shrink: 0;
-    background: white;
-    border-radius: 4px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 3px;
-`;
+// const StatusIndicator = styled.div`
+//     position: absolute;
+//     bottom: -20px;
+//     left: 50%;
+//     transform: translateX(-50%);
+//     width: 42px;
+//     height: 8px;
+//     flex-shrink: 0;
+//     background: white;
+//     border-radius: 4px;
+//     display: flex;
+//     align-items: center;
+//     justify-content: center;
+//     gap: 3px;
+// `;
 
-const StatusDot = styled.div<{ $active: boolean }>`
-    width: ${(props) => (props.$active ? '10px' : '4px')};
-    height: 4px;
-    border-radius: 2px;
-    background-color: ${(props) => (props.$active ? '#33639C' : '#DAEBFF')};
-    transition: all 0.3s ease;
-`;
+// const StatusDot = styled.div<{ $active: boolean }>`
+//     width: ${(props) => (props.$active ? '10px' : '4px')};
+//     height: 4px;
+//     border-radius: 2px;
+//     background-color: ${(props) => (props.$active ? '#33639C' : '#DAEBFF')};
+//     transition: all 0.3s ease;
+// `;
 
-const SubAnnouncement = styled.button<{ $imageUrl: string }>`
-    width: 200px;
-    height: 200px;
-    flex-shrink: 0;
-    border-radius: 10px;
-    background: ${(
-            props,
-        ) => `linear-gradient(0deg, rgba(0, 0, 0, 0.40) 0%, rgba(0, 0, 0, 0.40) 100%), 
-                url(${props.$imageUrl})`}
-        lightgray 50% / cover no-repeat;
-    border: none;
-    cursor: pointer;
-`;
+// const SubAnnouncement = styled.button<{ $imageUrl: string }>`
+//     width: 200px;
+//     height: 200px;
+//     flex-shrink: 0;
+//     border-radius: 10px;
+//     background: ${(
+//             props,
+//         ) => `linear-gradient(0deg, rgba(0, 0, 0, 0.40) 0%, rgba(0, 0, 0, 0.40) 100%),
+//                 url(${props.$imageUrl})`}
+//         lightgray 50% / cover no-repeat;
+//     border: none;
+//     cursor: pointer;
+// `;
 
-const ArrowButton = styled.button`
-    width: 22px;
-    height: 22px;
-    flex-shrink: 0;
-    border: none;
-    background: none;
-    cursor: pointer;
-    padding: 0;
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    z-index: 1;
+// const ArrowButton = styled.button`
+//     width: 22px;
+//     height: 22px;
+//     flex-shrink: 0;
+//     border: none;
+//     background: none;
+//     cursor: pointer;
+//     padding: 0;
+//     position: absolute;
+//     top: 50%;
+//     transform: translateY(-50%);
+//     z-index: 1;
 
-    &:first-child {
-        left: 50%;
-        transform: translateX(-150px) translateY(-50%);
-    }
+//     &:first-child {
+//         left: 50%;
+//         transform: translateX(-150px) translateY(-50%);
+//     }
 
-    &:last-child {
-        right: 50%;
-        transform: translateX(150px) translateY(-50%);
-    }
-`;
+//     &:last-child {
+//         right: 50%;
+//         transform: translateX(150px) translateY(-50%);
+//     }
+// `;
 
 const ClubSearchContainer = styled.div`
     display: flex;
@@ -154,6 +155,12 @@ const NoResultContainer = styled.div`
     }
 `;
 
+const MainBannerImage = styled.img`
+    width: 100%;
+    height: 208px;
+    object-fit: cover;
+`;
+
 // 타입 정의 부분에 TagType 추가
 type TagType = '동아리 및 질문' | '모집중' | '모집마감' | '모집예정';
 
@@ -195,7 +202,10 @@ interface Announcement {
 const ClubListPage = () => {
     // 공지사항 상태 관리
     const [announcements, setAnnouncements] = useState<Announcement[]>([]);
-    const [currentIndex, setCurrentIndex] = useState(0);
+    // const [currentIndex, setCurrentIndex] = useState(0);
+
+    // 빌드 오류 방지 콘솔
+    console.log(announcements);
 
     // 각각의 드롭다운을 위한 별도의 상태 관리
     const [categoryFilter, setCategoryFilter] = useState<string>('none'); // 분과 필터 상태
@@ -230,35 +240,35 @@ const ClubListPage = () => {
     }, []);
 
     // 이전 이미지 버튼 클릭 시 실행되는 함수
-    const handlePrev = () => {
-        setCurrentIndex((prev) =>
-            prev === 0 ? announcements.length - 1 : prev - 1,
-        );
-    };
+    // const handlePrev = () => {
+    //     setCurrentIndex((prev) =>
+    //         prev === 0 ? announcements.length - 1 : prev - 1,
+    //     );
+    // };
 
     // 다음 이미지 버튼 클릭 시 실행되는 함수
-    const handleNext = () => {
-        setCurrentIndex((prev) =>
-            prev === announcements.length - 1 ? 0 : prev + 1,
-        );
-    };
+    // const handleNext = () => {
+    //     setCurrentIndex((prev) =>
+    //         prev === announcements.length - 1 ? 0 : prev + 1,
+    //     );
+    // };
 
     // 현재 표시할 이미지 아이템 배열 반환
-    const getDisplayItems = () => {
-        const prevIndex =
-            currentIndex === 0 ? announcements.length - 1 : currentIndex - 1;
-        const nextIndex =
-            currentIndex === announcements.length - 1 ? 0 : currentIndex + 1;
+    // const getDisplayItems = () => {
+    //     const prevIndex =
+    //         currentIndex === 0 ? announcements.length - 1 : currentIndex - 1;
+    //     const nextIndex =
+    //         currentIndex === announcements.length - 1 ? 0 : currentIndex + 1;
 
-        return [
-            announcements[prevIndex],
-            announcements[currentIndex],
-            announcements[nextIndex],
-        ];
-    };
+    //     return [
+    //         announcements[prevIndex],
+    //         announcements[currentIndex],
+    //         announcements[nextIndex],
+    //     ];
+    // };
 
     // 현재 표시할 이미지 아이템 배열 반환
-    const displayItems = getDisplayItems();
+    // const displayItems = getDisplayItems();
 
     // useCallback을 사용하여 fetchClubs 함수를 메모이제이션
     const fetchClubs = useCallback(async () => {
@@ -388,7 +398,7 @@ const ClubListPage = () => {
 
     return (
         <div>
-            <AnnouncementContainer>
+            {/* <AnnouncementContainer>
                 {announcements.length > 0 && (
                     <>
                         <ArrowButton onClick={handlePrev}>
@@ -435,8 +445,14 @@ const ClubListPage = () => {
                         </ArrowButton>
                     </>
                 )}
-            </AnnouncementContainer>
-
+            </AnnouncementContainer> */}
+            <div
+                onClick={() =>
+                    (window.location.href = 'https://www.naver.com/')
+                }
+            >
+                <MainBannerImage src={mainBannerImg} />
+            </div>
             <ClubSearchContainer>
                 <SearchInputWrapper>
                     <InputField
