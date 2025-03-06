@@ -27,7 +27,6 @@ import ClubAdminGurad from './ClubAdminGurad';
 // import AdminUnionNoticeEditPage from '@/pages/admin/union/notice/AdminUnionNoticeEditPage';
 // import { AdminUnionNoticeRegisterPage } from '@/pages/admin/union/notice/AdminUnionNoticeRegisterPage';
 import CompleteClubRegisterPage from '@/pages/admin/auth/register/CompleteClubRegisterPage';
-import SplashScreen from '@/pages/splash/SplashScreen';
 
 export default function AppRoutes() {
     return (
@@ -137,7 +136,6 @@ export default function AppRoutes() {
                     />
                 </Route> */}
             </Route>
-            <Route path="/splash" element={<SplashScreen />} />
 
             {/* 404 Not Found Page */}
             <Route path="*" element={<ErrorPage />} />
