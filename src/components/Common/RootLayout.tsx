@@ -19,7 +19,5 @@ const Container = styled.main`
     min-height: 100vh;
     padding-top: 55px;
     margin: 0 auto;
-    border-left: 1px solid ${(props) => props.theme.colors.lightGray};
-    border-right: 1px solid ${(props) => props.theme.colors.lightGray};
     background-color: ${(props) => props.theme.colors.bgLightGray};
 `;
