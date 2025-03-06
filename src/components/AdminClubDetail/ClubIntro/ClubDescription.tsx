@@ -1,57 +1,22 @@
-import { apiRequest } from '@/api/apiRequest';
 import { TextArea } from '@/components/Common/TextArea';
 import { clubIntroList } from '@/constants/club-detail-register';
 import useBulletPointConverter from '@/hooks/actions/useBulletPointConverter';
 import useClubIntroContext from '@/hooks/contexts/useClubIntroContext';
+import useAdminClubQueries from '@/hooks/queries/useAdminClubQueries';
 import { clubIdSelector } from '@/store/clubInfoState';
 import { Label, SectionWrapper } from '@/styles/admin-club-detail/style';
 import { IClubIntroValue } from '@/types';
 import { inputChangeHandler } from '@/utils/inputChangeHandler';
-import { useQuery } from '@tanstack/react-query';
-import { useEffect } from 'react';
 import { useRecoilValue } from 'recoil';
 import styled from 'styled-components';
 
 function ClubDescription() {
     const clubId = useRecoilValue(clubIdSelector);
     const { inputValue, setInputValue } = useClubIntroContext();
-    const { isSuccess, data, isError } = useQuery({
-        queryKey: [clubId, 'clubDescription'],
-        queryFn: async () => {
-            return await apiRequest({
-                url: `/api/clubs/${clubId}/introduction`,
-                method: 'GET',
-                requireToken: true,
-            });
-        },
-        // 데이터 구조 변경
-        select: (data) => ({
-            introduction: data.result.introduction,
-            activity: data.result.activity,
-            recruitment: data.result.recruitment,
-        }),
-        staleTime: 5 * 60 * 1000, // 5분
-    });
 
-    // 무한 렌더링 노션 기록
-    // if (isSuccess) {
-    //     setInputValue({
-    //         introduction: data.result.introduction,
-    //         activity: data.result.activity,
-    //         recruitment: data.result.recruitment,
-    //     });
-    // }
-
-    useEffect(() => {
-        // 무한 렌더링 방지
-        if (isSuccess && data) {
-            setInputValue(data);
-        }
-
-        if (isError) {
-            console.error('동아리 소개글 불러오기 실패');
-        }
-    }, [isSuccess, data]);
+    // 데이터 fetch
+    const { useClubDescriptionQuery } = useAdminClubQueries();
+    useClubDescriptionQuery({ clubId, setInputValue });
 
     return (
         <ClubIntroFormContainer>

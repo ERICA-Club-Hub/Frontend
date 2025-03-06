@@ -23,8 +23,9 @@ interface IClubIntroValue {
 }
 
 interface IEventScheduleValue {
-    id?: number | null;
+    id?: number;
     scheduleId?: number | null;
+    isNewSchedule?: boolean;
     month: number;
     content: string;
 }

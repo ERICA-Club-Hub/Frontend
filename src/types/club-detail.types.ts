@@ -4,6 +4,10 @@ import { IClubIntroValue, IEventScheduleValue } from './input-value.types';
 interface IMonthlyEventSchedule {
     schedules: IEventScheduleValue[];
     setSchedules: React.Dispatch<React.SetStateAction<IEventScheduleValue[]>>;
+    postSchedules: IEventScheduleValue[];
+    setPostSchedules: React.Dispatch<
+        React.SetStateAction<IEventScheduleValue[]>
+    >;
 }
 
 // 동아리 소개글 작성 컴포넌트 props 타입

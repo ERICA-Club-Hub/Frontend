@@ -85,10 +85,10 @@ const useSaveSummaryInfoMutation = ({
 const useSaveClubIntroMutation = ({
     clubId,
     inputValue,
-    schedules,
+    postSchedules,
 }: {
     clubId: ClubIdType;
-    schedules: IEventScheduleValue[];
+    postSchedules: IEventScheduleValue[];
     inputValue: IClubIntroValue;
 }) =>
     useMutation({
@@ -103,7 +103,9 @@ const useSaveClubIntroMutation = ({
                 apiRequest({
                     url: `/api/clubs/club-admin/${clubId}/schedules`,
                     method: 'POST',
-                    data: schedules,
+                    data: {
+                        schedules: postSchedules,
+                    },
                     requireToken: true,
                 }),
             ]);
@@ -128,7 +130,7 @@ const useEventSchedulesQuery = ({
     setSchedules,
 }: {
     clubId: number | null;
-    setSchedules: React.Dispatch<React.SetStateAction<any[]>>;
+    setSchedules: React.Dispatch<React.SetStateAction<IEventScheduleValue[]>>;
 }) => {
     const { isSuccess, data, isError } = useQuery({
         queryKey: ['eventSchedules'],
@@ -147,10 +149,48 @@ const useEventSchedulesQuery = ({
     useEffect(() => {
         if (isSuccess && data.length > 0) {
             setSchedules(data);
+            console.log(data);
         }
 
         if (isError) {
             console.error('동아리 일정 불러오기 실패');
+        }
+    }, [isSuccess, data]);
+};
+
+// 동아리 소개글 정보 불러오기
+const useClubDescriptionQuery = ({
+    clubId,
+    setInputValue,
+}: {
+    clubId: number | null;
+    setInputValue: React.Dispatch<React.SetStateAction<IClubIntroValue>>;
+}) => {
+    const { isSuccess, data, isError } = useQuery({
+        queryKey: [clubId, 'clubDescription'],
+        queryFn: async () => {
+            return await apiRequest({
+                url: `/api/clubs/${clubId}/introduction`,
+                method: 'GET',
+                requireToken: true,
+            });
+        },
+        // 데이터 구조 변경
+        select: (data) => ({
+            introduction: data.result.introduction || '',
+            activity: data.result.activity || '',
+            recruitment: data.result.recruitment || '',
+        }),
+        staleTime: 5 * 60 * 1000, // 5분
+    });
+
+    useEffect(() => {
+        if (isSuccess && data) {
+            setInputValue(data);
+        }
+
+        if (isError) {
+            console.error('동아리 소개글 불러오기 실패');
         }
     }, [isSuccess, data]);
 };
@@ -228,6 +268,7 @@ function useAdminClubQueries() {
         useSaveSummaryInfoMutation,
         useSaveClubIntroMutation,
         useEventSchedulesQuery,
+        useClubDescriptionQuery,
         useRecruitNoticeQuery,
         useSaveRecruitNoticeMutation,
     };

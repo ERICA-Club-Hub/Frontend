@@ -83,8 +83,8 @@ const useEditClubRegisterMutation = ({
 }: {
     clubId: ClubIdType;
     formData: FormData;
-}) =>
-    useMutation({
+}) => {
+    const { isSuccess, mutate } = useMutation({
         mutationFn: async () => {
             return await apiRequest({
                 url: `/api/clubs/${clubId}/update`,
@@ -105,6 +105,8 @@ const useEditClubRegisterMutation = ({
             console.error('동아리 등록정보 저장 실패', error);
         },
     });
+    return { isSuccess, mutate };
+};
 
 function useClubRegisterQueries() {
     return {

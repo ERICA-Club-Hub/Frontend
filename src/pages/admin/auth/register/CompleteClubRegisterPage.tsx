@@ -1,19 +1,34 @@
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 import Button from '@/components/Common/Button';
+import { ErrorPage } from '@/pages/error/ErrorPage';
 
 export default function CompleteClubRegisterPage() {
+    const location = useLocation();
+    const mode = location.state?.mode;
+
     return (
-        <Container>
-            <Title>동아리 등록 요청이 완료되었습니다.</Title>
-            <GuideText>
-                동아리 등록 승인 결과는 대표자 이메일로 <br />
-                알려드리겠습니다.
-            </GuideText>
-            <Link to="/">
-                <Button size="large">홈으로 돌아가기</Button>
-            </Link>
-        </Container>
+        <>
+            {mode ? (
+                <Container>
+                    <Title>
+                        {mode === 'register'
+                            ? '동아리 등록 요청이 완료되었어요.'
+                            : '동아리 정보 수정 요청이 완료되었어요.'}
+                    </Title>
+                    <GuideText>
+                        {mode === 'register' ? '동아리 등록 승인' : ''} 결과는
+                        대표자 이메일로 {mode === 'register' ? <br /> : null}
+                        알려드릴게요.
+                    </GuideText>
+                    <Link to="/">
+                        <Button size="large">홈으로 돌아가기</Button>
+                    </Link>
+                </Container>
+            ) : (
+                <ErrorPage />
+            )}
+        </>
     );
 }
 

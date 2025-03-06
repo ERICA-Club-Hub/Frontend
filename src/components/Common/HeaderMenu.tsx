@@ -87,7 +87,7 @@ const Container = styled.header`
     width: 100%;
     min-width: 360px;
     max-width: 600px;
-    height: 55px;
+    min-height: 55px;
     padding: 0 20px;
 
     background-color: ${(prop) => prop.theme.colors.white};

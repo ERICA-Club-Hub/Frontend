@@ -13,6 +13,7 @@ import ClubImageUpload from './ClubImageUpload';
 import { ClubCategorySelection } from './ClubCategorySelection';
 import useClubRegisterQueries from '@/hooks/queries/useClubRegisterQueries';
 import { useNavigate } from 'react-router-dom';
+import { setDefaultImg } from '@/utils/setDefaultImg';
 
 function ClubRegisterForm({ editMode }: { editMode: boolean }) {
     const navigate = useNavigate();
@@ -26,8 +27,9 @@ function ClubRegisterForm({ editMode }: { editMode: boolean }) {
     });
     const [postImg, setPostImg] = useState<File | null>(null); // 요청 이미지
     const [previewImg, setPreviewImg] = useState<string | ArrayBuffer | null>(
-        '',
+        '/placeholder-image.svg',
     ); // 미리보기 이미지
+    setDefaultImg({ postImg, setPostImg }); // 기본 이미지 설정
 
     // 수정모드일 때 데이터 fetch
     const { useRegisterInfoQuery } = useClubRegisterQueries();
@@ -78,18 +80,27 @@ function ClubRegisterForm({ editMode }: { editMode: boolean }) {
 
     // 등록 성공 시, 등록 완료 페이지로 이동
     if (clubRegisterMutation.isSuccess) {
-        navigate('/admin/club/register/complete', { replace: true });
+        navigate('/admin/club/register/complete', {
+            state: { mode: 'register' },
+            replace: true,
+        });
+    } else if (editClubRegisterMutation.isSuccess) {
+        navigate('/admin/club/register/complete', {
+            state: { mode: 'edit' },
+            replace: true,
+        });
     }
 
     const isValid =
         inputValue.clubName.length > 0 &&
         inputValue.leaderEmail.length > 0 &&
         inputValue.category.length > 0 &&
+        postImg &&
         inputValue.oneLiner.length > 0 &&
         // 등록 모드일 때는 간단소개 포함 (예외 처리)
-        !editMode &&
-        inputValue.briefIntroduction &&
-        inputValue.briefIntroduction.length > 0;
+        (editMode ||
+            (inputValue.briefIntroduction &&
+                inputValue.briefIntroduction.length > 0));
 
     return (
         <Container>

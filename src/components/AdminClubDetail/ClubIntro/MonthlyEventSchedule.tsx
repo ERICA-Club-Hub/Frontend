@@ -17,7 +17,10 @@ function MonthlyEventSchedule() {
 
     // 월별 일정 추가
     const handleAddEventSchedule = () => {
-        setSchedules([...schedules, { month: 1, content: '' }]);
+        setSchedules([
+            ...schedules,
+            { month: 1, content: '', isNewSchedule: true },
+        ]);
     };
 
     return (
@@ -26,11 +29,11 @@ function MonthlyEventSchedule() {
 
             <EventScheduleForm>
                 {/* 일정 컴포넌트 리스트 */}
-                {schedules.map((schedule, index) => (
+                {schedules.map((schedule, idx) => (
                     <EventSchedule
-                        key={`event-schedule-${index}`}
+                        key={`event-schedule-${idx}`}
                         schedule={schedule}
-                        index={index}
+                        index={idx} // 내부적으로 일정 구분을 위해 사용하는 인덱스
                     />
                 ))}
 
