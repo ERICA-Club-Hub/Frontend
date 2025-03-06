@@ -1,1 +1,1 @@
-// central export file
+export * from './uploadImageWithPreview';

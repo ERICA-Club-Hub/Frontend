@@ -2,16 +2,16 @@
 
 ```bash
 # Install package
-npm install
+yarn install
 
 # Run dev server
-npm run dev
+yarn dev
 
 # Build project
-npm build
+yarn build
 
 ## Run Production Preview
-npm run preview
+yarn preview
 ```
 
 <br> <br>
@@ -57,6 +57,8 @@ src/
 │   └── index // 공통 import 관리 파일
 │       ...
 ├── store // 전역 상태 관리
+├── styles // 공통 스타일 관리
+│   └── admin-club-detail/style.ts
 ├── types // 공유 타입 관리
 ├── utils // 각종 유틸 함수 관리
 ├── App.tsx // 페이지별 routing

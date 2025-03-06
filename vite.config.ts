@@ -6,6 +6,10 @@ import svgr from 'vite-plugin-svgr';
 
 // https://vitejs.dev/config/
 export default defineConfig({
+    // 시스템 기본 브라우저 설정에 따라 오픈 (ex. Chrome)
+    server: {
+        open: true,
+    },
     plugins: [
         react(),
         svgr(),
@@ -17,28 +21,48 @@ export default defineConfig({
                 'mask-icon.svg',
             ],
             manifest: {
-                name: 'Vite PWA Project',
-                short_name: 'Vite PWA Project',
+                name: '한자리',
+                short_name: '한자리',
                 theme_color: '#ffffff',
                 icons: [
                     {
-                        src: 'pwa-64x64.png',
-                        sizes: '64x64',
+                        src: 'maskable_icon_x48.png',
+                        sizes: '48x48',
                         type: 'image/png',
+                        purpose: 'maskable',
                     },
                     {
-                        src: 'pwa-192x192.png',
+                        src: 'maskable_icon_x72.png',
+                        sizes: '72x72',
+                        type: 'image/png',
+                        purpose: 'maskable',
+                    },
+                    {
+                        src: 'maskable_icon_x96.png',
+                        sizes: '96x96',
+                        type: 'image/png',
+                        purpose: 'maskable',
+                    },
+                    {
+                        src: 'maskable_icon_x128.png',
+                        sizes: '128x128',
+                        type: 'image/png',
+                        purpose: 'maskable',
+                    },
+                    {
+                        src: 'maskable_icon_x192.png',
                         sizes: '192x192',
                         type: 'image/png',
+                        purpose: 'maskable',
                     },
                     {
-                        src: 'pwa-512x512.png',
-                        sizes: '512x512',
+                        src: 'maskable_icon_x384.png',
+                        sizes: '384x384',
                         type: 'image/png',
-                        purpose: 'any',
+                        purpose: 'maskable',
                     },
                     {
-                        src: 'maskable-icon-512x512.png',
+                        src: 'maskable_icon_x512.png',
                         sizes: '512x512',
                         type: 'image/png',
                         purpose: 'maskable',
