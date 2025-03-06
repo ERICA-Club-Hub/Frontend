@@ -42,11 +42,7 @@ function SummaryInfoPage() {
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
-        try {
-            saveSummaryInfoMutation.mutate(); // 데이터 저장
-        } catch (err) {
-            console.error('저장 실패', err);
-        }
+        saveSummaryInfoMutation.mutate(); // 데이터 저장
     };
 
     const isValid =

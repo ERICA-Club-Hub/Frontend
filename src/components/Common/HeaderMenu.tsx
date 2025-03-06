@@ -1,6 +1,6 @@
 import { useRef } from 'react';
 import styled from 'styled-components';
-import HeaderMenuLogo from '@/assets/common/header-menu.svg?react';
+import HeaderMenuIcon from '@/assets/common/header-menu.svg?react';
 import HomeIcon from '@/assets/common/home-icon.svg?react';
 import ClosedBtn from '@/assets/common/closed-btn.svg?react';
 import NavigateArrow from '@/assets/common/navigate-arrow.svg?react';
@@ -12,6 +12,8 @@ import { useClickOutside } from '@/hooks/actions/useClickOutside';
 import useToggle from '@/hooks/actions/useToggle';
 import { filterHeaderMenus } from '@/utils/filterHeaderMenus';
 import { useAuthToggle } from '@/hooks/auth/useAuthToggle';
+import Logo from '@/assets/common/header-logo.svg?react';
+import LogoText from '@/assets/common/hanjari.svg?react';
 
 const HeaderMenu = () => {
     const dropdownRef = useRef<HTMLDivElement>(null);
@@ -25,7 +27,10 @@ const HeaderMenu = () => {
     return (
         <>
             <Container>
-                <div>로고</div>
+                <LogoWrapper>
+                    <Logo />
+                    <LogoText />
+                </LogoWrapper>
                 {isOpen ? (
                     <ClosedBtn width="24" height="24" onClick={toggle} />
                 ) : (
@@ -33,7 +38,9 @@ const HeaderMenu = () => {
                         <Link to="/">
                             <HomeIcon />
                         </Link>
-                        <HeaderMenuLogo onClick={toggle} />
+                        <HeaderMenuIconWrapper>
+                            <HeaderMenuIcon onClick={toggle} />
+                        </HeaderMenuIconWrapper>
                     </IconWrapper>
                 )}
 
@@ -80,7 +87,7 @@ const Container = styled.header`
     width: 100%;
     min-width: 360px;
     max-width: 600px;
-    height: 55px;
+    min-height: 55px;
     padding: 0 20px;
 
     background-color: ${(prop) => prop.theme.colors.white};
@@ -88,11 +95,21 @@ const Container = styled.header`
     z-index: 100;
 `;
 
+const LogoWrapper = styled.div`
+    display: flex;
+    align-items: center;
+    gap: 7px;
+`;
+
 const IconWrapper = styled.div`
     display: flex;
     align-items: center;
     gap: 10px;
+`;
+
+const HeaderMenuIconWrapper = styled.div`
     cursor: pointer;
+    padding-top: 1px; // 홈 아이콘이랑 수평 맞추기 위한 padding
 `;
 
 const DropdownNavigator = styled.div<{ $isOpen: boolean }>`

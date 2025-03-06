@@ -12,10 +12,12 @@ import { clubIdSelector } from '@/store/clubInfoState';
 import ClubImageUpload from './ClubImageUpload';
 import { ClubCategorySelection } from './ClubCategorySelection';
 import useClubRegisterQueries from '@/hooks/queries/useClubRegisterQueries';
+import { useNavigate } from 'react-router-dom';
+import { setDefaultImg } from '@/utils/setDefaultImg';
 
 function ClubRegisterForm({ editMode }: { editMode: boolean }) {
+    const navigate = useNavigate();
     const clubId = useRecoilValue(clubIdSelector);
-    console.log(clubId);
     const [inputValue, setInputValue] = useState<IClubRegisterValue>({
         clubName: '',
         leaderEmail: '',
@@ -25,10 +27,11 @@ function ClubRegisterForm({ editMode }: { editMode: boolean }) {
     });
     const [postImg, setPostImg] = useState<File | null>(null); // 요청 이미지
     const [previewImg, setPreviewImg] = useState<string | ArrayBuffer | null>(
-        '',
+        '/placeholder-image.svg',
     ); // 미리보기 이미지
+    setDefaultImg({ postImg, setPostImg }); // 기본 이미지 설정
 
-    // 데이터 fetch
+    // 수정모드일 때 데이터 fetch
     const { useRegisterInfoQuery } = useClubRegisterQueries();
     useRegisterInfoQuery({
         clubId,
@@ -54,12 +57,14 @@ function ClubRegisterForm({ editMode }: { editMode: boolean }) {
         formData.append('image', postImg);
     }
 
-    // 등록 정보 수정 mutation 호출
-    const { useEditClubRegisterMutation } = useClubRegisterQueries();
+    // 등록 정보 생성 및 수정 mutation 호출
+    const { useClubRegisterMutation, useEditClubRegisterMutation } =
+        useClubRegisterQueries();
     const editClubRegisterMutation = useEditClubRegisterMutation({
         clubId,
         formData,
     });
+    const clubRegisterMutation = useClubRegisterMutation({ formData });
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -67,19 +72,35 @@ function ClubRegisterForm({ editMode }: { editMode: boolean }) {
         // 수정모드일 때
         if (editMode) {
             editClubRegisterMutation.mutate(); // 등록 정보 수정하기
-        } else {
+        } else if (!editMode) {
             // 등록모드일 때
+            clubRegisterMutation.mutate();
         }
     };
 
+    // 등록 성공 시, 등록 완료 페이지로 이동
+    if (clubRegisterMutation.isSuccess) {
+        navigate('/admin/club/register/complete', {
+            state: { mode: 'register' },
+            replace: true,
+        });
+    } else if (editClubRegisterMutation.isSuccess) {
+        navigate('/admin/club/register/complete', {
+            state: { mode: 'edit' },
+            replace: true,
+        });
+    }
+
     const isValid =
-        (inputValue.clubName.length > 0 &&
-            inputValue.leaderEmail.length > 0 &&
-            inputValue.category.length > 0 &&
-            inputValue.oneLiner.length > 0) ||
-        (!editMode &&
-            inputValue.briefIntroduction &&
-            inputValue.briefIntroduction.length > 0);
+        inputValue.clubName.length > 0 &&
+        inputValue.leaderEmail.length > 0 &&
+        inputValue.category.length > 0 &&
+        postImg &&
+        inputValue.oneLiner.length > 0 &&
+        // 등록 모드일 때는 간단소개 포함 (예외 처리)
+        (editMode ||
+            (inputValue.briefIntroduction &&
+                inputValue.briefIntroduction.length > 0));
 
     return (
         <Container>

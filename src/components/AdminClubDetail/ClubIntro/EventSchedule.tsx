@@ -5,6 +5,7 @@ import { months } from '@/constants/club-detail-register';
 import useClubIntroContext from '@/hooks/contexts/useClubIntroContext';
 import { IEventScheduleValue } from '@/types';
 import { Dropdown, InputField } from '@/components/Common';
+import { useEffect } from 'react';
 
 function EventSchedule({
     schedule,
@@ -14,7 +15,7 @@ function EventSchedule({
     index: number;
 }) {
     const { isOpen, setIsOpen, toggle } = useToggle();
-    const { setSchedules } = useClubIntroContext();
+    const { schedules, setSchedules, setPostSchedules } = useClubIntroContext();
 
     // 월 선택
     const handleMonthValue = (month: string) => {
@@ -29,6 +30,7 @@ function EventSchedule({
 
             return updatedSchedules;
         });
+
         toggle();
     };
 
@@ -45,6 +47,30 @@ function EventSchedule({
             return updatedSchedules;
         });
     };
+
+    // 추가된 일정과, 수정된 일정을 필터링하여 postSchedules에 추가
+    useEffect(() => {
+        setPostSchedules(() => {
+            // isNewSchedule인 일정은 새로 추가된 일정으로 판단
+            const newSchedules = schedules
+                .filter((schedule) => schedule.isNewSchedule)
+                .map((schedule) => ({
+                    // isNewSchedule 제외
+                    month: schedule.month,
+                    content: schedule.content,
+                }));
+
+            // isNewSchedule이 아닌 일정은 수정된 일정으로 판단
+            const updatedSchedules = schedules
+                .filter((schedule) => !schedule.isNewSchedule)
+                .map((schedule) => ({
+                    ...schedule,
+                    scheduleId: schedule.id, // scheduleId 추가
+                }));
+
+            return [...newSchedules, ...updatedSchedules];
+        });
+    }, [schedules]);
 
     return (
         <Container>
