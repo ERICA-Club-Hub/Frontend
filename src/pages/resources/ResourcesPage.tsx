@@ -1,7 +1,7 @@
-import Card from '../../components/Common/Card';
+import Card from '@/components/Common/Card';
 import styled from 'styled-components';
 import { useState, useEffect } from 'react';
-import downloadIcon from '../../assets/common/card_download.svg';
+import downloadIcon from '@/assets/common/card_download.svg';
 import { apiRequest } from '@/api/apiRequest';
 
 const PageContainer = styled.div`
