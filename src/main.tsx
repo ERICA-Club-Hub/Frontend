@@ -7,6 +7,7 @@ import { RecoilRoot } from 'recoil';
 import { QueryClientProvider } from '@tanstack/react-query';
 import { queryClient } from './config/queryClient.ts';
 import { theme } from './config/theme.ts';
+import Toast from './components/Common/Toast.tsx';
 
 createRoot(document.getElementById('root')!).render(
     <StrictMode>
@@ -14,6 +15,7 @@ createRoot(document.getElementById('root')!).render(
             <RecoilRoot>
                 <ThemeProvider theme={theme}>
                     <App />
+                    <Toast />
                 </ThemeProvider>
             </RecoilRoot>
         </QueryClientProvider>
