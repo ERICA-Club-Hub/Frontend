@@ -1,7 +1,7 @@
-import Card from '../../components/Common/Card';
+import Card from '@/components/Common/Card';
 import styled from 'styled-components';
 import { useState, useEffect } from 'react';
-import { apiRequest } from '../../api/apiRequest';
+import { apiRequest } from '@/api/apiRequest';
 
 const PageContainer = styled.div`
     display: flex;
