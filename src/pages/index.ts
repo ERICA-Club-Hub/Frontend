@@ -4,11 +4,13 @@ export * from './admin/auth/register/ClubRegisterPage';
 export * from './admin/auth/register/EditClubRegisterPage';
 
 export * from './admin/club/main/AdminClubPage';
-export * from './admin/club/activity/AdminActivityLogPage';
 export * from './admin/club/detail/AdminClubDetailPage';
 export * from './admin/club/detail/section/ClubIntroPage';
 export * from './admin/club/detail/section/RecruitNoticePage';
 export * from './admin/club/detail/section/SummaryInfoPage';
+export * from './admin/club/activity/AdminActivitiesFeedPage';
+export * from './admin/club/activity/RegisterAdminActivityLogPage';
+export * from './admin/club/activity/EditAdminActivityLogPage';
 
 export * from './admin/union/main/AdminUnionPage';
 export * from './admin/union/notice/AdminUnionNoticePage';

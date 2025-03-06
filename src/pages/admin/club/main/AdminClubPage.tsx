@@ -19,7 +19,10 @@ const AdminClubPage = () => {
                     >
                         동아리 상세페이지 설정하기
                     </ArrowLinkButton>
-                    <ArrowLinkButton size="large" url="/admin/club/activity">
+                    <ArrowLinkButton
+                        size="large"
+                        url={`/admin/club/${clubId}/activities`}
+                    >
                         활동로그 작성하기
                     </ArrowLinkButton>
                     <ArrowLinkButton

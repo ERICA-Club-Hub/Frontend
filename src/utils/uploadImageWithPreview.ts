@@ -2,7 +2,7 @@ import { SetPreviewImgType } from '@/types';
 
 const uploadImageWithPreview = (
     e: React.ChangeEvent<HTMLInputElement>,
-    setPostImg: React.Dispatch<React.SetStateAction<File | null>>,
+    setPostImg: React.Dispatch<React.SetStateAction<File | File[] | null>>,
     setPreviewImg: SetPreviewImgType,
 ) => {
     const { files } = e.target;

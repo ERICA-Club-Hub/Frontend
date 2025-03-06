@@ -6,9 +6,10 @@ import Button from '@/components/Common/Button';
 import useUnionQueries from '@/hooks/queries/useUnionQueries';
 import { IUnionNoticeValue } from '@/types';
 import { inputChangeHandler } from '@/utils/inputChangeHandler';
-import { ThumbnailImageUpload } from '@/components/UnionNotice/ThumbnailImageUpload';
 import useToggle from '@/hooks/actions/useToggle';
 import ActionModal from '../Common/Modal/ActionModal';
+import { ThumbnailImage } from '../Common/ThumbnailImage/ThumbnailImage';
+import { ButtonWrapper } from '@/styles/button';
 
 function UnionNoticeRegisterForm({ mode }: { mode: string }) {
     const navigate = useNavigate();
@@ -124,13 +125,15 @@ function UnionNoticeRegisterForm({ mode }: { mode: string }) {
                         </span>
                     </div>
 
-                    <ThumbnailImageUpload
-                        setPostImg={setPostImg}
-                        previewImg={previewImg}
-                        setPreviewImg={setPreviewImg}
-                        mode={mode}
-                        isEditBtnClicked={isEditBtnClicked}
-                    />
+                    <ThumbnailImageWrapper>
+                        <ThumbnailImage
+                            setPostImg={setPostImg}
+                            previewImg={previewImg}
+                            setPreviewImg={setPreviewImg}
+                            mode={mode}
+                            isEditBtnClicked={isEditBtnClicked}
+                        />
+                    </ThumbnailImageWrapper>
                 </Wrapper>
 
                 {/* SNS 링크 입력 */}
@@ -246,10 +249,8 @@ const Title = styled.h2`
     color: ${({ theme }) => theme.colors.mainBlack};
 `;
 
-const ButtonWrapper = styled.div`
-    width: 320px;
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
-    gap: 5px;
+const ThumbnailImageWrapper = styled.div`
+    width: 140px;
+    height: 140px;
+    cursor: pointer;
 `;

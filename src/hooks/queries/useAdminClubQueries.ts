@@ -2,6 +2,7 @@ import { apiRequest } from '@/api/apiRequest';
 import { queryClient } from '@/config/queryClient';
 import {
     ClubIdType,
+    IActivitiesLog,
     IClubIntroValue,
     IEventScheduleValue,
     IRecruitNoticeValue,
@@ -262,6 +263,68 @@ const useSaveRecruitNoticeMutation = ({
         },
     });
 
+// 전체 활동로그 불러오기
+const useActivitiesLogQuery = ({
+    clubId,
+    setActivitiesLog,
+}: {
+    clubId: number | null;
+    setActivitiesLog: React.Dispatch<React.SetStateAction<IActivitiesLog[]>>;
+}) => {
+    const { isSuccess, data, isError } = useQuery({
+        queryKey: ['activitesLog'],
+        queryFn: async () => {
+            return await apiRequest({
+                url: `/api/activities/club/${clubId}`,
+                method: 'GET',
+            });
+        },
+        select: (data) => data.result.activityThumbnailDTOList,
+        staleTime: 5 * 60 * 1000,
+    });
+
+    // 데이터 불러오기 성공 시, 모집안내 상태 업데이트
+    useEffect(() => {
+        if (isSuccess && data) {
+            setActivitiesLog(data);
+        }
+
+        if (isError) {
+            console.error('동아리 전체 활동로그 불러오기 실패');
+        }
+    }, [isSuccess, data]);
+};
+
+// 활동로그 생성
+const useCreateActivityLogMutation = ({
+    clubId,
+    formData,
+}: {
+    clubId: ClubIdType;
+    formData: FormData;
+}) =>
+    useMutation({
+        mutationFn: async () => {
+            return await apiRequest({
+                url: `/api/activities/club-admin/${clubId}`,
+                method: 'POST',
+                data: formData,
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                },
+                requireToken: true,
+            });
+        },
+        onSuccess: () => {
+            queryClient.invalidateQueries({
+                queryKey: ['activitesLog'],
+            });
+        },
+        onError: (error) => {
+            console.error('동아치 활동로그 생성 실패', error);
+        },
+    });
+
 function useAdminClubQueries() {
     return {
         useSummaryInfoQuery,
@@ -271,6 +334,8 @@ function useAdminClubQueries() {
         useClubDescriptionQuery,
         useRecruitNoticeQuery,
         useSaveRecruitNoticeMutation,
+        useActivitiesLogQuery,
+        useCreateActivityLogMutation,
     };
 }
 

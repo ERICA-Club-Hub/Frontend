@@ -41,6 +41,11 @@ interface IUnionNoticeValue {
     url: string;
 }
 
+interface IActivityLogValue {
+    content: string;
+    date: string;
+}
+
 export type {
     IClubRegisterValue,
     ISummaryInfoValue,
@@ -48,4 +53,5 @@ export type {
     IEventScheduleValue,
     IRecruitNoticeValue,
     IUnionNoticeValue,
+    IActivityLogValue,
 };

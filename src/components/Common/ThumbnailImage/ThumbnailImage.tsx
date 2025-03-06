@@ -1,8 +1,8 @@
 import { uploadImageWithPreview } from '@/utils';
 import styled from 'styled-components';
 
-interface IThumbnailImageUpload {
-    setPostImg: React.Dispatch<React.SetStateAction<File | null>>;
+interface IThumbnailImage {
+    setPostImg: React.Dispatch<React.SetStateAction<File | File[] | null>>;
     previewImg: string | ArrayBuffer | null;
     setPreviewImg: React.Dispatch<
         React.SetStateAction<string | ArrayBuffer | null>
@@ -11,13 +11,13 @@ interface IThumbnailImageUpload {
     isEditBtnClicked: boolean;
 }
 
-function ThumbnailImageUpload({
+function ThumbnailImage({
     setPostImg,
     previewImg,
     setPreviewImg,
     mode,
     isEditBtnClicked,
-}: IThumbnailImageUpload) {
+}: IThumbnailImage) {
     const handleImgUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
         uploadImageWithPreview(e, setPostImg, setPreviewImg);
     };
@@ -43,16 +43,16 @@ function ThumbnailImageUpload({
     );
 }
 
-export { ThumbnailImageUpload };
+export { ThumbnailImage };
 
 const ImageContainer = styled.div`
-    width: 140px;
-    height: 140px;
+    width: 100%;
+    height: 100%;
     display: flex;
 
     .image-preview-label {
-        width: 140px;
-        height: 140px;
+        width: 100%;
+        height: 100%;
         border-radius: 10px;
         background-color: ${({ theme }) => theme.colors.mediumGray};
         cursor: pointer;
@@ -66,6 +66,6 @@ const ImageContainer = styled.div`
 const ImagePreview = styled.img`
     width: 100%;
     height: 100%;
-    border-radius: 10px;
     object-fit: cover;
+    border-radius: 10px;
 `;
