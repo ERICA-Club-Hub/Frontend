@@ -12,11 +12,11 @@ const adminNavigationMenus = [
 ];
 
 const navigationMenus = [
-    {
-        title: '총동연 공지사항',
-        adminType: ['user'],
-        url: '/union/notice',
-    },
+    // {
+    //     title: '총동연 공지사항',
+    //     adminType: ['user'],
+    //     url: '/union/notice',
+    // },
     {
         title: '자료실',
         adminType: ['user'],
