@@ -46,10 +46,10 @@ const clubDetailRegisterNavigations = [
     { id: 3, nav: '모집안내' },
 ];
 
-const loginNavigations = [
-    { id: 1, nav: '동아리 대표 로그인' },
-    { id: 2, nav: '총동연 로그인' },
-];
+// const loginNavigations = [
+//     { id: 1, nav: '동아리 대표 로그인' },
+//     { id: 2, nav: '총동연 로그인' },
+// ];
 
 const clubCategory = [
     { label: '봉사분과', name: 'VOLUNTEER' },
@@ -65,6 +65,5 @@ export {
     navigationMenus,
     clubDetailNavigations,
     clubDetailRegisterNavigations,
-    loginNavigations,
     clubCategory,
 };
