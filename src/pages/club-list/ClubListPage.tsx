@@ -7,6 +7,9 @@ import { apiRequest } from '@/api/apiRequest';
 import ErrorIcon from '@/assets/common/error-icon.svg?react';
 import { getCategoryEmoji } from '@/utils/getCategoryEmoji';
 import mainBannerImg from '@/assets/images/main-banner.svg';
+// import MainPrevArrow from '@/assets/common/main_prev_arrow.svg?react';
+// import MainNextArrow from '@/assets/common/main_next_arrow.svg?react';
+// import ReadingGlassIcon from '@/assets/common/reading_glass.svg?react';
 
 // const AnnouncementContainer = styled.div`
 //     display: flex;
