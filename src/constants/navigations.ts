@@ -1,8 +1,8 @@
 const adminNavigationMenus = [
     {
         title: '어드민 페이지',
-        adminType: ['union', 'service'],
-        url: '/admin/union',
+        adminType: ['service'],
+        url: '/admin/club/register/manage',
     },
     {
         title: '어드민 페이지',

@@ -5,14 +5,14 @@ import { EventSchedule } from './EventSchedule';
 import useClubIntroContext from '@/hooks/contexts/useClubIntroContext';
 import { useRecoilValue } from 'recoil';
 import { clubIdSelector } from '@/store/clubInfoState';
-import useAdminClubQueries from '@/hooks/queries/useAdminClubQueries';
+import useClubAdminQueries from '@/hooks/queries/useClubAdminQueries';
 
 function MonthlyEventSchedule() {
     const clubId = useRecoilValue(clubIdSelector);
     const { schedules, setSchedules } = useClubIntroContext();
 
     // 월별 활동 일정 불러오기
-    const { useEventSchedulesQuery } = useAdminClubQueries();
+    const { useEventSchedulesQuery } = useClubAdminQueries();
     useEventSchedulesQuery({ clubId, setSchedules });
 
     // 월별 일정 추가

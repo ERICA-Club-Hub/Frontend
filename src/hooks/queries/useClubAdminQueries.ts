@@ -262,7 +262,7 @@ const useSaveRecruitNoticeMutation = ({
         },
     });
 
-function useAdminClubQueries() {
+function useClubAdminQueries() {
     return {
         useSummaryInfoQuery,
         useSaveSummaryInfoMutation,
@@ -274,4 +274,4 @@ function useAdminClubQueries() {
     };
 }
 
-export default useAdminClubQueries;
+export default useClubAdminQueries;
