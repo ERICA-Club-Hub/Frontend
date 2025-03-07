@@ -1,4 +1,4 @@
-import { toastState } from '@/recoil/toast';
+import { toastState } from '@/store/toast';
 import { useRecoilState } from 'recoil';
 
 export const useToast = () => {
@@ -11,14 +11,12 @@ export const useToast = () => {
 
             setTimeout(() => {
                 setToast({ on: true, message: message }); // 0.5초 뒤에 새로운 toast 생성
-                console.log('뜸');
                 setTimeout(() => {
                     setToast({ on: false, message: '' });
                 }, 2000); // 토스트는 2초 후에 사라지도록
             }, 500);
         } else {
             setToast({ on: true, message: message }); // 0.5초 뒤에 새로운 toast 생성
-            console.log('뜸');
             setTimeout(() => {
                 setToast({ on: false, message: '' });
             }, 2000);
