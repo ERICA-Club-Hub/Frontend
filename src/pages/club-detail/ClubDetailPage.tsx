@@ -71,6 +71,8 @@ const ClubDetailPage = () => {
     const [activeTab, setActiveTab] = useState<activeTab>('intro');
 
     useEffect(() => {
+        window.scrollTo(0, 0);
+
         const getClubDetail = async (id: string) => {
             const requestUrl =
                 nowUrl === 'club'
