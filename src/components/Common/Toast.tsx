@@ -2,6 +2,7 @@ import { toastState } from '@/store/toast';
 import { useEffect, useState } from 'react';
 import { useRecoilValue } from 'recoil';
 import styled, { keyframes } from 'styled-components';
+import Icon from '../../assets/common/warnIcon.svg';
 
 export default function Toast() {
     const toast = useRecoilValue(toastState);
@@ -28,7 +29,9 @@ export default function Toast() {
         return null;
     } else {
         return (
-            <ToastContainer $isVisible={animating}>
+            <ToastContainer $animating={animating}>
+                {toast.message && <img src={Icon} />}
+                {/* 메세지랑 아이콘이랑 사라지는 타이밍이 달라서 메세지 여부에 따라서 렌더링하도록 구현하엿슴다 */}
                 {toast.message}
             </ToastContainer>
         );
@@ -59,7 +62,7 @@ const fadeOut = keyframes`
   }
 `;
 
-const ToastContainer = styled.div<{ $isVisible: boolean }>`
+const ToastContainer = styled.div<{ $animating: boolean }>`
     display: flex;
     position: fixed;
     top: 45%;
@@ -76,10 +79,11 @@ const ToastContainer = styled.div<{ $isVisible: boolean }>`
     font-size: 14px;
     font-weight: 500;
     line-height: 1.3;
-    animation: ${(props) => (props.$isVisible ? fadeIn : fadeOut)} 0.3s
+    animation: ${(props) => (props.$animating ? fadeIn : fadeOut)} 0.3s
         ease-in-out forwards;
     align-items: center;
     justify-content: center;
     padding-left: 66px;
     padding-right: 66px;
+    gap: 13px;
 `;
