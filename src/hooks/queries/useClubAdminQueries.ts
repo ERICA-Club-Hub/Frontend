@@ -149,7 +149,6 @@ const useEventSchedulesQuery = ({
     useEffect(() => {
         if (isSuccess && data.length > 0) {
             setSchedules(data);
-            console.log(data);
         }
 
         if (isError) {
