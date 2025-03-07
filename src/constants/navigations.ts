@@ -1,8 +1,8 @@
 const adminNavigationMenus = [
     {
         title: '어드민 페이지',
-        adminType: ['union', 'service'],
-        url: '/admin/union',
+        adminType: ['service'],
+        url: '/admin/club/register/manage',
     },
     {
         title: '어드민 페이지',
@@ -12,11 +12,11 @@ const adminNavigationMenus = [
 ];
 
 const navigationMenus = [
-    {
-        title: '총동연 공지사항',
-        adminType: ['user'],
-        url: '/union/notice',
-    },
+    // {
+    //     title: '총동연 공지사항',
+    //     adminType: ['user'],
+    //     url: '/union/notice',
+    // },
     {
         title: '자료실',
         adminType: ['user'],
@@ -46,10 +46,10 @@ const clubDetailRegisterNavigations = [
     { id: 3, nav: '모집안내' },
 ];
 
-const loginNavigations = [
-    { id: 1, nav: '동아리 대표 로그인' },
-    { id: 2, nav: '총동연 로그인' },
-];
+// const loginNavigations = [
+//     { id: 1, nav: '동아리 대표 로그인' },
+//     { id: 2, nav: '총동연 로그인' },
+// ];
 
 const clubCategory = [
     { label: '봉사분과', name: 'VOLUNTEER' },
@@ -65,6 +65,6 @@ export {
     navigationMenus,
     clubDetailNavigations,
     clubDetailRegisterNavigations,
-    loginNavigations,
+    // loginNavigations,
     clubCategory,
 };
