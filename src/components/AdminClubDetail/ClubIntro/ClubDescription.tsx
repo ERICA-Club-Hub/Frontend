@@ -2,7 +2,7 @@ import { TextArea } from '@/components/Common/TextArea';
 import { clubIntroList } from '@/constants/club-detail-register';
 import useBulletPointConverter from '@/hooks/actions/useBulletPointConverter';
 import useClubIntroContext from '@/hooks/contexts/useClubIntroContext';
-import useAdminClubQueries from '@/hooks/queries/useAdminClubQueries';
+import useClubAdminQueries from '@/hooks/queries/useClubAdminQueries';
 import { clubIdSelector } from '@/store/clubInfoState';
 import { Label, SectionWrapper } from '@/styles/admin-club-detail/style';
 import { IClubIntroValue } from '@/types';
@@ -15,7 +15,7 @@ function ClubDescription() {
     const { inputValue, setInputValue } = useClubIntroContext();
 
     // 데이터 fetch
-    const { useClubDescriptionQuery } = useAdminClubQueries();
+    const { useClubDescriptionQuery } = useClubAdminQueries();
     useClubDescriptionQuery({ clubId, setInputValue });
 
     return (

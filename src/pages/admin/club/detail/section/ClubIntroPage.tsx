@@ -10,7 +10,7 @@ import {
     ClubDescription,
     MonthlyEventSchedule,
 } from '@/components/AdminClubDetail';
-import useAdminClubQueries from '@/hooks/queries/useAdminClubQueries';
+import useClubAdminQueries from '@/hooks/queries/useClubAdminQueries';
 
 function ClubIntroPage() {
     const clubId = useRecoilValue(clubIdSelector);
@@ -30,7 +30,7 @@ function ClubIntroPage() {
     });
 
     // 동아리 소개글 저장하기 mutation 호출
-    const { useSaveClubIntroMutation } = useAdminClubQueries();
+    const { useSaveClubIntroMutation } = useClubAdminQueries();
     const saveClubIntroMutation = useSaveClubIntroMutation({
         clubId,
         postSchedules,

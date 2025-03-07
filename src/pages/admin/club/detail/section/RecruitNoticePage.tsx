@@ -14,7 +14,7 @@ import { apiRequest } from '@/api/apiRequest';
 import { clubIdSelector } from '@/store/clubInfoState';
 import { IRecruitNoticeValue } from '@/types';
 import useBulletPointConverter from '@/hooks/actions/useBulletPointConverter';
-import useAdminClubQueries from '@/hooks/queries/useAdminClubQueries';
+import useClubAdminQueries from '@/hooks/queries/useClubAdminQueries';
 
 function RecruitNoticePage() {
     const clubId = useRecoilValue(clubIdSelector);
@@ -25,11 +25,11 @@ function RecruitNoticePage() {
     });
 
     // 데이터 fetch
-    const { useRecruitNoticeQuery } = useAdminClubQueries();
+    const { useRecruitNoticeQuery } = useClubAdminQueries();
     const { isPending } = useRecruitNoticeQuery({ clubId, setInputValue });
 
     // 데이터 저장 mutation 호출
-    const { useSaveRecruitNoticeMutation } = useAdminClubQueries();
+    const { useSaveRecruitNoticeMutation } = useClubAdminQueries();
     const saveRecruitNoticeMutation = useSaveRecruitNoticeMutation({
         clubId,
         inputValue,
