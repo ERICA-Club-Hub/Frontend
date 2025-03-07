@@ -5,15 +5,17 @@ import styled, { keyframes } from 'styled-components';
 
 export default function Toast() {
     const toast = useRecoilValue(toastState);
-    const [visible, setVisible] = useState(false);
-    const [animating, setAnimating] = useState(false);
+    const [visible, setVisible] = useState(false); // on/off 해야할 상황을 판단할 때
+    const [animating, setAnimating] = useState(false); // 현재 상태(작동 시간 고려)
 
     useEffect(() => {
         if (toast.on) {
-            setVisible(true);
-            setAnimating(true);
+            // 토스트 메세지를 띄워야 하는 상황
+            setVisible(true); // visible을 true로 -> DOM에 보이게 함
+            setAnimating(true); // fadeIn 시키기
         } else if (visible) {
-            setAnimating(false);
+            // DOM에 보이는 상태일 때
+            setAnimating(false); // fadeOut 시키기
             const timer = setTimeout(() => {
                 setVisible(false);
             }, 300);
@@ -26,7 +28,7 @@ export default function Toast() {
         return null;
     } else {
         return (
-            <ToastContainer isVisible={animating}>
+            <ToastContainer $isVisible={animating}>
                 {toast.message}
             </ToastContainer>
         );
@@ -57,7 +59,7 @@ const fadeOut = keyframes`
   }
 `;
 
-const ToastContainer = styled.div<{ isVisible: boolean }>`
+const ToastContainer = styled.div<{ $isVisible: boolean }>`
     display: flex;
     position: fixed;
     top: 45%;
@@ -74,7 +76,7 @@ const ToastContainer = styled.div<{ isVisible: boolean }>`
     font-size: 14px;
     font-weight: 500;
     line-height: 1.3;
-    animation: ${(props) => (props.isVisible ? fadeIn : fadeOut)} 0.3s
+    animation: ${(props) => (props.$isVisible ? fadeIn : fadeOut)} 0.3s
         ease-in-out forwards;
     align-items: center;
     justify-content: center;
