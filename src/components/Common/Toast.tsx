@@ -1,14 +1,32 @@
 import { toastState } from '@/recoil/toast';
+import { useEffect, useState } from 'react';
 import { useRecoilValue } from 'recoil';
 import styled, { keyframes } from 'styled-components';
 
 export default function Toast() {
     const toast = useRecoilValue(toastState);
-    if (!toast.on) {
-        return <></>;
+    const [visible, setVisible] = useState(false);
+    const [animating, setAnimating] = useState(false);
+
+    useEffect(() => {
+        if (toast.on) {
+            setVisible(true);
+            setAnimating(true);
+        } else if (visible) {
+            setAnimating(false);
+            const timer = setTimeout(() => {
+                setVisible(false);
+            }, 300);
+
+            return () => clearTimeout(timer);
+        }
+    }, [toast.on, visible]);
+
+    if (!visible) {
+        return null;
     } else {
         return (
-            <ToastContainer isVisible={toast.on}>
+            <ToastContainer isVisible={animating}>
                 {toast.message}
             </ToastContainer>
         );
