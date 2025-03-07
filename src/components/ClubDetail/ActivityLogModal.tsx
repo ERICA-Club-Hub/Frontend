@@ -1,11 +1,11 @@
 import { apiRequest } from '@/api/apiRequest';
 import { useClickOutside } from '@/hooks/actions/useClickOutside';
-import { DEFAULT_CLUB_IMAGE } from '@/utils/getDefaultImg';
 import { useEffect, useRef, useState } from 'react';
 import closeIcon from '../../assets/common/closed-btn.svg';
 import left from '../../assets/common/Expand_right.svg';
 import right from '../../assets/common/card_right_arrow.svg';
 import styled from 'styled-components';
+import { DEFAULT_IMG } from '@/constants/DEFAULT_IMG';
 
 interface LogMoadlProps {
     clubName?: string | null;
@@ -70,7 +70,7 @@ const ActivityLogModal = ({
                             <Header>
                                 <ProfileSection>
                                     <ProfileImage
-                                        src={clubImg || DEFAULT_CLUB_IMAGE}
+                                        src={clubImg || DEFAULT_IMG}
                                         alt="club logo"
                                     />
                                     <ClubName>{clubName}</ClubName>
