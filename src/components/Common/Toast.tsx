@@ -1,6 +1,6 @@
 import { toastState } from '@/recoil/toast';
 import { useRecoilValue } from 'recoil';
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 
 export default function Toast() {
     const toast = useRecoilValue(toastState);
@@ -8,10 +8,36 @@ export default function Toast() {
         return <></>;
     } else {
         return (
-            <ToastContainer isVisible={true}>{toast.message}</ToastContainer>
+            <ToastContainer isVisible={toast.on}>
+                {toast.message}
+            </ToastContainer>
         );
     }
 }
+
+// 페이드 인 애니메이션
+const fadeIn = keyframes`
+  from {
+    opacity: 0;
+    transform: translate(-50%, 20px);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
+`;
+
+// 페이드 아웃 애니메이션
+const fadeOut = keyframes`
+  from {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
+  to {
+    opacity: 0;
+    transform: translate(-50%, 20px);
+  }
+`;
 
 const ToastContainer = styled.div<{ isVisible: boolean }>`
     display: flex;
@@ -30,7 +56,8 @@ const ToastContainer = styled.div<{ isVisible: boolean }>`
     font-size: 14px;
     font-weight: 500;
     line-height: 1.3;
-    animation: 0.3s ease-in-out forwards;
+    animation: ${(props) => (props.isVisible ? fadeIn : fadeOut)} 0.3s
+        ease-in-out forwards;
     align-items: center;
     justify-content: center;
     padding-left: 66px;
