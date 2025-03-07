@@ -10,7 +10,7 @@ import ErrorIcon from '@/assets/common/error-icon.svg?react';
 // import MainNextArrow from '@/assets/common/main_next_arrow.svg?react';
 import ReadingGlassIcon from '@/assets/common/reading_glass.svg?react';
 import MainThumbnail from '@/assets/common/MainThumbnail.svg?react';
-import SurveyBox from '@/assets/common/SurveyBox.svg?react';
+import SurveyBox from '@/assets/common/surveyBox.svg?react';
 import SurveyCardArrow from '@/assets/common/surveyCard_arrow.svg?react';
 
 // 공지사항 컨테이너
