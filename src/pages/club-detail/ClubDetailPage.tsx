@@ -13,7 +13,6 @@ import { ClubDetailProvider } from '@/contexts/ClubDetailContext';
 import { getCategoryEmoji, getCategoryMapping } from '@/utils/getCategoryEmoji';
 import arrow from '../../assets/common/Expand_right.svg';
 import { DEFAULT_IMG } from '@/constants/DEFAULT_IMG';
-import { useToast } from '@/hooks/actions/useToast';
 
 // tab 항목에서 활성화 여부를 판단할 props
 interface TabButtonProps {
@@ -139,7 +138,6 @@ const ClubDetailPage = () => {
                 return '모집 마감'; // clubDetail이 아직 없을 때의 기본값
         }
     };
-    const { showToast } = useToast();
 
     return (
         <ClubDetailProvider
@@ -257,7 +255,6 @@ const ClubDetailPage = () => {
                     <TabContainer>
                         <TabButton
                             onClick={() => {
-                                showToast('djdjdjdj');
                                 setActiveTab('intro');
                             }}
                             $isActive={activeTab === 'intro'}
