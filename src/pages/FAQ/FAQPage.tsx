@@ -1,4 +1,4 @@
-import Card from '@/components/Common/Card'
+import Card from '@/components/Common/Card';
 import styled from 'styled-components';
 import { useState } from 'react';
 
@@ -38,12 +38,12 @@ const CardContainer = styled.div`
 `;
 
 const ContentBox = styled.div<{ $isVisible: boolean }>`
-    max-height: ${props => props.$isVisible ? '200px' : '0'};
+    max-height: ${(props) => (props.$isVisible ? '200px' : '0')};
     width: 320px;
     flex-shrink: 0;
     border-radius: 10px;
-    border: 1px solid var(--Gray-4, #F7F7F7);
-    background: #FFF;
+    border: 1px solid var(--Gray-4, #f7f7f7);
+    background: #fff;
     overflow: hidden;
     transition: max-height 0.3s ease-in-out;
 `;
@@ -63,29 +63,35 @@ const ContentText = styled.div`
 interface NoticeItem {
     title: string;
     questionType: string;
-    content: string;
+    content: React.ReactNode;
 }
 
 const FAQPage = () => {
-    const [rotatedStates, setRotatedStates] = useState<{ [key: number]: boolean }>({});
-    
+    const [rotatedStates, setRotatedStates] = useState<{
+        [key: number]: boolean;
+    }>({});
+
     const noticeItems: NoticeItem[] = [
         {
-            title: "ERICA 동아리 모음 서비스 런칭!",
-            questionType: "서비스질문",
-            content: "서비스에 동아리를 등록하기 위해서는 요청을 보내주셔야 합니다. 홈 화면의 상단에 어드민 로그인 버튼을 클릭하고, 새 동아리 등록 버튼을 누릅니다.\n\n 동아리 등록이 서버에 전송되어 승인이 되면 동아리가 등록되고 어드민 로그인이 가능해집니다."
-        },
-        {
-            title: "동아리 경고를 몇 번 받았는지 궁금해요",
-            questionType: "동연질문",
-            content: "두 번째 FAQ의 상세 내용입니다."
+            title: '동아리 등록 방법',
+            questionType: '서비스질문',
+            content: (
+                <>
+                    1. 우측 상단 메뉴에서 <strong>어드민 로그인</strong>을
+                    클릭합니다. <br /> <br />
+                    2. 하단에 있는 <strong>동아리 등록하기</strong>를
+                    클릭합니다. <br /> <br />
+                    3. 요청 승인 후 로그인 코드는 입력된 대표자 이메일로
+                    전송됩니다.
+                </>
+            ),
         },
     ];
 
     const handleCardClick = (index: number) => {
-        setRotatedStates(prev => ({
+        setRotatedStates((prev) => ({
             ...prev,
-            [index]: !prev[index]
+            [index]: !prev[index],
         }));
     };
 
@@ -96,17 +102,15 @@ const FAQPage = () => {
                 <Body>
                     {noticeItems.map((item, index) => (
                         <CardContainer key={index}>
-                            <Card 
-                                $variant="FAQ" 
+                            <Card
+                                $variant="FAQ"
                                 title={item.title}
                                 questionType={item.questionType}
                                 isRotated={rotatedStates[index]}
                                 onClick={() => handleCardClick(index)}
                             />
                             <ContentBox $isVisible={rotatedStates[index]}>
-                                <ContentText>
-                                    {item.content}
-                                </ContentText>
+                                <ContentText>{item.content}</ContentText>
                             </ContentBox>
                         </CardContainer>
                     ))}
