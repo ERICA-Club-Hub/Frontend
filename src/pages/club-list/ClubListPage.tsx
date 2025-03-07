@@ -6,10 +6,14 @@ import { getCategoryEmoji } from '@/utils/getCategoryEmoji';
 import MainpageCard from '@/components/Common/MainpageCard';
 import SortingDropdown from '@/components/Common/SortingDropdown';
 import ErrorIcon from '@/assets/common/error-icon.svg?react';
-import MainPrevArrow from '@/assets/common/main_prev_arrow.svg?react';
-import MainNextArrow from '@/assets/common/main_next_arrow.svg?react';
+// import MainPrevArrow from '@/assets/common/main_prev_arrow.svg?react';
+// import MainNextArrow from '@/assets/common/main_next_arrow.svg?react';
 import ReadingGlassIcon from '@/assets/common/reading_glass.svg?react';
+import MainThumbnail from '@/assets/common/MainThumbnail.svg?react';
+import SurveyBox from '@/assets/common/SurveyBox.svg?react';
+import SurveyCardArrow from '@/assets/common/surveyCard_arrow.svg?react';
 
+// 공지사항 컨테이너
 const AnnouncementContainer = styled.div`
     display: flex;
     justify-content: center;
@@ -20,93 +24,132 @@ const AnnouncementContainer = styled.div`
     position: relative;
 `;
 
-const MainAnnouncement = styled.button<{ $imageUrl: string }>`
-    position: relative;
-    width: 200px;
-    height: 200px;
-    flex-shrink: 0;
-    border-radius: 10px;
-    background: ${(props) => `url(${props.$imageUrl})`} lightgray 50% / cover
-        no-repeat;
-    border: none;
-    cursor: pointer;
-`;
-
-const StatusIndicator = styled.div`
-    position: absolute;
-    bottom: -20px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 42px;
-    height: 8px;
-    flex-shrink: 0;
-    background: white;
-    border-radius: 4px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 3px;
-`;
-
-const StatusDot = styled.div<{ $active: boolean }>`
-    width: ${(props) => (props.$active ? '10px' : '4px')};
-    height: 4px;
-    border-radius: 2px;
-    background-color: ${(props) => (props.$active ? '#33639C' : '#DAEBFF')};
-    transition: all 0.3s ease;
-`;
-
-const SubAnnouncement = styled.button<{ $imageUrl: string }>`
-    width: 200px;
-    height: 200px;
-    flex-shrink: 0;
-    border-radius: 10px;
-    background: ${(
-            props,
-        ) => `linear-gradient(0deg, rgba(0, 0, 0, 0.40) 0%, rgba(0, 0, 0, 0.40) 100%), 
-                url(${props.$imageUrl})`}
-        lightgray 50% / cover no-repeat;
-    border: none;
-    cursor: pointer;
-`;
-
-const ArrowButton = styled.button`
-    width: 22px;
-    height: 22px;
-    flex-shrink: 0;
-    border: none;
+// 공지사항 버튼
+const MainButton = styled.button`
     background: none;
+    border: none;
     cursor: pointer;
     padding: 0;
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    z-index: 1;
+    display: flex;
+    align-items: center;
+`;
 
-    &:first-child {
-        left: 50%;
-        transform: translateX(-150px) translateY(-50%);
-    }
+// 설문조사 컨테이너
+const SurveyBoxContainer = styled.div`
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 10px;
+`;
 
-    &:last-child {
-        right: 50%;
-        transform: translateX(150px) translateY(-50%);
+// 설문조사 버튼
+const SurveyButton = styled.button`
+    position: relative;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    display: flex;
+    align-items: center;
+
+    svg:last-child {
+        position: absolute;
+        right: 25px;
+        top: 50%;
+        transform: translateY(-50%);
     }
 `;
 
+// const MainAnnouncement = styled.button<{ $imageUrl: string }>`
+//     position: relative;
+//     width: 200px;
+//     height: 200px;
+//     flex-shrink: 0;
+//     border-radius: 10px;
+//     background: ${(props) => `url(${props.$imageUrl})`} lightgray 50% / cover
+//         no-repeat;
+//     border: none;
+//     cursor: pointer;
+// `;
+
+// const StatusIndicator = styled.div`
+//     position: absolute;
+//     bottom: -20px;
+//     left: 50%;
+//     transform: translateX(-50%);
+//     width: 42px;
+//     height: 8px;
+//     flex-shrink: 0;
+//     background: white;
+//     border-radius: 4px;
+//     display: flex;
+//     align-items: center;
+//     justify-content: center;
+//     gap: 3px;
+// `;
+
+// const StatusDot = styled.div<{ $active: boolean }>`
+//     width: ${(props) => (props.$active ? '10px' : '4px')};
+//     height: 4px;
+//     border-radius: 2px;
+//     background-color: ${(props) => (props.$active ? '#33639C' : '#DAEBFF')};
+//     transition: all 0.3s ease;
+// `;
+
+// const SubAnnouncement = styled.button<{ $imageUrl: string }>`
+//     width: 200px;
+//     height: 200px;
+//     flex-shrink: 0;
+//     border-radius: 10px;
+//     background: ${(
+//             props,
+//         ) => `linear-gradient(0deg, rgba(0, 0, 0, 0.40) 0%, rgba(0, 0, 0, 0.40) 100%), 
+//                 url(${props.$imageUrl})`}
+//         lightgray 50% / cover no-repeat;
+//     border: none;
+//     cursor: pointer;
+// `;
+
+// const ArrowButton = styled.button`
+//     width: 22px;
+//     height: 22px;
+//     flex-shrink: 0;
+//     border: none;
+//     background: none;
+//     cursor: pointer;
+//     padding: 0;
+//     position: absolute;
+//     top: 50%;
+//     transform: translateY(-50%);
+//     z-index: 1;
+
+//     &:first-child {
+//         left: 50%;
+//         transform: translateX(-150px) translateY(-50%);
+//     }
+
+//     &:last-child {
+//         right: 50%;
+//         transform: translateX(150px) translateY(-50%);
+//     }
+// `;
+
+// 검색 컨테이너
 const ClubSearchContainer = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 36px 0;
+    padding: 20px 0;
 `;
 
+// 검색 입력 컨테이너
 const SearchInputWrapper = styled.div`
     position: relative;
     display: inline-block;
     width: 320px;
 `;
 
+// 검색 아이콘
 const SearchIcon = styled.button`
     position: absolute;
     right: 15px;
@@ -121,6 +164,7 @@ const SearchIcon = styled.button`
     justify-content: center;
 `;
 
+// 검색 입력 컨테이너
 const DropdownContainer = styled.div`
     display: flex;
     justify-content: space-between;
@@ -129,11 +173,13 @@ const DropdownContainer = styled.div`
     margin-bottom: 10px;
 `;
 
+// 드롭다운 컨테이너
 const RightDropdowns = styled.div`
     display: flex;
     gap: 8px;
 `;
 
+// 동아리 목록 컨테이너
 const ClubListWrapper = styled.div`
     display: flex;
     flex-direction: column;
@@ -141,6 +187,7 @@ const ClubListWrapper = styled.div`
     gap: 8px;
 `;
 
+// 검색 결과가 없을 때 표시되는 컨테이너
 const NoResultContainer = styled.div`
     width: 100%;
     height: 400px;
@@ -187,18 +234,18 @@ interface ApiResponse {
     };
 }
 
-interface Announcement {
-    announcementId: number;
-    title: string;
-    date: string;
-    url: string;
-    thumbnailUrl: string;
-}
+// interface Announcement {
+//     announcementId: number;
+//     title: string;
+//     date: string;
+//     url: string;
+//     thumbnailUrl: string;
+// }
 
 const ClubListPage = () => {
     // 공지사항 상태 관리
-    const [announcements, setAnnouncements] = useState<Announcement[]>([]);
-    const [currentIndex, setCurrentIndex] = useState(0);
+    // const [announcements, setAnnouncements] = useState<Announcement[]>([]);
+    // const [currentIndex, setCurrentIndex] = useState(0);
 
     // 각각의 드롭다운을 위한 별도의 상태 관리
     const [categoryFilter, setCategoryFilter] = useState<string>('none'); // 분과 필터 상태
@@ -211,57 +258,57 @@ const ClubListPage = () => {
     const [isLoading, setIsLoading] = useState(false); // 로딩 상태
 
     // 공지사항 불러오기
-    useEffect(() => {
-        const fetchAnnouncements = async () => {
-            try {
-                const response = await apiRequest({
-                    url: '/api/announcements',
-                });
+    // useEffect(() => {
+    //     const fetchAnnouncements = async () => {
+    //         try {
+    //             const response = await apiRequest({
+    //                 url: '/api/announcements',
+    //             });
 
-                if (response?.result?.announcementDTOList) {
-                    // 최대 5개까지만 설정
-                    setAnnouncements(
-                        response.result.announcementDTOList.slice(0, 5),
-                    );
-                }
-            } catch (error) {
-                console.error('공지사항을 불러오는데 실패했습니다:', error);
-            }
-        };
+    //             if (response?.result?.announcementDTOList) {
+    //                 // 최대 5개까지만 설정
+    //                 setAnnouncements(
+    //                     response.result.announcementDTOList.slice(0, 5),
+    //                 );
+    //             }
+    //         } catch (error) {
+    //             console.error('공지사항을 불러오는데 실패했습니다:', error);
+    //         }
+    //     };
 
-        fetchAnnouncements();
-    }, []);
+    //     fetchAnnouncements();
+    // }, []);
 
-    // 이전 이미지 버튼 클릭 시 실행되는 함수
-    const handlePrev = () => {
-        setCurrentIndex((prev) =>
-            prev === 0 ? announcements.length - 1 : prev - 1,
-        );
-    };
+    // // 이전 이미지 버튼 클릭 시 실행되는 함수
+    // const handlePrev = () => {
+    //     setCurrentIndex((prev) =>
+    //         prev === 0 ? announcements.length - 1 : prev - 1,
+    //     );
+    // };
 
-    // 다음 이미지 버튼 클릭 시 실행되는 함수
-    const handleNext = () => {
-        setCurrentIndex((prev) =>
-            prev === announcements.length - 1 ? 0 : prev + 1,
-        );
-    };
-
-    // 현재 표시할 이미지 아이템 배열 반환
-    const getDisplayItems = () => {
-        const prevIndex =
-            currentIndex === 0 ? announcements.length - 1 : currentIndex - 1;
-        const nextIndex =
-            currentIndex === announcements.length - 1 ? 0 : currentIndex + 1;
-
-        return [
-            announcements[prevIndex],
-            announcements[currentIndex],
-            announcements[nextIndex],
-        ];
-    };
+    // // 다음 이미지 버튼 클릭 시 실행되는 함수
+    // const handleNext = () => {
+    //     setCurrentIndex((prev) =>
+    //         prev === announcements.length - 1 ? 0 : prev + 1,
+    //     );
+    // };
 
     // 현재 표시할 이미지 아이템 배열 반환
-    const displayItems = getDisplayItems();
+    // const getDisplayItems = () => {
+    //     const prevIndex =
+    //         currentIndex === 0 ? announcements.length - 1 : currentIndex - 1;
+    //     const nextIndex =
+    //         currentIndex === announcements.length - 1 ? 0 : currentIndex + 1;
+
+    //     return [
+    //         announcements[prevIndex],
+    //         announcements[currentIndex],
+    //         announcements[nextIndex],
+    //     ];
+    // };
+
+    // // 현재 표시할 이미지 아이템 배열 반환
+    // const displayItems = getDisplayItems();
 
     // useCallback을 사용하여 fetchClubs 함수를 메모이제이션
     const fetchClubs = useCallback(async () => {
@@ -327,9 +374,9 @@ const ClubListPage = () => {
     // useEffect에 fetchClubs 추가
     useEffect(() => {
         fetchClubs();
-    }, [fetchClubs]); // fetchClubs만 의존성으로 설정
+    }, [fetchClubs]);
 
-    // 검색 버튼 클릭 핸들러 - 이미 useEffect에서 searchTerm 변경을 감지하므로 제거
+    // 검색 버튼 클릭 핸들러
     const handleSearch = () => {
         // 엔터나 검색 버튼 클릭 시에도 searchTerm이 변경되어 자동으로 fetchClubs가 호출됨
     };
@@ -347,7 +394,6 @@ const ClubListPage = () => {
     // 정렬 기준 선택 시 실행되는 함수
     const handleSort = (value: string) => {
         setSortOrder(value);
-        console.log('정렬 기준 선택:', value);
     };
 
     // 카테고리 매핑 함수
@@ -385,13 +431,11 @@ const ClubListPage = () => {
     // 동아리 상세 페이지로 이동
     const handleCardClick = (clubId: number) => {
         window.location.href = `/club/${clubId}`;
-        // 또는 React Router를 사용하는 경우:
-        // navigate(`/club/${clubId}`);
     };
 
     return (
         <div>
-            <AnnouncementContainer>
+            {/* <AnnouncementContainer>
                 {announcements.length > 0 && (
                     <>
                         <ArrowButton onClick={handlePrev}>
@@ -432,7 +476,19 @@ const ClubListPage = () => {
                         </ArrowButton>
                     </>
                 )}
+            </AnnouncementContainer> */}
+            <AnnouncementContainer>
+                <MainButton onClick={() => window.open('https://snowy-middle-3a3.notion.site/hanjari', '_blank')}>
+                    <MainThumbnail />
+                </MainButton>
             </AnnouncementContainer>
+
+            <SurveyBoxContainer>
+                <SurveyButton>
+                    <SurveyBox />
+                    <SurveyCardArrow />
+                </SurveyButton>
+            </SurveyBoxContainer>
 
             <ClubSearchContainer>
                 <SearchInputWrapper>
