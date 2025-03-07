@@ -1,4 +1,4 @@
-import { toastState } from '@/recoil/toast';
+import { toastState } from '@/store/toast';
 import { useEffect, useState } from 'react';
 import { useRecoilValue } from 'recoil';
 import styled, { keyframes } from 'styled-components';
