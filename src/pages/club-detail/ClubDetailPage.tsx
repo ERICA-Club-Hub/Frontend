@@ -13,7 +13,6 @@ import { ClubDetailProvider } from '@/contexts/ClubDetailContext';
 import { getCategoryEmoji, getCategoryMapping } from '@/utils/getCategoryEmoji';
 import arrow from '../../assets/common/Expand_right.svg';
 import { DEFAULT_IMG } from '@/constants/DEFAULT_IMG';
-import { useToast } from '@/hooks/actions/useToast';
 
 // tab 항목에서 활성화 여부를 판단할 props
 interface TabButtonProps {
@@ -70,7 +69,7 @@ const ClubDetailPage = () => {
     const id = params.id?.toString() || '';
     const nowUrl = useLocation().pathname.split('/')[1];
     const [activeTab, setActiveTab] = useState<activeTab>('intro');
-    const { showToast } = useToast();
+
     useEffect(() => {
         const getClubDetail = async (id: string) => {
             const requestUrl =
@@ -271,10 +270,7 @@ const ClubDetailPage = () => {
                         </TabButton>
                         <TabButton
                             disabled={nowUrl === 'club-detail-preview'}
-                            onClick={() => {
-                                showToast('어쩌구저쩌구');
-                                setActiveTab('log');
-                            }}
+                            onClick={() => setActiveTab('log')}
                             $isActive={activeTab === 'log'}
                         >
                             활동로그
