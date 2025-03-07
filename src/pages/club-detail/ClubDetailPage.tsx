@@ -10,9 +10,10 @@ import label from '../../assets/common/label.svg';
 import TabContents from './TabContents';
 import { apiRequest } from '@/api/apiRequest';
 import { ClubDetailProvider } from '@/contexts/ClubDetailContext';
-import { DEFAULT_CLUB_IMAGE } from '@/utils/getDefaultImg';
 import { getCategoryEmoji, getCategoryMapping } from '@/utils/getCategoryEmoji';
 import arrow from '../../assets/common/Expand_right.svg';
+import { DEFAULT_IMG } from '@/constants/DEFAULT_IMG';
+import { useToast } from '@/hooks/actions/useToast';
 
 // tab 항목에서 활성화 여부를 판단할 props
 interface TabButtonProps {
@@ -69,6 +70,7 @@ const ClubDetailPage = () => {
     const id = params.id?.toString() || '';
     const nowUrl = useLocation().pathname.split('/')[1];
     const [activeTab, setActiveTab] = useState<activeTab>('intro');
+    const { showToast } = useToast();
     useEffect(() => {
         const getClubDetail = async (id: string) => {
             const requestUrl =
@@ -144,7 +146,7 @@ const ClubDetailPage = () => {
             value={{
                 nowUrl: nowUrl,
                 clubName: clubDetail?.name || null,
-                clubImg: clubDetail?.profileImageUrl || DEFAULT_CLUB_IMAGE,
+                clubImg: clubDetail?.profileImageUrl || DEFAULT_IMG,
                 clubId: id,
             }}
         >
@@ -162,10 +164,7 @@ const ClubDetailPage = () => {
                     )}
                     <ClubHeader>
                         <ClubImage
-                            src={
-                                clubDetail?.profileImageUrl ||
-                                DEFAULT_CLUB_IMAGE
-                            }
+                            src={clubDetail?.profileImageUrl || DEFAULT_IMG}
                             alt="Club Logo"
                         />
                         <PreviewWrapper>
@@ -257,7 +256,9 @@ const ClubDetailPage = () => {
                     {/* 동아리 소개 / 모집안내 / 활동로그 탭 모음 */}
                     <TabContainer>
                         <TabButton
-                            onClick={() => setActiveTab('intro')}
+                            onClick={() => {
+                                setActiveTab('intro');
+                            }}
                             $isActive={activeTab === 'intro'}
                         >
                             동아리 소개
@@ -270,7 +271,10 @@ const ClubDetailPage = () => {
                         </TabButton>
                         <TabButton
                             disabled={nowUrl === 'club-detail-preview'}
-                            onClick={() => setActiveTab('log')}
+                            onClick={() => {
+                                showToast('어쩌구저쩌구');
+                                setActiveTab('log');
+                            }}
                             $isActive={activeTab === 'log'}
                         >
                             활동로그
@@ -301,7 +305,7 @@ const PageContainer = styled.div<{ $nowUrl: string }>`
 
 const ClubHeader = styled.div`
     width: 320px;
-    height: 104px;
+    min-height: 104px;
     background: white;
     display: flex;
     padding: 17px;
@@ -327,18 +331,21 @@ const ClubInfo = styled.div`
     margin-bottom: 8px;
 `;
 
-const Preview = styled.div``;
+const Preview = styled.div`
+    color: #aeaeae;
+    font-weight: 700;
+    font-size: 13px;
+`;
 
 const ClubTitle = styled.h1`
-    font-size: 24px;
-    font-weight: bold;
-    margin-bottom: 8px;
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 11px;
 `;
 
 const ClubTags = styled.div`
     display: flex;
     gap: 8px;
-    margin-bottom: 16px;
 `;
 
 const Tag = styled.span`

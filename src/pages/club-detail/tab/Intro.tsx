@@ -49,7 +49,6 @@ export default function Intro() {
                 } else {
                     setSchedules(schedulesResponse.result.schedules);
                 }
-                console.log(schedulesResponse);
             } catch (error) {
                 console.error('월별 일정 데이터 요청 실패:', error);
             }
