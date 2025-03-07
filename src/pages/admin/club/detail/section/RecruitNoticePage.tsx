@@ -98,7 +98,7 @@ function RecruitNoticePage() {
             </RecruitNoticeWrapper>
 
             <ButtonGroupWrapper>
-                <Button
+                {/* <Button
                     name="preview"
                     type="button"
                     size="small"
@@ -107,7 +107,7 @@ function RecruitNoticePage() {
                     onClick={handleSubmit}
                 >
                     미리보기
-                </Button>
+                </Button> */}
                 <Button
                     name="save"
                     type="button"

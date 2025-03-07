@@ -78,7 +78,7 @@ function ClubIntroPage() {
                 <ClubDescription />
 
                 <ButtonGroupWrapper>
-                    <Button
+                    {/* <Button
                         name="preview"
                         type="button"
                         size="small"
@@ -87,7 +87,7 @@ function ClubIntroPage() {
                         onClick={handleSubmit}
                     >
                         미리보기
-                    </Button>
+                    </Button> */}
                     <Button
                         name="save"
                         type="button"

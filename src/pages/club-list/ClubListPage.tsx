@@ -12,7 +12,7 @@ import ReadingGlassIcon from '@/assets/common/reading_glass.svg?react';
 import MainThumbnail from '@/assets/common/MainThumbnail.svg?react';
 import SurveyBox from '@/assets/common/surveyBox.svg?react';
 import SurveyCardArrow from '@/assets/common/surveyCard_arrow.svg?react';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 // 공지사항 컨테이너
 const AnnouncementContainer = styled.div`
@@ -248,6 +248,8 @@ const ClubListPage = () => {
     // const [announcements, setAnnouncements] = useState<Announcement[]>([]);
     // const [currentIndex, setCurrentIndex] = useState(0);
     const navigate = useNavigate();
+    const location = useLocation();
+    console.log(location.state);
 
     // 각각의 드롭다운을 위한 별도의 상태 관리
     const [categoryFilter, setCategoryFilter] = useState<string>('none'); // 분과 필터 상태
