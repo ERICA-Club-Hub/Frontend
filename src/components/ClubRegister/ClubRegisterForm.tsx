@@ -12,11 +12,9 @@ import { clubIdSelector } from '@/store/clubInfoState';
 import ClubImageUpload from './ClubImageUpload';
 import { ClubCategorySelection } from './ClubCategorySelection';
 import useClubRegisterQueries from '@/hooks/queries/useClubRegisterQueries';
-import { useNavigate } from 'react-router-dom';
 import { setDefaultImg } from '@/utils/setDefaultImg';
 
 function ClubRegisterForm({ editMode }: { editMode: boolean }) {
-    const navigate = useNavigate();
     const clubId = useRecoilValue(clubIdSelector);
     const [inputValue, setInputValue] = useState<IClubRegisterValue>({
         clubName: '',
@@ -78,19 +76,6 @@ function ClubRegisterForm({ editMode }: { editMode: boolean }) {
         }
     };
 
-    // 등록 성공 시, 등록 완료 페이지로 이동
-    if (clubRegisterMutation.isSuccess) {
-        navigate('/admin/club/register/complete', {
-            state: { mode: 'register' },
-            replace: true,
-        });
-    } else if (editClubRegisterMutation.isSuccess) {
-        navigate('/admin/club/register/complete', {
-            state: { mode: 'edit' },
-            replace: true,
-        });
-    }
-
     const isValid =
         inputValue.clubName.length > 0 &&
         inputValue.leaderEmail.length > 0 &&
@@ -100,7 +85,10 @@ function ClubRegisterForm({ editMode }: { editMode: boolean }) {
         // 등록 모드일 때는 간단소개 포함 (예외 처리)
         (editMode ||
             (inputValue.briefIntroduction &&
-                inputValue.briefIntroduction.length > 0));
+                inputValue.briefIntroduction.length > 0)) &&
+        // 요청 중일 때
+        (!clubRegisterMutation.isPending ||
+            !editClubRegisterMutation.isPending);
 
     return (
         <Container>
