@@ -136,14 +136,14 @@ function SummaryInfoPage() {
             </ApplyLink>
 
             <ButtonGroupWrapper>
-                <Button
+                {/* <Button
                     type="button"
                     size="small"
                     variant="outlined"
                     isDisabled={() => false}
                 >
                     미리보기
-                </Button>
+                </Button> */}
                 <Button type="submit" size="small" disabled={!isValid}>
                     저장하기
                 </Button>
@@ -202,5 +202,5 @@ const SummaryInfoItem = styled.li`
 const ApplyLink = styled(SectionWrapper)`
     height: 101px;
     gap: 8px;
-    margin-bottom: 45px;
+    margin-bottom: 10px;
 `;

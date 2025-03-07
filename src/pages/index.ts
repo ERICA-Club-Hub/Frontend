@@ -26,4 +26,5 @@ export * from './notice/ServiceNoticePage';
 export * from './notice/UnionNoticePage';
 export * from './resources/ResourcesPage';
 
+export * from './splash/SplashScreen';
 export * from './error/ErrorPage';

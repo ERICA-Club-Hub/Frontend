@@ -1,3 +1,4 @@
-import img from '../assets/common/hanjari-logo.svg';
+import img from '/placeholder-image.svg';
+
 
 export const DEFAULT_IMG = img;

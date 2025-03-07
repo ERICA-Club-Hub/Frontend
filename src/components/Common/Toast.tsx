@@ -83,7 +83,5 @@ const ToastContainer = styled.div<{ $animating: boolean }>`
         ease-in-out forwards;
     align-items: center;
     justify-content: center;
-    padding-left: 66px;
-    padding-right: 66px;
     gap: 13px;
 `;

@@ -314,6 +314,7 @@ const ClubImage = styled.img`
     height: 70px;
     border-radius: 10px;
     margin-right: 21px;
+    object-fit: cover;
 `;
 
 const PreviewWrapper = styled.div``;
