@@ -1,14 +1,22 @@
 import { BrowserRouter } from 'react-router-dom';
 import { RootLayout } from '@/components/Common';
 import AppRoutes from './routes/Routes';
+import { useSplash } from './hooks/actions/useSplash';
+import { SplashScreen } from './pages';
 
 function App() {
+    const { isSplashVisible } = useSplash();
+
     return (
         <>
             <BrowserRouter>
-                <RootLayout>
-                    <AppRoutes />
-                </RootLayout>
+                {isSplashVisible ? (
+                    <SplashScreen />
+                ) : (
+                    <RootLayout>
+                        <AppRoutes />
+                    </RootLayout>
+                )}
             </BrowserRouter>
         </>
     );

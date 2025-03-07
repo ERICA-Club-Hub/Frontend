@@ -122,28 +122,28 @@ export default function AppRoutes() {
 
                 {/* 총동연 어드민 공지 */}
                 {/* <Route
-                        path="/admin/union/notice"
-                        element={<AdminUnionNoticePage />}
-                    /> */}
+                            path="/admin/union/notice"
+                            element={<AdminUnionNoticePage />}
+                        /> */}
 
                 {/* 총동연 어드민 공지 등록 */}
                 {/* <Route
-                        path="/admin/union/notice/register"
-                        element={<AdminUnionNoticeRegisterPage />}
-                    /> */}
+                            path="/admin/union/notice/register"
+                            element={<AdminUnionNoticeRegisterPage />}
+                        /> */}
 
                 {/* 총동연 어드민 공지 수정 및 삭제 */}
                 {/* <Route
-                        path="/admin/union/notice/:id/register"
-                        element={<AdminUnionNoticeEditPage />}
-                    /> */}
+                            path="/admin/union/notice/:id/register"
+                            element={<AdminUnionNoticeEditPage />}
+                        /> */}
 
                 {/* 총동연 자료 등록  */}
                 {/* <Route
-                        path="/admin/union/resources"
-                        element={<AdminResourcesRegisterPage mode="manage" />}
-                    />
-                </Route> */}
+                            path="/admin/union/resources"
+                            element={<AdminResourcesRegisterPage mode="manage" />}
+                        />
+                    </Route> */}
             </Route>
 
             {/* 404 Not Found Page */}
