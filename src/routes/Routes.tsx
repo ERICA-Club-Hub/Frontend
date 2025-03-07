@@ -2,6 +2,7 @@ import { Route, Routes } from 'react-router-dom';
 import {
     AdminClubDetailPage,
     AdminClubPage,
+    AdminClubRegisterManagePage,
     AdminLoginPage,
     // AdminResourcesRegisterPage,
     // AdminUnionNoticePage,
@@ -27,6 +28,7 @@ import ClubAdminGurad from './ClubAdminGurad';
 // import AdminUnionNoticeEditPage from '@/pages/admin/union/notice/AdminUnionNoticeEditPage';
 // import { AdminUnionNoticeRegisterPage } from '@/pages/admin/union/notice/AdminUnionNoticeRegisterPage';
 import CompleteClubRegisterPage from '@/pages/admin/auth/register/CompleteClubRegisterPage';
+import ServiceAdminGuard from './ServiceAdminGuard';
 
 export default function AppRoutes() {
     return (
@@ -103,6 +105,13 @@ export default function AppRoutes() {
                         path="/admin/club/:id/register/edit"
                         element={<EditClubRegisterPage />}
                     />
+                </Route>
+
+                <Route
+                    path="/admin/club/register/manage"
+                    element={<ServiceAdminGuard />}
+                >
+                    <Route index element={<AdminClubRegisterManagePage />} />
                 </Route>
 
                 {/* 총동연 어드민 */}
