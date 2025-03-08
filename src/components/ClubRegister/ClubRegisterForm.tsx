@@ -10,7 +10,6 @@ import useBulletPointConverter from '@/hooks/actions/useBulletPointConverter';
 import ClubImageUpload from './ClubImageUpload';
 import { ClubCategorySelection } from './ClubCategorySelection';
 import useClubRegisterQueries from '@/hooks/queries/useClubRegisterQueries';
-import { setDefaultImg } from '@/utils/setDefaultImg';
 
 function ClubRegisterForm({ editMode }: { editMode: boolean }) {
     const [inputValue, setInputValue] = useState<IClubRegisterValue>({
@@ -22,27 +21,23 @@ function ClubRegisterForm({ editMode }: { editMode: boolean }) {
     });
     const [postImg, setPostImg] = useState<File | File[] | null>(null); // 요청 이미지
     const [previewImg, setPreviewImg] = useState<string | ArrayBuffer | null>(
-        '/placeholder-image.svg',
+        null,
     ); // 미리보기 이미지
 
+    const {
+        useRegisterInfoQuery,
+        useClubRegisterMutation,
+        useEditClubRegisterMutation,
+    } = useClubRegisterQueries();
     // 수정모드일 때 데이터 fetch
-    const { useRegisterInfoQuery } = useClubRegisterQueries();
     useRegisterInfoQuery({
         setInputValue,
         setPreviewImg,
         setPostImg,
     });
-
     // 등록 정보 생성 및 수정 mutation 호출
-    const { useClubRegisterMutation, useEditClubRegisterMutation } =
-        useClubRegisterQueries();
-    const editClubRegisterMutation = useEditClubRegisterMutation();
     const clubRegisterMutation = useClubRegisterMutation();
-
-    // 기본 이미지 설정
-    setDefaultImg({ postImg, setPostImg });
-
-    console.log(postImg);
+    const editClubRegisterMutation = useEditClubRegisterMutation();
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
