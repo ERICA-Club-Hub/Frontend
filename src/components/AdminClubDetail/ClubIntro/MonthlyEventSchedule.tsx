@@ -3,17 +3,14 @@ import styled from 'styled-components';
 import PlusIcon from '@/assets/common/plus-icon.svg?react';
 import { EventSchedule } from './EventSchedule';
 import useClubIntroContext from '@/hooks/contexts/useClubIntroContext';
-import { useRecoilValue } from 'recoil';
-import { clubIdSelector } from '@/store/clubInfoState';
 import useClubAdminQueries from '@/hooks/queries/useClubAdminQueries';
 
 function MonthlyEventSchedule() {
-    const clubId = useRecoilValue(clubIdSelector);
     const { schedules, setSchedules } = useClubIntroContext();
 
     // 월별 활동 일정 불러오기
     const { useEventSchedulesQuery } = useClubAdminQueries();
-    useEventSchedulesQuery({ clubId, setSchedules });
+    useEventSchedulesQuery(setSchedules);
 
     // 월별 일정 추가
     const handleAddEventSchedule = () => {

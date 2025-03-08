@@ -3,8 +3,6 @@ import { ButtonGroupWrapper } from '@/styles/admin-club-detail/style';
 import { useState } from 'react';
 import Button from '@/components/Common/Button';
 import { IClubIntroValue, IEventScheduleValue } from '@/types';
-import { useRecoilValue } from 'recoil';
-import { clubIdSelector } from '@/store/clubInfoState';
 import { ClubIntroProvider } from '@/contexts/ClubIntroContext';
 import {
     ClubDescription,
@@ -13,8 +11,6 @@ import {
 import useClubAdminQueries from '@/hooks/queries/useClubAdminQueries';
 
 function ClubIntroPage() {
-    const clubId = useRecoilValue(clubIdSelector);
-
     // 서버에서 받아와서 렌더링 시에 필요한 상태
     const [schedules, setSchedules] = useState<IEventScheduleValue[]>([
         { month: 1, content: '', id: 0 },
@@ -32,7 +28,6 @@ function ClubIntroPage() {
     // 동아리 소개글 저장하기 mutation 호출
     const { useSaveClubIntroMutation } = useClubAdminQueries();
     const saveClubIntroMutation = useSaveClubIntroMutation({
-        clubId,
         postSchedules,
         inputValue,
     });
@@ -49,14 +44,14 @@ function ClubIntroPage() {
             console.error('동아리 소개 저장하기 실패', error);
         }
 
-        try {
-            // 미리보기
-            if (target.name === 'preview') {
-                // 미리보기 API 호출 및 페이지 이동 로직 추가
-            }
-        } catch (error) {
-            console.error('미리보기 실패', error);
-        }
+        // try {
+        //     // 미리보기
+        //     if (target.name === 'preview') {
+        //         // 미리보기 API 호출 및 페이지 이동 로직 추가
+        //     }
+        // } catch (error) {
+        //     console.error('미리보기 실패', error);
+        // }
     };
 
     return (

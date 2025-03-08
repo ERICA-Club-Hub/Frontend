@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import styled from 'styled-components';
-import { useRecoilValue } from 'recoil';
 import { InputField } from '@/components/Common';
 import Button from '@/components/Common/Button';
 import { TextArea } from '@/components/Common/TextArea';
@@ -8,14 +7,12 @@ import { IClubRegisterValue } from '@/types';
 import { inputChangeHandler } from '@/utils/inputChangeHandler';
 import { GuideText, InnerWrapper, Label } from '@/styles/admin-club-register';
 import useBulletPointConverter from '@/hooks/actions/useBulletPointConverter';
-import { clubIdSelector } from '@/store/clubInfoState';
 import ClubImageUpload from './ClubImageUpload';
 import { ClubCategorySelection } from './ClubCategorySelection';
 import useClubRegisterQueries from '@/hooks/queries/useClubRegisterQueries';
 import { setDefaultImg } from '@/utils/setDefaultImg';
 
 function ClubRegisterForm({ editMode }: { editMode: boolean }) {
-    const clubId = useRecoilValue(clubIdSelector);
     const [inputValue, setInputValue] = useState<IClubRegisterValue>({
         clubName: '',
         leaderEmail: '',
@@ -23,56 +20,60 @@ function ClubRegisterForm({ editMode }: { editMode: boolean }) {
         oneLiner: '',
         briefIntroduction: '',
     });
-    const [postImg, setPostImg] = useState<File | null>(null); // 요청 이미지
+    const [postImg, setPostImg] = useState<File | File[] | null>(null); // 요청 이미지
     const [previewImg, setPreviewImg] = useState<string | ArrayBuffer | null>(
         '/placeholder-image.svg',
     ); // 미리보기 이미지
-    setDefaultImg({ postImg, setPostImg }); // 기본 이미지 설정
 
     // 수정모드일 때 데이터 fetch
     const { useRegisterInfoQuery } = useClubRegisterQueries();
     useRegisterInfoQuery({
-        clubId,
         setInputValue,
         setPreviewImg,
         setPostImg,
     });
 
-    // FormData 생성
-    const formData: FormData = new FormData();
-    const requestBody = {
-        ...inputValue,
-        // 간단한 소개 폼이 등록 정보 수정에는 없는데 API 요청 폼에는 추가해줘야 해서 예외처리
-        briefIntroduction: inputValue.briefIntroduction || '',
-    };
-    formData.append(
-        'requestBody',
-        new Blob([JSON.stringify(requestBody)], {
-            type: 'application/json',
-        }),
-    );
-    if (postImg) {
-        formData.append('image', postImg);
-    }
-
     // 등록 정보 생성 및 수정 mutation 호출
     const { useClubRegisterMutation, useEditClubRegisterMutation } =
         useClubRegisterQueries();
-    const editClubRegisterMutation = useEditClubRegisterMutation({
-        clubId,
-        formData,
-    });
-    const clubRegisterMutation = useClubRegisterMutation({ formData });
+    const editClubRegisterMutation = useEditClubRegisterMutation();
+    const clubRegisterMutation = useClubRegisterMutation();
+
+    // 기본 이미지 설정
+    setDefaultImg({ postImg, setPostImg });
+
+    console.log(postImg);
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
+        // FormData 생성
+        const formData: FormData = new FormData();
+        const requestBody = {
+            ...inputValue,
+            // 간단한 소개 폼이 등록 정보 수정에는 없는데 API 요청 폼에는 추가해줘야 해서 예외처리
+            briefIntroduction: inputValue.briefIntroduction || '',
+        };
+        formData.append(
+            'requestBody',
+            new Blob([JSON.stringify(requestBody)], {
+                type: 'application/json',
+            }),
+        );
+        if (postImg) {
+            if (Array.isArray(postImg)) {
+                postImg.forEach((file) => formData.append('image', file));
+            } else {
+                formData.append('image', postImg);
+            }
+        }
+
         // 수정모드일 때
         if (editMode) {
-            editClubRegisterMutation.mutate(); // 등록 정보 수정하기
+            editClubRegisterMutation.mutate(formData); // 등록 정보 수정하기
         } else if (!editMode) {
             // 등록모드일 때
-            clubRegisterMutation.mutate();
+            clubRegisterMutation.mutate(formData);
         }
     };
 
@@ -98,9 +99,6 @@ function ClubRegisterForm({ editMode }: { editMode: boolean }) {
                         ? '동아리 등록 정보 수정하기'
                         : '절차에 따라 동아리를 등록해 주세요.'}
                 </Title>
-                {editMode && (
-                    <GuideText>수정된 정보는 승인 후 반영됩니다.</GuideText>
-                )}
             </TitleWrapper>
 
             <FormContainer onSubmit={handleSubmit}>
@@ -137,7 +135,7 @@ function ClubRegisterForm({ editMode }: { editMode: boolean }) {
                         value={inputValue.leaderEmail}
                         id="leaderEmail"
                         type="text"
-                        placeholder="동아리 이름을 정확하게 입력해 주세요."
+                        placeholder="이메일을 정확하게 입력해 주세요."
                         inputSize="large"
                         name="leaderEmail"
                         maxLength={30}
