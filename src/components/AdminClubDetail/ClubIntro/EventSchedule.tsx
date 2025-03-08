@@ -6,6 +6,8 @@ import useClubIntroContext from '@/hooks/contexts/useClubIntroContext';
 import { IEventScheduleValue } from '@/types';
 import { Dropdown, InputField } from '@/components/Common';
 import { useEffect } from 'react';
+import DeleteIcon from '@/assets/common/plus-icon.svg?react';
+import useClubAdminQueries from '@/hooks/queries/useClubAdminQueries';
 
 function EventSchedule({
     schedule,
@@ -17,6 +19,11 @@ function EventSchedule({
     const { isOpen, setIsOpen, toggle } = useToggle();
     const { schedules, setSchedules, setPostSchedules } = useClubIntroContext();
 
+    // 일정 삭제하기 mutation 호출
+    const { useDeleteEventScheduleMutation } = useClubAdminQueries();
+    const deleteEventScheduleMutation = useDeleteEventScheduleMutation(
+        schedule.id,
+    );
     // 월 선택
     const handleMonthValue = (month: string) => {
         const monthValue = parseInt(month); // number 타입으로 변환 ('10월' -> 10)
@@ -72,6 +79,11 @@ function EventSchedule({
         });
     }, [schedules]);
 
+    // 일정 삭제
+    const handleDeleteSchedule = () => {
+        deleteEventScheduleMutation.mutate();
+    };
+
     return (
         <Container>
             <Dropdown setIsOpen={setIsOpen}>
@@ -99,15 +111,19 @@ function EventSchedule({
                 </Dropdown.Menu>
             </Dropdown>
 
-            <InputField
-                value={schedule.content}
-                name="content"
-                onChange={handleInputValue}
-                inputSize="small"
-                backgroundColor="gray"
-                placeholder="일정을 입력해 주세요."
-                maxLength={30}
-            />
+            <InputFieldWrapper>
+                <InputField
+                    value={schedule.content}
+                    name="content"
+                    onChange={handleInputValue}
+                    inputSize="small"
+                    backgroundColor="gray"
+                    placeholder="일정을 입력해 주세요."
+                    maxLength={30}
+                    style={{ paddingRight: '36px' }}
+                />
+                <StyeldDeleteIcon onClick={handleDeleteSchedule} />
+            </InputFieldWrapper>
         </Container>
     );
 }
@@ -174,4 +190,22 @@ const DropdownItem = styled.li<{ $isSelected: boolean }>`
     background-color: ${({ $isSelected, theme }) =>
         $isSelected ? theme.colors.lightGray : theme.colors.white};
     cursor: pointer;
+`;
+
+const InputFieldWrapper = styled.div`
+    postion: relative;
+`;
+
+const StyeldDeleteIcon = styled(DeleteIcon)`
+    position: absolute;
+    top: 8px;
+    right: 12px;
+    cursor: pointer;
+    width: 24px;
+    height: 24px;
+    transform: rotate(45deg);
+
+    path {
+        stroke: #33363f;
+    }
 `;
