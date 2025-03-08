@@ -37,7 +37,6 @@ function useClubRegisterQueries() {
             staleTime: 5 * 60 * 1000,
         });
 
-        // 데이터 불러오기 성공 시, 등록 정보 상태 업데이트
         useEffect(() => {
             if (isSuccess && data) {
                 setInputValue({
@@ -47,11 +46,9 @@ function useClubRegisterQueries() {
                     oneLiner: data.result.description,
                 });
 
-                // 이미지 미리보기 업데이트
                 setPreviewImg(data.result.profileImageUrl);
 
                 if (data.result.profileImageUrl) {
-                    // 이미지 파일로 변환 후 상태 업데이트
                     convertImageToFile(data.result.profileImageUrl).then(
                         (imageFile) => {
                             setPostImg(imageFile!);
@@ -66,9 +63,30 @@ function useClubRegisterQueries() {
         }, [isSuccess, data]);
     };
 
+    const MAX_FILE_SIZE = 6 * 1024 * 1024; // 넉넉잡아 6메가까지 업로드 가능하도록
+
+    const calculateFormDataSize = (formData: FormData): number => {
+        let totalSize = 0;
+
+        for (const pair of formData.entries()) {
+            const value = pair[1];
+            if (value instanceof File) {
+                totalSize += value.size;
+            } else if (typeof value === 'string') {
+                totalSize += new Blob([value]).size;
+            }
+        }
+        return totalSize;
+    };
+
     // 동아리 등록
     const useClubRegisterMutation = () => {
-        const { isSuccess, isError, isPending, mutate } = useMutation({
+        const {
+            isSuccess,
+            isError,
+            isPending,
+            mutate: originalMutate,
+        } = useMutation({
             mutationFn: async (formData: FormData) => {
                 return await apiRequest({
                     url: `/api/clubs/registrations`,
@@ -89,12 +107,34 @@ function useClubRegisterQueries() {
                 showToast('오류가 발생했어요. 다시 시도해주세요.');
             },
         });
+
+        const mutate = (formData: FormData) => {
+            const totalSize = calculateFormDataSize(formData);
+
+            if (totalSize > MAX_FILE_SIZE) {
+                showToast(
+                    `파일 크기가 너무 큽니다. 최대 ${
+                        5
+                        // MAX_FILE_SIZE / 1024 / 1024
+                    }MB까지 가능합니다.`,
+                );
+                return;
+            }
+
+            originalMutate(formData);
+        };
+
         return { isSuccess, isError, isPending, mutate };
     };
 
     // 동아리 등록 정보 수정
     const useEditClubRegisterMutation = () => {
-        const { isSuccess, isError, isPending, mutate } = useMutation({
+        const {
+            isSuccess,
+            isError,
+            isPending,
+            mutate: originalMutate,
+        } = useMutation({
             mutationFn: async (formData: FormData) => {
                 return await apiRequest({
                     url: `/api/clubs/${clubId}/update`,
@@ -114,10 +154,28 @@ function useClubRegisterQueries() {
                     replace: true,
                 });
             },
-            onError: () => {
+            onError: (error) => {
+                console.error('동아리 수정 실패', error);
                 showToast('오류가 발생했어요. 다시 시도해주세요.');
             },
         });
+
+        const mutate = (formData: FormData) => {
+            const totalSize = calculateFormDataSize(formData);
+
+            if (totalSize > MAX_FILE_SIZE) {
+                showToast(
+                    `파일 크기가 너무 큽니다. 최대 ${
+                        5
+                        // MAX_FILE_SIZE / 1024 / 1024
+                    }MB까지 가능합니다.`,
+                );
+                return;
+            }
+
+            originalMutate(formData);
+        };
+
         return { isSuccess, isError, isPending, mutate };
     };
 
