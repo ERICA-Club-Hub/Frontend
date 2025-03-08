@@ -100,7 +100,7 @@ function useClubRegisterQueries() {
             if (totalSize > MAX_FILE_SIZE) {
                 showToast(
                     `파일 크기가 너무 큽니다. 최대 ${
-                        5
+                        0.5
                         // MAX_FILE_SIZE / 1024 / 1024
                     }MB까지 가능합니다.`,
                 );
@@ -152,7 +152,7 @@ function useClubRegisterQueries() {
             if (totalSize > MAX_FILE_SIZE) {
                 showToast(
                     `파일 크기가 너무 큽니다. 최대 ${
-                        5
+                        0.5
                         // MAX_FILE_SIZE / 1024 / 1024
                     }MB까지 가능합니다.`,
                 );
