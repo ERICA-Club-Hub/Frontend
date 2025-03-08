@@ -2,7 +2,7 @@ import { uploadImageWithPreview } from '@/utils';
 import styled from 'styled-components';
 
 interface IClubImageUpload {
-    setPostImg: React.Dispatch<React.SetStateAction<File | null>>;
+    setPostImg: React.Dispatch<React.SetStateAction<File | File[] | null>>;
     previewImg: string | ArrayBuffer | null;
     setPreviewImg: React.Dispatch<
         React.SetStateAction<string | ArrayBuffer | null>

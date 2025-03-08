@@ -127,7 +127,7 @@ const useUnionNoticeQuery = ({
     setPreviewImg: React.Dispatch<
         React.SetStateAction<string | ArrayBuffer | null>
     >;
-    setPostImg: React.Dispatch<React.SetStateAction<File | null>>;
+    setPostImg: React.Dispatch<React.SetStateAction<File | File[] | null>>;
 }) => {
     const { isSuccess, data, isError } = useQuery({
         queryKey: ['union', 'notice', announcementId],
@@ -153,7 +153,7 @@ const useUnionNoticeQuery = ({
             setPreviewImg(noticeData[0].thumbnailUrl);
 
             // 이미지 파일로 변환 후 상태 업데이트
-            convertImageToFile(data.profileImageUrl).then((imageFile) => {
+            convertImageToFile(noticeData[0].thumbnailUrl).then((imageFile) => {
                 setPostImg(imageFile || null);
             });
         }

@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import styled from 'styled-components';
-import { useRecoilValue } from 'recoil';
 import Button from '@/components/Common/Button';
 import { TextArea } from '@/components/Common/TextArea';
 import { recruitNoticeList } from '@/constants/club-detail-register';
@@ -10,30 +9,22 @@ import {
     SectionWrapper,
 } from '@/styles/admin-club-detail/style';
 import { inputChangeHandler } from '@/utils/inputChangeHandler';
-import { apiRequest } from '@/api/apiRequest';
-import { clubIdSelector } from '@/store/clubInfoState';
 import { IRecruitNoticeValue } from '@/types';
 import useBulletPointConverter from '@/hooks/actions/useBulletPointConverter';
 import useClubAdminQueries from '@/hooks/queries/useClubAdminQueries';
 
 function RecruitNoticePage() {
-    const clubId = useRecoilValue(clubIdSelector);
     const [inputValue, setInputValue] = useState<IRecruitNoticeValue>({
         due: '',
         notice: '',
         etc: '',
     });
 
-    // 데이터 fetch
-    const { useRecruitNoticeQuery } = useClubAdminQueries();
-    const { isPending } = useRecruitNoticeQuery({ clubId, setInputValue });
-
-    // 데이터 저장 mutation 호출
-    const { useSaveRecruitNoticeMutation } = useClubAdminQueries();
-    const saveRecruitNoticeMutation = useSaveRecruitNoticeMutation({
-        clubId,
-        inputValue,
-    });
+    // 데이터 fetch 및 저장 mutation 호출
+    const { useRecruitNoticeQuery, useSaveRecruitNoticeMutation } =
+        useClubAdminQueries();
+    const { isPending } = useRecruitNoticeQuery(setInputValue);
+    const saveRecruitNoticeMutation = useSaveRecruitNoticeMutation(inputValue);
 
     const handleSubmit = async (e: React.MouseEvent<HTMLButtonElement>) => {
         const target = e.target as HTMLButtonElement;
@@ -44,14 +35,14 @@ function RecruitNoticePage() {
                 saveRecruitNoticeMutation.mutate();
             }
             // 미리보기
-            else if (target.name === 'preview') {
-                await apiRequest({
-                    url: `/api/clubs/club-admin/${clubId}/recruitment/draft`,
-                    method: 'POST',
-                    data: inputValue,
-                    requireToken: true,
-                });
-            }
+            // else if (target.name === 'preview') {
+            //     await apiRequest({
+            //         url: `/api/clubs/club-admin/${clubId}/recruitment/draft`,
+            //         method: 'POST',
+            //         data: inputValue,
+            //         requireToken: true,
+            //     });
+            // }
         } catch (error) {
             console.error('저장하기 실패', error);
         }

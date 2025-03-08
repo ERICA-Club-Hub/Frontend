@@ -7,7 +7,7 @@ const convertImageToFile = async (imageUrl: string) => {
         const blob = await res.blob();
 
         // Blob 객체를 File 객체로 변환
-        return new File([blob], 'profile-image.jpg', {
+        return new File([blob], 'club-logo-image', {
             type: blob.type,
         });
     } catch (error) {

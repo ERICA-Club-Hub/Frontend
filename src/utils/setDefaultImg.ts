@@ -4,8 +4,8 @@ export const setDefaultImg = ({
     postImg,
     setPostImg,
 }: {
-    postImg: File | null;
-    setPostImg: React.Dispatch<React.SetStateAction<File | null>>;
+    postImg: File | File[] | null;
+    setPostImg: React.Dispatch<React.SetStateAction<File | File[] | null>>;
 }) => {
     // postImg 기본 이미지로 설정
     useEffect(() => {

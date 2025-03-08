@@ -3,20 +3,17 @@ import { clubIntroList } from '@/constants/club-detail-register';
 import useBulletPointConverter from '@/hooks/actions/useBulletPointConverter';
 import useClubIntroContext from '@/hooks/contexts/useClubIntroContext';
 import useClubAdminQueries from '@/hooks/queries/useClubAdminQueries';
-import { clubIdSelector } from '@/store/clubInfoState';
 import { Label, SectionWrapper } from '@/styles/admin-club-detail/style';
 import { IClubIntroValue } from '@/types';
 import { inputChangeHandler } from '@/utils/inputChangeHandler';
-import { useRecoilValue } from 'recoil';
 import styled from 'styled-components';
 
 function ClubDescription() {
-    const clubId = useRecoilValue(clubIdSelector);
     const { inputValue, setInputValue } = useClubIntroContext();
 
     // 데이터 fetch
     const { useClubDescriptionQuery } = useClubAdminQueries();
-    useClubDescriptionQuery({ clubId, setInputValue });
+    useClubDescriptionQuery(setInputValue);
 
     return (
         <ClubIntroFormContainer>

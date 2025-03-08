@@ -6,7 +6,7 @@ import rightArrowIcon from '../../assets/common/card_right_arrow.svg';
 interface CardProps {
     $variant?: 'unionNotice' | 'serviceNotice' | 'resources' | 'FAQ';
     $imagePath?: string;
-    title: string;
+    title: string | React.ReactNode;
     date?: string;
     questionType?: string;
     onClick?: () => void;
