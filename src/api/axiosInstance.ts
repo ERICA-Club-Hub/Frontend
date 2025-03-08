@@ -7,7 +7,7 @@ export const axiosInstance: AxiosInstance = axios.create({
     headers: {
         'Content-Type': 'application/json', // null로 해둬도 axios가 알아서 객체 감지한다고 합니다
     },
-    timeout: 3000,
+    timeout: 7000,
 });
 
 axiosInstance.interceptors.response.use(
