@@ -34,7 +34,7 @@ function useClubRegisterQueries() {
                     method: 'GET',
                 });
             },
-            // staleTime: 5 * 60 * 1000,
+            staleTime: 5 * 60 * 1000,
         });
 
         // 데이터 불러오기 성공 시, 등록 정보 상태 업데이트
