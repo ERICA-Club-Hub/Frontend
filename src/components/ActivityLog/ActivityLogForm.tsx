@@ -14,7 +14,7 @@ import { dateFormatHandler } from '@/utils/dateFormatHandler';
 import useAdminClubQueries from '@/hooks/queries/useClubAdminQueries';
 import { useRecoilValue } from 'recoil';
 import { clubIdSelector } from '@/store/clubInfoState';
-import { ThumbnailImageUpload } from '../UnionNotice';
+import { ImageUpload } from '../UnionNotice';
 
 function ActivityLogForm({ mode }: { mode: string }) {
     const clubId = useRecoilValue(clubIdSelector);
@@ -27,32 +27,36 @@ function ActivityLogForm({ mode }: { mode: string }) {
         '',
     );
     const [isEditBtnClicked, setIsEditBtnClicked] = useState<boolean>(false);
-    const { isOpen, toggle } = useToggle();
+    const { isOpen, toggle } = useToggle(); // 삭제하기 Modal toggle
 
-    // FormData 생성
-    const formData: FormData = new FormData();
-
-    formData.append(
-        'requestBody',
-        new Blob([JSON.stringify(inputValue)], {
-            type: 'application/json',
-        }),
-    );
-
-    if (Array.isArray(postImg)) {
-        postImg.forEach((img: File) => {
-            formData.append(`images`, img);
-        });
-    }
-
+    // 활동로그 생성 mutation 호출
     const { useCreateActivityLogMutation } = useAdminClubQueries();
-    const createActivityLogMutation = useCreateActivityLogMutation({
-        clubId,
-        formData,
-    });
+    const createActivityLogMutation = useCreateActivityLogMutation(clubId);
 
+    console.log(postImg);
+
+    // 저장하기
     const handleSubmit = () => {
-        createActivityLogMutation.mutate();
+        // 날짜 형식을 YYYY-MM-DD로 변환
+        const formattedDate = inputValue.date.replace(/\./g, '-');
+        const updatedInputValue = { ...inputValue, date: formattedDate };
+
+        // FormData 생성
+        const formData: FormData = new FormData();
+        formData.append(
+            'requestBody',
+            new Blob([JSON.stringify(updatedInputValue)], {
+                type: 'application/json',
+            }),
+        );
+
+        if (Array.isArray(postImg)) {
+            postImg.forEach((img) => {
+                formData.append('images', img);
+            });
+        }
+
+        createActivityLogMutation.mutate(formData);
     };
 
     const isValid =
@@ -70,12 +74,13 @@ function ActivityLogForm({ mode }: { mode: string }) {
                             <ArrowIcon width={24} height={24} />
                         </PrevArrow>
                         <ThumbnailImageWrapper>
-                            <ThumbnailImageUpload
+                            <ImageUpload
                                 setPostImg={setPostImg}
                                 previewImg={previewImg}
                                 setPreviewImg={setPreviewImg}
                                 mode={mode}
                                 isEditBtnClicked={isEditBtnClicked}
+                                isImgList={true}
                             />
                             {Array.isArray(postImg) &&
                             postImg.length > 0 ? null : (
