@@ -1,29 +1,30 @@
 import { apiRequest } from '@/api/apiRequest';
 import { queryClient } from '@/config/queryClient';
-import { ClubIdType, IClubRegisterValue } from '@/types';
+import { IClubRegisterValue } from '@/types';
 import convertImageToFile from '@/utils/convertImageToFile';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useToast } from '../actions/useToast';
+import { useRecoilValue } from 'recoil';
+import { clubIdSelector } from '@/store/clubInfoState';
 
 function useClubRegisterQueries() {
+    const clubId = useRecoilValue(clubIdSelector);
     const navigate = useNavigate();
     const { showToast } = useToast();
 
     // 동아리 등록 정보 불러오기
     const useRegisterInfoQuery = ({
-        clubId,
         setInputValue,
         setPreviewImg,
         setPostImg,
     }: {
-        clubId: number | null;
         setInputValue: React.Dispatch<React.SetStateAction<IClubRegisterValue>>;
         setPreviewImg: React.Dispatch<
             React.SetStateAction<string | ArrayBuffer | null>
         >;
-        setPostImg: React.Dispatch<React.SetStateAction<File | null>>;
+        setPostImg: React.Dispatch<React.SetStateAction<File | File[] | null>>;
     }) => {
         const { isSuccess, data, isError } = useQuery({
             queryKey: [clubId, 'registerInfo'],
@@ -33,7 +34,7 @@ function useClubRegisterQueries() {
                     method: 'GET',
                 });
             },
-            staleTime: 5 * 60 * 1000,
+            // staleTime: 5 * 60 * 1000,
         });
 
         // 데이터 불러오기 성공 시, 등록 정보 상태 업데이트
@@ -49,10 +50,14 @@ function useClubRegisterQueries() {
                 // 이미지 미리보기 업데이트
                 setPreviewImg(data.result.profileImageUrl);
 
-                // 이미지 파일로 변환 후 상태 업데이트
-                convertImageToFile(data.profileImageUrl).then((imageFile) => {
-                    setPostImg(imageFile || null);
-                });
+                if (data.result.profileImageUrl) {
+                    // 이미지 파일로 변환 후 상태 업데이트
+                    convertImageToFile(data.result.profileImageUrl).then(
+                        (imageFile) => {
+                            setPostImg(imageFile!);
+                        },
+                    );
+                }
             }
 
             if (isError) {
@@ -62,9 +67,9 @@ function useClubRegisterQueries() {
     };
 
     // 동아리 등록
-    const useClubRegisterMutation = ({ formData }: { formData: FormData }) => {
+    const useClubRegisterMutation = () => {
         const { isSuccess, isError, isPending, mutate } = useMutation({
-            mutationFn: async () => {
+            mutationFn: async (formData: FormData) => {
                 return await apiRequest({
                     url: `/api/clubs/registrations`,
                     method: 'POST',
@@ -77,7 +82,6 @@ function useClubRegisterQueries() {
             },
             onSuccess: () => {
                 navigate('/admin/club/register/complete', {
-                    state: { mode: 'register' },
                     replace: true,
                 });
             },
@@ -89,15 +93,9 @@ function useClubRegisterQueries() {
     };
 
     // 동아리 등록 정보 수정
-    const useEditClubRegisterMutation = ({
-        clubId,
-        formData,
-    }: {
-        clubId: ClubIdType;
-        formData: FormData;
-    }) => {
+    const useEditClubRegisterMutation = () => {
         const { isSuccess, isError, isPending, mutate } = useMutation({
-            mutationFn: async () => {
+            mutationFn: async (formData: FormData) => {
                 return await apiRequest({
                     url: `/api/clubs/${clubId}/update`,
                     method: 'POST',
@@ -112,8 +110,7 @@ function useClubRegisterQueries() {
                 queryClient.invalidateQueries({
                     queryKey: [clubId, 'registerInfo'],
                 });
-                navigate('/admin/club/register/complete', {
-                    state: { mode: 'edit' },
+                navigate(`/admin/club/${clubId}`, {
                     replace: true,
                 });
             },
