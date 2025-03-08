@@ -127,7 +127,7 @@ function useClubRegisterQueries() {
                     method: 'POST',
                     data: formData,
                     headers: {
-                        'Content-Type': 'multipart/form-data',
+                        'Content-Type': 'multipart/-data',
                     },
                     requireToken: true,
                 });

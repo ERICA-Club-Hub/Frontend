@@ -25,7 +25,7 @@ interface RecruitStateProps {
 
 type activeTab = 'intro' | 'recruit' | 'log';
 
-type recuirementStatus = 'RECRUITING' | 'UPCOMING' | 'CLOSE';
+type recuirementStatus = 'RECRUITING' | 'OPEN' | 'CLOSE';
 
 interface clubInfoSummation {
     name: string | null;
@@ -133,7 +133,7 @@ const ClubDetailPage = () => {
         switch (clubDetail?.recruitmentStatus) {
             case 'RECRUITING':
                 return '모집중';
-            case 'UPCOMING':
+            case 'OPEN':
                 return '모집 예정';
             case 'CLOSE':
                 return '모집 마감';
