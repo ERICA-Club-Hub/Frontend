@@ -137,7 +137,7 @@ function ClubRegisterForm({ editMode }: { editMode: boolean }) {
                         value={inputValue.leaderEmail}
                         id="leaderEmail"
                         type="text"
-                        placeholder="동아리 이름을 정확하게 입력해 주세요."
+                        placeholder="이메일을 정확하게 입력해 주세요."
                         inputSize="large"
                         name="leaderEmail"
                         maxLength={30}

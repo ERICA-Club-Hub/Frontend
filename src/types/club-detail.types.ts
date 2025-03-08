@@ -16,4 +16,9 @@ interface IClubDescription {
     setInputValue: React.Dispatch<React.SetStateAction<IClubIntroValue>>;
 }
 
-export type { IMonthlyEventSchedule, IClubDescription };
+interface IActivitiesLog {
+    activityId: number;
+    thumbnailUrl: string;
+}
+
+export type { IMonthlyEventSchedule, IClubDescription, IActivitiesLog };

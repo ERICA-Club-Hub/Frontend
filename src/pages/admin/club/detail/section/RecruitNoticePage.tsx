@@ -24,12 +24,11 @@ function RecruitNoticePage() {
         etc: '',
     });
 
-    // 데이터 fetch
-    const { useRecruitNoticeQuery } = useClubAdminQueries();
+    // 데이터 fetch 및 저장 mutation 호출
+    const { useRecruitNoticeQuery, useSaveRecruitNoticeMutation } =
+        useClubAdminQueries();
     const { isPending } = useRecruitNoticeQuery({ clubId, setInputValue });
 
-    // 데이터 저장 mutation 호출
-    const { useSaveRecruitNoticeMutation } = useClubAdminQueries();
     const saveRecruitNoticeMutation = useSaveRecruitNoticeMutation({
         clubId,
         inputValue,

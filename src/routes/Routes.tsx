@@ -1,5 +1,6 @@
 import { Route, Routes } from 'react-router-dom';
 import {
+    AdminActivitiesFeedPage,
     AdminClubDetailPage,
     AdminClubPage,
     AdminClubRegisterManagePage,
@@ -11,10 +12,12 @@ import {
     ClubIntroPage,
     ClubListPage,
     ClubRegisterPage,
+    EditAdminActivityLogPage,
     EditClubRegisterPage,
     ErrorPage,
     FAQPage,
     RecruitNoticePage,
+    RegisterAdminActivityLogPage,
     ResourcesPage,
     ServiceNoticePage,
     SummaryInfoPage,
@@ -79,6 +82,22 @@ export default function AppRoutes() {
                 <Route path="/admin/club/:id" element={<ClubAdminGurad />}>
                     {/* 동아리 어드민 홈*/}
                     <Route index element={<AdminClubPage />} />
+
+                    {/* 동아리 활동 로그 피드 페이지 */}
+                    <Route
+                        path="/admin/club/:id/activities/feed"
+                        element={<AdminActivitiesFeedPage />}
+                    />
+                    {/* 동아리 활동 로그 등록 페이지 */}
+                    <Route
+                        path="/admin/club/:id/activities/register"
+                        element={<RegisterAdminActivityLogPage />}
+                    />
+                    {/* 동아리 활동 로그 등록 페이지 */}
+                    <Route
+                        path="/admin/club/:id/activities/edit"
+                        element={<EditAdminActivityLogPage />}
+                    />
 
                     {/* 동아리 상세 페이지  */}
                     <Route
