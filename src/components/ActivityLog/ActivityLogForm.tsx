@@ -10,14 +10,18 @@ import { ButtonWrapper } from '@/styles/button';
 import Button from '../Common/Button';
 import useToggle from '@/hooks/actions/useToggle';
 import ActionModal from '../Common/Modal/ActionModal';
-import { dateFormatHandler } from '@/utils/dateFormatHandler';
 import useAdminClubQueries from '@/hooks/queries/useClubAdminQueries';
 import { useRecoilValue } from 'recoil';
 import { clubIdSelector } from '@/store/clubInfoState';
 import { ImageUpload } from '../UnionNotice';
+import { dateFormatHandler, handleDateChange } from '@/utils/dateFormatHandler';
+import { useLocation } from 'react-router-dom';
 
 function ActivityLogForm({ mode }: { mode: string }) {
+    const location = useLocation();
+    const { id } = location.state || {}; // 전달된 state에서 id 받아오기 -> id가 있으면 해당 동아리 활동로그 상세로 이동
     const clubId = useRecoilValue(clubIdSelector);
+
     const [inputValue, setInputValue] = useState<IActivityLogValue>({
         content: '',
         date: '',
@@ -33,10 +37,19 @@ function ActivityLogForm({ mode }: { mode: string }) {
     const { useCreateActivityLogMutation } = useAdminClubQueries();
     const createActivityLogMutation = useCreateActivityLogMutation(clubId);
 
-    console.log(postImg);
+    // 활동로그 상세 불러오기 Query 호출
+    if (mode === 'edit' && id) {
+        const { useDetailActivitiesLogQuery } = useAdminClubQueries();
+        useDetailActivitiesLogQuery({
+            activityId: id,
+            setInputValue,
+            setPreviewImg,
+            setPostImg,
+        });
+    }
 
     // 저장하기
-    const handleSubmit = () => {
+    const handleSaveActivityLog = () => {
         // 날짜 형식을 YYYY-MM-DD로 변환
         const formattedDate = inputValue.date.replace(/\./g, '-');
         const updatedInputValue = { ...inputValue, date: formattedDate };
@@ -113,6 +126,12 @@ function ActivityLogForm({ mode }: { mode: string }) {
                                     setInputValue,
                                 })
                             }
+                            onKeyDown={(e) =>
+                                handleDateChange<IActivityLogValue>({
+                                    e,
+                                    setInputValue,
+                                })
+                            }
                         />
                     </DateInputWrapper>
 
@@ -126,6 +145,7 @@ function ActivityLogForm({ mode }: { mode: string }) {
                         placeholder="사진에 대한 설명을 입력해 주세요."
                         name="content"
                         value={inputValue.content}
+                        disabled={mode === 'edit' && !isEditBtnClicked}
                         onChange={(e) =>
                             inputChangeHandler<IActivityLogValue>({
                                 e,
@@ -169,7 +189,7 @@ function ActivityLogForm({ mode }: { mode: string }) {
                             type="button"
                             size="small"
                             disabled={!isValid}
-                            onClick={handleSubmit}
+                            onClick={handleSaveActivityLog}
                         >
                             저장하기
                         </Button>
