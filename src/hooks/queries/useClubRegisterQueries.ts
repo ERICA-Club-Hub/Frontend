@@ -8,6 +8,8 @@ import { useNavigate } from 'react-router-dom';
 import { useToast } from '../actions/useToast';
 import { useRecoilValue } from 'recoil';
 import { clubIdSelector } from '@/store/clubInfoState';
+import { MAX_FILE_SIZE } from '@/constants/MAX_FILE_SIZE';
+import { calculateFormDataSize } from '@/utils/calculateFileSize';
 
 function useClubRegisterQueries() {
     const clubId = useRecoilValue(clubIdSelector);
@@ -61,22 +63,6 @@ function useClubRegisterQueries() {
                 console.error('동아리 등록 정보 불러오기 실패');
             }
         }, [isSuccess, data]);
-    };
-
-    const MAX_FILE_SIZE = 6 * 1024 * 1024; // 넉넉잡아 6메가까지 업로드 가능하도록
-
-    const calculateFormDataSize = (formData: FormData): number => {
-        let totalSize = 0;
-
-        for (const pair of formData.entries()) {
-            const value = pair[1];
-            if (value instanceof File) {
-                totalSize += value.size;
-            } else if (typeof value === 'string') {
-                totalSize += new Blob([value]).size;
-            }
-        }
-        return totalSize;
     };
 
     // 동아리 등록
