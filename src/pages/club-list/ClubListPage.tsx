@@ -318,7 +318,10 @@ const ClubListPage = () => {
     const fetchClubs = useCallback(async () => {
         try {
             setIsLoading(true); // 로딩 상태 설정
-            const params: Record<string, string> = {}; // 쿼리 파라미터 초기화
+            const params: Record<string, string> = {
+                size: '100',  // 충분히 큰 수로 설정하여 모든 데이터를 가져옴
+                page: '0'
+            };
 
             // 필터링 조건만 쿼리 파라미터로 전달
             if (searchTerm.trim()) {
