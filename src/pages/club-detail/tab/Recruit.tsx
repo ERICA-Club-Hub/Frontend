@@ -84,7 +84,7 @@ const Container = styled.div`
     margin-bottom: 7px;
 `;
 const ContainerV = styled.div`
-    background-color: white;
+    background-color: none;
     border-radius: 10px;
     padding: 20px;
     width: 328px;
