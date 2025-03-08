@@ -6,9 +6,9 @@ import Button from '@/components/Common/Button';
 import useUnionQueries from '@/hooks/queries/useUnionQueries';
 import { IUnionNoticeValue } from '@/types';
 import { inputChangeHandler } from '@/utils/inputChangeHandler';
-import { ThumbnailImageUpload } from '@/components/UnionNotice/ThumbnailImageUpload';
 import useToggle from '@/hooks/actions/useToggle';
 import ActionModal from '../Common/Modal/ActionModal';
+import { ImageUpload } from '../Common/ImageUpload';
 
 function UnionNoticeRegisterForm({ mode }: { mode: string }) {
     const navigate = useNavigate();
@@ -20,7 +20,7 @@ function UnionNoticeRegisterForm({ mode }: { mode: string }) {
         title: '',
         url: '',
     });
-    const [postImg, setPostImg] = useState<File | null>(null); // 요청 이미지
+    const [postImg, setPostImg] = useState<File | File[] | null>(null); // 요청 이미지
     const [previewImg, setPreviewImg] = useState<string | ArrayBuffer | null>( // 미리보기 이미지
         '',
     );
@@ -47,7 +47,11 @@ function UnionNoticeRegisterForm({ mode }: { mode: string }) {
         }),
     );
     if (postImg) {
-        formData.append('thumbnail', postImg);
+        if (Array.isArray(postImg)) {
+            formData.append('thumbnail', postImg[0]);
+        } else {
+            formData.append('thumbnail', postImg);
+        }
     }
 
     // 총동연 공지사항 CRUD Mutation 호출
@@ -124,7 +128,7 @@ function UnionNoticeRegisterForm({ mode }: { mode: string }) {
                         </span>
                     </div>
 
-                    <ThumbnailImageUpload
+                    <ImageUpload
                         setPostImg={setPostImg}
                         previewImg={previewImg}
                         setPreviewImg={setPreviewImg}

@@ -1,25 +1,27 @@
 import { uploadImageWithPreview } from '@/utils';
 import styled from 'styled-components';
 
-interface IThumbnailImageUpload {
-    setPostImg: React.Dispatch<React.SetStateAction<File | null>>;
+interface IImageUpload {
+    setPostImg: React.Dispatch<React.SetStateAction<File | File[] | null>>;
     previewImg: string | ArrayBuffer | null;
     setPreviewImg: React.Dispatch<
         React.SetStateAction<string | ArrayBuffer | null>
     >;
     mode: string;
     isEditBtnClicked: boolean;
+    isImgList?: boolean;
 }
 
-function ThumbnailImageUpload({
+function ImageUpload({
     setPostImg,
     previewImg,
     setPreviewImg,
     mode,
     isEditBtnClicked,
-}: IThumbnailImageUpload) {
+    isImgList,
+}: IImageUpload) {
     const handleImgUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
-        uploadImageWithPreview(e, setPostImg, setPreviewImg);
+        uploadImageWithPreview(e, setPostImg, setPreviewImg, isImgList);
     };
 
     return (
@@ -43,16 +45,16 @@ function ThumbnailImageUpload({
     );
 }
 
-export { ThumbnailImageUpload };
+export { ImageUpload };
 
 const ImageContainer = styled.div`
-    width: 140px;
-    height: 140px;
+    width: 100%;
+    height: 100%;
     display: flex;
 
     .image-preview-label {
-        width: 140px;
-        height: 140px;
+        width: 100%;
+        height: 100%;
         border-radius: 10px;
         background-color: ${({ theme }) => theme.colors.mediumGray};
         cursor: pointer;

@@ -10,14 +10,10 @@ import {
 } from '@/styles/admin-club-detail/style';
 import { inputChangeHandler } from '@/utils/inputChangeHandler';
 import { ISummaryInfoValue } from '@/types';
-import { useRecoilValue } from 'recoil';
-import { clubIdSelector } from '@/store/clubInfoState';
-import useClubDetailQueries from '@/hooks/queries/useClubAdminQueries';
 import { RecruitmentStatus } from '@/components/AdminClubDetail';
 import useClubAdminQueries from '@/hooks/queries/useClubAdminQueries';
 
 function SummaryInfoPage() {
-    const clubId = useRecoilValue(clubIdSelector);
     const [inputValue, setInputValue] = useState<ISummaryInfoValue>({
         recruitmentStatus: '',
         leaderName: '',
@@ -28,16 +24,11 @@ function SummaryInfoPage() {
         applicationUrl: '',
     });
 
-    // 데이터 fetch
-    const { useSummaryInfoQuery } = useClubDetailQueries();
-    const { isPending } = useSummaryInfoQuery({ clubId, setInputValue });
-
-    // 데이터 저장 mutation 호출
-    const { useSaveSummaryInfoMutation } = useClubAdminQueries();
-    const saveSummaryInfoMutation = useSaveSummaryInfoMutation({
-        clubId,
-        inputValue,
-    });
+    // 데이터 fetch 및  데이터 저장 mutation 호출
+    const { useSaveSummaryInfoMutation, useSummaryInfoQuery } =
+        useClubAdminQueries();
+    const { isPending } = useSummaryInfoQuery(setInputValue);
+    const saveSummaryInfoMutation = useSaveSummaryInfoMutation(inputValue);
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -50,8 +41,7 @@ function SummaryInfoPage() {
         inputValue.leaderName.length > 0 &&
         inputValue.leaderPhone.length > 0 &&
         inputValue.activities.length > 0 &&
-        inputValue.membershipFee &&
-        inputValue.applicationUrl.length > 0;
+        inputValue.membershipFee;
 
     return (
         <FormContainer onSubmit={handleSubmit}>
@@ -80,7 +70,7 @@ function SummaryInfoPage() {
                                     {summaryInfo.label}
                                 </Label>
                                 {summaryInfo.label === 'SNS' && (
-                                    <SNSLabel>(선택)</SNSLabel>
+                                    <OptionalLabel>(선택)</OptionalLabel>
                                 )}
                             </LabelContainer>
                             <InputField
@@ -115,7 +105,10 @@ function SummaryInfoPage() {
 
             {/* 동아리 신청 폼 링크 */}
             <ApplyLink>
-                <Label>동아리 신청 폼 링크</Label>
+                <LabelContainer>
+                    <Label style={{ width: 'auto' }}>동아리 신청 폼 링크</Label>
+                    <OptionalLabel>(선택)</OptionalLabel>
+                </LabelContainer>
                 <InputField
                     value={inputValue.applicationUrl}
                     name="applicationUrl"
@@ -184,9 +177,10 @@ const LabelContainer = styled.div`
     justify-content: flex-start;
     align-items: center;
     gap: 5px;
+    width: 280px;
 `;
 
-const SNSLabel = styled.span`
+const OptionalLabel = styled.span`
     font-size: 14px;
     font-weight: 400;
     color: ${({ theme }) => theme.colors.subGray};
