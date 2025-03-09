@@ -62,7 +62,8 @@ function SummaryInfoPage() {
                                 <Label
                                     style={
                                         // SNS 한정 width 조정 (100% -> auto)
-                                        summaryInfo.label === 'SNS'
+                                        summaryInfo.label === 'SNS' ||
+                                        summaryInfo.label === '회비'
                                             ? { width: 'auto' }
                                             : {}
                                     }
@@ -71,6 +72,11 @@ function SummaryInfoPage() {
                                 </Label>
                                 {summaryInfo.label === 'SNS' && (
                                     <OptionalLabel>(선택)</OptionalLabel>
+                                )}
+                                {summaryInfo.label === '회비' && (
+                                    <OptionalLabel>
+                                        (숫자만 입력가능)
+                                    </OptionalLabel>
                                 )}
                             </LabelContainer>
                             <InputField
