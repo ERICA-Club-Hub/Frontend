@@ -70,8 +70,10 @@ export default function Log() {
         </Container>
     ) : (
         <NullContainer>
-            <XSize>🅧</XSize>
-            <span>활동로그가 비었어요.</span>
+            <ContainerV>
+                <XSize>🅧</XSize>
+                <span>활동로그가 비었어요.</span>
+            </ContainerV>
         </NullContainer>
     );
 }
@@ -87,6 +89,16 @@ const Container = styled.div`
     width: 328px;
     margin-bottom: 7px;
 `;
+const ContainerV = styled.div`
+    background-color: none;
+    border-radius: 10px;
+    padding: 20px;
+    width: 328px;
+    margin-bottom: 7px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+`;
 const LogImg = styled.img`
     width: 92px;
     height: 92px;
@@ -95,9 +107,8 @@ const LogImg = styled.img`
 const NullContainer = styled.div`
     display: flex;
     flex-direction: column;
-    margin-top: 81px;
-    gap: 10px;
-    align-items: center;
+    justify-content: center;
+    text-align: center;
 `;
 const XSize = styled.span`
     font-size: 30px;

@@ -8,6 +8,8 @@ interface IMonthlyEventSchedule {
     setPostSchedules: React.Dispatch<
         React.SetStateAction<IEventScheduleValue[]>
     >;
+    deleteScheduleIdList: number[];
+    setDeleteScheduleIdList: React.Dispatch<React.SetStateAction<number[]>>;
 }
 
 // 동아리 소개글 작성 컴포넌트 props 타입
