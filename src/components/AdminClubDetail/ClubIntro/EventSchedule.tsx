@@ -7,7 +7,6 @@ import { IEventScheduleValue } from '@/types';
 import { Dropdown, InputField } from '@/components/Common';
 import { useEffect } from 'react';
 import DeleteIcon from '@/assets/common/plus-icon.svg?react';
-import useClubAdminQueries from '@/hooks/queries/useClubAdminQueries';
 
 function EventSchedule({
     schedule,
@@ -17,13 +16,14 @@ function EventSchedule({
     index: number;
 }) {
     const { isOpen, setIsOpen, toggle } = useToggle();
-    const { schedules, setSchedules, setPostSchedules } = useClubIntroContext();
+    const {
+        schedules,
+        setSchedules,
+        setPostSchedules,
+        deleteScheduleIdList,
+        setDeleteScheduleIdList,
+    } = useClubIntroContext();
 
-    // 일정 삭제하기 mutation 호출
-    const { useDeleteEventScheduleMutation } = useClubAdminQueries();
-    const deleteEventScheduleMutation = useDeleteEventScheduleMutation(
-        schedule.id,
-    );
     // 월 선택
     const handleMonthValue = (month: string) => {
         const monthValue = parseInt(month); // number 타입으로 변환 ('10월' -> 10)
@@ -81,7 +81,18 @@ function EventSchedule({
 
     // 일정 삭제
     const handleDeleteSchedule = () => {
-        deleteEventScheduleMutation.mutate();
+        // 우선 보여지는 화면에서 삭제 (API 요청은 id 리스트로 모아서 저장하기 트리거 시 보냄)
+        setSchedules((prevSchedules) => {
+            let updatedSchedules = [...prevSchedules];
+            updatedSchedules.splice(index, 1);
+
+            return updatedSchedules;
+        });
+
+        // 삭제할 일정 id 리스트에 추가
+        if (schedule.id) {
+            setDeleteScheduleIdList([...deleteScheduleIdList, schedule.id]);
+        }
     };
 
     return (
