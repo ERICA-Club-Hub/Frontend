@@ -16,6 +16,7 @@ import { useNavigate } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
 import { useToast } from '../actions/useToast';
 import convertImageToFile from '@/utils/convertImageToFile';
+import { IActivityImageDTO } from '@/types/activity-log.types';
 
 function useClubAdminQueries() {
     const navigate = useNavigate();
@@ -252,15 +253,11 @@ function useClubAdminQueries() {
         });
 
     // 전체 활동로그 불러오기
-    const useActivitiesLogQuery = ({
-        clubId,
-        setActivitiesLog,
-    }: {
-        clubId: number | null;
+    const useActivitiesLogQuery = (
         setActivitiesLog: React.Dispatch<
             React.SetStateAction<IActivitiesLog[]>
-        >;
-    }) => {
+        >,
+    ) => {
         const { isPending, isSuccess, data, isError } = useQuery({
             queryKey: ['activitesLog'],
             queryFn: async () => {
@@ -297,7 +294,7 @@ function useClubAdminQueries() {
         activityId: number | null;
         setInputValue: React.Dispatch<React.SetStateAction<IActivityLogValue>>;
         setPreviewImg: React.Dispatch<
-            React.SetStateAction<string | ArrayBuffer | null>
+            React.SetStateAction<string[] | ArrayBuffer | null>
         >;
         setPostImg: React.Dispatch<React.SetStateAction<File | File[] | null>>;
     }) => {
@@ -322,10 +319,17 @@ function useClubAdminQueries() {
                     date: data.date,
                 });
 
-                console.log(data);
-
                 // 이미지 미리보기 업데이트
                 setPreviewImg(data.activityImageDTOList[0].imageUrl);
+
+                console.log(data);
+
+                // 이미지 url 리스트 생성
+                const imgUrlList = data.activityImageDTOList.map(
+                    (img: IActivityImageDTO) => img.imageUrl,
+                );
+
+                setPostImg([...imgUrlList]);
 
                 // if (data.result.profileImageUrl) {
                 //     // 이미지 파일로 변환 후 상태 업데이트

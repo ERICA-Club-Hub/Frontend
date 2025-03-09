@@ -6,6 +6,7 @@ import left from '../../assets/common/Expand_right.svg';
 import right from '../../assets/common/card_right_arrow.svg';
 import styled from 'styled-components';
 import { DEFAULT_IMG } from '@/constants/DEFAULT_IMG';
+import { IActivityImageDTO } from '@/types/activity-log.types';
 
 interface LogMoadlProps {
     clubName?: string | null;
@@ -13,11 +14,6 @@ interface LogMoadlProps {
     setModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
     selectedImageId: number;
     selectedImageUrl: string;
-}
-
-interface ActivityDTO {
-    orderIndex: number;
-    imageUrl: string;
 }
 
 // 여기서 동아리 명, 동아리 이미지도 사용되는데 props로 전달해서 사용해야할지?.?
@@ -30,7 +26,7 @@ const ActivityLogModal = ({
 }: LogMoadlProps) => {
     const [modalContent, setModalContent] = useState<string>('');
     const [modalDate, setModalDate] = useState<string>('');
-    const [activityList, setActivityList] = useState<ActivityDTO[]>();
+    const [activityList, setActivityList] = useState<IActivityImageDTO[]>();
     const [currentIdx, setCurrentIdx] = useState<number>(0);
 
     useEffect(() => {

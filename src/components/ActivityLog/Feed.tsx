@@ -1,23 +1,17 @@
 import { useState } from 'react';
 import styled from 'styled-components';
-import { useRecoilValue } from 'recoil';
 import { IActivitiesLog } from '@/types';
 import ErrorIcon from '@/assets/common/error-icon.svg?react';
 import useClubAdminQueries from '@/hooks/queries/useClubAdminQueries';
-import { clubIdSelector } from '@/store/clubInfoState';
 import Skeleton from '../Common/Skeleton';
 import { FeedThumbnailImage } from './FeedThumbnailImage';
 
 function Feed() {
-    const clubId = useRecoilValue(clubIdSelector);
     const [activitiesLog, setActivitiesLog] = useState<IActivitiesLog[]>([]);
 
     // 활동로그 피드 데이터 fetch
     const { useActivitiesLogQuery } = useClubAdminQueries();
-    const { isPending, isSuccess } = useActivitiesLogQuery({
-        clubId,
-        setActivitiesLog,
-    });
+    const { isPending, isSuccess } = useActivitiesLogQuery(setActivitiesLog);
 
     return (
         <Container>
@@ -30,7 +24,10 @@ function Feed() {
             ) : isSuccess && activitiesLog.length > 0 ? (
                 <FeedListWrapper>
                     {activitiesLog.map((activityLog) => (
-                        <FeedThumbnailImage activityLog={activityLog} />
+                        <FeedThumbnailImage
+                            key={activityLog.activityId}
+                            activityLog={activityLog}
+                        />
                     ))}
                 </FeedListWrapper>
             ) : (
