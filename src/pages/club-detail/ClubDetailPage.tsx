@@ -13,6 +13,7 @@ import { ClubDetailProvider } from '@/contexts/ClubDetailContext';
 import { getCategoryEmoji, getCategoryMapping } from '@/utils/getCategoryEmoji';
 import arrow from '../../assets/common/Expand_right.svg';
 import { DEFAULT_IMG } from '@/constants/DEFAULT_IMG';
+import { isValidUrl } from '@/utils/isValidUrl';
 
 // tab 항목에서 활성화 여부를 판단할 props
 interface TabButtonProps {
@@ -238,7 +239,8 @@ const ClubDetailPage = () => {
                         <Button
                             disabled={
                                 clubDetail?.recruitmentStatus !== 'OPEN' ||
-                                clubDetail.applicationUrl === '없음'
+                                clubDetail.applicationUrl === '없음' ||
+                                !isValidUrl(clubDetail?.applicationUrl)
                             }
                             onClick={() => {
                                 if (clubDetail?.applicationUrl) {
