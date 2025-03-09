@@ -69,8 +69,10 @@ export default function Recruit() {
         </Container>
     ) : (
         <NullContainer>
-            <XSize>🅧</XSize>
-            <span>모집 안내가 비었습니다.</span>
+            <ContainerV>
+                <XSize>🅧</XSize>
+                <span>모집 안내가 비었습니다.</span>
+            </ContainerV>
         </NullContainer>
     );
 }
@@ -80,6 +82,16 @@ const Container = styled.div`
     padding: 20px;
     width: 328px;
     margin-bottom: 7px;
+`;
+const ContainerV = styled.div`
+    background-color: none;
+    border-radius: 10px;
+    padding: 20px;
+    width: 328px;
+    margin-bottom: 7px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
 `;
 const Title = styled.div`
     margin-top: -5px;
@@ -98,12 +110,10 @@ const ContentBlock = styled.div`
 `;
 
 const NullContainer = styled.div`
-    margin-top: 80px;
     display: flex;
     flex-direction: column;
     justify-content: center;
     text-align: center;
-    gap: 10px;
 `;
 const XSize = styled.span`
     font-size: 30px;
