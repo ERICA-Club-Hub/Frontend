@@ -19,38 +19,40 @@ function ClubIntroPage() {
     const [postSchedules, setPostSchedules] = useState<IEventScheduleValue[]>(
         [],
     );
+    // 삭제할 일정 id 리스트 별도로 관리
+    const [deleteScheduleIdList, setDeleteScheduleIdList] = useState<number[]>(
+        [],
+    );
     const [inputValue, setInputValue] = useState<IClubIntroValue>({
         introduction: '',
         activity: '',
         recruitment: '',
     });
 
-    // 동아리 소개글 저장하기 mutation 호출
-    const { useSaveClubIntroMutation } = useClubAdminQueries();
+    // 동아리 소개글 저장하기, 삭제하기 mutation 호출
+    const { useSaveClubIntroMutation, useDeleteEventScheduleMutation } =
+        useClubAdminQueries();
     const saveClubIntroMutation = useSaveClubIntroMutation({
         postSchedules,
         inputValue,
     });
+    const deleteEventScheduleMutation = useDeleteEventScheduleMutation();
 
     const handleSubmit = async (e: React.MouseEvent<HTMLButtonElement>) => {
         const target = e.target as HTMLButtonElement;
 
-        try {
-            // 저장하기
-            if (target.name === 'save') {
-                saveClubIntroMutation.mutate();
-            }
-        } catch (error) {
-            console.error('동아리 소개 저장하기 실패', error);
+        // 저장하기
+        if (target.name === 'save') {
+            saveClubIntroMutation.mutate();
+
+            deleteScheduleIdList.forEach((id) => {
+                deleteEventScheduleMutation.mutate(id);
+            });
         }
 
-        // try {
-        //     // 미리보기
-        //     if (target.name === 'preview') {
-        //         // 미리보기 API 호출 및 페이지 이동 로직 추가
-        //     }
-        // } catch (error) {
-        //     console.error('미리보기 실패', error);
+        // // 미리보기
+        // if (target.name === 'preview') {
+        //     // 미리보기 API 호출 및 페이지 이동 로직 추가
         // }
     };
 
@@ -63,6 +65,8 @@ function ClubIntroPage() {
                 setPostSchedules,
                 inputValue,
                 setInputValue,
+                deleteScheduleIdList,
+                setDeleteScheduleIdList,
             }}
         >
             <Container>

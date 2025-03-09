@@ -155,9 +155,9 @@ function useClubAdminQueries() {
     };
 
     // 월별 활동 일정 삭제
-    const useDeleteEventScheduleMutation = (scheduleId: number | undefined) =>
+    const useDeleteEventScheduleMutation = () =>
         useMutation({
-            mutationFn: async () => {
+            mutationFn: async (scheduleId: number) => {
                 return await apiRequest({
                     url: `/api/clubs/club-admin/${clubId}/schedules/${scheduleId}`,
                     method: 'DELETE',
