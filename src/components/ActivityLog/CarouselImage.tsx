@@ -7,11 +7,12 @@ import useActivityLogContext from '@/hooks/contexts/useClubIntroContext';
 export default function CarouselImage() {
     const {
         postImg,
-        setPostImg,
         previewImg,
         setPreviewImg,
         currentIdx,
         setCurrentIdx,
+        mode,
+        isEditBtnClicked,
     } = useActivityLogContext();
 
     // 캐러셀 이미지 이전, 다음 버튼 클릭
@@ -21,6 +22,16 @@ export default function CarouselImage() {
         }
     };
     const handleClickNextArrow = () => {
+        // 수정모드에서 '수정하기'버튼이 눌리지 않은 상황에서는 NEW 이미지 추가 불가
+        if (
+            mode === 'edit' &&
+            !isEditBtnClicked &&
+            Array.isArray(postImg) &&
+            currentIdx === postImg.length - 1
+        ) {
+            return;
+        }
+
         // NEW 이미지 추가
         if (Array.isArray(postImg) && currentIdx === postImg.length - 1) {
             setCurrentIdx(currentIdx + 1);
@@ -43,21 +54,22 @@ export default function CarouselImage() {
             >
                 <ArrowIcon width={24} height={24} />
             </PrevArrow>
+
             <ThumbnailImageWrapper>
-                <ImageListUpload
-                    currentIdx={currentIdx}
-                    setPostImg={setPostImg}
-                    previewImg={previewImg}
-                    setPreviewImg={setPreviewImg}
-                />
+                {/* 이미지 업로드 컴포넌트 */}
+                <ImageListUpload />
+
+                {/* 이미지 없을 때 플러스 아이콘 */}
                 {Array.isArray(postImg) && postImg[currentIdx] ? null : (
                     <IconWrapper>
                         <PlusIcon width={24} height={24} strokeWidth={2} />
                     </IconWrapper>
                 )}
             </ThumbnailImageWrapper>
+
             <NextArrow
                 onClick={handleClickNextArrow}
+                // 여기 eidt 모드일 때 코드 수정
                 disabled={postImg.length === 0}
             >
                 <ArrowIcon width={24} height={24} strokeWidth={2} />

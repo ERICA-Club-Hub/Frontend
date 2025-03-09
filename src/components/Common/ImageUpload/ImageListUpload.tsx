@@ -1,19 +1,17 @@
+import useActivityLogContext from '@/hooks/contexts/useClubIntroContext';
 import { uploadImageListHandler } from '@/utils/uploadImageListHandler';
 import styled from 'styled-components';
 
-interface IImageListUpload {
-    currentIdx: number;
-    setPostImg: React.Dispatch<React.SetStateAction<File[]>>;
-    previewImg: string | string[] | ArrayBuffer;
-    setPreviewImg: React.Dispatch<React.SetStateAction<string[] | ArrayBuffer>>;
-}
+function ImageListUpload() {
+    const {
+        setPostImg,
+        previewImg,
+        setPreviewImg,
+        currentIdx,
+        mode,
+        isEditBtnClicked,
+    } = useActivityLogContext();
 
-function ImageListUpload({
-    previewImg,
-    setPostImg,
-    setPreviewImg,
-    currentIdx,
-}: IImageListUpload) {
     const handleImgUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
         uploadImageListHandler(e, setPostImg, setPreviewImg, currentIdx);
     };
@@ -33,6 +31,7 @@ function ImageListUpload({
                 type="file"
                 accept=".jpg, .jpeg, .png"
                 onChange={handleImgUpload}
+                disabled={mode === 'edit' && !isEditBtnClicked}
             />
         </ImageContainer>
     );

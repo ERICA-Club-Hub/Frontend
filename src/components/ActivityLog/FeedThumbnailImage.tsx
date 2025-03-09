@@ -8,7 +8,7 @@ function FeedThumbnailImage({ activityLog }: { activityLog: IActivitiesLog }) {
     const handleRouting = () => {
         navigate(`/admin/club/${activityLog.activityId}/activities/edit`, {
             // id를 state로 넘겨주어 해당 활동로그 상세로 이동 (id가 없으면 활동로그 생성 페이지로 이동)
-            state: { id: activityLog.activityId },
+            state: { activityId: activityLog.activityId },
         });
     };
 

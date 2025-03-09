@@ -18,34 +18,38 @@ import { ActivityLogProvider } from '@/contexts/ActivityLogContext';
 
 function ActivityLogForm({ mode }: { mode: string }) {
     const location = useLocation();
-    const { id } = location.state || {}; // 전달된 state에서 id 받아오기 -> id가 있으면 해당 동아리 활동로그 상세로 이동
+    const { activityId } = location.state || {}; // 전달된 state에서 id 받아오기 -> id가 있으면 해당 동아리 활동로그 상세(현재 폼)로 이동
     const clubId = useRecoilValue(clubIdSelector);
+    const { isOpen, toggle } = useToggle(); // 삭제하기 Modal toggle
 
     // 로컬 상태
     const [inputValue, setInputValue] = useState<IActivityLogValue>({
         content: '',
         date: '',
     });
-    const [postImg, setPostImg] = useState<File[]>([]); // 요청 이미지
-    const [previewImg, setPreviewImg] = useState<string[] | ArrayBuffer>([]); // 미리보기 이미지
+    const [postImg, setPostImg] = useState<File[]>([]); // 요청 시 보낼 이미지
+    const [previewImg, setPreviewImg] = useState<string[]>([]); // 미리보기 이미지
     const [currentIdx, setCurrentIdx] = useState<number>(0);
     const [isEditBtnClicked, setIsEditBtnClicked] = useState<boolean>(false);
-    const { isOpen, toggle } = useToggle(); // 삭제하기 Modal toggle
 
     // 활동로그 생성 mutation 호출
-    const { useCreateActivityLogMutation, useDetailActivitiesLogQuery } =
-        useAdminClubQueries();
+    const {
+        useDetailActivitiesLogQuery,
+        useCreateActivityLogMutation,
+        useDeleteActivityLogMutation,
+    } = useAdminClubQueries();
     const createActivityLogMutation = useCreateActivityLogMutation(clubId);
+    const deleteActivityLogMutation = useDeleteActivityLogMutation(activityId);
 
     // 활동로그 상세 불러오기 Query 호출
-    // if (mode === 'edit' && id) {
-    //     useDetailActivitiesLogQuery({
-    //         activityId: id,
-    //         setInputValue,
-    //         setPreviewImg,
-    //         setPostImg,
-    //     });
-    // }
+    if (mode === 'edit' && activityId) {
+        useDetailActivitiesLogQuery({
+            activityId: activityId,
+            setInputValue,
+            setPreviewImg,
+            setPostImg,
+        });
+    }
 
     // 저장하기
     const handleSaveActivityLog = () => {
@@ -71,6 +75,12 @@ function ActivityLogForm({ mode }: { mode: string }) {
         createActivityLogMutation.mutate(formData);
     };
 
+    // 삭제하기
+    const handleDeleteActivityLog = () => {
+        toggle();
+        deleteActivityLogMutation.mutate();
+    };
+
     const isValid =
         postImg &&
         inputValue.date.length === 10 &&
@@ -86,6 +96,8 @@ function ActivityLogForm({ mode }: { mode: string }) {
                     setPreviewImg,
                     currentIdx,
                     setCurrentIdx,
+                    mode,
+                    isEditBtnClicked,
                 }}
             >
                 <Container>
@@ -179,7 +191,11 @@ function ActivityLogForm({ mode }: { mode: string }) {
             </ActivityLogProvider>
 
             {/* 삭제하기 Modal */}
-            <ActionModal isOpen={isOpen} toggle={toggle} action={() => {}} />
+            <ActionModal
+                isOpen={isOpen}
+                toggle={toggle}
+                action={handleDeleteActivityLog}
+            />
         </>
     );
 }

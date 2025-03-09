@@ -1,7 +1,7 @@
 const uploadImageListHandler = (
     e: React.ChangeEvent<HTMLInputElement>,
     setPostImg: React.Dispatch<React.SetStateAction<File[]>>,
-    setPreviewImg: React.Dispatch<React.SetStateAction<string[] | ArrayBuffer>>,
+    setPreviewImg: React.Dispatch<React.SetStateAction<string[]>>,
     currentIdx: number,
 ) => {
     const { files } = e.target;

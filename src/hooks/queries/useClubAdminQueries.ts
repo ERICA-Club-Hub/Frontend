@@ -291,12 +291,10 @@ function useClubAdminQueries() {
         setPreviewImg,
         setPostImg,
     }: {
-        activityId: number | null;
+        activityId: number;
         setInputValue: React.Dispatch<React.SetStateAction<IActivityLogValue>>;
-        setPreviewImg: React.Dispatch<
-            React.SetStateAction<string[] | ArrayBuffer | null>
-        >;
-        setPostImg: React.Dispatch<React.SetStateAction<File | File[] | null>>;
+        setPreviewImg: React.Dispatch<React.SetStateAction<string[]>>;
+        setPostImg: React.Dispatch<React.SetStateAction<File[]>>;
     }) => {
         const { isPending, isSuccess, data, isError } = useQuery({
             queryKey: ['activitesLog', activityId],
@@ -319,9 +317,6 @@ function useClubAdminQueries() {
                     date: data.date,
                 });
 
-                // 이미지 미리보기 업데이트
-                setPreviewImg(data.activityImageDTOList[0].imageUrl);
-
                 console.log(data);
 
                 // 이미지 url 리스트 생성
@@ -329,6 +324,8 @@ function useClubAdminQueries() {
                     (img: IActivityImageDTO) => img.imageUrl,
                 );
 
+                // 상태 업데이트
+                setPreviewImg([...imgUrlList]);
                 setPostImg([...imgUrlList]);
 
                 // if (data.result.profileImageUrl) {
@@ -374,6 +371,27 @@ function useClubAdminQueries() {
             },
         });
 
+    // 활동로그 삭제
+    const useDeleteActivityLogMutation = (activityId: ClubIdType) =>
+        useMutation({
+            mutationFn: async () => {
+                return await apiRequest({
+                    url: `/api/activities/club-admin/${activityId}`,
+                    method: 'DELETE',
+                    requireToken: true,
+                });
+            },
+            onSuccess: () => {
+                queryClient.invalidateQueries({
+                    queryKey: ['activitesLog'],
+                });
+                navigate(`/admin/club/${clubId}/activities/feed`);
+            },
+            onError: () => {
+                showToast('오류가 발생했어요. 다시 시도해주세요.');
+            },
+        });
+
     return {
         useSummaryInfoQuery,
         useSaveSummaryInfoMutation,
@@ -385,6 +403,7 @@ function useClubAdminQueries() {
         useActivitiesLogQuery,
         useDetailActivitiesLogQuery,
         useCreateActivityLogMutation,
+        useDeleteActivityLogMutation,
     };
 }
 
