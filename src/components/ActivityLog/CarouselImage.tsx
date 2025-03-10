@@ -32,16 +32,6 @@ export default function CarouselImage() {
             return;
         }
 
-        // 수정하기에서 이미지 추가 API 없다고 해서 일단 수정모드일 때 이미지 추가 막아놓기
-        // 수정하기에서 이미지 추가 API 있으면 이 부분 삭제
-        if (
-            mode === 'edit' &&
-            Array.isArray(postImg) &&
-            currentIdx === postImg.length - 1
-        ) {
-            return;
-        }
-
         // NEW 이미지 추가
         if (Array.isArray(postImg) && currentIdx === postImg.length - 1) {
             setCurrentIdx(currentIdx + 1);
@@ -66,7 +56,7 @@ export default function CarouselImage() {
             </PrevArrow>
 
             <ThumbnailImageWrapper>
-                {/* 이미지 업로드 컴포넌트 */}
+                {/* 이미지 업로드  */}
                 <ImageListUpload />
 
                 {/* 이미지 없을 때 플러스 아이콘 */}

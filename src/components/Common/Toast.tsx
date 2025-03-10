@@ -71,7 +71,9 @@ const ToastContainer = styled.div<{ $animating: boolean }>`
     background-color: rgba(35, 35, 35, 0.8);
     backdrop-filter: blur(5px);
     color: white;
-    width: 320px;
+    min-width: 320px;
+    width: max-content;
+    max-width: 340px;
     min-height: 45px;
     height: fit-content;
     border-radius: 10px;
@@ -83,5 +85,5 @@ const ToastContainer = styled.div<{ $animating: boolean }>`
         ease-in-out forwards;
     align-items: center;
     justify-content: center;
-    gap: 13px;
+    gap: 7px;
 `;
