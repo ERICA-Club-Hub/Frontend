@@ -201,7 +201,7 @@ const ContentsLabel = styled.span`
 const ContentsValue = styled.span`
     flex: 1;
     display: flex;
-    justify-content: center;
+    justify-content: flex-start;
     font-size: 14px;
     font-weight: 500;
     margin-top: 1px;
