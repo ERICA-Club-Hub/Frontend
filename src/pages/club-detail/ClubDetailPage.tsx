@@ -326,7 +326,8 @@ const PreviewWrapper = styled.div``;
 
 const ClubInfo = styled.div`
     width: 320px;
-    height: 201px;
+    min-height: 201px;
+    height: fit-content;
     border-radius: 10px;
     background-color: white;
     flex: 1;
