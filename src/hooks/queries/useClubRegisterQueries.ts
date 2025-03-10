@@ -5,15 +5,17 @@ import convertImageToFile from '@/utils/convertImageToFile';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useToast } from '../actions/useToast';
 import { useRecoilValue } from 'recoil';
 import { clubIdSelector } from '@/store/clubInfoState';
+import { useErrorHandler } from '../handler/useErrorHandler';
 import { MAX_FILE_SIZE } from '@/constants/MAX_FILE_SIZE';
 import { calculateFormDataSize } from '@/utils/calculateFileSize';
+import { useToast } from '../actions/useToast';
 
 function useClubRegisterQueries() {
     const clubId = useRecoilValue(clubIdSelector);
     const navigate = useNavigate();
+    const { handleError } = useErrorHandler();
     const { showToast } = useToast();
 
     // 동아리 등록 정보 불러오기
@@ -89,8 +91,8 @@ function useClubRegisterQueries() {
                     replace: true,
                 });
             },
-            onError: () => {
-                showToast('오류가 발생했어요. 다시 시도해주세요.');
+            onError: (error) => {
+                handleError(error);
             },
         });
 
@@ -141,8 +143,7 @@ function useClubRegisterQueries() {
                 });
             },
             onError: (error) => {
-                console.error('동아리 수정 실패', error);
-                showToast('오류가 발생했어요. 다시 시도해주세요.');
+                handleError(error);
             },
         });
 

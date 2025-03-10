@@ -10,6 +10,7 @@ import useBulletPointConverter from '@/hooks/actions/useBulletPointConverter';
 import ClubImageUpload from './ClubImageUpload';
 import { ClubCategorySelection } from './ClubCategorySelection';
 import useClubRegisterQueries from '@/hooks/queries/useClubRegisterQueries';
+import { setDefaultImg } from '@/utils/setDefaultImg';
 
 function ClubRegisterForm({ editMode }: { editMode: boolean }) {
     const [inputValue, setInputValue] = useState<IClubRegisterValue>({
@@ -21,8 +22,9 @@ function ClubRegisterForm({ editMode }: { editMode: boolean }) {
     });
     const [postImg, setPostImg] = useState<File | File[] | null>(null); // 요청 이미지
     const [previewImg, setPreviewImg] = useState<string | ArrayBuffer | null>(
-        null,
+        '/placeholder-image.svg',
     ); // 미리보기 이미지
+    setDefaultImg({ postImg, setPostImg });
 
     const {
         useRegisterInfoQuery,

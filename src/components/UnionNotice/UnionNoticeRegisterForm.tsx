@@ -8,7 +8,7 @@ import { IUnionNoticeValue } from '@/types';
 import { inputChangeHandler } from '@/utils/inputChangeHandler';
 import useToggle from '@/hooks/actions/useToggle';
 import ActionModal from '../Common/Modal/ActionModal';
-import { ImageUpload } from '../Common/ImageUpload';
+import { ImageUpload } from '../Common/ImageUpload/ImageUpload';
 
 function UnionNoticeRegisterForm({ mode }: { mode: string }) {
     const navigate = useNavigate();

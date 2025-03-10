@@ -6,22 +6,19 @@ import {
 } from '@/store/authState';
 import { clubId } from '@/store/clubInfoState';
 import { removeAccessToken } from '@/utils/tokenHandler';
-import { SetStateAction } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 
-export const useAuthToggle = (
-    setIsOpen: React.Dispatch<SetStateAction<boolean>>,
-) => {
-    const navigate = useNavigate();
+const useAuthToggle = () => {
     const isAuthenticatedValue = useRecoilValue(isAuthenticatedSelector);
+    const navigate = useNavigate();
     const setAuthenticated = useSetRecoilState(isAuthenticated);
     const setAdminType = useSetRecoilState(adminType);
     const setClubId = useSetRecoilState(clubId);
 
-    // 로그인 -> 로그아웃 로직
-    const handleLogout = () => {
-        apiRequest({
+    // 로그아웃
+    const handleLogout = async () => {
+        await apiRequest({
             url: '/api/auth/logout',
             method: 'post',
             requireToken: true,
@@ -30,10 +27,10 @@ export const useAuthToggle = (
         setAuthenticated(false);
         setAdminType(null);
         setClubId(null);
-        navigate('/');
+        navigate('/admin/login');
     };
 
-    // 로그아웃 -> 로그인 페이지로 이동
+    // 로그인
     const handleLogin = () => {
         navigate('/admin/login');
     };
@@ -44,8 +41,9 @@ export const useAuthToggle = (
         } else {
             handleLogin();
         }
-        setIsOpen(false);
     };
 
-    return toggleAuthentication;
+    return { toggleAuthentication, handleLogout };
 };
+
+export { useAuthToggle };

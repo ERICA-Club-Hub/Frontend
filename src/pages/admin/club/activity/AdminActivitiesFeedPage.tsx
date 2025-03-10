@@ -1,20 +1,12 @@
-import { useState } from 'react';
 import styled from 'styled-components';
 import Button from '@/components/Common/Button';
 import { useRecoilValue } from 'recoil';
 import { clubIdSelector } from '@/store/clubInfoState';
-import { IActivitiesLog } from '@/types';
 import { Link } from 'react-router-dom';
-import useClubAdminQueries from '@/hooks/queries/useClubAdminQueries';
 import { Feed } from '@/components/ActivityLog';
 
 function AdminActivitiesFeedPage() {
     const clubId = useRecoilValue(clubIdSelector);
-    const [activitiesLog, setActivitiesLog] = useState<IActivitiesLog[]>([]);
-
-    // 활동로그 피드 데이터 fetch
-    const { useActivitiesLogQuery } = useClubAdminQueries();
-    useActivitiesLogQuery({ clubId, setActivitiesLog });
 
     return (
         <Container>
@@ -26,7 +18,7 @@ function AdminActivitiesFeedPage() {
             </TitleWrapper>
 
             {/* 활동 피드 */}
-            <Feed data={activitiesLog} />
+            <Feed />
         </Container>
     );
 }
