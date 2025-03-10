@@ -10,11 +10,13 @@ import { clubIdSelector } from '@/store/clubInfoState';
 import { useErrorHandler } from '../handler/useErrorHandler';
 import { MAX_FILE_SIZE } from '@/constants/MAX_FILE_SIZE';
 import { calculateFormDataSize } from '@/utils/calculateFileSize';
+import { useToast } from '../actions/useToast';
 
 function useClubRegisterQueries() {
     const clubId = useRecoilValue(clubIdSelector);
     const navigate = useNavigate();
     const { handleError } = useErrorHandler();
+    const { showToast } = useToast();
 
     // 동아리 등록 정보 불러오기
     const useRegisterInfoQuery = ({
