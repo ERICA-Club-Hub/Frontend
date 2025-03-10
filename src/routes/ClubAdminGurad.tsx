@@ -8,6 +8,6 @@ export default function ClubAdminGurad() {
     return adminType === 'club' || adminType === 'service' ? (
         <Outlet />
     ) : (
-        <Navigate to="/" />
+        <Navigate to="/admin/login" />
     );
 }
