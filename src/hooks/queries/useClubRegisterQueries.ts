@@ -5,14 +5,14 @@ import convertImageToFile from '@/utils/convertImageToFile';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useToast } from '../actions/useToast';
 import { useRecoilValue } from 'recoil';
 import { clubIdSelector } from '@/store/clubInfoState';
+import { useErrorHandler } from '../handler/useErrorHandler';
 
 function useClubRegisterQueries() {
     const clubId = useRecoilValue(clubIdSelector);
     const navigate = useNavigate();
-    const { showToast } = useToast();
+    const { handleError } = useErrorHandler();
 
     // 동아리 등록 정보 불러오기
     const useRegisterInfoQuery = ({
@@ -85,8 +85,8 @@ function useClubRegisterQueries() {
                     replace: true,
                 });
             },
-            onError: () => {
-                showToast('오류가 발생했어요. 다시 시도해주세요.');
+            onError: (error) => {
+                handleError(error);
             },
         });
         return { isSuccess, isError, isPending, mutate };
@@ -114,8 +114,8 @@ function useClubRegisterQueries() {
                     replace: true,
                 });
             },
-            onError: () => {
-                showToast('오류가 발생했어요. 다시 시도해주세요.');
+            onError: (error) => {
+                handleError(error);
             },
         });
         return { isSuccess, isError, isPending, mutate };

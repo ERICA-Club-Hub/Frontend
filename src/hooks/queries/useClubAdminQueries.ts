@@ -14,14 +14,14 @@ import { useMutation, useQuery } from '@tanstack/react-query';
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
-import { useToast } from '../actions/useToast';
 import convertImageToFile from '@/utils/convertImageToFile';
 import { IActivityImageDTO } from '@/types/activity-log.types';
+import { useErrorHandler } from '../handler/useErrorHandler';
 
 function useClubAdminQueries() {
     const navigate = useNavigate();
     const clubId = useRecoilValue(clubIdSelector);
-    const { showToast } = useToast();
+    const { handleError } = useErrorHandler();
 
     // 동아리 요약 정보 불러오기
     const useSummaryInfoQuery = (
@@ -81,7 +81,7 @@ function useClubAdminQueries() {
                 navigate(`/admin/club/${clubId}`);
             },
             onError: (error) => {
-                console.error('요약정보 저장 실패', error);
+                handleError(error);
             },
         });
 
@@ -124,7 +124,7 @@ function useClubAdminQueries() {
                 navigate(`/admin/club/${clubId}`);
             },
             onError: (error) => {
-                console.error('동아리 소개 저장하기 실패', error);
+                handleError(error);
             },
         });
 
@@ -241,14 +241,15 @@ function useClubAdminQueries() {
                     requireToken: true,
                 });
             },
-            onSuccess: () => {
+            onSuccess: (response) => {
                 queryClient.invalidateQueries({
                     queryKey: [clubId, 'recruitNotice'],
                 });
                 navigate(`/admin/club/${clubId}`);
+                console.log(response);
             },
             onError: (error) => {
-                console.error('모집안내 저장 실패', error);
+                handleError(error);
             },
         });
 
@@ -268,6 +269,7 @@ function useClubAdminQueries() {
             },
             select: (data) => data.result.activityThumbnailDTOList,
             staleTime: 5 * 60 * 1000,
+            retry: 1,
         });
 
         // 데이터 불러오기 성공 시, 모집안내 상태 업데이트
@@ -317,8 +319,6 @@ function useClubAdminQueries() {
                     date: data.date,
                 });
 
-                console.log(data);
-
                 // 이미지 url 리스트 생성
                 const imgUrlList = data.activityImageDTOList.map(
                     (img: IActivityImageDTO) => img.imageUrl,
@@ -326,16 +326,25 @@ function useClubAdminQueries() {
 
                 // 상태 업데이트
                 setPreviewImg([...imgUrlList]);
-                setPostImg([...imgUrlList]);
 
-                // if (data.result.profileImageUrl) {
-                //     // 이미지 파일로 변환 후 상태 업데이트
-                //     convertImageToFile(data.result.profileImageUrl).then(
-                //         (imageFile) => {
-                //             setPostImg(imageFile!);
-                //         },
-                //     );
-                // }
+                if (data.activityImageDTOList) {
+                    // 이미지 파일로 변환 후 상태 업데이트
+                    imgUrlList.forEach((imgUrl: string) => {
+                        convertImageToFile(imgUrl).then((imageFile) => {
+                            if (imageFile) {
+                                setPostImg((prev) => [...prev, imageFile]);
+                            }
+                        });
+                    });
+
+                    // Promise.all(
+                    //     imgUrlList.map((imgUrl: string) =>
+                    //         convertImageToFile(imgUrl),
+                    //     ),
+                    // ).then((imageFiles) => {
+                    //     setPostImg(imageFiles);
+                    // });
+                }
             }
 
             if (isError) {
@@ -366,8 +375,33 @@ function useClubAdminQueries() {
                 });
                 navigate(`/admin/club/${clubId}/activities/feed`);
             },
-            onError: () => {
-                showToast('오류가 발생했어요. 다시 시도해주세요.');
+            onError: (error) => {
+                handleError(error);
+            },
+        });
+
+    // 활동로그 수정
+    const useUpdateActivityLogMutation = (activityId: ClubIdType) =>
+        useMutation({
+            mutationFn: async (formData: FormData) => {
+                return await apiRequest({
+                    url: `/api/activities/club-admin/${activityId}`,
+                    method: 'PATCH',
+                    requireToken: true,
+                    data: formData,
+                    headers: {
+                        'Content-Type': 'multipart/form-data',
+                    },
+                });
+            },
+            onSuccess: () => {
+                queryClient.invalidateQueries({
+                    queryKey: ['activitesLog'],
+                });
+                navigate(`/admin/club/${clubId}/activities/feed`);
+            },
+            onError: (error) => {
+                handleError(error);
             },
         });
 
@@ -385,10 +419,12 @@ function useClubAdminQueries() {
                 queryClient.invalidateQueries({
                     queryKey: ['activitesLog'],
                 });
-                navigate(`/admin/club/${clubId}/activities/feed`);
+                navigate(`/admin/club/${clubId}/activities/feed`, {
+                    replace: true,
+                });
             },
-            onError: () => {
-                showToast('오류가 발생했어요. 다시 시도해주세요.');
+            onError: (error) => {
+                handleError(error);
             },
         });
 
@@ -402,6 +438,7 @@ function useClubAdminQueries() {
         useSaveRecruitNoticeMutation,
         useActivitiesLogQuery,
         useDetailActivitiesLogQuery,
+        useUpdateActivityLogMutation,
         useCreateActivityLogMutation,
         useDeleteActivityLogMutation,
     };
