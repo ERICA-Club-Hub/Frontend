@@ -13,10 +13,6 @@ interface IActivityLogContext {
     setPostImg: React.Dispatch<React.SetStateAction<File[]>>;
     previewImg: string[];
     setPreviewImg: React.Dispatch<React.SetStateAction<string[]>>;
-    updateImageOrderIdxList: IupdateImageOrderIdxList[];
-    setUpdateImageOrderIdxList: React.Dispatch<
-        React.SetStateAction<IupdateImageOrderIdxList[]>
-    >;
     currentIdx: number;
     setCurrentIdx: React.Dispatch<React.SetStateAction<number>>;
     mode: string;

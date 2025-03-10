@@ -2,7 +2,7 @@ import { apiRequest } from '@/api/apiRequest';
 import { AnnouncementDTOList } from '@/components/UnionNotice';
 import { queryClient } from '@/config/queryClient';
 import { IUnionNoticeValue } from '@/types';
-import convertImageToFile from '@/utils/convertImageToFile';
+import convertURLtoFile from '@/utils/convertURLtoFile';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { useEffect } from 'react';
 
@@ -153,7 +153,7 @@ const useUnionNoticeQuery = ({
             setPreviewImg(noticeData[0].thumbnailUrl);
 
             // 이미지 파일로 변환 후 상태 업데이트
-            convertImageToFile(noticeData[0].thumbnailUrl).then((imageFile) => {
+            convertURLtoFile(noticeData[0].thumbnailUrl).then((imageFile) => {
                 setPostImg(imageFile || null);
             });
         }

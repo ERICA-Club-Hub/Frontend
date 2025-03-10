@@ -1,7 +1,6 @@
 import { apiRequest } from '@/api/apiRequest';
 import { queryClient } from '@/config/queryClient';
 import { IClubRegisterValue } from '@/types';
-import convertImageToFile from '@/utils/convertImageToFile';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -11,6 +10,7 @@ import { useErrorHandler } from '../handler/useErrorHandler';
 import { MAX_FILE_SIZE } from '@/constants/MAX_FILE_SIZE';
 import { calculateFormDataSize } from '@/utils/calculateFileSize';
 import { useToast } from '../actions/useToast';
+import convertURLtoFile from '@/utils/convertURLtoFile';
 
 function useClubRegisterQueries() {
     const clubId = useRecoilValue(clubIdSelector);
@@ -53,7 +53,7 @@ function useClubRegisterQueries() {
                 setPreviewImg(data.result.profileImageUrl);
 
                 if (data.result.profileImageUrl) {
-                    convertImageToFile(data.result.profileImageUrl).then(
+                    convertURLtoFile(data.result.profileImageUrl).then(
                         (imageFile) => {
                             setPostImg(imageFile!);
                         },
