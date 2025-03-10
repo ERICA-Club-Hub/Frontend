@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import { ImageListUpload } from '@/components/Common/ImageUpload';
 import PlusIcon from '@/assets/common/plus-icon.svg?react';
 import ArrowIcon from '@/assets/common/Expand_right.svg?react';
-import useActivityLogContext from '@/hooks/contexts/useClubIntroContext';
+import useActivityLogContext from '@/hooks/contexts/useActivityLogContext';
 
 export default function CarouselImage() {
     const {
@@ -22,10 +22,20 @@ export default function CarouselImage() {
         }
     };
     const handleClickNextArrow = () => {
-        // 수정모드에서 '수정하기'버튼이 눌리지 않은 상황에서는 NEW 이미지 추가 불가
+        // 수정모드에서 '수정하기' 버튼이 눌리지 않은 상황에서는 NEW 이미지 추가 제한
         if (
             mode === 'edit' &&
             !isEditBtnClicked &&
+            Array.isArray(postImg) &&
+            currentIdx === postImg.length - 1
+        ) {
+            return;
+        }
+
+        // 수정하기에서 이미지 추가 API 없다고 해서 일단 수정모드일 때 이미지 추가 막아놓기
+        // 수정하기에서 이미지 추가 API 있으면 이 부분 삭제
+        if (
+            mode === 'edit' &&
             Array.isArray(postImg) &&
             currentIdx === postImg.length - 1
         ) {

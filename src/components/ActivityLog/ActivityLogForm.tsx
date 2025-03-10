@@ -15,6 +15,7 @@ import useBulletPointConverter from '@/hooks/actions/useBulletPointConverter';
 import { dateFormatHandler, handleDateChange } from '@/utils/dateFormatHandler';
 import CarouselImage from './CarouselImage';
 import { ActivityLogProvider } from '@/contexts/ActivityLogContext';
+import { IupdateImageOrderIdxList } from '@/types/activity-log.types';
 
 function ActivityLogForm({ mode }: { mode: string }) {
     const location = useLocation();
@@ -29,6 +30,9 @@ function ActivityLogForm({ mode }: { mode: string }) {
     });
     const [postImg, setPostImg] = useState<File[]>([]); // 요청 시 보낼 이미지
     const [previewImg, setPreviewImg] = useState<string[]>([]); // 미리보기 이미지
+    const [updateImageOrderIdxList, setUpdateImageOrderIdxList] = useState<
+        IupdateImageOrderIdxList[] // 이미지 변경 시 인덱스 리스트와의 매핑을 위한 상태
+    >([]); // 이미지 순서 변경 시 인덱스 저장
     const [currentIdx, setCurrentIdx] = useState<number>(0);
     const [isEditBtnClicked, setIsEditBtnClicked] = useState<boolean>(false);
 
@@ -36,10 +40,12 @@ function ActivityLogForm({ mode }: { mode: string }) {
     const {
         useDetailActivitiesLogQuery,
         useCreateActivityLogMutation,
+        useUpdateActivityLogMutation,
         useDeleteActivityLogMutation,
     } = useAdminClubQueries();
     const createActivityLogMutation = useCreateActivityLogMutation(clubId);
     const deleteActivityLogMutation = useDeleteActivityLogMutation(activityId);
+    const updateActivityLogMutation = useUpdateActivityLogMutation(activityId);
 
     // 활동로그 상세 불러오기 Query 호출
     if (mode === 'edit' && activityId) {
@@ -51,11 +57,24 @@ function ActivityLogForm({ mode }: { mode: string }) {
         });
     }
 
-    // 저장하기
+    console.log(postImg);
+
+    // 저장하기 or 수정하기
     const handleSaveActivityLog = () => {
         // 날짜 형식을 YYYY-MM-DD로 변환
         const formattedDate = inputValue.date.replace(/\./g, '-');
-        const updatedInputValue = { ...inputValue, date: formattedDate };
+        const updatedInputValue = {
+            ...inputValue,
+            date: formattedDate,
+            // 수정모드일 때만 이미지 순서 인덱스 리스트 추가
+            ...(mode === 'edit' && {
+                changedActivityImageOrderIndexList: updateImageOrderIdxList.map(
+                    (item) => item.currentIdx,
+                ),
+            }),
+        };
+
+        console.log('updatedInputValue', updatedInputValue);
 
         // FormData 생성
         const formData: FormData = new FormData();
@@ -66,13 +85,26 @@ function ActivityLogForm({ mode }: { mode: string }) {
             }),
         );
 
-        if (Array.isArray(postImg)) {
-            postImg.forEach((img) => {
-                formData.append('images', img);
-            });
+        if (mode === 'register') {
+            if (Array.isArray(postImg)) {
+                postImg.forEach((img) => {
+                    formData.append('images', img);
+                });
+            }
+            createActivityLogMutation.mutate(formData);
+        } else if (mode === 'edit') {
+            if (updateImageOrderIdxList) {
+                const changedImgList = updateImageOrderIdxList.map(
+                    (item) => item.image,
+                );
+                if (Array.isArray(changedImgList)) {
+                    changedImgList.forEach((img) => {
+                        formData.append('images', img);
+                    });
+                }
+                updateActivityLogMutation.mutate(formData);
+            }
         }
-
-        createActivityLogMutation.mutate(formData);
     };
 
     // 삭제하기
@@ -94,6 +126,8 @@ function ActivityLogForm({ mode }: { mode: string }) {
                     setPostImg,
                     previewImg,
                     setPreviewImg,
+                    updateImageOrderIdxList,
+                    setUpdateImageOrderIdxList,
                     currentIdx,
                     setCurrentIdx,
                     mode,
@@ -102,6 +136,7 @@ function ActivityLogForm({ mode }: { mode: string }) {
             >
                 <Container>
                     <ActivityLogFormWrapper>
+                        {/* 이미지 캐러셀 */}
                         <CarouselImage />
 
                         {/* 날짜 입력 폼 */}
