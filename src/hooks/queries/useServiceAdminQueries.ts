@@ -34,7 +34,7 @@ const useClubRegistrationRequestMutation = () =>
     useMutation({
         mutationFn: async (clubRegistrationId: ClubIdType) => {
             return await apiRequest({
-                url: `/api/clubs/service-admin/registrations/${clubRegistrationId}`,
+                url: `/api/clubs/service-admin/regisstrations/${clubRegistrationId}`,
                 method: 'POST',
                 requireToken: true,
             });

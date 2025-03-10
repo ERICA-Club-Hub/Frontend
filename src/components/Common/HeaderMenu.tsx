@@ -19,10 +19,15 @@ const HeaderMenu = () => {
     const dropdownRef = useRef<HTMLDivElement>(null);
     const { isOpen, setIsOpen, toggle } = useToggle();
     const isAuthenticatedValue = useRecoilValue(isAuthenticatedSelector); // 로그인 여부
-    const toggleAuthentication = useAuthToggle(setIsOpen); // 로그인 & 로그아웃 로직
+    const { toggleAuthentication } = useAuthToggle(); // 로그인 & 로그아웃 로직
     const filteredMenus = filterHeaderMenus(); // 어드민 유형에 따라 필터링된 메뉴
 
     useClickOutside(dropdownRef, () => setIsOpen(false));
+
+    const handleToggleAuthBtn = () => {
+        toggleAuthentication();
+        setIsOpen(false);
+    };
 
     return (
         <>
@@ -46,7 +51,7 @@ const HeaderMenu = () => {
 
                 {/* 드롭다운 매뉴 */}
                 <DropdownNavigator ref={dropdownRef} $isOpen={isOpen}>
-                    <LoginButton onClick={toggleAuthentication}>
+                    <LoginButton onClick={handleToggleAuthBtn}>
                         <h2>
                             {isAuthenticatedValue
                                 ? '어드민 로그아웃'

@@ -4,6 +4,7 @@ import { clubIdSelector } from '@/store/clubInfoState';
 import {
     ClubIdType,
     IActivitiesLog,
+    IActivityLogValue,
     IClubIntroValue,
     IEventScheduleValue,
     IRecruitNoticeValue,
@@ -13,10 +14,14 @@ import { useMutation, useQuery } from '@tanstack/react-query';
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
+import convertImageToFile from '@/utils/convertImageToFile';
+import { IActivityImageDTO } from '@/types/activity-log.types';
+import { useErrorHandler } from '../handler/useErrorHandler';
 
 function useClubAdminQueries() {
     const navigate = useNavigate();
     const clubId = useRecoilValue(clubIdSelector);
+    const { handleError } = useErrorHandler();
 
     // 동아리 요약 정보 불러오기
     const useSummaryInfoQuery = (
@@ -76,7 +81,7 @@ function useClubAdminQueries() {
                 navigate(`/admin/club/${clubId}`);
             },
             onError: (error) => {
-                console.error('요약정보 저장 실패', error);
+                handleError(error);
             },
         });
 
@@ -119,7 +124,7 @@ function useClubAdminQueries() {
                 navigate(`/admin/club/${clubId}`);
             },
             onError: (error) => {
-                console.error('동아리 소개 저장하기 실패', error);
+                handleError(error);
             },
         });
 
@@ -256,28 +261,25 @@ function useClubAdminQueries() {
                     requireToken: true,
                 });
             },
-            onSuccess: () => {
+            onSuccess: (response) => {
                 queryClient.invalidateQueries({
                     queryKey: [clubId, 'recruitNotice'],
                 });
                 navigate(`/admin/club/${clubId}`);
+                console.log(response);
             },
             onError: (error) => {
-                console.error('모집안내 저장 실패', error);
+                handleError(error);
             },
         });
 
     // 전체 활동로그 불러오기
-    const useActivitiesLogQuery = ({
-        clubId,
-        setActivitiesLog,
-    }: {
-        clubId: number | null;
+    const useActivitiesLogQuery = (
         setActivitiesLog: React.Dispatch<
             React.SetStateAction<IActivitiesLog[]>
-        >;
-    }) => {
-        const { isSuccess, data, isError } = useQuery({
+        >,
+    ) => {
+        const { isPending, isSuccess, data, isError } = useQuery({
             queryKey: ['activitesLog'],
             queryFn: async () => {
                 return await apiRequest({
@@ -287,6 +289,7 @@ function useClubAdminQueries() {
             },
             select: (data) => data.result.activityThumbnailDTOList,
             staleTime: 5 * 60 * 1000,
+            retry: 1,
         });
 
         // 데이터 불러오기 성공 시, 모집안내 상태 업데이트
@@ -299,6 +302,77 @@ function useClubAdminQueries() {
                 console.error('동아리 전체 활동로그 불러오기 실패');
             }
         }, [isSuccess, data]);
+
+        return { isPending, isSuccess };
+    };
+
+    // 활동로그 상세 조회
+    const useDetailActivitiesLogQuery = ({
+        activityId,
+        setInputValue,
+        setPreviewImg,
+        setPostImg,
+    }: {
+        activityId: number;
+        setInputValue: React.Dispatch<React.SetStateAction<IActivityLogValue>>;
+        setPreviewImg: React.Dispatch<React.SetStateAction<string[]>>;
+        setPostImg: React.Dispatch<React.SetStateAction<File[]>>;
+    }) => {
+        const { isPending, isSuccess, data, isError } = useQuery({
+            queryKey: ['activitesLog', activityId],
+            queryFn: async () => {
+                return await apiRequest({
+                    url: `/api/activities/${activityId}`,
+                    method: 'GET',
+                    requireToken: true,
+                });
+            },
+            select: (data) => data.result,
+            staleTime: 5 * 60 * 1000,
+        });
+
+        // 데이터 불러오기 성공 시, 모집안내 상태 업데이트
+        useEffect(() => {
+            if (isSuccess && data) {
+                setInputValue({
+                    content: data.content,
+                    date: data.date,
+                });
+
+                // 이미지 url 리스트 생성
+                const imgUrlList = data.activityImageDTOList.map(
+                    (img: IActivityImageDTO) => img.imageUrl,
+                );
+
+                // 상태 업데이트
+                setPreviewImg([...imgUrlList]);
+
+                if (data.activityImageDTOList) {
+                    // 이미지 파일로 변환 후 상태 업데이트
+                    imgUrlList.forEach((imgUrl: string) => {
+                        convertImageToFile(imgUrl).then((imageFile) => {
+                            if (imageFile) {
+                                setPostImg((prev) => [...prev, imageFile]);
+                            }
+                        });
+                    });
+
+                    // Promise.all(
+                    //     imgUrlList.map((imgUrl: string) =>
+                    //         convertImageToFile(imgUrl),
+                    //     ),
+                    // ).then((imageFiles) => {
+                    //     setPostImg(imageFiles);
+                    // });
+                }
+            }
+
+            if (isError) {
+                console.error('어드민 동아리 활동로그 상세조회 실패');
+            }
+        }, [isSuccess, data]);
+
+        return { isPending, isSuccess };
     };
 
     // 활동로그 생성
@@ -322,7 +396,55 @@ function useClubAdminQueries() {
                 navigate(`/admin/club/${clubId}/activities/feed`);
             },
             onError: (error) => {
-                console.error('동아치 활동로그 생성 실패', error);
+                handleError(error);
+            },
+        });
+
+    // 활동로그 수정
+    const useUpdateActivityLogMutation = (activityId: ClubIdType) =>
+        useMutation({
+            mutationFn: async (formData: FormData) => {
+                return await apiRequest({
+                    url: `/api/activities/club-admin/${activityId}`,
+                    method: 'PATCH',
+                    requireToken: true,
+                    data: formData,
+                    headers: {
+                        'Content-Type': 'multipart/form-data',
+                    },
+                });
+            },
+            onSuccess: () => {
+                queryClient.invalidateQueries({
+                    queryKey: ['activitesLog'],
+                });
+                navigate(`/admin/club/${clubId}/activities/feed`);
+            },
+            onError: (error) => {
+                handleError(error);
+            },
+        });
+
+    // 활동로그 삭제
+    const useDeleteActivityLogMutation = (activityId: ClubIdType) =>
+        useMutation({
+            mutationFn: async () => {
+                return await apiRequest({
+                    url: `/api/activities/club-admin/${activityId}`,
+                    method: 'DELETE',
+                    requireToken: true,
+                });
+            },
+            onSuccess: () => {
+                queryClient.invalidateQueries({
+                    queryKey: ['activitesLog'],
+                });
+                navigate(`/admin/club/${clubId}/activities/feed`, {
+                    replace: true,
+                });
+            },
+            onError: (error) => {
+                handleError(error);
             },
         });
 
@@ -336,7 +458,10 @@ function useClubAdminQueries() {
         useRecruitNoticeQuery,
         useSaveRecruitNoticeMutation,
         useActivitiesLogQuery,
+        useDetailActivitiesLogQuery,
+        useUpdateActivityLogMutation,
         useCreateActivityLogMutation,
+        useDeleteActivityLogMutation,
     };
 }
 

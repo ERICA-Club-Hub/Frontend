@@ -1,45 +1,80 @@
+import { useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 import { useState } from 'react';
 import { IActivityLogValue } from '@/types';
 import { inputChangeHandler } from '@/utils/inputChangeHandler';
-import PlusIcon from '@/assets/common/plus-icon.svg?react';
-import ArrowIcon from '@/assets/common/Expand_right.svg?react';
 import { TextArea } from '../Common/TextArea';
-import useBulletPointConverter from '@/hooks/actions/useBulletPointConverter';
 import { ButtonWrapper } from '@/styles/button';
 import Button from '../Common/Button';
 import useToggle from '@/hooks/actions/useToggle';
 import ActionModal from '../Common/Modal/ActionModal';
-import { dateFormatHandler } from '@/utils/dateFormatHandler';
 import useAdminClubQueries from '@/hooks/queries/useClubAdminQueries';
 import { useRecoilValue } from 'recoil';
 import { clubIdSelector } from '@/store/clubInfoState';
-import { ImageUpload } from '../UnionNotice';
+import useBulletPointConverter from '@/hooks/actions/useBulletPointConverter';
+import { dateFormatHandler, handleDateChange } from '@/utils/dateFormatHandler';
+import CarouselImage from './CarouselImage';
+import { ActivityLogProvider } from '@/contexts/ActivityLogContext';
+import { IupdateImageOrderIdxList } from '@/types/activity-log.types';
 
 function ActivityLogForm({ mode }: { mode: string }) {
+    const location = useLocation();
+    const { activityId } = location.state || {}; // 전달된 state에서 id 받아오기 -> id가 있으면 해당 동아리 활동로그 상세(현재 폼)로 이동
     const clubId = useRecoilValue(clubIdSelector);
+    const { isOpen, toggle } = useToggle(); // 삭제하기 Modal toggle
+
+    // 로컬 상태
     const [inputValue, setInputValue] = useState<IActivityLogValue>({
         content: '',
         date: '',
     });
-    const [postImg, setPostImg] = useState<File | File[] | null>([]); // 요청 이미지
-    const [previewImg, setPreviewImg] = useState<string | ArrayBuffer | null>( // 미리보기 이미지
-        '',
-    );
+    const [postImg, setPostImg] = useState<File[]>([]); // 요청 시 보낼 이미지
+    const [previewImg, setPreviewImg] = useState<string[]>([]); // 미리보기 이미지
+    const [updateImageOrderIdxList, setUpdateImageOrderIdxList] = useState<
+        IupdateImageOrderIdxList[] // 이미지 변경 시 인덱스 리스트와의 매핑을 위한 상태
+    >([]); // 이미지 순서 변경 시 인덱스 저장
+    const [currentIdx, setCurrentIdx] = useState<number>(0);
     const [isEditBtnClicked, setIsEditBtnClicked] = useState<boolean>(false);
-    const { isOpen, toggle } = useToggle(); // 삭제하기 Modal toggle
 
     // 활동로그 생성 mutation 호출
-    const { useCreateActivityLogMutation } = useAdminClubQueries();
+    const {
+        useDetailActivitiesLogQuery,
+        useCreateActivityLogMutation,
+        useUpdateActivityLogMutation,
+        useDeleteActivityLogMutation,
+    } = useAdminClubQueries();
     const createActivityLogMutation = useCreateActivityLogMutation(clubId);
+    const deleteActivityLogMutation = useDeleteActivityLogMutation(activityId);
+    const updateActivityLogMutation = useUpdateActivityLogMutation(activityId);
+
+    // 활동로그 상세 불러오기 Query 호출
+    if (mode === 'edit' && activityId) {
+        useDetailActivitiesLogQuery({
+            activityId: activityId,
+            setInputValue,
+            setPreviewImg,
+            setPostImg,
+        });
+    }
 
     console.log(postImg);
 
-    // 저장하기
-    const handleSubmit = () => {
+    // 저장하기 or 수정하기
+    const handleSaveActivityLog = () => {
         // 날짜 형식을 YYYY-MM-DD로 변환
         const formattedDate = inputValue.date.replace(/\./g, '-');
-        const updatedInputValue = { ...inputValue, date: formattedDate };
+        const updatedInputValue = {
+            ...inputValue,
+            date: formattedDate,
+            // 수정모드일 때만 이미지 순서 인덱스 리스트 추가
+            ...(mode === 'edit' && {
+                changedActivityImageOrderIndexList: updateImageOrderIdxList.map(
+                    (item) => item.currentIdx,
+                ),
+            }),
+        };
+
+        console.log('updatedInputValue', updatedInputValue);
 
         // FormData 생성
         const formData: FormData = new FormData();
@@ -50,13 +85,32 @@ function ActivityLogForm({ mode }: { mode: string }) {
             }),
         );
 
-        if (Array.isArray(postImg)) {
-            postImg.forEach((img) => {
-                formData.append('images', img);
-            });
+        if (mode === 'register') {
+            if (Array.isArray(postImg)) {
+                postImg.forEach((img) => {
+                    formData.append('images', img);
+                });
+            }
+            createActivityLogMutation.mutate(formData);
+        } else if (mode === 'edit') {
+            if (updateImageOrderIdxList) {
+                const changedImgList = updateImageOrderIdxList.map(
+                    (item) => item.image,
+                );
+                if (Array.isArray(changedImgList)) {
+                    changedImgList.forEach((img) => {
+                        formData.append('images', img);
+                    });
+                }
+                updateActivityLogMutation.mutate(formData);
+            }
         }
+    };
 
-        createActivityLogMutation.mutate(formData);
+    // 삭제하기
+    const handleDeleteActivityLog = () => {
+        toggle();
+        deleteActivityLogMutation.mutate();
     };
 
     const isValid =
@@ -66,119 +120,117 @@ function ActivityLogForm({ mode }: { mode: string }) {
 
     return (
         <>
-            <Container>
-                <ActivityLogFormWrapper>
-                    {/* 썸네일 이미지 */}
-                    <ImageCarouselWrapper>
-                        <PrevArrow>
-                            <ArrowIcon width={24} height={24} />
-                        </PrevArrow>
-                        <ThumbnailImageWrapper>
-                            <ImageUpload
-                                setPostImg={setPostImg}
-                                previewImg={previewImg}
-                                setPreviewImg={setPreviewImg}
-                                mode={mode}
-                                isEditBtnClicked={isEditBtnClicked}
-                                isImgList={true}
-                            />
-                            {Array.isArray(postImg) &&
-                            postImg.length > 0 ? null : (
-                                <IconWrapper>
-                                    <PlusIcon
-                                        width={24}
-                                        height={24}
-                                        strokeWidth={2}
-                                    />
-                                </IconWrapper>
-                            )}
-                        </ThumbnailImageWrapper>
-                        <NextArrow>
-                            <ArrowIcon width={24} height={24} strokeWidth={2} />
-                        </NextArrow>
-                    </ImageCarouselWrapper>
+            <ActivityLogProvider
+                value={{
+                    postImg,
+                    setPostImg,
+                    previewImg,
+                    setPreviewImg,
+                    updateImageOrderIdxList,
+                    setUpdateImageOrderIdxList,
+                    currentIdx,
+                    setCurrentIdx,
+                    mode,
+                    isEditBtnClicked,
+                }}
+            >
+                <Container>
+                    <ActivityLogFormWrapper>
+                        {/* 이미지 캐러셀 */}
+                        <CarouselImage />
 
-                    {/* 날짜 입력 폼 */}
-                    <DateInputWrapper>
-                        <DateInput
-                            value={inputValue.date}
-                            name="date"
-                            type="text"
-                            placeholder="YYYY.MM.DD"
+                        {/* 날짜 입력 폼 */}
+                        <DateInputWrapper>
+                            <DateInput
+                                value={inputValue.date}
+                                name="date"
+                                type="text"
+                                placeholder="YYYY.MM.DD"
+                                disabled={mode === 'edit' && !isEditBtnClicked}
+                                maxLength={10}
+                                onChange={(e) =>
+                                    dateFormatHandler<IActivityLogValue>({
+                                        e,
+                                        setInputValue,
+                                    })
+                                }
+                                onKeyDown={(e) =>
+                                    handleDateChange<IActivityLogValue>({
+                                        e,
+                                        setInputValue,
+                                    })
+                                }
+                            />
+                        </DateInputWrapper>
+
+                        <Line />
+
+                        {/* 내용 입력 폼 */}
+                        <TextArea
+                            size="small"
+                            backgroundColor="gray"
+                            maxLength={100}
+                            placeholder="사진에 대한 설명을 입력해 주세요."
+                            name="content"
+                            value={inputValue.content}
                             disabled={mode === 'edit' && !isEditBtnClicked}
-                            maxLength={10}
                             onChange={(e) =>
-                                dateFormatHandler<IActivityLogValue>({
+                                inputChangeHandler<IActivityLogValue>({
+                                    e,
+                                    setInputValue,
+                                })
+                            }
+                            onKeyDown={(e) =>
+                                useBulletPointConverter<IActivityLogValue>({
                                     e,
                                     setInputValue,
                                 })
                             }
                         />
-                    </DateInputWrapper>
-
-                    <Line />
-
-                    {/* 내용 입력 폼 */}
-                    <TextArea
-                        size="small"
-                        backgroundColor="gray"
-                        maxLength={100}
-                        placeholder="사진에 대한 설명을 입력해 주세요."
-                        name="content"
-                        value={inputValue.content}
-                        onChange={(e) =>
-                            inputChangeHandler<IActivityLogValue>({
-                                e,
-                                setInputValue,
-                            })
-                        }
-                        onKeyDown={(e) =>
-                            useBulletPointConverter<IActivityLogValue>({
-                                e,
-                                setInputValue,
-                            })
-                        }
-                    />
-                </ActivityLogFormWrapper>
-
-                <ButtonWrapper>
-                    {mode === 'edit' && !isEditBtnClicked ? (
-                        <>
+                    </ActivityLogFormWrapper>
+                    <ButtonWrapper>
+                        {mode === 'edit' && !isEditBtnClicked ? (
+                            <>
+                                <Button
+                                    type="button"
+                                    size="small"
+                                    variant="outlined"
+                                    outlineColor="#DC5151"
+                                    disabled={false}
+                                    onClick={toggle}
+                                >
+                                    삭제하기
+                                </Button>
+                                <Button
+                                    type="button"
+                                    size="small"
+                                    variant="outlined"
+                                    // disabled={!isValid}
+                                    onClick={() => setIsEditBtnClicked(true)}
+                                >
+                                    수정하기
+                                </Button>
+                            </>
+                        ) : (
                             <Button
                                 type="button"
                                 size="small"
-                                variant="outlined"
-                                outlineColor="#DC5151"
-                                disabled={false}
-                                onClick={toggle}
+                                disabled={!isValid}
+                                onClick={handleSaveActivityLog}
                             >
-                                삭제하기
+                                저장하기
                             </Button>
-                            <Button
-                                type="button"
-                                size="small"
-                                variant="outlined"
-                                // disabled={!isValid}
-                                onClick={() => setIsEditBtnClicked(true)}
-                            >
-                                수정하기
-                            </Button>
-                        </>
-                    ) : (
-                        <Button
-                            type="button"
-                            size="small"
-                            disabled={!isValid}
-                            onClick={handleSubmit}
-                        >
-                            저장하기
-                        </Button>
-                    )}
-                </ButtonWrapper>
-            </Container>
+                        )}
+                    </ButtonWrapper>
+                </Container>
+            </ActivityLogProvider>
 
             {/* 삭제하기 Modal */}
-            <ActionModal isOpen={isOpen} toggle={toggle} action={() => {}} />
+            <ActionModal
+                isOpen={isOpen}
+                toggle={toggle}
+                action={handleDeleteActivityLog}
+            />
         </>
     );
 }
@@ -202,36 +254,6 @@ const ActivityLogFormWrapper = styled.div`
     border-radius: 10px;
     background-color: ${({ theme }) => theme.colors.white};
     margin-bottom: 15px;
-`;
-
-const ImageCarouselWrapper = styled.div`
-    position: relative;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    width: 278px;
-    margin-bottom: 10px;
-`;
-
-const ThumbnailImageWrapper = styled.div`
-    position: relative;
-    width: 210px;
-    height: 210px;
-    cursor: pointer;
-    border-radius: 5px;
-`;
-
-const PrevArrow = styled.div``;
-const NextArrow = styled.div`
-    transform: rotate(180deg);
-`;
-
-const IconWrapper = styled.div`
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    cursor: pointer;
 `;
 
 const DateInputWrapper = styled.div`
