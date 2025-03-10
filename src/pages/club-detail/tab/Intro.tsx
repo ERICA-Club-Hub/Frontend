@@ -199,9 +199,9 @@ const ContentsLabel = styled.span`
     font-weight: 600;
 `;
 const ContentsValue = styled.span`
+    flex: 1;
     display: flex;
     justify-content: center;
-    text-align: center;
     font-size: 14px;
     font-weight: 500;
     margin-top: 1px;
