@@ -14,9 +14,9 @@ import { useMutation, useQuery } from '@tanstack/react-query';
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
-import convertImageToFile from '@/utils/convertImageToFile';
 import { IActivityImageDTO } from '@/types/activity-log.types';
 import { useErrorHandler } from '../handler/useErrorHandler';
+import converURLtoFile from '@/utils/convertURLtoFile';
 
 function useClubAdminQueries() {
     const navigate = useNavigate();
@@ -261,12 +261,11 @@ function useClubAdminQueries() {
                     requireToken: true,
                 });
             },
-            onSuccess: (response) => {
+            onSuccess: () => {
                 queryClient.invalidateQueries({
                     queryKey: [clubId, 'recruitNotice'],
                 });
                 navigate(`/admin/club/${clubId}`);
-                console.log(response);
             },
             onError: (error) => {
                 handleError(error);
@@ -349,21 +348,14 @@ function useClubAdminQueries() {
 
                 if (data.activityImageDTOList) {
                     // 이미지 파일로 변환 후 상태 업데이트
-                    imgUrlList.forEach((imgUrl: string) => {
-                        convertImageToFile(imgUrl).then((imageFile) => {
-                            if (imageFile) {
-                                setPostImg((prev) => [...prev, imageFile]);
-                            }
-                        });
-                    });
 
-                    // Promise.all(
-                    //     imgUrlList.map((imgUrl: string) =>
-                    //         convertImageToFile(imgUrl),
-                    //     ),
-                    // ).then((imageFiles) => {
-                    //     setPostImg(imageFiles);
-                    // });
+                    Promise.all(
+                        imgUrlList.map((imgUrl: string) =>
+                            converURLtoFile(imgUrl),
+                        ),
+                    ).then((imageFiles) => {
+                        setPostImg(imageFiles);
+                    });
                 }
             }
 

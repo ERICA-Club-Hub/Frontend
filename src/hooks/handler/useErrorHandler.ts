@@ -6,7 +6,7 @@ const useErrorHandler = () => {
     const { showToast } = useToast();
     const { handleTokenExpired } = useTokenExpired();
 
-    const handleError = (error: any) => {
+    const handleError = (error: any, action?: () => void) => {
         if (axios.isAxiosError(error)) {
             const status = error.response?.status;
 
@@ -36,6 +36,11 @@ const useErrorHandler = () => {
         } else {
             showToast('네트워크 오류가 발생했어요');
             console.error('NETWORK ERROR', error);
+        }
+
+        // 에러 핸들링 후에 action 함수 실행
+        if (action) {
+            action();
         }
     };
 

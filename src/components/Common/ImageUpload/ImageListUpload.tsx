@@ -7,7 +7,6 @@ function ImageListUpload() {
         setPostImg,
         previewImg,
         setPreviewImg,
-        setUpdateImageOrderIdxList,
         currentIdx,
         mode,
         isEditBtnClicked,
@@ -20,30 +19,20 @@ function ImageListUpload() {
 
         // 이미지가 추가됐을 때
         if (currentIdx > postImg.length - 1 && uploadFile) {
-            setPostImg((prev) => [...prev, ...files!]);
+            setPostImg([...postImg, ...files!]);
         } else if (currentIdx <= postImg.length - 1 && uploadFile) {
             // 기존 이미지가 수정됐을 때
-            setPostImg((prev) => {
-                const updatedList = [...prev];
+            setPostImg((postImg) => {
+                const updatedList = [...postImg];
                 updatedList[currentIdx] = uploadFile;
                 return updatedList;
-            });
-        }
-        // 수정모드일 때
-        if (mode === 'edit') {
-            // 수정 시의 이미지 및 인덱스 정보 저장 -> 오름차순 정렬
-            setUpdateImageOrderIdxList((prev) => {
-                const sortedImages = [
-                    ...prev,
-                    { currentIdx, image: uploadFile },
-                ].sort((a, b) => a.currentIdx - b.currentIdx);
-                return sortedImages;
             });
         }
 
         // 미리보기 이미지 설정
         let fileRead = new FileReader();
         fileRead.readAsDataURL(uploadFile); // 미리보기용 url로 변환
+        console.log(fileRead.result);
 
         fileRead.onload = () => {
             setPreviewImg((prev) => {
