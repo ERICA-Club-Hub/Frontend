@@ -159,6 +159,26 @@ function useClubAdminQueries() {
         }, [isSuccess, data]);
     };
 
+    // 월별 활동 일정 삭제
+    const useDeleteEventScheduleMutation = () =>
+        useMutation({
+            mutationFn: async (scheduleId: number) => {
+                return await apiRequest({
+                    url: `/api/clubs/club-admin/${clubId}/schedules/${scheduleId}`,
+                    method: 'DELETE',
+                    requireToken: true,
+                });
+            },
+            onSuccess: () => {
+                queryClient.invalidateQueries({
+                    queryKey: ['eventSchedules'],
+                });
+            },
+            onError: (error) => {
+                console.error('동아리 일정 삭제 실패', error);
+            },
+        });
+
     // 동아리 소개글 정보 불러오기
     const useClubDescriptionQuery = (
         setInputValue: React.Dispatch<React.SetStateAction<IClubIntroValue>>,
@@ -433,6 +453,7 @@ function useClubAdminQueries() {
         useSaveSummaryInfoMutation,
         useSaveClubIntroMutation,
         useEventSchedulesQuery,
+        useDeleteEventScheduleMutation,
         useClubDescriptionQuery,
         useRecruitNoticeQuery,
         useSaveRecruitNoticeMutation,

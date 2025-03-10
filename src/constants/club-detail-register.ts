@@ -25,7 +25,11 @@ const summaryInfoList = [
         name: 'membershipFee',
         placeholder: '회비 금액을 입력해 주세요',
     },
-    { label: 'SNS', name: 'snsUrl', placeholder: 'SNS 아이디를 입력해주세요' },
+    {
+        label: 'SNS',
+        name: 'snsUrl',
+        placeholder: 'SNS 아이디를 입력해주세요 (@ 제외)',
+    },
 ];
 
 const months = [

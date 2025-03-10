@@ -13,6 +13,7 @@ import { ClubDetailProvider } from '@/contexts/ClubDetailContext';
 import { getCategoryEmoji, getCategoryMapping } from '@/utils/getCategoryEmoji';
 import arrow from '../../assets/common/Expand_right.svg';
 import { DEFAULT_IMG } from '@/constants/DEFAULT_IMG';
+import { isValidUrl } from '@/utils/isValidUrl';
 
 // tab 항목에서 활성화 여부를 판단할 props
 interface TabButtonProps {
@@ -20,12 +21,12 @@ interface TabButtonProps {
 }
 
 interface RecruitStateProps {
-    $state?: '모집중' | '모집 예정' | '모집 마감';
+    $state?: '모집 중' | '모집 예정' | '모집 마감';
 }
 
 type activeTab = 'intro' | 'recruit' | 'log';
 
-type recuirementStatus = 'RECRUITING' | 'UPCOMING' | 'CLOSE';
+type recuirementStatus = 'UPCOMING' | 'OPEN' | 'CLOSED';
 
 interface clubInfoSummation {
     name: string | null;
@@ -61,7 +62,7 @@ const ClubDetailPage = () => {
         activities: '없음',
         membershipFee: '없음',
         snsUrl: '없음',
-        recruitmentStatus: 'CLOSE',
+        recruitmentStatus: 'CLOSED',
         applicationUrl: '없음',
         profileImageUrl: null,
     });
@@ -131,11 +132,11 @@ const ClubDetailPage = () => {
     }, [id, nowUrl]);
     const getRecruitState = () => {
         switch (clubDetail?.recruitmentStatus) {
-            case 'RECRUITING':
-                return '모집중';
             case 'UPCOMING':
                 return '모집 예정';
-            case 'CLOSE':
+            case 'OPEN':
+                return '모집 중';
+            case 'CLOSED':
                 return '모집 마감';
             default:
                 return '모집 마감'; // clubDetail이 아직 없을 때의 기본값
@@ -237,7 +238,9 @@ const ClubDetailPage = () => {
                     {nowUrl === 'club' && (
                         <Button
                             disabled={
-                                clubDetail?.recruitmentStatus !== 'RECRUITING'
+                                clubDetail?.recruitmentStatus !== 'OPEN' ||
+                                clubDetail.applicationUrl === '없음' ||
+                                !isValidUrl(clubDetail?.applicationUrl)
                             }
                             onClick={() => {
                                 if (clubDetail?.applicationUrl) {
@@ -249,7 +252,7 @@ const ClubDetailPage = () => {
                             }}
                             size="large"
                         >
-                            {clubDetail?.recruitmentStatus !== 'RECRUITING'
+                            {clubDetail?.recruitmentStatus !== 'OPEN'
                                 ? '모집이 마감되었어요.'
                                 : '가입 신청하기'}
                         </Button>
@@ -323,7 +326,8 @@ const PreviewWrapper = styled.div``;
 
 const ClubInfo = styled.div`
     width: 320px;
-    height: 201px;
+    min-height: 201px;
+    height: fit-content;
     border-radius: 10px;
     background-color: white;
     flex: 1;
@@ -365,7 +369,7 @@ const RecruitState = styled.span<RecruitStateProps>`
     align-items: center;
 
     background-color: ${(props) => {
-        if (props.$state === '모집중') {
+        if (props.$state === '모집 중') {
             return '#fff4e4';
         } else if (props.$state === '모집 예정') {
             return '#F1F9DC';
@@ -374,7 +378,7 @@ const RecruitState = styled.span<RecruitStateProps>`
         }
     }};
     color: ${(props) => {
-        if (props.$state === '모집중') {
+        if (props.$state === '모집 중') {
             return '#F08A00';
         } else if (props.$state === '모집 예정') {
             return '#8BB421';
