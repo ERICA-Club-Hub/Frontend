@@ -3,6 +3,7 @@ import { useState, useEffect, useCallback } from 'react';
 import { InputField } from '@/components/Common/InputField';
 import { apiRequest } from '@/api/apiRequest';
 import { getCategoryEmoji } from '@/utils/getCategoryEmoji';
+import { useNavigate } from 'react-router-dom';
 import MainpageCard from '@/components/Common/MainpageCard';
 import SortingDropdown from '@/components/Common/SortingDropdown';
 import ErrorIcon from '@/assets/common/error-icon.svg?react';
@@ -12,14 +13,27 @@ import ReadingGlassIcon from '@/assets/common/reading_glass.svg?react';
 import MainThumbnail from '@/assets/common/MainThumbnail.svg?react';
 import SurveyBox from '@/assets/common/surveyBox.svg?react';
 import SurveyCardArrow from '@/assets/common/surveyCard_arrow.svg?react';
-import { useLocation, useNavigate } from 'react-router-dom';
+// import WhoMake from '@/assets/common/whoMake.svg?react';
+import { Footer } from '@/components/Common/Footer';
+import FeedbackModal from '@/components/Common/Modal/FeedbackModal';
+
+// 페이지 컨테이너
+const PageContainer = styled.div`
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+`;
+
+// 컨텐츠 컨테이너
+const ContentWrapper = styled.div`
+    flex: 1 0 auto;
+`;
 
 // 공지사항 컨테이너
 const AnnouncementContainer = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 25vh;
     gap: 10px;
     overflow: hidden;
     position: relative;
@@ -40,7 +54,7 @@ const SurveyBoxContainer = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-top: 10px;
+    margin-top: 20px;
 `;
 
 // 설문조사 버튼
@@ -93,7 +107,7 @@ const SurveyButton = styled.button`
 //     width: ${(props) => (props.$active ? '10px' : '4px')};
 //     height: 4px;
 //     border-radius: 2px;
-//     background-color: ${(props) => (props.$active ? '#33639C' : '#DAEBFF')};
+//     background-color: ${(props) => (props.$active ? props.theme.colors.mainBlue : props.theme.colors.bgLightBlue)};
 //     transition: all 0.3s ease;
 // `;
 
@@ -106,7 +120,7 @@ const SurveyButton = styled.button`
 //             props,
 //         ) => `linear-gradient(0deg, rgba(0, 0, 0, 0.40) 0%, rgba(0, 0, 0, 0.40) 100%),
 //                 url(${props.$imageUrl})`}
-//         lightgray 50% / cover no-repeat;
+//         ${props => props.theme.colors.lightGray} 50% / cover no-repeat;
 //     border: none;
 //     cursor: pointer;
 // `;
@@ -201,9 +215,35 @@ const NoResultContainer = styled.div`
     h1 {
         font-size: 14px;
         font-weight: 500;
-        color: ${(props) => props.theme.colors.mainBlack};
+        color: ${props => props.theme.colors.mainBlack};
     }
 `;
+
+// // whoMake 버튼 컨테이너
+// const WhoMakeContainer = styled.div`
+//     display: flex;
+//     justify-content: center;
+//     align-items: center;
+//     margin-bottom: 20px;
+// `;
+
+// // whoMake 버튼
+// const WhoMakeButton = styled.button`
+//     position: relative;
+//     background: none;
+//     border: none;
+//     cursor: pointer;
+//     padding: 0;
+//     display: flex;
+//     align-items: center;
+
+//     svg:last-child {
+//         position: absolute;
+//         right: 25px;
+//         top: 50%;
+//         transform: translateY(-50%);
+//     }
+// `;
 
 // 타입 정의 부분에 TagType 추가
 type TagType = '동아리 및 질문' | '모집중' | '모집마감' | '모집예정';
@@ -243,23 +283,24 @@ interface ApiResponse {
 //     thumbnailUrl: string;
 // }
 
+
 const ClubListPage = () => {
     // 공지사항 상태 관리
     // const [announcements, setAnnouncements] = useState<Announcement[]>([]);
     // const [currentIndex, setCurrentIndex] = useState(0);
     const navigate = useNavigate();
-    const location = useLocation();
-    console.log(location.state);
-
+    
     // 각각의 드롭다운을 위한 별도의 상태 관리
     const [categoryFilter, setCategoryFilter] = useState<string>('none'); // 분과 필터 상태
     const [recruitmentStatus, setRecruitmentStatus] = useState<string>('none'); // 모집상태 필터 상태
     const [sortOrder, setSortOrder] = useState<string>('none'); // 정렬 기준 필터 상태
-
     // 검색 기능을 위한 상태 관리
     const [searchTerm, setSearchTerm] = useState<string>(''); // 검색어 상태
     const [clubs, setClubs] = useState<Club[]>([]); // 초기값을 빈 배열로 변경
     const [isLoading, setIsLoading] = useState(false); // 로딩 상태
+
+    // 설문조사 모달 상태
+    const [isSurveyModalOpen, setIsSurveyModalOpen] = useState(false);
 
     // 공지사항 불러오기
     // useEffect(() => {
@@ -440,173 +481,170 @@ const ClubListPage = () => {
         navigate(`/club/${clubId}`);
     };
 
+    // 설문조사 모달 토글
+    const toggleSurveyModal = () => {
+        setIsSurveyModalOpen(!isSurveyModalOpen);
+    };
+
+    // 설문조사 모달 피드백 제출
+    const handleFeedbackSubmit = async (text: string) => {
+        try {
+            await apiRequest({
+                url: '/api/feedbacks',
+                method: 'POST',
+                data: {
+                    content: text
+                }
+            });
+            // 성공적으로 제출되면 모달을 닫습니다
+            setIsSurveyModalOpen(false);
+        } catch (error) {
+            console.error('피드백 제출 실패:', error);
+        }
+    };
+
     return (
-        <div>
-            {/* <AnnouncementContainer>
-                {announcements.length > 0 && (
-                    <>
-                        <ArrowButton onClick={handlePrev}>
-                            <MainPrevArrow />
-                        </ArrowButton>
-                        <SubAnnouncement
-                            $imageUrl={displayItems[0].thumbnailUrl}
-                            data-index={displayItems[0].announcementId}
-                            onClick={() =>
-                                (window.location.href = displayItems[0].url)
-                            }
+        <PageContainer>
+            <ContentWrapper>
+                <AnnouncementContainer>
+                    <MainButton
+                        onClick={() =>
+                            window.open(
+                                'https://snowy-middle-3a3.notion.site/hanjari',
+                                '_blank',
+                            )
+                        }
+                    >
+                        <MainThumbnail />
+                    </MainButton>
+                </AnnouncementContainer>
+
+                <SurveyBoxContainer>
+                    <SurveyButton onClick={toggleSurveyModal}>
+                        <SurveyBox />
+                        <SurveyCardArrow />
+                    </SurveyButton>
+                    <FeedbackModal 
+                        isOpen={isSurveyModalOpen} 
+                        toggle={toggleSurveyModal}
+                        title="이용경험을 공유해 주세요."
+                        subtitle="오류, 건의사항, 칭찬 등 모두 환영입니다 :)"
+                        type="feedback"
+                        onSubmit={handleFeedbackSubmit}
+                    />
+                </SurveyBoxContainer>
+
+                <ClubSearchContainer>
+                    <SearchInputWrapper>
+                        <InputField
+                            inputSize="large"
+                            placeholder="원하는 동아리를 검색해 보세요."
+                            value={searchTerm}
+                            onChange={(e) => setSearchTerm(e.target.value)}
                         />
-                        <MainAnnouncement
-                            $imageUrl={displayItems[1].thumbnailUrl}
-                            data-index={displayItems[1].announcementId}
-                            onClick={() =>
-                                (window.location.href = displayItems[1].url)
-                            }
-                        >
-                            <StatusIndicator>
-                                {announcements.map((_, index) => (
-                                    <StatusDot
-                                        key={index}
-                                        $active={index === currentIndex}
+                        <SearchIcon onClick={handleSearch}>
+                            <ReadingGlassIcon />
+                        </SearchIcon>
+                    </SearchInputWrapper>
+
+                    <DropdownContainer>
+                        <SortingDropdown
+                            key="sort-dropdown"
+                            options={[
+                                { label: '가나다순으로 정렬', value: 'none' },
+                                { label: '카테고리로 정렬', value: 'category' },
+                                {
+                                    label: '모집기준으로 정렬',
+                                    value: 'recruitment',
+                                },
+                            ]}
+                            onSelect={handleSort}
+                            defaultText="가나다순으로 정렬"
+                            value={sortOrder}
+                            align="left"
+                        />
+                        <RightDropdowns>
+                            <SortingDropdown
+                                key="category-dropdown"
+                                options={[
+                                    { label: '선택없음', value: 'none' },
+                                    { label: '봉사분과', value: 'volunteer' },
+                                    { label: '예술분과', value: 'art' },
+                                    { label: '종교분과', value: 'religion' },
+                                    { label: '체육분과', value: 'sports' },
+                                    { label: '학술교양분과', value: 'academic' },
+                                    { label: '연합동아리', value: 'union' },
+                                ]}
+                                onSelect={handleCategorySelect}
+                                defaultText="선택없음"
+                                value={categoryFilter}
+                                align="right"
+                            />
+                            <SortingDropdown
+                                key="recruitment-dropdown"
+                                options={[
+                                    { label: '선택없음', value: 'none' },
+                                    { label: '모집예정', value: 'upcoming' },
+                                    { label: '모집중', value: 'open' },
+                                    { label: '모집마감', value: 'closed' },
+                                ]}
+                                onSelect={handleRecruitmentStatusSelect}
+                                defaultText="선택없음"
+                                value={recruitmentStatus}
+                                align="right"
+                            />
+                        </RightDropdowns>
+                    </DropdownContainer>
+
+                    <ClubListWrapper>
+                        {isLoading ? (
+                            <div>로딩 중...</div>
+                        ) : clubs && clubs.length > 0 ? (
+                            clubs.map((club) => {
+                                const mappedCategory = getCategoryMapping(
+                                    club.category,
+                                );
+                                const mappedStatus = getRecruitmentStatusMapping(
+                                    club.recruitmentStatus,
+                                );
+                                return (
+                                    <MainpageCard
+                                        key={club.id}
+                                        title={club.name}
+                                        subtitle={club.description}
+                                        tags={[
+                                            {
+                                                type: '동아리 및 질문',
+                                                text: `${getCategoryEmoji(
+                                                    mappedCategory,
+                                                )} ${mappedCategory}`,
+                                            },
+                                            {
+                                                type: mappedStatus as TagType,
+                                                text: mappedStatus,
+                                            },
+                                        ]}
+                                        onClick={() => handleCardClick(club.id)}
                                     />
-                                ))}
-                            </StatusIndicator>
-                        </MainAnnouncement>
-                        <SubAnnouncement
-                            $imageUrl={displayItems[2].thumbnailUrl}
-                            data-index={displayItems[2].announcementId}
-                            onClick={() =>
-                                (window.location.href = displayItems[2].url)
-                            }
-                        />
-                        <ArrowButton onClick={handleNext}>
-                            <MainNextArrow />
-                        </ArrowButton>
-                    </>
-                )}
-            </AnnouncementContainer> */}
-            <AnnouncementContainer>
-                <MainButton
-                    onClick={() =>
-                        window.open(
-                            'https://snowy-middle-3a3.notion.site/hanjari',
-                            '_blank',
-                        )
-                    }
-                >
-                    <MainThumbnail />
-                </MainButton>
-            </AnnouncementContainer>
-
-            <SurveyBoxContainer>
-                <SurveyButton>
-                    <SurveyBox />
-                    <SurveyCardArrow />
-                </SurveyButton>
-            </SurveyBoxContainer>
-
-            <ClubSearchContainer>
-                <SearchInputWrapper>
-                    <InputField
-                        inputSize="large"
-                        placeholder="원하는 동아리를 검색해 보세요."
-                        value={searchTerm}
-                        onChange={(e) => setSearchTerm(e.target.value)}
-                    />
-                    <SearchIcon onClick={handleSearch}>
-                        <ReadingGlassIcon />
-                    </SearchIcon>
-                </SearchInputWrapper>
-
-                <DropdownContainer>
-                    <SortingDropdown
-                        key="sort-dropdown"
-                        options={[
-                            { label: '가나다순으로 정렬', value: 'none' },
-                            { label: '카테고리로 정렬', value: 'category' },
-                            {
-                                label: '모집기준으로 정렬',
-                                value: 'recruitment',
-                            },
-                        ]}
-                        onSelect={handleSort}
-                        defaultText="가나다순으로 정렬"
-                        value={sortOrder}
-                        align="left"
-                    />
-                    <RightDropdowns>
-                        <SortingDropdown
-                            key="category-dropdown"
-                            options={[
-                                { label: '선택없음', value: 'none' },
-                                { label: '봉사분과', value: 'volunteer' },
-                                { label: '예술분과', value: 'art' },
-                                { label: '종교분과', value: 'religion' },
-                                { label: '체육분과', value: 'sports' },
-                                { label: '학술교양분과', value: 'academic' },
-                                { label: '연합동아리', value: 'union' },
-                            ]}
-                            onSelect={handleCategorySelect}
-                            defaultText="선택없음"
-                            value={categoryFilter}
-                            align="right"
-                        />
-                        <SortingDropdown
-                            key="recruitment-dropdown"
-                            options={[
-                                { label: '선택없음', value: 'none' },
-                                { label: '모집예정', value: 'upcoming' },
-                                { label: '모집중', value: 'open' },
-                                { label: '모집마감', value: 'closed' },
-                            ]}
-                            onSelect={handleRecruitmentStatusSelect}
-                            defaultText="선택없음"
-                            value={recruitmentStatus}
-                            align="right"
-                        />
-                    </RightDropdowns>
-                </DropdownContainer>
-
-                <ClubListWrapper>
-                    {isLoading ? (
-                        <div>로딩 중...</div>
-                    ) : clubs && clubs.length > 0 ? (
-                        clubs.map((club) => {
-                            const mappedCategory = getCategoryMapping(
-                                club.category,
-                            );
-                            const mappedStatus = getRecruitmentStatusMapping(
-                                club.recruitmentStatus,
-                            );
-                            return (
-                                <MainpageCard
-                                    key={club.id}
-                                    title={club.name}
-                                    subtitle={club.description}
-                                    tags={[
-                                        {
-                                            type: '동아리 및 질문',
-                                            text: `${getCategoryEmoji(
-                                                mappedCategory,
-                                            )} ${mappedCategory}`,
-                                        },
-                                        {
-                                            type: mappedStatus as TagType,
-                                            text: mappedStatus,
-                                        },
-                                    ]}
-                                    onClick={() => handleCardClick(club.id)}
-                                />
-                            );
-                        })
-                    ) : (
-                        <NoResultContainer>
-                            <ErrorIcon />
-                            <h1>검색 결과가 없어요.</h1>
-                        </NoResultContainer>
-                    )}
-                </ClubListWrapper>
-            </ClubSearchContainer>
-        </div>
+                                );
+                            })
+                        ) : (
+                            <NoResultContainer>
+                                <ErrorIcon />
+                                <h1>검색 결과가 없어요.</h1>
+                            </NoResultContainer>
+                        )}
+                    </ClubListWrapper>
+                </ClubSearchContainer>
+                {/* <WhoMakeContainer>
+                    <WhoMakeButton onClick={() => window.open('페이지 링크', '_blank')}>
+                        <WhoMake />
+                        <SurveyCardArrow />
+                    </WhoMakeButton>
+                </WhoMakeContainer> */}
+            </ContentWrapper>
+            <Footer />
+        </PageContainer>
     );
 };
 
