@@ -1,6 +1,5 @@
 import axios from 'axios';
 import { getAccessToken, setAccessToken } from '../utils/tokenHandler';
-import { reissueToken } from './auth/reissue';
 import { axiosInstance } from './axiosInstance';
 import { RequestConfig } from '@/types';
 
@@ -45,22 +44,9 @@ export const apiRequest = async ({
         return response.data;
     } catch (error) {
         if (axios.isAxiosError(error) && error.response?.status === 401) {
-            console.log(error.response?.data.message, '라는 이유로 다시 요청!');
-            // 401일 때(토큰이 만료됐을 때)는 토큰 재발급하고 이전에 했던 작업 그대로 하도록
-            // axios에러면서 응답이 401일 때만 토큰 관련 헨들링 진행
             try {
-                const newToken = await reissueToken(); // 나중에 개발 완료되면 바뀐다고 하네여
-                if (!newToken) throw new Error('토큰 재발급 실패');
-
-                return axiosInstance({
-                    url,
-                    method,
-                    data,
-                    headers: {
-                        ...headers,
-                        Authorization: `Bearer ${newToken}`,
-                    },
-                });
+                // 기존 reissue API로는 토큰 재발급 불가능하다고 하여 기존 로직은 삭제
+                // 추후 refreshToken 관련 로직 추가 예정
             } catch (error) {
                 console.error(error);
             }
