@@ -14,7 +14,7 @@ import MainThumbnail from '@/assets/common/MainThumbnail.svg?react';
 import SurveyBox from '@/assets/common/surveyBox.svg?react';
 import SurveyCardArrow from '@/assets/common/surveyCard_arrow.svg?react';
 // import WhoMake from '@/assets/common/whoMake.svg?react';
-import Footer from '@/components/Common/Footer';
+import { Footer } from '@/components/Common/Footer';
 import MainModal from '@/components/Common/Modal/MainModal';
 
 // 페이지 컨테이너
