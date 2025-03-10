@@ -32,7 +32,7 @@ const HeaderMenu = () => {
     return (
         <>
             <Container>
-                <LogoWrapper>
+                <LogoWrapper to="/">
                     <Logo />
                     <LogoText />
                 </LogoWrapper>
@@ -100,7 +100,7 @@ const Container = styled.header`
     z-index: 100;
 `;
 
-const LogoWrapper = styled.div`
+const LogoWrapper = styled(Link)`
     display: flex;
     align-items: center;
     gap: 7px;
