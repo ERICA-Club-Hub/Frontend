@@ -1,7 +1,7 @@
 import { ReactNode } from 'react';
 
 interface IModal {
-    children: ReactNode;
+    children?: ReactNode;
     isOpen: boolean;
     toggle: () => void;
 }
