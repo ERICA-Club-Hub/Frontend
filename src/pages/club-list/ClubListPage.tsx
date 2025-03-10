@@ -15,7 +15,7 @@ import SurveyBox from '@/assets/common/surveyBox.svg?react';
 import SurveyCardArrow from '@/assets/common/surveyCard_arrow.svg?react';
 // import WhoMake from '@/assets/common/whoMake.svg?react';
 import { Footer } from '@/components/Common/Footer';
-import MainModal from '@/components/Common/Modal/MainModal';
+import FeedbackModal from '@/components/Common/Modal/FeedbackModal';
 
 // 페이지 컨테이너
 const PageContainer = styled.div`
@@ -524,7 +524,7 @@ const ClubListPage = () => {
                         <SurveyBox />
                         <SurveyCardArrow />
                     </SurveyButton>
-                    <MainModal 
+                    <FeedbackModal 
                         isOpen={isSurveyModalOpen} 
                         toggle={toggleSurveyModal}
                         title="이용경험을 공유해 주세요."
