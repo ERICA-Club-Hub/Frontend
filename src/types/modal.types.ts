@@ -16,7 +16,6 @@ interface IActionModal {
 interface ILoadingModal {
     isPending: boolean;
     isSuccess: boolean;
-    isError: boolean;
 }
 
 export type { IModal, IActionModal, ILoadingModal };

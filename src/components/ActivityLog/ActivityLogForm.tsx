@@ -15,6 +15,7 @@ import useBulletPointConverter from '@/hooks/actions/useBulletPointConverter';
 import { dateFormatHandler, handleDateChange } from '@/utils/dateFormatHandler';
 import CarouselImage from './CarouselImage';
 import { ActivityLogProvider } from '@/contexts/ActivityLogContext';
+import LoadingModal from '../Common/Loading/LoadingModal';
 
 function ActivityLogForm({ mode }: { mode: string }) {
     const location = useLocation();
@@ -200,6 +201,18 @@ function ActivityLogForm({ mode }: { mode: string }) {
                     </ButtonWrapper>
                 </Container>
             </ActivityLogProvider>
+
+            {/* 로딩 Modal */}
+            <LoadingModal
+                isPending={
+                    createActivityLogMutation.isPending ||
+                    updateActivityLogMutation.isPending
+                }
+                isSuccess={
+                    createActivityLogMutation.isSuccess ||
+                    updateActivityLogMutation.isSuccess
+                }
+            />
 
             {/* 삭제하기 Modal */}
             <ActionModal

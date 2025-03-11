@@ -1,26 +1,17 @@
 import Modal from '../Modal/Modal';
 import styled from 'styled-components';
 import { useEffect } from 'react';
-import { useToast } from '@/hooks/actions/useToast';
 import { ILoadingModal } from '@/types/modal.types';
 import useToggle from '@/hooks/actions/useToggle';
 
-export default function LoadingModal({
-    isPending,
-    isSuccess,
-    isError,
-}: ILoadingModal) {
+export default function LoadingModal({ isPending, isSuccess }: ILoadingModal) {
     const { toggle } = useToggle();
-    const { showToast } = useToast();
 
     useEffect(() => {
-        if (isError) {
-            showToast('실패했습니다');
-            toggle();
-        } else if (isSuccess) {
+        if (isSuccess) {
             toggle();
         }
-    }, [isError, isSuccess]);
+    }, [, isSuccess]);
 
     return (
         <Modal isOpen={isPending} toggle={toggle} isLoadingModal={true}>

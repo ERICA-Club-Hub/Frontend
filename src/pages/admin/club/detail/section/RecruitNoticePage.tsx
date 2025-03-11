@@ -12,6 +12,7 @@ import { inputChangeHandler } from '@/utils/inputChangeHandler';
 import { IRecruitNoticeValue } from '@/types';
 import useBulletPointConverter from '@/hooks/actions/useBulletPointConverter';
 import useClubAdminQueries from '@/hooks/queries/useClubAdminQueries';
+import LoadingModal from '@/components/Common/Loading/LoadingModal';
 
 function RecruitNoticePage() {
     const [inputValue, setInputValue] = useState<IRecruitNoticeValue>({
@@ -35,81 +36,85 @@ function RecruitNoticePage() {
                 saveRecruitNoticeMutation.mutate();
             }
             // 미리보기
-            // else if (target.name === 'preview') {
-            //     await apiRequest({
-            //         url: `/api/clubs/club-admin/${clubId}/recruitment/draft`,
-            //         method: 'POST',
-            //         data: inputValue,
-            //         requireToken: true,
-            //     });
-            // }
         } catch (error) {
             console.error('저장하기 실패', error);
         }
     };
 
     return (
-        <Container>
-            <RecruitNoticeWrapper>
-                <h2>모집안내 글 작성</h2>
+        <>
+            <Container>
+                <RecruitNoticeWrapper>
+                    <h2>모집안내 글 작성</h2>
 
-                <RecruitNoticeFormList>
-                    {recruitNoticeList.map((recruitNotice, index) => (
-                        <RecruitNoticeForm key={`club-intro-${index}`}>
-                            <Label>{recruitNotice.label}</Label>
-                            <TextArea
-                                size="large"
-                                backgroundColor="gray"
-                                placeholder={
-                                    isPending ? '' : recruitNotice.placeholder
-                                }
-                                maxLength={500}
-                                name={recruitNotice.name}
-                                value={
-                                    inputValue[
-                                        recruitNotice.name as keyof IRecruitNoticeValue
-                                    ]
-                                }
-                                onChange={(e) =>
-                                    inputChangeHandler<IRecruitNoticeValue>({
-                                        e,
-                                        setInputValue,
-                                    })
-                                }
-                                onKeyDown={(e) =>
-                                    useBulletPointConverter({
-                                        e,
-                                        setInputValue,
-                                    })
-                                }
-                            />
-                        </RecruitNoticeForm>
-                    ))}
-                </RecruitNoticeFormList>
-            </RecruitNoticeWrapper>
+                    <RecruitNoticeFormList>
+                        {recruitNoticeList.map((recruitNotice, index) => (
+                            <RecruitNoticeForm key={`club-intro-${index}`}>
+                                <Label>{recruitNotice.label}</Label>
+                                <TextArea
+                                    size="large"
+                                    backgroundColor="gray"
+                                    placeholder={
+                                        isPending
+                                            ? ''
+                                            : recruitNotice.placeholder
+                                    }
+                                    maxLength={500}
+                                    name={recruitNotice.name}
+                                    value={
+                                        inputValue[
+                                            recruitNotice.name as keyof IRecruitNoticeValue
+                                        ]
+                                    }
+                                    onChange={(e) =>
+                                        inputChangeHandler<IRecruitNoticeValue>(
+                                            {
+                                                e,
+                                                setInputValue,
+                                            },
+                                        )
+                                    }
+                                    onKeyDown={(e) =>
+                                        useBulletPointConverter({
+                                            e,
+                                            setInputValue,
+                                        })
+                                    }
+                                />
+                            </RecruitNoticeForm>
+                        ))}
+                    </RecruitNoticeFormList>
+                </RecruitNoticeWrapper>
 
-            <ButtonGroupWrapper>
-                {/* <Button
-                    name="preview"
-                    type="button"
-                    size="small"
-                    variant="outlined"
-                    isDisabled={() => false}
-                    onClick={handleSubmit}
-                >
-                    미리보기
-                </Button> */}
-                <Button
-                    name="save"
-                    type="button"
-                    size="small"
-                    isDisabled={() => false}
-                    onClick={handleSubmit}
-                >
-                    저장하기
-                </Button>
-            </ButtonGroupWrapper>
-        </Container>
+                <ButtonGroupWrapper>
+                    {/* <Button
+                        name="preview"
+                        type="button"
+                        size="small"
+                        variant="outlined"
+                        isDisabled={() => false}
+                        onClick={handleSubmit}
+                    >
+                        미리보기
+                    </Button> */}
+                    <Button
+                        name="save"
+                        type="button"
+                        size="small"
+                        isDisabled={() => false}
+                        onClick={handleSubmit}
+                    >
+                        저장하기
+                    </Button>
+                </ButtonGroupWrapper>
+            </Container>
+
+            {/* 로딩 모달 */}
+            <LoadingModal
+                isPending={saveRecruitNoticeMutation.isPending}
+                isSuccess={saveRecruitNoticeMutation.isSuccess}
+            />
+        </>
     );
 }
 
