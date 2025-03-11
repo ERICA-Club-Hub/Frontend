@@ -8,10 +8,16 @@ import styled, { keyframes } from 'styled-components';
  *
  * @param {boolean} isOpen - 모달이 열려 있는지 여부를 나타내는 상태
  * @param {() => void} toggle - 모달의 열림/닫힘 상태를 토글하는 훅
+ * @param {boolean} isLoadingModal - 로딩 모달인지 여부 (로딩 모달일 경우 닫기 제한)
  * @param {ReactNode} children - 모달의 내용
  */
 
-export default function Modal({ children, isOpen, toggle }: IModal) {
+export default function Modal({
+    children,
+    isOpen,
+    toggle,
+    isLoadingModal = false,
+}: IModal) {
     const dialogRef = useRef<HTMLDialogElement>(null);
 
     // 모달 열고 닫는 기본 로직
@@ -21,26 +27,33 @@ export default function Modal({ children, isOpen, toggle }: IModal) {
             dialogRef.current?.scrollTo({
                 top: 0,
             });
+
+            document.body.style.overflow = 'hidden'; // 배경 스크롤 방지
         } else {
             const timer = setTimeout(() => {
                 dialogRef.current?.close();
+                document.body.style.overflow = ''; // 배경 스크롤 허용
             }, 200); // 애니메이션 시간보다 조금 더 빠르게
 
             return () => clearTimeout(timer);
         }
     }, [isOpen]);
 
+    const handleClickOutside = (e: React.MouseEvent<HTMLDialogElement>) => {
+        // 로딩 중일 때는 닫히지 않도록
+        if (isLoadingModal) {
+            e.preventDefault();
+            return;
+        }
+
+        // 모달 바깥을 클릭하면 닫히도록
+        if ((e.target as any).nodeName === 'DIALOG') {
+            toggle();
+        }
+    };
+
     return createPortal(
-        <Dialog
-            $isOpen={isOpen}
-            onClick={(e) => {
-                // 모달 바깥을 클릭하면 닫히도록
-                if ((e.target as any).nodeName === 'DIALOG') {
-                    toggle();
-                }
-            }}
-            ref={dialogRef}
-        >
+        <Dialog $isOpen={isOpen} onClick={handleClickOutside} ref={dialogRef}>
             {children}
         </Dialog>,
         document.body, // 모달을 body에 렌더링

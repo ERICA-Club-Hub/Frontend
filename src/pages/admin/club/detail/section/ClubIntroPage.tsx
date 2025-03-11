@@ -9,6 +9,7 @@ import {
     MonthlyEventSchedule,
 } from '@/components/AdminClubDetail';
 import useClubAdminQueries from '@/hooks/queries/useClubAdminQueries';
+import LoadingModal from '@/components/Common/Loading/LoadingModal';
 
 function ClubIntroPage() {
     // 서버에서 받아와서 렌더링 시에 필요한 상태
@@ -57,48 +58,62 @@ function ClubIntroPage() {
     };
 
     return (
-        <ClubIntroProvider
-            value={{
-                schedules,
-                setSchedules,
-                postSchedules,
-                setPostSchedules,
-                inputValue,
-                setInputValue,
-                deleteScheduleIdList,
-                setDeleteScheduleIdList,
-            }}
-        >
-            <Container>
-                {/* 주요 활동 일정 입력 */}
-                <MonthlyEventSchedule />
+        <>
+            <ClubIntroProvider
+                value={{
+                    schedules,
+                    setSchedules,
+                    postSchedules,
+                    setPostSchedules,
+                    inputValue,
+                    setInputValue,
+                    deleteScheduleIdList,
+                    setDeleteScheduleIdList,
+                }}
+            >
+                <Container>
+                    {/* 주요 활동 일정 입력 */}
+                    <MonthlyEventSchedule />
 
-                {/* 동아리 소개글 */}
-                <ClubDescription />
+                    {/* 동아리 소개글 */}
+                    <ClubDescription />
 
-                <ButtonGroupWrapper>
-                    {/* <Button
-                        name="preview"
-                        type="button"
-                        size="small"
-                        variant="outlined"
-                        isDisabled={() => false}
-                        onClick={handleSubmit}
-                    >
-                        미리보기
-                    </Button> */}
-                    <Button
-                        name="save"
-                        type="button"
-                        size="small"
-                        isDisabled={() => false}
-                        onClick={handleSubmit}
-                    >
-                        저장하기
-                    </Button>
-                </ButtonGroupWrapper>
-            </Container>
-        </ClubIntroProvider>
+                    <ButtonGroupWrapper>
+                        {/* <Button
+                            name="preview"
+                            type="button"
+                            size="small"
+                            variant="outlined"
+                            isDisabled={() => false}
+                            onClick={handleSubmit}
+                        >
+                            미리보기
+                        </Button> */}
+                        <Button
+                            name="save"
+                            type="button"
+                            size="small"
+                            isDisabled={() => false}
+                            onClick={handleSubmit}
+                        >
+                            저장하기
+                        </Button>
+                    </ButtonGroupWrapper>
+                </Container>
+            </ClubIntroProvider>
+
+            {/* 로딩 모달 */}
+            <LoadingModal
+                isPending={
+                    saveClubIntroMutation.isPending ||
+                    deleteEventScheduleMutation.isPending
+                }
+                isSuccess={
+                    saveClubIntroMutation.isSuccess ||
+                    deleteEventScheduleMutation.isSuccess
+                }
+            />
+        </>
     );
 }
 

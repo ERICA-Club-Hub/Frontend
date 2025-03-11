@@ -64,8 +64,8 @@ function useClubAdminQueries() {
     };
 
     // 요약 정보 저장
-    const useSaveSummaryInfoMutation = (inputValue: ISummaryInfoValue) =>
-        useMutation({
+    const useSaveSummaryInfoMutation = (inputValue: ISummaryInfoValue) => {
+        const { mutate, isPending, isSuccess } = useMutation({
             mutationFn: async () => {
                 return await apiRequest({
                     url: `/api/clubs/club-admin/${clubId}`,
@@ -85,48 +85,8 @@ function useClubAdminQueries() {
             },
         });
 
-    // 동아리 소개 저장
-    const useSaveClubIntroMutation = ({
-        inputValue,
-        postSchedules,
-    }: {
-        postSchedules: IEventScheduleValue[];
-        inputValue: IClubIntroValue;
-    }) =>
-        useMutation({
-            mutationFn: async () => {
-                const [introResponse, scheduleResponse] = await Promise.all([
-                    apiRequest({
-                        url: `/api/clubs/club-admin/${clubId}/introduction`,
-                        method: 'POST',
-                        data: inputValue,
-                        requireToken: true,
-                    }),
-                    apiRequest({
-                        url: `/api/clubs/club-admin/${clubId}/schedules`,
-                        method: 'POST',
-                        data: {
-                            schedules: postSchedules,
-                        },
-                        requireToken: true,
-                    }),
-                ]);
-
-                return { introResponse, scheduleResponse };
-            },
-            onSuccess: () => {
-                // 해당 쿼리키를 stale 상태로 변경
-                // -> 기존에 캐시된 데이터를 사용할 수 없도록 하여 이후 호출 시에 최신 데이터를 다시 가져오도록 트리거
-                queryClient.invalidateQueries({
-                    queryKey: ['eventSchedules'],
-                });
-
-                navigate(`/admin/club/${clubId}`);
-            },
-            onError: (error) => {
-                handleError(error);
-            },
-        });
+        return { mutate, isPending, isSuccess };
+    };
 
     // 월별 활동 일정 불러오기
     const useEventSchedulesQuery = (
@@ -160,8 +120,8 @@ function useClubAdminQueries() {
     };
 
     // 월별 활동 일정 삭제
-    const useDeleteEventScheduleMutation = () =>
-        useMutation({
+    const useDeleteEventScheduleMutation = () => {
+        const { mutate, isPending, isSuccess } = useMutation({
             mutationFn: async (scheduleId: number) => {
                 return await apiRequest({
                     url: `/api/clubs/club-admin/${clubId}/schedules/${scheduleId}`,
@@ -178,6 +138,8 @@ function useClubAdminQueries() {
                 console.error('동아리 일정 삭제 실패', error);
             },
         });
+        return { mutate, isPending, isSuccess };
+    };
 
     // 동아리 소개글 정보 불러오기
     const useClubDescriptionQuery = (
@@ -210,6 +172,54 @@ function useClubAdminQueries() {
                 console.error('동아리 소개글 불러오기 실패');
             }
         }, [isSuccess, data]);
+    };
+
+    // 동아리 소개 저장
+    const useSaveClubIntroMutation = ({
+        inputValue,
+        postSchedules,
+    }: {
+        postSchedules: IEventScheduleValue[];
+        inputValue: IClubIntroValue;
+    }) => {
+        const { mutate, isPending, isSuccess } = useMutation({
+            mutationFn: async () => {
+                const [introResponse, scheduleResponse] = await Promise.all([
+                    apiRequest({
+                        url: `/api/clubs/club-admin/${clubId}/introduction`,
+                        method: 'POST',
+                        data: inputValue,
+                        requireToken: true,
+                    }),
+                    apiRequest({
+                        url: `/api/clubs/club-admin/${clubId}/schedules`,
+                        method: 'POST',
+                        data: {
+                            schedules: postSchedules,
+                        },
+                        requireToken: true,
+                    }),
+                ]);
+
+                return { introResponse, scheduleResponse };
+            },
+            onSuccess: () => {
+                // 해당 쿼리키를 stale 상태로 변경
+                // -> 기존에 캐시된 데이터를 사용할 수 없도록 하여 이후 호출 시에 최신 데이터를 다시 가져오도록 트리거
+                queryClient.invalidateQueries({
+                    queryKey: ['eventSchedules'],
+                });
+                queryClient.invalidateQueries({
+                    queryKey: [clubId, 'clubDescription'],
+                });
+
+                navigate(`/admin/club/${clubId}`);
+            },
+            onError: (error) => {
+                handleError(error);
+            },
+        });
+        return { mutate, isPending, isSuccess };
     };
 
     // 모집안내 정보 불러오기
@@ -251,8 +261,8 @@ function useClubAdminQueries() {
     };
 
     // 모집안내 저장
-    const useSaveRecruitNoticeMutation = (inputValue: IRecruitNoticeValue) =>
-        useMutation({
+    const useSaveRecruitNoticeMutation = (inputValue: IRecruitNoticeValue) => {
+        const { mutate, isPending, isSuccess } = useMutation({
             mutationFn: async () => {
                 return await apiRequest({
                     url: `/api/clubs/club-admin/${clubId}/recruitment`,
@@ -271,6 +281,9 @@ function useClubAdminQueries() {
                 handleError(error);
             },
         });
+
+        return { mutate, isPending, isSuccess };
+    };
 
     // 전체 활동로그 불러오기
     const useActivitiesLogQuery = (
@@ -368,8 +381,8 @@ function useClubAdminQueries() {
     };
 
     // 활동로그 생성
-    const useCreateActivityLogMutation = (clubId: ClubIdType) =>
-        useMutation({
+    const useCreateActivityLogMutation = (clubId: ClubIdType) => {
+        const { mutate, isPending, isSuccess } = useMutation({
             mutationFn: async (formData: FormData) => {
                 return await apiRequest({
                     url: `/api/activities/club-admin/${clubId}`,
@@ -392,9 +405,12 @@ function useClubAdminQueries() {
             },
         });
 
+        return { isPending, isSuccess, mutate };
+    };
+
     // 활동로그 수정
-    const useUpdateActivityLogMutation = (activityId: ClubIdType) =>
-        useMutation({
+    const useUpdateActivityLogMutation = (activityId: ClubIdType) => {
+        const { mutate, isPending, isSuccess } = useMutation({
             mutationFn: async (formData: FormData) => {
                 return await apiRequest({
                     url: `/api/activities/club-admin/${activityId}`,
@@ -416,10 +432,12 @@ function useClubAdminQueries() {
                 handleError(error);
             },
         });
+        return { isPending, isSuccess, mutate };
+    };
 
     // 활동로그 삭제
-    const useDeleteActivityLogMutation = (activityId: ClubIdType) =>
-        useMutation({
+    const useDeleteActivityLogMutation = (activityId: ClubIdType) => {
+        const { mutate, isPending, isSuccess, isError } = useMutation({
             mutationFn: async () => {
                 return await apiRequest({
                     url: `/api/activities/club-admin/${activityId}`,
@@ -439,6 +457,9 @@ function useClubAdminQueries() {
                 handleError(error);
             },
         });
+
+        return { isPending, isSuccess, isError, mutate };
+    };
 
     return {
         useSummaryInfoQuery,

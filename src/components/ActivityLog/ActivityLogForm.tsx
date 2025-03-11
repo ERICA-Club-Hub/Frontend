@@ -15,6 +15,7 @@ import useBulletPointConverter from '@/hooks/actions/useBulletPointConverter';
 import { dateFormatHandler, handleDateChange } from '@/utils/dateFormatHandler';
 import CarouselImage from './CarouselImage';
 import { ActivityLogProvider } from '@/contexts/ActivityLogContext';
+import LoadingModal from '../Common/Loading/LoadingModal';
 
 function ActivityLogForm({ mode }: { mode: string }) {
     const location = useLocation();
@@ -53,8 +54,6 @@ function ActivityLogForm({ mode }: { mode: string }) {
         });
     }
 
-    console.log(postImg);
-
     // 저장하기 or 수정하기
     const handleSaveActivityLog = () => {
         // 날짜 형식을 YYYY-MM-DD로 변환
@@ -78,17 +77,6 @@ function ActivityLogForm({ mode }: { mode: string }) {
                 formData.append('images', img);
             });
         }
-
-        // if (Array.isArray(postImg) && postImg.length > 0) {
-        //     formData.append(
-        //         'images',
-        //         new Blob([JSON.stringify(postImg)], {
-        //             type: 'application/json',
-        //         }),
-        //     );
-        // }
-
-        postImg.forEach((file) => formData.append('image', file));
 
         if (mode === 'register') {
             createActivityLogMutation.mutate(formData);
@@ -213,6 +201,18 @@ function ActivityLogForm({ mode }: { mode: string }) {
                     </ButtonWrapper>
                 </Container>
             </ActivityLogProvider>
+
+            {/* 로딩 Modal */}
+            <LoadingModal
+                isPending={
+                    createActivityLogMutation.isPending ||
+                    updateActivityLogMutation.isPending
+                }
+                isSuccess={
+                    createActivityLogMutation.isSuccess ||
+                    updateActivityLogMutation.isSuccess
+                }
+            />
 
             {/* 삭제하기 Modal */}
             <ActionModal
