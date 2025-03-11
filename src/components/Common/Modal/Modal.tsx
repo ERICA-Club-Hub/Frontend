@@ -21,9 +21,12 @@ export default function Modal({ children, isOpen, toggle }: IModal) {
             dialogRef.current?.scrollTo({
                 top: 0,
             });
+
+            document.body.style.overflow = 'hidden'; // 배경 스크롤 방지
         } else {
             const timer = setTimeout(() => {
                 dialogRef.current?.close();
+                document.body.style.overflow = ''; // 배경 스크롤 허용
             }, 200); // 애니메이션 시간보다 조금 더 빠르게
 
             return () => clearTimeout(timer);
