@@ -53,8 +53,6 @@ function ActivityLogForm({ mode }: { mode: string }) {
         });
     }
 
-    console.log(postImg);
-
     // 저장하기 or 수정하기
     const handleSaveActivityLog = () => {
         // 날짜 형식을 YYYY-MM-DD로 변환
@@ -78,17 +76,6 @@ function ActivityLogForm({ mode }: { mode: string }) {
                 formData.append('images', img);
             });
         }
-
-        // if (Array.isArray(postImg) && postImg.length > 0) {
-        //     formData.append(
-        //         'images',
-        //         new Blob([JSON.stringify(postImg)], {
-        //             type: 'application/json',
-        //         }),
-        //     );
-        // }
-
-        postImg.forEach((file) => formData.append('image', file));
 
         if (mode === 'register') {
             createActivityLogMutation.mutate(formData);
