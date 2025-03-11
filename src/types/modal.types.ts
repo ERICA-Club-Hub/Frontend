@@ -4,6 +4,7 @@ interface IModal {
     children?: ReactNode;
     isOpen: boolean;
     toggle: () => void;
+    isLoadingModal?: boolean;
 }
 
 interface IActionModal {
@@ -12,4 +13,10 @@ interface IActionModal {
     action: () => void;
 }
 
-export type { IModal, IActionModal };
+interface ILoadingModal {
+    isPending: boolean;
+    isSuccess: boolean;
+    isError: boolean;
+}
+
+export type { IModal, IActionModal, ILoadingModal };
