@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { IActivitiesLog } from '@/types';
 import ErrorIcon from '@/assets/common/error-icon.svg?react';
 import useClubAdminQueries from '@/hooks/queries/useClubAdminQueries';
-import Skeleton from '../Common/Skeleton';
+import Skeleton from '../Common/Loading/Skeleton';
 import { FeedThumbnailImage } from './FeedThumbnailImage';
 
 function Feed() {

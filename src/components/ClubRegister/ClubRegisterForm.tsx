@@ -11,6 +11,7 @@ import ClubImageUpload from './ClubImageUpload';
 import { ClubCategorySelection } from './ClubCategorySelection';
 import useClubRegisterQueries from '@/hooks/queries/useClubRegisterQueries';
 import { setDefaultImg } from '@/utils/setDefaultImg';
+import LoadingModal from '../Common/Loading/LoadingModal';
 
 function ClubRegisterForm({ editMode }: { editMode: boolean }) {
     const [inputValue, setInputValue] = useState<IClubRegisterValue>({
@@ -89,130 +90,145 @@ function ClubRegisterForm({ editMode }: { editMode: boolean }) {
             !editClubRegisterMutation.isPending);
 
     return (
-        <Container>
-            <TitleWrapper $editMode={editMode}>
-                <Title>
-                    {editMode
-                        ? '동아리 등록 정보 수정하기'
-                        : '절차에 따라 동아리를 등록해 주세요.'}
-                </Title>
-            </TitleWrapper>
+        <>
+            <Container>
+                <TitleWrapper $editMode={editMode}>
+                    <Title>
+                        {editMode
+                            ? '동아리 등록 정보 수정하기'
+                            : '절차에 따라 동아리를 등록해 주세요.'}
+                    </Title>
+                </TitleWrapper>
 
-            <FormContainer onSubmit={handleSubmit}>
-                {/* 동아리 이름 */}
-                <InnerWrapper>
-                    <Label htmlFor="clubName">동아리 이름</Label>
-                    <InputField
-                        value={inputValue.clubName}
-                        id="clubName"
-                        type="text"
-                        placeholder="동아리 이름을 정확하게 입력해 주세요."
-                        inputSize="large"
-                        name="clubName"
-                        maxLength={30}
-                        onChange={(e) =>
-                            inputChangeHandler<IClubRegisterValue>({
-                                e,
-                                setInputValue,
-                            })
-                        }
-                    />
-                </InnerWrapper>
-
-                {/* 동아리 이메일 */}
-                <InnerWrapper>
-                    <Label
-                        htmlFor="leaderEmail"
-                        style={{ marginBottom: '5px' }}
-                    >
-                        동아리 이메일
-                    </Label>
-                    <GuideText>승인 결과가 이메일로 전송됩니다.</GuideText>
-                    <InputField
-                        value={inputValue.leaderEmail}
-                        id="leaderEmail"
-                        type="text"
-                        placeholder="이메일을 정확하게 입력해 주세요."
-                        inputSize="large"
-                        name="leaderEmail"
-                        maxLength={30}
-                        onChange={(e) =>
-                            inputChangeHandler<IClubRegisterValue>({
-                                e,
-                                setInputValue,
-                            })
-                        }
-                    />
-                </InnerWrapper>
-
-                {/* 동아리 카테고리 */}
-                <ClubCategorySelection
-                    inputValue={inputValue}
-                    setInputValue={setInputValue}
-                />
-
-                {/* 동아리 사진 업로드 */}
-                <ClubImageUpload
-                    setPostImg={setPostImg}
-                    previewImg={previewImg}
-                    setPreviewImg={setPreviewImg}
-                />
-
-                {/* 동아리 한 줄 소개 */}
-                <InnerWrapper>
-                    <Label htmlFor="oneLiner">동아리 한 줄 소개</Label>
-                    <InputField
-                        value={inputValue.oneLiner}
-                        id="oneLiner"
-                        type="text"
-                        placeholder="동아리를 한 줄로 소개해 주세요."
-                        inputSize="large"
-                        name="oneLiner"
-                        maxLength={30}
-                        onChange={(e) =>
-                            inputChangeHandler<IClubRegisterValue>({
-                                e,
-                                setInputValue,
-                            })
-                        }
-                    />
-                </InnerWrapper>
-
-                {/* 동아리 간단 소개 */}
-                {/* 서비스 관리자가 확인하기 위한 데이터라서 수정모드에서는 불러오지 않음 */}
-                {editMode || (
+                <FormContainer onSubmit={handleSubmit}>
+                    {/* 동아리 이름 */}
                     <InnerWrapper>
-                        <Label htmlFor="briefIntroduction">
-                            동아리 간단 소개
-                        </Label>
-                        <TextArea
-                            id="briefIntroduction"
-                            placeholder="동아리에 대해 간단히 소개해 주세요."
-                            size="medium"
-                            name="briefIntroduction"
-                            maxLength={100}
-                            value={inputValue.briefIntroduction}
+                        <Label htmlFor="clubName">동아리 이름</Label>
+                        <InputField
+                            value={inputValue.clubName}
+                            id="clubName"
+                            type="text"
+                            placeholder="동아리 이름을 정확하게 입력해 주세요."
+                            inputSize="large"
+                            name="clubName"
+                            maxLength={30}
                             onChange={(e) =>
                                 inputChangeHandler<IClubRegisterValue>({
                                     e,
                                     setInputValue,
                                 })
                             }
-                            onKeyDown={(e) =>
-                                useBulletPointConverter({
+                        />
+                    </InnerWrapper>
+
+                    {/* 동아리 이메일 */}
+                    <InnerWrapper>
+                        <Label
+                            htmlFor="leaderEmail"
+                            style={{ marginBottom: '5px' }}
+                        >
+                            동아리 이메일
+                        </Label>
+                        <GuideText>승인 결과가 이메일로 전송됩니다.</GuideText>
+                        <InputField
+                            value={inputValue.leaderEmail}
+                            id="leaderEmail"
+                            type="text"
+                            placeholder="이메일을 정확하게 입력해 주세요."
+                            inputSize="large"
+                            name="leaderEmail"
+                            maxLength={30}
+                            onChange={(e) =>
+                                inputChangeHandler<IClubRegisterValue>({
                                     e,
                                     setInputValue,
                                 })
                             }
                         />
                     </InnerWrapper>
-                )}
 
-                <Button type="submit" size="large" disabled={!isValid}>
-                    {editMode ? '동아리 등록 정보 수정하기' : '동아리 등록하기'}
-                </Button>
-            </FormContainer>
-        </Container>
+                    {/* 동아리 카테고리 */}
+                    <ClubCategorySelection
+                        inputValue={inputValue}
+                        setInputValue={setInputValue}
+                    />
+
+                    {/* 동아리 사진 업로드 */}
+                    <ClubImageUpload
+                        setPostImg={setPostImg}
+                        previewImg={previewImg}
+                        setPreviewImg={setPreviewImg}
+                    />
+
+                    {/* 동아리 한 줄 소개 */}
+                    <InnerWrapper>
+                        <Label htmlFor="oneLiner">동아리 한 줄 소개</Label>
+                        <InputField
+                            value={inputValue.oneLiner}
+                            id="oneLiner"
+                            type="text"
+                            placeholder="동아리를 한 줄로 소개해 주세요."
+                            inputSize="large"
+                            name="oneLiner"
+                            maxLength={30}
+                            onChange={(e) =>
+                                inputChangeHandler<IClubRegisterValue>({
+                                    e,
+                                    setInputValue,
+                                })
+                            }
+                        />
+                    </InnerWrapper>
+
+                    {/* 동아리 간단 소개 */}
+                    {/* 서비스 관리자가 확인하기 위한 데이터라서 수정모드에서는 불러오지 않음 */}
+                    {editMode || (
+                        <InnerWrapper>
+                            <Label htmlFor="briefIntroduction">
+                                동아리 간단 소개
+                            </Label>
+                            <TextArea
+                                id="briefIntroduction"
+                                placeholder="동아리에 대해 간단히 소개해 주세요."
+                                size="medium"
+                                name="briefIntroduction"
+                                maxLength={100}
+                                value={inputValue.briefIntroduction}
+                                onChange={(e) =>
+                                    inputChangeHandler<IClubRegisterValue>({
+                                        e,
+                                        setInputValue,
+                                    })
+                                }
+                                onKeyDown={(e) =>
+                                    useBulletPointConverter({
+                                        e,
+                                        setInputValue,
+                                    })
+                                }
+                            />
+                        </InnerWrapper>
+                    )}
+
+                    <Button type="submit" size="large" disabled={!isValid}>
+                        {editMode
+                            ? '동아리 등록 정보 수정하기'
+                            : '동아리 등록하기'}
+                    </Button>
+                </FormContainer>
+            </Container>
+
+            <LoadingModal
+                isPending={
+                    clubRegisterMutation.isPending ||
+                    editClubRegisterMutation.isPending
+                }
+                isSuccess={
+                    clubRegisterMutation.isSuccess ||
+                    editClubRegisterMutation.isSuccess
+                }
+            />
+        </>
     );
 }
 

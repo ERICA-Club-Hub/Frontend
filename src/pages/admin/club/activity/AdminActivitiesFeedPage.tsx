@@ -9,17 +9,19 @@ function AdminActivitiesFeedPage() {
     const clubId = useRecoilValue(clubIdSelector);
 
     return (
-        <Container>
-            <TitleWrapper>
-                <Title>활동로그</Title>
-                <Link to={`/admin/club/${clubId}/activities/register`}>
-                    <Button>활동로그 작성하기</Button>
-                </Link>
-            </TitleWrapper>
+        <>
+            <Container>
+                <TitleWrapper>
+                    <Title>활동로그</Title>
+                    <Link to={`/admin/club/${clubId}/activities/register`}>
+                        <Button>활동로그 작성하기</Button>
+                    </Link>
+                </TitleWrapper>
 
-            {/* 활동 피드 */}
-            <Feed />
-        </Container>
+                {/* 활동 피드 */}
+                <Feed />
+            </Container>
+        </>
     );
 }
 
