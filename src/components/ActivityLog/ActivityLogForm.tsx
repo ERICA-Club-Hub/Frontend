@@ -45,15 +45,17 @@ function ActivityLogForm({ mode }: { mode: string }) {
     const updateActivityLogMutation = useUpdateActivityLogMutation(activityId);
 
     // 활동로그 상세 불러오기 Query 호출
-    if (mode === 'edit' && activityId) {
-        useDetailActivitiesLogQuery({
-            activityId: activityId,
-            setInputValue,
-            setPreviewImg,
-            setPostImg,
-        });
-    }
+    const { isError } = useDetailActivitiesLogQuery({
+        activityId: activityId,
+        setInputValue,
+        setPreviewImg,
+        setPostImg,
+    });
 
+    // 토큰 만료 임시 처리
+    if (isError) {
+        alert('세션이 만료되었습니다. 다시 로그인해주세요.');
+    }
     // 저장하기 or 수정하기
     const handleSaveActivityLog = () => {
         // 날짜 형식을 YYYY-MM-DD로 변환
