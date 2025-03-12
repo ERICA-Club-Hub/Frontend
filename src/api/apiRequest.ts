@@ -47,9 +47,7 @@ export const apiRequest = async ({
             try {
                 // 기존 reissue API로는 토큰 재발급 불가능하다고 하여 기존 로직은 삭제
                 // 추후 refreshToken 관련 로직 추가 예정
-            } catch (error) {
-                console.error(error);
-            }
+            } catch (error) {}
         }
         throw error;
     }

@@ -117,6 +117,8 @@ function useClubAdminQueries() {
                 console.error('동아리 일정 불러오기 실패');
             }
         }, [isSuccess, data]);
+
+        return { isError };
     };
 
     // 월별 활동 일정 삭제
@@ -330,7 +332,7 @@ function useClubAdminQueries() {
         setPreviewImg: React.Dispatch<React.SetStateAction<string[]>>;
         setPostImg: React.Dispatch<React.SetStateAction<File[]>>;
     }) => {
-        const { isPending, isSuccess, data, isError } = useQuery({
+        const { isPending, isSuccess, data, error, isError } = useQuery({
             queryKey: ['activitesLog', activityId],
             queryFn: async () => {
                 return await apiRequest({
@@ -366,18 +368,18 @@ function useClubAdminQueries() {
                         imgUrlList.map((imgUrl: string) =>
                             converURLtoFile(imgUrl),
                         ),
-                    ).then((imageFiles) => {
-                        setPostImg(imageFiles);
-                    });
+                    )
+                        .then((imageFiles) => {
+                            setPostImg(imageFiles);
+                        })
+                        .catch((error) => {
+                            handleError(error);
+                        });
                 }
-            }
-
-            if (isError) {
-                console.error('어드민 동아리 활동로그 상세조회 실패');
             }
         }, [isSuccess, data]);
 
-        return { isPending, isSuccess };
+        return { isPending, isSuccess, isError, error };
     };
 
     // 활동로그 생성
