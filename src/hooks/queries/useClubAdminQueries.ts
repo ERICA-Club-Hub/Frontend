@@ -94,7 +94,7 @@ function useClubAdminQueries() {
             React.SetStateAction<IEventScheduleValue[]>
         >,
     ) => {
-        const { isSuccess, data, isError } = useQuery({
+        const { isSuccess, data, isError, error } = useQuery({
             queryKey: ['eventSchedules'],
             queryFn: async () => {
                 return await apiRequest({
@@ -118,7 +118,7 @@ function useClubAdminQueries() {
             }
         }, [isSuccess, data]);
 
-        return { isError };
+        return { isError, error };
     };
 
     // 월별 활동 일정 삭제

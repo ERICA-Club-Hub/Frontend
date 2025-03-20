@@ -4,18 +4,24 @@ import PlusIcon from '@/assets/common/plus-icon.svg?react';
 import { EventSchedule } from './EventSchedule';
 import useClubIntroContext from '@/hooks/contexts/useClubIntroContext';
 import useClubAdminQueries from '@/hooks/queries/useClubAdminQueries';
+import { useEffect } from 'react';
+import axios from 'axios';
+import { useErrorHandler } from '@/hooks/handler/useErrorHandler';
 
 function MonthlyEventSchedule() {
     const { schedules, setSchedules } = useClubIntroContext();
 
     // 월별 활동 일정 불러오기
     const { useEventSchedulesQuery } = useClubAdminQueries();
-    const { isError } = useEventSchedulesQuery(setSchedules);
+    const { error } = useEventSchedulesQuery(setSchedules);
+    const { handleError } = useErrorHandler();
 
-    // 토큰 만료 임시 처리
-    if (isError) {
-        alert('세션이 만료되었습니다. 다시 로그인해주세요.');
-    }
+    // 토큰 만료 처리
+    useEffect(() => {
+        if (axios.isAxiosError(error) && error.response?.status === 401) {
+            handleError(error);
+        }
+    }, [error]);
 
     // 월별 일정 추가
     const handleAddEventSchedule = () => {
