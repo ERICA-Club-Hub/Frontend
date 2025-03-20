@@ -1,6 +1,6 @@
 import { useLocation } from 'react-router-dom';
 import styled from 'styled-components';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { IActivityLogValue } from '@/types';
 import { inputChangeHandler } from '@/utils/inputChangeHandler';
 import { TextArea } from '../Common/TextArea';
@@ -16,12 +16,15 @@ import { dateFormatHandler, handleDateChange } from '@/utils/dateFormatHandler';
 import CarouselImage from './CarouselImage';
 import { ActivityLogProvider } from '@/contexts/ActivityLogContext';
 import LoadingModal from '../Common/Loading/LoadingModal';
+import axios from 'axios';
+import { useErrorHandler } from '@/hooks/handler/useErrorHandler';
 
 function ActivityLogForm({ mode }: { mode: string }) {
     const location = useLocation();
     const { activityId } = location.state || {}; // 전달된 state에서 id 받아오기 -> id가 있으면 해당 동아리 활동로그 상세(현재 폼)로 이동
     const clubId = useRecoilValue(clubIdSelector);
     const { isOpen, toggle } = useToggle(); // 삭제하기 Modal toggle
+    const { handleError } = useErrorHandler();
 
     // 로컬 상태
     const [inputValue, setInputValue] = useState<IActivityLogValue>({
@@ -45,17 +48,20 @@ function ActivityLogForm({ mode }: { mode: string }) {
     const updateActivityLogMutation = useUpdateActivityLogMutation(activityId);
 
     // 활동로그 상세 불러오기 Query 호출
-    const { isError } = useDetailActivitiesLogQuery({
+    const { error } = useDetailActivitiesLogQuery({
         activityId: activityId,
         setInputValue,
         setPreviewImg,
         setPostImg,
     });
 
-    // 토큰 만료 임시 처리
-    if (isError) {
-        alert('세션이 만료되었습니다. 다시 로그인해주세요.');
-    }
+    // 토큰 만료 처리
+    useEffect(() => {
+        if (axios.isAxiosError(error) && error.response?.status === 401) {
+            handleError(error);
+        }
+    }, [error]);
+
     // 저장하기 or 수정하기
     const handleSaveActivityLog = () => {
         // 날짜 형식을 YYYY-MM-DD로 변환
