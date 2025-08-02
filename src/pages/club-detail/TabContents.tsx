@@ -1,17 +1,20 @@
 import Intro from '@/components/ClubDetail/ClubDetailTabs/Intro/Intro';
 import Log from './tab/Log';
-import Recruit from './tab/Recruit';
+import Recruit from '@/components/ClubDetail/ClubDetailTabs/Recruit/Recruit';
 
 interface TabContentsProps {
     activeTab: string;
 }
 
-export default function TabContents({ activeTab }: TabContentsProps) {
-    if (activeTab === 'intro') {
-        return <Intro />;
-    } else if (activeTab === 'recruit') {
-        return <Recruit></Recruit>;
-    } else {
-        return <Log></Log>;
+export default function TabContentsSwitch({ activeTab }: TabContentsProps) {
+    switch (activeTab) {
+        case 'intro':
+            return <Intro />;
+        case 'recruit':
+            return <Recruit />;
+        case 'log':
+            return <Log />;
+        default:
+            return null;
     }
 }

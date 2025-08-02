@@ -7,8 +7,14 @@ import styled from 'styled-components';
 import ContentBlock from '../ContentBlock';
 import { useState } from 'react';
 
+interface ClubBaseInfo {
+    iconUrl: string;
+    label: string;
+    value: string;
+}
+
 export default function BaseInfo() {
-    const [baseInfo, setBaseInfo] = useState([
+    const [baseInfo, setBaseInfo] = useState<ClubBaseInfo[]>([
         { iconUrl: jjang, label: '대표', value: '대표자 이름이 없습니다.' },
         {
             iconUrl: phone,
