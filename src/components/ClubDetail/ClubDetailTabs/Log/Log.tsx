@@ -8,11 +8,11 @@ interface ActivityThumbnailList {
 }
 
 interface LogProps {
-    clubName: string;
-    clubImgUrl: string;
+    clubName?: string;
+    clubImgUrl?: string;
 }
 
-export default function Log({ clubName, clubImgUrl }: LogProps) {
+export default function Log({ clubName = '', clubImgUrl }: LogProps) {
     const [activityThumbnailList] = useState<ActivityThumbnailList[]>([]);
     const [modalOpen, setModalOpen] = useState<boolean>(false);
     const [selectedImageId, setSelectedImageId] = useState<number>(0);
