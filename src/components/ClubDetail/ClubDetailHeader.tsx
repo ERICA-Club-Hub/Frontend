@@ -1,5 +1,10 @@
 import styled from 'styled-components';
 import { DEFAULT_IMG } from '@/constants/DEFAULT_IMG';
+import Button from '../Common/Button';
+
+interface RecruitStateProps {
+    $state?: '모집 중' | '모집 예정' | '모집 마감';
+}
 
 interface ClubDetailHeaderProps {
     clubImgUrl?: string;
@@ -7,6 +12,7 @@ interface ClubDetailHeaderProps {
     clubName: string;
     clubTag: string;
     recruitState: string;
+    applicationUrl: string;
 }
 
 export default function ClubDetailHeader({
@@ -15,19 +21,35 @@ export default function ClubDetailHeader({
     clubName,
     clubTag,
     recruitState,
+    applicationUrl,
 }: ClubDetailHeaderProps) {
+    // TODO 동아리명, description 필요한 정보들 훅으로 받기
     return (
-        <ClubHeader>
-            <ClubImage src={clubImgUrl || DEFAULT_IMG} alt="Club Logo" />
-            <PreviewWrapper>
-                <Preview>{clubDescription}</Preview>
-                <ClubTitle>{clubName}</ClubTitle>
-                <ClubTags>
-                    <Tag>{clubTag}</Tag>
-                    <RecruitState>{recruitState}</RecruitState>
-                </ClubTags>
-            </PreviewWrapper>
-        </ClubHeader>
+        <>
+            <ClubHeader>
+                <ClubImage src={clubImgUrl || DEFAULT_IMG} alt="Club Logo" />
+                <PreviewWrapper>
+                    <Preview>{clubDescription}</Preview>
+                    <ClubTitle>{clubName}</ClubTitle>
+                    <ClubTags>
+                        <Tag>{clubTag}</Tag>
+                        <RecruitState>{recruitState}</RecruitState>
+                    </ClubTags>
+                </PreviewWrapper>
+            </ClubHeader>
+            <Button
+                onClick={() => {
+                    if (applicationUrl) {
+                        window.open(applicationUrl, '_blank');
+                    }
+                }}
+                size="large"
+            >
+                {recruitState !== 'OPEN'
+                    ? '모집이 마감되었어요.'
+                    : '가입 신청하기'}
+            </Button>
+        </>
     );
 }
 
@@ -112,7 +134,6 @@ const RecruitState = styled.span<RecruitStateProps>`
     border-radius: 5px;
     font-size: 12px;
     align-items: center;
-
     background-color: ${(props) => {
         if (props.$state === '모집 중') {
             return '#fff4e4';

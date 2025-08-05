@@ -14,7 +14,7 @@ interface ClubBaseInfo {
 }
 
 export default function BaseInfo() {
-    const [baseInfo, setBaseInfo] = useState<ClubBaseInfo[]>([
+    const [baseInfo /*, setBaseInfo */] = useState<ClubBaseInfo[]>([
         { iconUrl: jjang, label: '대표', value: '대표자 이름이 없습니다.' },
         {
             iconUrl: phone,
