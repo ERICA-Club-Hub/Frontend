@@ -5,34 +5,47 @@ import phone from '../../../../assets/common/phone.svg';
 import label from '../../../../assets/common/label.svg';
 import styled from 'styled-components';
 import ContentBlock from '../ContentBlock';
-import { useState } from 'react';
-
-interface ClubBaseInfo {
-    iconUrl: string;
-    label: string;
-    value: string;
-}
+import { useClubIntro } from '@/hooks/club-detail/useClubIntro';
 
 export default function BaseInfo() {
-    const [baseInfo /*, setBaseInfo */] = useState<ClubBaseInfo[]>([
-        { iconUrl: jjang, label: '대표', value: '대표자 이름이 없습니다.' },
+    const { clubInfo } = useClubIntro();
+    const baseInfo = [
         {
+            key: 'leader',
+            iconUrl: jjang,
+            label: '대표',
+            value: clubInfo?.leaderName || '대표자 이름이 없습니다.',
+        },
+        {
+            key: 'contact',
             iconUrl: phone,
             label: '연락처',
-            value: ' 않았습니다.',
+            value:
+                clubInfo?.leaderPhone || '연락처 정보가 제공되지 않았습니다.',
         },
         {
+            key: 'meeting',
             iconUrl: label,
             label: '정기모임',
-            value: ' 없습니다.',
+            value: clubInfo?.activities || '정해진 정기모임이 없습니다.',
         },
         {
+            key: 'fee',
             iconUrl: card,
             label: '회비',
-            value: '되지 않았습니다.',
+            value: clubInfo?.membershipFee
+                ? `${clubInfo.membershipFee}원`
+                : '회비 정보가 제공되지 않았습니다.',
         },
-        { iconUrl: sns, label: 'SNS', value: '' },
-    ]);
+        {
+            key: 'sns',
+            iconUrl: sns,
+            label: 'SNS',
+            value: clubInfo?.snsUrl
+                ? `@${clubInfo.snsUrl}`
+                : 'SNS 정보가 없습니다.',
+        },
+    ];
     return (
         <ContentBlock title="동아리 기본 정보">
             <ClubDetails>

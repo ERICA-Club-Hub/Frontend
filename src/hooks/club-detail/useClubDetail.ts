@@ -5,11 +5,11 @@ import { useState } from 'react';
 import { useLocation, useParams } from 'react-router-dom';
 
 interface ApiClubDetailHeaderResponse {
-    clubImgUrl?: string;
-    clubDescription: string;
-    clubName: string;
-    clubTag: string;
-    recruitState: string;
+    profileImageUrl?: string;
+    description: string;
+    name: string;
+    category: string;
+    recruitmentStatus: string;
     applicationUrl: string;
 }
 
@@ -18,7 +18,7 @@ export const useClubDetail = () => {
     const nowUrl = location.pathname.split('/')[1];
     const { id } = useParams();
     const [activeTab, setActiveTab] = useState<activeTab>('intro');
-    const isPreview = nowUrl === 'club-detail-preview';
+    const isPreview = nowUrl === 'club-detail-preview'; // TODO 추후에 외부에서 주입하는 방식으로 refactor
 
     const {
         data: clubDetail,
@@ -28,8 +28,8 @@ export const useClubDetail = () => {
         queryKey: ['clubDetail', id, isPreview],
         queryFn: async (): Promise<ApiClubDetailHeaderResponse> => {
             const requestUrl = isPreview
-                ? `/api/clubs/club-admin/${id}/draft`
-                : `/api/clubs/${id}`;
+                ? `/api/clubs/club-admin/${id}/draft` // TODO overview 미리보기 api 완성되면 수정
+                : `/api/clubs/${id}/overview`;
 
             const response = await apiRequest({
                 url: requestUrl,
@@ -39,7 +39,7 @@ export const useClubDetail = () => {
             if (response.isSuccess) {
                 return response.result;
             }
-            throw new Error('동아리 정보 불러오기 실패');
+            throw new Error('동아리 오버뷰 불러오기 실패');
         },
         staleTime: 5 * 60 * 1000,
         gcTime: 10 * 60 * 1000,

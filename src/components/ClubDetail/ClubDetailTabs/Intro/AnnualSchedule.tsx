@@ -1,20 +1,15 @@
 import styled from 'styled-components';
 import ContentBlock from '../ContentBlock';
-import { useState } from 'react';
-
-interface Schedule {
-    month: string;
-    content: string;
-}
+import { useClubIntro } from '@/hooks/club-detail/useClubIntro';
 
 export default function AnnualSchedule() {
-    const [schedules, setSchedules] = useState<Schedule[]>();
+    const { clubSchedules } = useClubIntro();
 
     return (
         <ContentBlock title="주요 연간 일정">
-            {schedules && schedules.length > 0 ? (
+            {clubSchedules?.schedules && clubSchedules.schedules.length > 0 ? (
                 <ScheduleContents>
-                    {schedules.map((schedule) => (
+                    {clubSchedules.schedules.map((schedule) => (
                         <ContentsRow key={schedule.month}>
                             <ContentsLabel>{schedule.month}월</ContentsLabel>
                             <ContentsValue>{schedule.content}</ContentsValue>

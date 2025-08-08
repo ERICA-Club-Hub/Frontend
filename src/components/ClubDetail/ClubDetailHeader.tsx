@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import { DEFAULT_IMG } from '@/constants/DEFAULT_IMG';
 import Button from '../Common/Button';
+import { useClubDetail } from '@/hooks/club-detail/useClubDetail';
 
 interface RecruitStateProps {
     $state?: '모집 중' | '모집 예정' | '모집 마감';
@@ -16,24 +17,25 @@ interface ClubDetailHeaderProps {
 }
 
 export default function ClubDetailHeader({
-    clubImgUrl,
-    clubDescription,
-    clubName,
-    clubTag,
     recruitState,
     applicationUrl,
 }: ClubDetailHeaderProps) {
-    // TODO 동아리명, description 필요한 정보들 훅으로 받기
+    const { clubDetail } = useClubDetail();
     return (
         <>
             <ClubHeader>
-                <ClubImage src={clubImgUrl || DEFAULT_IMG} alt="Club Logo" />
+                <ClubImage
+                    src={clubDetail?.profileImageUrl || DEFAULT_IMG}
+                    alt="Club Logo"
+                />
                 <PreviewWrapper>
-                    <Preview>{clubDescription}</Preview>
-                    <ClubTitle>{clubName}</ClubTitle>
+                    <Preview>{clubDetail?.description}</Preview>
+                    <ClubTitle>{clubDetail?.name}</ClubTitle>
                     <ClubTags>
-                        <Tag>{clubTag}</Tag>
-                        <RecruitState>{recruitState}</RecruitState>
+                        <Tag>{clubDetail?.category}</Tag>
+                        <RecruitState>
+                            {clubDetail?.recruitmentStatus}
+                        </RecruitState>
                     </ClubTags>
                 </PreviewWrapper>
             </ClubHeader>
