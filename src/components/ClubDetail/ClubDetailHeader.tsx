@@ -7,19 +7,7 @@ interface RecruitStateProps {
     $state?: '모집 중' | '모집 예정' | '모집 마감';
 }
 
-interface ClubDetailHeaderProps {
-    clubImgUrl?: string;
-    clubDescription: string;
-    clubName: string;
-    clubTag: string;
-    recruitState: string;
-    applicationUrl: string;
-}
-
-export default function ClubDetailHeader({
-    recruitState,
-    applicationUrl,
-}: ClubDetailHeaderProps) {
+export default function ClubDetailHeader() {
     const { clubDetail } = useClubDetail();
     return (
         <>
@@ -41,13 +29,13 @@ export default function ClubDetailHeader({
             </ClubHeader>
             <Button
                 onClick={() => {
-                    if (applicationUrl) {
-                        window.open(applicationUrl, '_blank');
+                    if (clubDetail?.applicationUrl) {
+                        window.open(clubDetail.applicationUrl, '_blank');
                     }
                 }}
                 size="large"
             >
-                {recruitState !== 'OPEN'
+                {clubDetail?.recruitmentStatus !== 'OPEN'
                     ? '모집이 마감되었어요.'
                     : '가입 신청하기'}
             </Button>

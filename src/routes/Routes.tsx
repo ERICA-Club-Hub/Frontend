@@ -24,7 +24,6 @@ import {
     UnionNoticePage,
 } from '@/pages';
 import { RedirectIfAuthenticated } from './RedirectIfAuthenticated';
-import ClubDetailPreview from '@/pages/club-detail-preview/ClubDetailPreview';
 import { AuthGuard } from './AuthGuard';
 // import UnionAdminGuard from './UnionAdminGuard';
 import ClubAdminGurad from './ClubAdminGurad';
@@ -32,6 +31,7 @@ import ClubAdminGurad from './ClubAdminGurad';
 // import { AdminUnionNoticeRegisterPage } from '@/pages/admin/union/notice/AdminUnionNoticeRegisterPage';
 import CompleteClubRegisterPage from '@/pages/admin/auth/register/CompleteClubRegisterPage';
 import ServiceAdminGuard from './ServiceAdminGuard';
+import ClubDetailPreviewPage from '@/pages/club-detail-preview/ClubDetailPreviewPage';
 
 export default function AppRoutes() {
     return (
@@ -57,7 +57,7 @@ export default function AppRoutes() {
             {/* 동아리 등록 및 수정의 미리보기 페이지 */}
             <Route
                 path="/club-detail-preview/:id"
-                element={<ClubDetailPreview />}
+                element={<ClubDetailPreviewPage />}
             />
 
             {/* 로그인됐을 때 로그인 페이지 접근 제한 */}

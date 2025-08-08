@@ -83,7 +83,7 @@ export const useClubIntro = () => {
     const {
         data: clubInfo,
         isLoading: isClubInfoLoading,
-        isError: isClubInfoerror,
+        isError: isClubInfoError,
     } = useQuery({
         queryKey: ['clubInfo', id, isPreview],
         queryFn: async (): Promise<ApiClubInfoResponse> => {
@@ -105,5 +105,15 @@ export const useClubIntro = () => {
         gcTime: 10 * 60 * 1000,
     });
 
-    return { clubInfo, clubIntroduction, clubSchedules };
+    return {
+        clubInfo,
+        clubIntroduction,
+        clubSchedules,
+        isClubInfoLoading,
+        isClubInfoError,
+        isIntroductionLoading,
+        isIntroductionError,
+        isScheduleError,
+        isScheduleLoading,
+    };
 };
