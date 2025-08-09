@@ -1,15 +1,19 @@
 import styled from 'styled-components';
 import ContentBlock from '../ContentBlock';
-import { useClubIntro } from '@/hooks/club-detail/useClubIntro';
+import {
+    useClubSchedules,
+    useIsPreview,
+} from '@/hooks/club-detail/useClubIntro';
 
 export default function AnnualSchedule() {
-    const { clubSchedules } = useClubIntro();
+    const { id, isPreview } = useIsPreview();
+    const { data } = useClubSchedules(id || '', isPreview);
 
     return (
         <ContentBlock title="주요 연간 일정">
-            {clubSchedules?.schedules && clubSchedules.schedules.length > 0 ? (
+            {data?.schedules && data.schedules.length > 0 ? (
                 <ScheduleContents>
-                    {clubSchedules.schedules.map((schedule) => (
+                    {data.schedules.map((schedule) => (
                         <ContentsRow key={schedule.month}>
                             <ContentsLabel>{schedule.month}월</ContentsLabel>
                             <ContentsValue>{schedule.content}</ContentsValue>

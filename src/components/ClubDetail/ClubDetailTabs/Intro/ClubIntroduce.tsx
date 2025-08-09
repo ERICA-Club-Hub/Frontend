@@ -1,12 +1,16 @@
+import {
+    useClubIntroduction,
+    useIsPreview,
+} from '@/hooks/club-detail/useClubIntro';
 import ContentBlock from '../ContentBlock';
-import { useClubIntro } from '@/hooks/club-detail/useClubIntro';
 
 export default function ClubIntroduce() {
-    const { clubIntroduction } = useClubIntro();
+    const { id, isPreview } = useIsPreview();
+    const { data } = useClubIntroduction(id || '', isPreview);
     return (
         <ContentBlock
             title="동아리 소개"
-            content={clubIntroduction?.introduction}
+            content={data?.introduction}
         ></ContentBlock>
     );
 }

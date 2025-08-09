@@ -25,95 +25,71 @@ interface ApiClubInfoResponse {
     snsUrl: string;
 }
 
-export const useClubIntro = () => {
+// TODO 통합 API 훅으로 분리(entPoint, isPreview, clubId, errorMessage 인자로 받는)
+interface UseClubApiOptions {
+    clubId: string;
+    isPreview: boolean;
+    endpoint: string;
+    errorMessage: string;
+}
+export const useClubApi = <T>({
+    clubId,
+    isPreview,
+    endpoint,
+    errorMessage,
+}: UseClubApiOptions) => {
+    return useQuery({
+        queryKey: [endpoint, clubId, isPreview],
+        queryFn: async (): Promise<T> => {
+            const baseUrl = isPreview
+                ? `/api/clubs/club-admin/${clubId}`
+                : `/api/clubs/${clubId}`;
+            const suffix = isPreview ? '/draft' : '';
+            const requestUrl = `${baseUrl}/${endpoint}${suffix}`;
+
+            const response = await apiRequest({
+                url: requestUrl,
+                requireToken: isPreview,
+            });
+
+            if (response.isSuccess) {
+                return response.result;
+            }
+            throw new Error(errorMessage);
+        },
+        staleTime: 5 * 60 * 1000,
+        gcTime: 10 * 60 * 1000,
+        enabled: !!clubId && clubId.trim() !== '', // id === '' 일 때를 대비
+    });
+};
+
+export const useIsPreview = () => {
     const nowUrl = location.pathname.split('/')[1];
     const { id } = useParams();
     const isPreview = nowUrl === 'club-detail-preview'; // TODO 추후에 외부에서 주입하는 방식으로 refactor
-
-    const {
-        data: clubIntroduction,
-        isLoading: isIntroductionLoading,
-        isError: isIntroductionError,
-    } = useQuery({
-        queryKey: ['clubIntroduction', id, isPreview],
-        queryFn: async (): Promise<ApiClubIntroductionResponse> => {
-            const requestUrl = isPreview
-                ? `/api/clubs/club-admin/${id}/introduction/draft`
-                : `/api/clubs/${id}/introduction`;
-
-            const response = await apiRequest({
-                url: requestUrl,
-                requireToken: isPreview,
-            });
-
-            if (response.isSuccess) {
-                return response.result;
-            }
-            throw new Error('동아리 소개 조회 실패');
-        },
-        staleTime: 5 * 60 * 1000,
-        gcTime: 10 * 60 * 1000,
-    });
-
-    const {
-        data: clubSchedules,
-        isLoading: isScheduleLoading,
-        isError: isScheduleError,
-    } = useQuery({
-        queryKey: ['clubSchedules', id, isPreview],
-        queryFn: async (): Promise<ApiClubScheduleResponse> => {
-            const requestUrl = isPreview
-                ? `/api/clubs/club-admin/${id}/schedules/draft`
-                : `/api/clubs/${id}/schedules`;
-
-            const response = await apiRequest({
-                url: requestUrl,
-                requireToken: isPreview,
-            });
-
-            if (response.isSuccess) {
-                return response.result;
-            }
-            throw new Error('동아리 월 별 일정 조회 실패');
-        },
-        staleTime: 5 * 60 * 1000,
-        gcTime: 10 * 60 * 1000,
-    });
-
-    const {
-        data: clubInfo,
-        isLoading: isClubInfoLoading,
-        isError: isClubInfoError,
-    } = useQuery({
-        queryKey: ['clubInfo', id, isPreview],
-        queryFn: async (): Promise<ApiClubInfoResponse> => {
-            const requestUrl = isPreview
-                ? `/api/clubs/club-admin/${id}/info/draft` // TODO api 생기면 엔드포인트 변경
-                : `/api/clubs/${id}/info`;
-
-            const response = await apiRequest({
-                url: requestUrl,
-                requireToken: isPreview,
-            });
-
-            if (response.isSuccess) {
-                return response.result;
-            }
-            throw new Error('동아리 월 별 일정 조회 실패');
-        },
-        staleTime: 5 * 60 * 1000,
-        gcTime: 10 * 60 * 1000,
-    });
-
-    return {
-        clubInfo,
-        clubIntroduction,
-        clubSchedules,
-        isClubInfoLoading,
-        isClubInfoError,
-        isIntroductionLoading,
-        isIntroductionError,
-        isScheduleError,
-        isScheduleLoading,
-    };
+    return { nowUrl, id, isPreview };
 };
+
+export const useClubIntroduction = (clubId: string, isPreview: boolean) =>
+    useClubApi<ApiClubIntroductionResponse>({
+        clubId,
+        isPreview,
+        endpoint: 'introduction',
+        errorMessage: '동아리 소개 조회 실패',
+    });
+
+export const useClubSchedules = (clubId: string, isPreview: boolean) =>
+    useClubApi<ApiClubScheduleResponse>({
+        clubId,
+        isPreview,
+        endpoint: 'schedules',
+        errorMessage: '동아리 스케줄 조회 실패',
+    });
+
+export const useClubInfo = (clubId: string, isPreview: boolean) =>
+    useClubApi<ApiClubInfoResponse>({
+        clubId,
+        isPreview,
+        endpoint: 'info',
+        errorMessage: '동아리 정보 조회 실패',
+    });
