@@ -1,41 +1,43 @@
 import styled from 'styled-components';
 import { DEFAULT_IMG } from '@/constants/DEFAULT_IMG';
 import Button from '../Common/Button';
-import { useClubDetail } from '@/hooks/club-detail/useClubDetail';
+import {
+    useClubDetail,
+    useClubDetailHeader,
+} from '@/hooks/club-detail/useClubDetail';
 
 interface RecruitStateProps {
     $state?: '모집 중' | '모집 예정' | '모집 마감';
 }
 
 export default function ClubDetailHeader() {
-    const { clubDetail } = useClubDetail();
+    const { isPreview, clubId } = useClubDetail();
+    const { data } = useClubDetailHeader(clubId || '', isPreview);
     return (
         <>
             <ClubHeader>
                 <ClubImage
-                    src={clubDetail?.profileImageUrl || DEFAULT_IMG}
+                    src={data?.profileImageUrl || DEFAULT_IMG}
                     alt="Club Logo"
                 />
                 <PreviewWrapper>
-                    <Preview>{clubDetail?.description}</Preview>
-                    <ClubTitle>{clubDetail?.name}</ClubTitle>
+                    <Preview>{data?.description}</Preview>
+                    <ClubTitle>{data?.name}</ClubTitle>
                     <ClubTags>
-                        <Tag>{clubDetail?.category}</Tag>
-                        <RecruitState>
-                            {clubDetail?.recruitmentStatus}
-                        </RecruitState>
+                        <Tag>{data?.category}</Tag>
+                        <RecruitState>{data?.recruitmentStatus}</RecruitState>
                     </ClubTags>
                 </PreviewWrapper>
             </ClubHeader>
             <Button
                 onClick={() => {
-                    if (clubDetail?.applicationUrl) {
-                        window.open(clubDetail.applicationUrl, '_blank');
+                    if (data?.applicationUrl) {
+                        window.open(data.applicationUrl, '_blank');
                     }
                 }}
                 size="large"
             >
-                {clubDetail?.recruitmentStatus !== 'OPEN'
+                {data?.recruitmentStatus !== 'OPEN'
                     ? '모집이 마감되었어요.'
                     : '가입 신청하기'}
             </Button>

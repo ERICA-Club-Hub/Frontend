@@ -66,7 +66,7 @@ export const useClubApi = <T>({
 export const useIsPreview = () => {
     const nowUrl = location.pathname.split('/')[1];
     const { id } = useParams();
-    const isPreview = nowUrl === 'club-detail-preview'; // TODO 추후에 외부에서 주입하는 방식으로 refactor
+    const isPreview = nowUrl === 'club-detail-preview';
     return { nowUrl, id, isPreview };
 };
 

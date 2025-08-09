@@ -18,18 +18,23 @@ export const useClubDetail = () => {
     const nowUrl = location.pathname.split('/')[1];
     const { id } = useParams();
     const [activeTab, setActiveTab] = useState<activeTab>('intro');
-    const isPreview = nowUrl === 'club-detail-preview'; // TODO 추후에 외부에서 주입하는 방식으로 refactor
+    const isPreview = nowUrl === 'club-detail-preview';
 
-    const {
-        data: clubDetail,
-        isLoading,
-        isError,
-    } = useQuery({
-        queryKey: ['clubDetail', id, isPreview],
+    return {
+        clubId: id,
+        activeTab,
+        setActiveTab,
+        isPreview,
+    };
+};
+
+export const useClubDetailHeader = (clubId: string, isPreview: boolean) => {
+    return useQuery({
+        queryKey: ['clubDetailHeader', clubId, isPreview],
         queryFn: async (): Promise<ApiClubDetailHeaderResponse> => {
             const requestUrl = isPreview
-                ? `/api/clubs/club-admin/${id}/draft` // TODO overview 미리보기 api 완성되면 수정
-                : `/api/clubs/${id}/overview`;
+                ? `/api/clubs/club-admin/${clubId}/draft`
+                : `/api/clubs/${clubId}/overview`;
 
             const response = await apiRequest({
                 url: requestUrl,
@@ -43,15 +48,6 @@ export const useClubDetail = () => {
         },
         staleTime: 5 * 60 * 1000,
         gcTime: 10 * 60 * 1000,
+        enabled: !!clubId && clubId.trim() !== '',
     });
-
-    return {
-        clubId: id,
-        activeTab,
-        setActiveTab,
-        isPreview,
-        clubDetail,
-        isLoading,
-        isError,
-    };
 };
