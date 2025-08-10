@@ -3,8 +3,8 @@ import Tab from '@/components/ClubDetail/Tab/Tab';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import TabContentsSwitch from '../club-detail/TabContents';
-import { useClubDetail } from '@/hooks/club-detail/useClubDetail';
 import arrow from '../../assets/common/Expand_right.svg';
+import { useClubDetail } from '@/hooks/club-detail/useClubDetail';
 
 export default function ClubDetailPreviewPage() {
     const navigate = useNavigate();
