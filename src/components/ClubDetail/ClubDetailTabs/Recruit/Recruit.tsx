@@ -4,7 +4,6 @@ import { useClubDetail } from '@/hooks/club-detail/useClubDetail';
 import { useClubRecruit } from '@/hooks/club-detail/useClubRecruit';
 
 export default function Recruit() {
-    // 훅으로 받은 내용 각 컴포넌트에 props로 전달
     const { clubId, isPreview } = useClubDetail();
     const { data } = useClubRecruit(clubId || '', isPreview);
     return (
