@@ -5,6 +5,11 @@ import {
     useClubDetail,
     useClubDetailHeader,
 } from '@/hooks/club-detail/useClubDetail';
+import {
+    getCategoryEmoji,
+    getCategoryMapping,
+} from '@/utils/clubDetail/getCategoryEmoji';
+import { getRecruitmentStatus } from '@/utils/clubDetail/getRecruitmentStatus';
 
 interface RecruitStateProps {
     $state?: '모집 중' | '모집 예정' | '모집 마감';
@@ -24,8 +29,16 @@ export default function ClubDetailHeader() {
                     <Preview>{data?.description}</Preview>
                     <ClubTitle>{data?.name}</ClubTitle>
                     <ClubTags>
-                        <Tag>{data?.category}</Tag>
-                        <RecruitState>{data?.recruitmentStatus}</RecruitState>
+                        {/* TODO 추후에 data 여부에 따라 loading 적용 */}
+                        <Tag>
+                            {data?.category && getCategoryEmoji(data?.category)}{' '}
+                            {data?.category &&
+                                getCategoryMapping(data?.category)}
+                        </Tag>
+                        <RecruitState>
+                            {data?.recruitmentStatus &&
+                                getRecruitmentStatus(data.recruitmentStatus)}
+                        </RecruitState>
                     </ClubTags>
                 </PreviewWrapper>
             </ClubHeader>
@@ -43,34 +56,6 @@ export default function ClubDetailHeader() {
             </Button>
         </>
     );
-}
-
-{
-    /* 유틸함수 포함한 원본
-     <ClubHeader>
-                        <ClubImage
-                            src={clubDetail?.profileImageUrl || DEFAULT_IMG}
-                            alt="Club Logo"
-                        />
-                        <PreviewWrapper>
-                            <Preview>{clubDetail?.description}</Preview>
-                            <ClubTitle>{clubDetail?.name}</ClubTitle>
-                            <ClubTags>
-                                <Tag>
-                                    {`${getCategoryEmoji(
-                                        getCategoryMapping(
-                                            clubDetail?.category,
-                                        ),
-                                    )}\u00A0\u00A0${getCategoryMapping(
-                                        clubDetail?.category,
-                                    )}`}
-                                </Tag>
-                                {clubDetail && (
-                                    <RecruitState $state={getRecruitState()}>
-                                        {getRecruitState()}
-                                    </RecruitState>
-                                )}
-                            </ClubTags> */
 }
 
 const ClubHeader = styled.div`

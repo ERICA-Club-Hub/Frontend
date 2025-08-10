@@ -1,15 +1,17 @@
 import { apiRequest } from '@/api/apiRequest';
 import { activeTab } from '@/pages';
+import { Category } from '@/utils/clubDetail/getCategoryEmoji';
 import { useQuery } from '@tanstack/react-query';
 import { useState } from 'react';
 import { useLocation, useParams } from 'react-router-dom';
+import { RecruitmentStatus } from '@/utils/clubDetail/getRecruitmentStatus';
 
 interface ApiClubDetailHeaderResponse {
     profileImageUrl?: string;
     description: string;
     name: string;
-    category: string;
-    recruitmentStatus: string;
+    category: Category;
+    recruitmentStatus: RecruitmentStatus;
     applicationUrl: string;
 }
 

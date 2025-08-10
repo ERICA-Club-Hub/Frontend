@@ -25,7 +25,6 @@ interface ApiClubInfoResponse {
     snsUrl: string;
 }
 
-// TODO 통합 API 훅으로 분리(entPoint, isPreview, clubId, errorMessage 인자로 받는)
 interface UseClubApiOptions {
     clubId: string;
     isPreview: boolean;

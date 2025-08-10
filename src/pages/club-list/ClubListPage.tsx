@@ -2,7 +2,10 @@ import styled from 'styled-components';
 import { useState, useEffect, useCallback } from 'react';
 import { InputField } from '@/components/Common/InputField';
 import { apiRequest } from '@/api/apiRequest';
-import { getCategoryEmoji } from '@/utils/clubDetail/getCategoryEmoji';
+import {
+    Category,
+    getCategoryEmoji,
+} from '@/utils/clubDetail/getCategoryEmoji';
 import { useNavigate } from 'react-router-dom';
 import MainpageCard from '@/components/Common/MainpageCard';
 import SortingDropdown from '@/components/Common/SortingDropdown';
@@ -16,6 +19,10 @@ import SurveyCardArrow from '@/assets/common/surveyCard_arrow.svg?react';
 // import WhoMake from '@/assets/common/whoMake.svg?react';
 import { Footer } from '@/components/Common/Footer';
 import FeedbackModal from '@/components/Common/Modal/FeedbackModal';
+import {
+    getRecruitmentStatus,
+    RecruitmentStatus,
+} from '@/utils/clubDetail/getRecruitmentStatus';
 
 // 페이지 컨테이너
 const PageContainer = styled.div`
@@ -253,8 +260,8 @@ interface Club {
     id: number;
     name: string;
     description: string;
-    category: string;
-    recruitmentStatus: 'UPCOMING' | 'OPEN' | 'CLOSED';
+    category: Category;
+    recruitmentStatus: RecruitmentStatus;
     activities: string | null;
     leaderName: string | null;
     leaderEmail: string;
@@ -456,16 +463,6 @@ const ClubListPage = () => {
         return categoryMap[category] || category;
     };
 
-    // 모집상태 매핑 함수
-    const getRecruitmentStatusMapping = (status: string) => {
-        const statusMap: { [key: string]: string } = {
-            UPCOMING: '모집예정',
-            OPEN: '모집중',
-            CLOSED: '모집마감',
-        };
-        return statusMap[status] || status;
-    };
-
     const getRecruitmentStatusOrder = (status: string) => {
         const statusOrder: { [key: string]: number } = {
             OPEN: 1, // 모집중
@@ -603,13 +600,17 @@ const ClubListPage = () => {
                             <div>로딩 중...</div>
                         ) : clubs && clubs.length > 0 ? (
                             clubs.map((club) => {
-                                const mappedCategory = getCategoryMapping(
+                                // 원본 영어 값으로 이모지 가져오기
+                                const categoryEmoji = getCategoryEmoji(
                                     club.category,
                                 );
-                                const mappedStatus =
-                                    getRecruitmentStatusMapping(
-                                        club.recruitmentStatus,
-                                    );
+                                const categoryText = getCategoryMapping(
+                                    club.category,
+                                );
+                                const statusText = getRecruitmentStatus(
+                                    club.recruitmentStatus,
+                                );
+
                                 return (
                                     <MainpageCard
                                         key={club.id}
@@ -618,13 +619,11 @@ const ClubListPage = () => {
                                         tags={[
                                             {
                                                 type: '동아리 및 질문',
-                                                text: `${getCategoryEmoji(
-                                                    mappedCategory,
-                                                )} ${mappedCategory}`,
+                                                text: `${categoryEmoji} ${categoryText}`,
                                             },
                                             {
-                                                type: mappedStatus as TagType,
-                                                text: mappedStatus,
+                                                type: statusText as TagType,
+                                                text: statusText,
                                             },
                                         ]}
                                         onClick={() => handleCardClick(club.id)}
