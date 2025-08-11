@@ -3,7 +3,7 @@ import ContentBlock from '../ContentBlock';
 import {
     useClubSchedules,
     useIsPreview,
-} from '@/hooks/club-detail/useClubIntro';
+} from '@/hooks/queries/club-detail/useClubIntro';
 
 export default function AnnualSchedule() {
     const { id, isPreview } = useIsPreview();

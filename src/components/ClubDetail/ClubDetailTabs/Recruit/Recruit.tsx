@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import ContentBlock from '../ContentBlock';
 import { useClubDetail } from '@/hooks/club-detail/useClubDetail';
-import { useClubRecruit } from '@/hooks/club-detail/useClubRecruit';
+import { useClubRecruit } from '@/hooks/queries/club-detail/useClubRecruit';
 
 export default function Recruit() {
     const { clubId, isPreview } = useClubDetail();

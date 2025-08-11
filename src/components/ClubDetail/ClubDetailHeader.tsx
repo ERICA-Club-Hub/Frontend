@@ -8,7 +8,7 @@ import {
 } from '@/utils/clubDetail/getCategoryEmoji';
 import { getRecruitmentStatus } from '@/utils/clubDetail/getRecruitmentStatus';
 import { useClubDetail } from '@/hooks/club-detail/useClubDetail';
-import { useClubDetailHeader } from '@/hooks/club-detail/useClubDetailHeader';
+import { useClubDetailHeader } from '@/hooks/queries/club-detail/useClubDetailHeader';
 
 interface RecruitStateProps {
     $state?: '모집 중' | '모집 예정' | '모집 마감';

@@ -1,7 +1,7 @@
 import {
     useClubIntroduction,
     useIsPreview,
-} from '@/hooks/club-detail/useClubIntro';
+} from '@/hooks/queries/club-detail/useClubIntro';
 import ContentBlock from '../ContentBlock';
 
 export default function ClubIntroduce() {

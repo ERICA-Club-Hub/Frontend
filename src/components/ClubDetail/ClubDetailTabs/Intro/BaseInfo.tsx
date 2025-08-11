@@ -5,7 +5,10 @@ import phone from '../../../../assets/common/phone.svg';
 import label from '../../../../assets/common/label.svg';
 import styled from 'styled-components';
 import ContentBlock from '../ContentBlock';
-import { useClubInfo, useIsPreview } from '@/hooks/club-detail/useClubIntro';
+import {
+    useClubInfo,
+    useIsPreview,
+} from '@/hooks/queries/club-detail/useClubIntro';
 
 export default function BaseInfo() {
     const { id, isPreview } = useIsPreview();

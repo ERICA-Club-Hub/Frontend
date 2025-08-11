@@ -2,7 +2,7 @@ import ContentBlock from '../ContentBlock';
 import {
     useClubIntroduction,
     useIsPreview,
-} from '@/hooks/club-detail/useClubIntro';
+} from '@/hooks/queries/club-detail/useClubIntro';
 
 export default function ActivityGuide() {
     const { id, isPreview } = useIsPreview();
