@@ -1,4 +1,4 @@
-export const RECRUITMENT_STATUS = {
+const RECRUITMENT_STATUS = {
     CLOSED: '모집마감',
     OPEN: '모집중',
     UPCOMING: '모집예정',

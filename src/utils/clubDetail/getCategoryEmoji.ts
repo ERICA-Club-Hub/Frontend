@@ -1,4 +1,4 @@
-export const CATEGORIES = {
+const CATEGORIES = {
     UNION: { label: '연합동아리', emoji: '🧩' },
     ART: { label: '예술분과', emoji: '🎨' },
     VOLUNTEER: { label: '봉사분과', emoji: '💌' },
