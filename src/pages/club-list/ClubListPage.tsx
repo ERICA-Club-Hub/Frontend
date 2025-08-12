@@ -2,7 +2,10 @@ import styled from 'styled-components';
 import { useState, useEffect, useCallback } from 'react';
 import { InputField } from '@/components/Common/InputField';
 import { apiRequest } from '@/api/apiRequest';
-import { getCategoryEmoji } from '@/utils/getCategoryEmoji';
+import {
+    Category,
+    getCategoryEmoji,
+} from '@/utils/clubDetail/getCategoryEmoji';
 import { useNavigate } from 'react-router-dom';
 import MainpageCard from '@/components/Common/MainpageCard';
 import SortingDropdown from '@/components/Common/SortingDropdown';
@@ -16,6 +19,10 @@ import SurveyCardArrow from '@/assets/common/surveyCard_arrow.svg?react';
 // import WhoMake from '@/assets/common/whoMake.svg?react';
 import { Footer } from '@/components/Common/Footer';
 import FeedbackModal from '@/components/Common/Modal/FeedbackModal';
+import {
+    getRecruitmentStatus,
+    RecruitmentStatus,
+} from '@/utils/clubDetail/getRecruitmentStatus';
 
 // 페이지 컨테이너
 const PageContainer = styled.div`
@@ -215,7 +222,7 @@ const NoResultContainer = styled.div`
     h1 {
         font-size: 14px;
         font-weight: 500;
-        color: ${props => props.theme.colors.mainBlack};
+        color: ${(props) => props.theme.colors.mainBlack};
     }
 `;
 
@@ -253,8 +260,8 @@ interface Club {
     id: number;
     name: string;
     description: string;
-    category: string;
-    recruitmentStatus: 'UPCOMING' | 'OPEN' | 'CLOSED';
+    category: Category;
+    recruitmentStatus: RecruitmentStatus;
     activities: string | null;
     leaderName: string | null;
     leaderEmail: string;
@@ -283,13 +290,12 @@ interface ApiResponse {
 //     thumbnailUrl: string;
 // }
 
-
 const ClubListPage = () => {
     // 공지사항 상태 관리
     // const [announcements, setAnnouncements] = useState<Announcement[]>([]);
     // const [currentIndex, setCurrentIndex] = useState(0);
     const navigate = useNavigate();
-    
+
     // 각각의 드롭다운을 위한 별도의 상태 관리
     const [categoryFilter, setCategoryFilter] = useState<string>('none'); // 분과 필터 상태
     const [recruitmentStatus, setRecruitmentStatus] = useState<string>('none'); // 모집상태 필터 상태
@@ -360,8 +366,8 @@ const ClubListPage = () => {
         try {
             setIsLoading(true); // 로딩 상태 설정
             const params: Record<string, string> = {
-                size: '100',  // 충분히 큰 수로 설정하여 모든 데이터를 가져옴
-                page: '0'
+                size: '100', // 충분히 큰 수로 설정하여 모든 데이터를 가져옴
+                page: '0',
             };
 
             // 필터링 조건만 쿼리 파라미터로 전달
@@ -457,16 +463,6 @@ const ClubListPage = () => {
         return categoryMap[category] || category;
     };
 
-    // 모집상태 매핑 함수
-    const getRecruitmentStatusMapping = (status: string) => {
-        const statusMap: { [key: string]: string } = {
-            UPCOMING: '모집예정',
-            OPEN: '모집중',
-            CLOSED: '모집마감',
-        };
-        return statusMap[status] || status;
-    };
-
     const getRecruitmentStatusOrder = (status: string) => {
         const statusOrder: { [key: string]: number } = {
             OPEN: 1, // 모집중
@@ -493,8 +489,8 @@ const ClubListPage = () => {
                 url: '/api/feedbacks',
                 method: 'POST',
                 data: {
-                    content: text
-                }
+                    content: text,
+                },
             });
             // 성공적으로 제출되면 모달을 닫습니다
             setIsSurveyModalOpen(false);
@@ -524,8 +520,8 @@ const ClubListPage = () => {
                         <SurveyBox />
                         <SurveyCardArrow />
                     </SurveyButton>
-                    <FeedbackModal 
-                        isOpen={isSurveyModalOpen} 
+                    <FeedbackModal
+                        isOpen={isSurveyModalOpen}
                         toggle={toggleSurveyModal}
                         title="이용경험을 공유해 주세요."
                         subtitle="오류, 건의사항, 칭찬 등 모두 환영입니다 :)"
@@ -572,7 +568,10 @@ const ClubListPage = () => {
                                     { label: '예술분과', value: 'art' },
                                     { label: '종교분과', value: 'religion' },
                                     { label: '체육분과', value: 'sports' },
-                                    { label: '학술교양분과', value: 'academic' },
+                                    {
+                                        label: '학술교양분과',
+                                        value: 'academic',
+                                    },
                                     { label: '연합동아리', value: 'union' },
                                 ]}
                                 onSelect={handleCategorySelect}
@@ -601,12 +600,17 @@ const ClubListPage = () => {
                             <div>로딩 중...</div>
                         ) : clubs && clubs.length > 0 ? (
                             clubs.map((club) => {
-                                const mappedCategory = getCategoryMapping(
+                                // 원본 영어 값으로 이모지 가져오기
+                                const categoryEmoji = getCategoryEmoji(
                                     club.category,
                                 );
-                                const mappedStatus = getRecruitmentStatusMapping(
+                                const categoryText = getCategoryMapping(
+                                    club.category,
+                                );
+                                const statusText = getRecruitmentStatus(
                                     club.recruitmentStatus,
                                 );
+
                                 return (
                                     <MainpageCard
                                         key={club.id}
@@ -615,13 +619,11 @@ const ClubListPage = () => {
                                         tags={[
                                             {
                                                 type: '동아리 및 질문',
-                                                text: `${getCategoryEmoji(
-                                                    mappedCategory,
-                                                )} ${mappedCategory}`,
+                                                text: `${categoryEmoji} ${categoryText}`,
                                             },
                                             {
-                                                type: mappedStatus as TagType,
-                                                text: mappedStatus,
+                                                type: statusText as TagType,
+                                                text: statusText,
                                             },
                                         ]}
                                         onClick={() => handleCardClick(club.id)}
