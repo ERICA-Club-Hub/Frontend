@@ -13,6 +13,7 @@ interface TabContainerProps {
     children: React.ReactNode;
     width?: string;
     className?: string;
+    backgroundColor?: string;
 }
 
 const TabItem = ({
@@ -41,9 +42,14 @@ const TabContainer = ({
     children,
     width = '320px',
     className,
+    backgroundColor = 'none',
 }: TabContainerProps) => {
     return (
-        <StyledTabContainer width={width} className={className}>
+        <StyledTabContainer
+            width={width}
+            className={className}
+            $backgroundColor={backgroundColor}
+        >
             {children}
         </StyledTabContainer>
     );
@@ -52,20 +58,25 @@ const TabContainer = ({
 TabContainer.Item = TabItem;
 const Tab = TabContainer;
 
-const StyledTabContainer = styled.div<{ width: string }>`
+const StyledTabContainer = styled.div<{
+    width: string;
+    $backgroundColor: string;
+}>`
     width: ${(props) => props.width};
     display: flex;
     border-bottom: 1px solid #e2e8f0;
     margin-bottom: 9px;
     justify-content: center;
+    background-color: ${(props) => props.$backgroundColor};
 `;
 
-const TabButton = styled.button<{ $isActive: boolean }>`
+const TabButton = styled.button<{
+    $isActive: boolean;
+}>`
     flex: 1;
     width: auto;
     padding-top: 24px;
     padding-bottom: 7px;
-    background: none;
     border: none;
     border-bottom: 2px solid
         ${(props) => (props.$isActive ? '#33639C' : 'transparent')};

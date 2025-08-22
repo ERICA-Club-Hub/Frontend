@@ -21,6 +21,7 @@ import {
     RecruitmentStatus,
 } from '@/utils/clubDetail/getRecruitmentStatus';
 import Survey from '@/components/Main/Survey';
+import SearchTab from '@/components/Search/SearchTab';
 
 // 페이지 컨테이너
 const PageContainer = styled.div`
@@ -32,6 +33,9 @@ const PageContainer = styled.div`
 // 컨텐츠 컨테이너
 const ContentWrapper = styled.div`
     flex: 1 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 `;
 
 // 공지사항 컨테이너
@@ -462,7 +466,7 @@ const ClubListPage = () => {
                     </MainButton>
                 </AnnouncementContainer>
                 <Survey />
-
+                <SearchTab />
                 <ClubSearchContainer>
                     <SearchInputWrapper>
                         <InputField
