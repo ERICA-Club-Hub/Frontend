@@ -14,15 +14,13 @@ import ErrorIcon from '@/assets/common/error-icon.svg?react';
 // import MainNextArrow from '@/assets/common/main_next_arrow.svg?react';
 import ReadingGlassIcon from '@/assets/common/reading_glass.svg?react';
 import MainThumbnail from '@/assets/common/MainThumbnail.svg?react';
-import SurveyBox from '@/assets/common/surveyBox.svg?react';
-import SurveyCardArrow from '@/assets/common/surveyCard_arrow.svg?react';
 // import WhoMake from '@/assets/common/whoMake.svg?react';
 import { Footer } from '@/components/Common/Footer';
-import FeedbackModal from '@/components/Common/Modal/FeedbackModal';
 import {
     getRecruitmentStatus,
     RecruitmentStatus,
 } from '@/utils/clubDetail/getRecruitmentStatus';
+import Survey from '@/components/Main/Survey';
 
 // 페이지 컨테이너
 const PageContainer = styled.div`
@@ -54,32 +52,6 @@ const MainButton = styled.button`
     padding: 0;
     display: flex;
     align-items: center;
-`;
-
-// 설문조사 컨테이너
-const SurveyBoxContainer = styled.div`
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-top: 20px;
-`;
-
-// 설문조사 버튼
-const SurveyButton = styled.button`
-    position: relative;
-    background: none;
-    border: none;
-    cursor: pointer;
-    padding: 0;
-    display: flex;
-    align-items: center;
-
-    svg:last-child {
-        position: absolute;
-        right: 25px;
-        top: 50%;
-        transform: translateY(-50%);
-    }
 `;
 
 // const MainAnnouncement = styled.button<{ $imageUrl: string }>`
@@ -305,9 +277,6 @@ const ClubListPage = () => {
     const [clubs, setClubs] = useState<Club[]>([]); // 초기값을 빈 배열로 변경
     const [isLoading, setIsLoading] = useState(false); // 로딩 상태
 
-    // 설문조사 모달 상태
-    const [isSurveyModalOpen, setIsSurveyModalOpen] = useState(false);
-
     // 공지사항 불러오기
     // useEffect(() => {
     //     const fetchAnnouncements = async () => {
@@ -477,28 +446,6 @@ const ClubListPage = () => {
         navigate(`/club/${clubId}`);
     };
 
-    // 설문조사 모달 토글
-    const toggleSurveyModal = () => {
-        setIsSurveyModalOpen(!isSurveyModalOpen);
-    };
-
-    // 설문조사 모달 피드백 제출
-    const handleFeedbackSubmit = async (text: string) => {
-        try {
-            await apiRequest({
-                url: '/api/feedbacks',
-                method: 'POST',
-                data: {
-                    content: text,
-                },
-            });
-            // 성공적으로 제출되면 모달을 닫습니다
-            setIsSurveyModalOpen(false);
-        } catch (error) {
-            console.error('피드백 제출 실패:', error);
-        }
-    };
-
     return (
         <PageContainer>
             <ContentWrapper>
@@ -514,21 +461,7 @@ const ClubListPage = () => {
                         <MainThumbnail />
                     </MainButton>
                 </AnnouncementContainer>
-
-                <SurveyBoxContainer>
-                    <SurveyButton onClick={toggleSurveyModal}>
-                        <SurveyBox />
-                        <SurveyCardArrow />
-                    </SurveyButton>
-                    <FeedbackModal
-                        isOpen={isSurveyModalOpen}
-                        toggle={toggleSurveyModal}
-                        title="이용경험을 공유해 주세요."
-                        subtitle="오류, 건의사항, 칭찬 등 모두 환영입니다 :)"
-                        type="feedback"
-                        onSubmit={handleFeedbackSubmit}
-                    />
-                </SurveyBoxContainer>
+                <Survey />
 
                 <ClubSearchContainer>
                     <SearchInputWrapper>
