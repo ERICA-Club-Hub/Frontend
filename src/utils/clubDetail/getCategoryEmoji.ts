@@ -9,14 +9,36 @@ const CATEGORIES = {
 
 export type Category = keyof typeof CATEGORIES;
 
-export const getCategoryMapping = (category: Category): string => {
-    return CATEGORIES[category].label;
+const isCategoryKey = (category: string): category is Category => {
+    return category in CATEGORIES;
 };
 
-export const getCategoryEmoji = (category: Category): string => {
-    return CATEGORIES[category].emoji;
+export const getCategoryMapping = (category?: string): string => {
+    if (!category) return '카테고리 없음';
+
+    if (isCategoryKey(category)) {
+        return CATEGORIES[category].label;
+    }
+
+    return '알 수 없는 카테고리';
 };
 
-export const getCategoryInfo = (category: Category) => {
-    return CATEGORIES[category];
+export const getCategoryEmoji = (category?: string): string => {
+    if (!category) return '📁';
+
+    if (isCategoryKey(category)) {
+        return CATEGORIES[category].emoji;
+    }
+
+    return '📁';
+};
+
+export const getCategoryInfo = (category?: string) => {
+    if (!category) return { label: '카테고리 없음', emoji: '📁' };
+
+    if (isCategoryKey(category)) {
+        return CATEGORIES[category];
+    }
+
+    return { label: '알 수 없는 카테고리', emoji: '📁' };
 };
