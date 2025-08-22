@@ -1,10 +1,12 @@
 import ClubDetailHeader from '@/components/ClubDetail/ClubDetailHeader';
-import Tab from '@/components/ClubDetail/Tab/Tab';
+
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import TabContentsSwitch from '../club-detail/TabContents';
 import arrow from '../../assets/common/Expand_right.svg';
 import { useClubDetail } from '@/hooks/club-detail/useClubDetail';
+
+import ClubDetailTab from '@/components/ClubDetail/Tab/ClubDetailTab';
 
 export default function ClubDetailPreviewPage() {
     const navigate = useNavigate();
@@ -23,7 +25,10 @@ export default function ClubDetailPreviewPage() {
                 </BackButton>
 
                 <ClubDetailHeader />
-                <Tab activeTab={activeTab} setActiveTab={setActiveTab} />
+                <ClubDetailTab
+                    activeTab={activeTab}
+                    setActiveTab={setActiveTab}
+                />
                 <TabContentsSwitch activeTab={activeTab} />
             </PreviewContainer>
         </PageContainer>
