@@ -7,7 +7,7 @@ import {
     getCategoryEmoji,
 } from '@/utils/clubDetail/getCategoryEmoji';
 import { useNavigate } from 'react-router-dom';
-import MainpageCard from '@/components/Common/MainpageCard';
+import ClubCard from '@/components/Common/ClubCard';
 import SortingDropdown from '@/components/Common/SortingDropdown';
 import ErrorIcon from '@/assets/common/error-icon.svg?react';
 // import MainPrevArrow from '@/assets/common/main_prev_arrow.svg?react';
@@ -550,10 +550,10 @@ const ClubListPage = () => {
                                 );
 
                                 return (
-                                    <MainpageCard
+                                    <ClubCard
                                         key={club.id}
                                         title={club.name}
-                                        subtitle={club.description}
+                                        subTitle={club.description}
                                         tags={[
                                             {
                                                 type: '동아리 및 질문',

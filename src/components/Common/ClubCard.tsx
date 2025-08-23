@@ -19,19 +19,22 @@ export default function ClubCard({
 }: ClubCardProps) {
     return (
         <CardContainer onClick={onClick} type="button">
-            <TitleWrapper>
+            <ProfileImage />
+            <ClubInfo>
+                <TitleWrapper>
+                    {tags && (
+                        <TagContainer>
+                            {tags.map((tag, index) => (
+                                <Tag key={index} type={tag.type}>
+                                    {tag.text}
+                                </Tag>
+                            ))}
+                        </TagContainer>
+                    )}
+                </TitleWrapper>
                 <Title>{title}</Title>
-                {tags && (
-                    <TagContainer>
-                        {tags.map((tag, index) => (
-                            <Tag key={index} type={tag.type}>
-                                {tag.text}
-                            </Tag>
-                        ))}
-                    </TagContainer>
-                )}
-            </TitleWrapper>
-            <SubTitle>{subTitle}</SubTitle>
+                <SubTitle>{subTitle}</SubTitle>
+            </ClubInfo>
         </CardContainer>
     );
 }
@@ -39,39 +42,45 @@ export default function ClubCard({
 const CardContainer = styled.button`
     display: flex;
     width: 320px;
-    height: 70px;
-    padding: 15px;
-    flex-direction: column;
-    align-items: flex-start;
+    height: 95px;
+    padding: 10px;
     justify-content: center;
-    gap: 4.5px;
-    flex-shrink: 0;
+    align-items: center;
+    gap: 15px;
     border-radius: 10px;
     border: 1px solid #eaeaea;
     background: #fff;
     cursor: pointer;
-    text-align: left;
+`;
 
-    &:hover {
-        background: #f7f7f7;
-    }
+const ProfileImage = styled.img`
+    width: 75px;
+    height: 75px;
+    border-radius: 5px;
+`;
+
+const ClubInfo = styled.div`
+    display: flex;
+    flex-direction: column;
+    width: 204px;
+    height: 65px;
+    justify-content: flex-start;
+    align-items: flex-start;
 `;
 
 const TitleWrapper = styled.div`
     display: flex;
-    align-items: center;
     gap: 6px;
-    width: 100%;
-    justify-content: space-between;
+    margin-bottom: 7px;
 `;
 
-const Title = styled.div`
-    width: 160px;
+const Title = styled.p`
     color: #232323;
     font-size: 16px;
     font-style: normal;
     font-weight: 600;
     line-height: normal;
+    margin-bottom: 5px;
 `;
 
 const TagContainer = styled.div`
@@ -80,7 +89,6 @@ const TagContainer = styled.div`
 `;
 
 const SubTitle = styled.div`
-    align-self: stretch;
     color: #aeaeae;
     font-size: 13px;
     font-style: normal;
