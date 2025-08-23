@@ -481,6 +481,7 @@ const ClubListPage = () => {
                     </SearchInputWrapper>
 
                     <DropdownContainer>
+                        {/* TODO dropdown 공통 컴포넌트 활용하는 거로 바꾸기 */}
                         <SortingDropdown
                             key="sort-dropdown"
                             options={[
