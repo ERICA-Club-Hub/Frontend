@@ -4,10 +4,7 @@ import { Tag } from './Tag';
 interface ClubCardProps {
     title: string;
     subTitle: string;
-    tags?: Array<{
-        type: '동아리 및 질문' | '모집중' | '모집마감' | '모집예정';
-        text: string;
-    }>;
+    tags?: string[];
     onClick?: () => void;
 }
 
@@ -44,7 +41,7 @@ const CardContainer = styled.button`
     width: 320px;
     height: 95px;
     padding: 10px;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
     gap: 15px;
     border-radius: 10px;
@@ -80,7 +77,10 @@ const Title = styled.p`
     font-style: normal;
     font-weight: 600;
     line-height: normal;
-    margin-bottom: 5px;
+    margin: 0 0 5px 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 `;
 
 const TagContainer = styled.div`
@@ -88,10 +88,16 @@ const TagContainer = styled.div`
     gap: 6px;
 `;
 
-const SubTitle = styled.div`
+const SubTitle = styled.p`
     color: #aeaeae;
     font-size: 13px;
     font-style: normal;
     font-weight: 500;
     line-height: normal;
+    width: 100%;
+    margin: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-align: left;
 `;
