@@ -11,6 +11,7 @@ import { Footer } from '@/components/Common/Footer';
 import Survey from '@/components/Main/Survey';
 import SearchTab from '@/components/Search/SearchTab';
 import { useClubSearchFromUrl } from '@/hooks/queries/useClubList';
+import CLubListDropdown from '@/components/Search/CLubListDropdown';
 
 const ClubListPage = () => {
     const navigate = useNavigate();
@@ -39,11 +40,6 @@ const ClubListPage = () => {
     // 정렬 기준 선택 시 실행되는 함수
     const handleSort = (value: string) => {
         setSortOrder(value);
-    };
-
-    // 동아리 상세 페이지로 이동
-    const handleCardClick = (clubId: number) => {
-        navigate(`/club/${clubId}`);
     };
 
     const { data, isLoading } = useClubSearchFromUrl();
@@ -80,21 +76,16 @@ const ClubListPage = () => {
 
                     <DropdownContainer>
                         {/* TODO dropdown 공통 컴포넌트 활용하는 거로 바꾸기 */}
-                        <SortingDropdown
-                            key="sort-dropdown"
-                            options={[
-                                { label: '가나다순으로 정렬', value: 'none' },
-                                { label: '카테고리로 정렬', value: 'category' },
-                                {
-                                    label: '모집기준으로 정렬',
-                                    value: 'recruitment',
-                                },
+                        <CLubListDropdown
+                            selectedMenu="가나다순으로 정렬"
+                            title="정렬"
+                            menuList={[
+                                '가나다순으로 정렬',
+                                '분과순으로 정렬',
+                                '모집기준으로 정렬',
                             ]}
-                            onSelect={handleSort}
-                            defaultText="가나다순으로 정렬"
-                            value={sortOrder}
-                            align="left"
                         />
+
                         <RightDropdowns>
                             <SortingDropdown
                                 key="category-dropdown"
@@ -145,7 +136,9 @@ const ClubListPage = () => {
                                         recruitmentStatus={
                                             club.recruitmentStatus
                                         }
-                                        onClick={() => handleCardClick(club.id)}
+                                        onClick={() =>
+                                            navigate(`/club/${club.id}`)
+                                        }
                                     />
                                 );
                             })
