@@ -42,3 +42,17 @@ export const getCategoryInfo = (category?: string) => {
 
     return { label: '알 수 없는 카테고리', emoji: '📁' };
 };
+
+// TODO 동아리 유형별 이모지 나오면 수정 대응
+export const getCategoryEmojiByLabel = (categoryLabel?: string): string => {
+    if (!categoryLabel) return '📁';
+
+    if (categoryLabel === '연합동아리') return '🧩';
+    if (categoryLabel === '예술분과') return '🎨';
+    if (categoryLabel === '봉사분과') return '💌';
+    if (categoryLabel === '학술교양분과') return '🎓';
+    if (categoryLabel === '체육분과') return '⚽';
+    if (categoryLabel === '종교분과') return '🙏';
+
+    return '📁';
+};

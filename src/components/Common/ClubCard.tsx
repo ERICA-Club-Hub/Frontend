@@ -1,33 +1,35 @@
 import styled from 'styled-components';
-import { Tag } from './Tag';
+import ClubTypeTag from './ClubCardTags/ClubTypeTag';
+import RecruitStatusTag from './ClubCardTags/RecruitStatusTag';
 
 interface ClubCardProps {
     title: string;
     subTitle: string;
     tags?: string[];
     onClick?: () => void;
+    categoryName: string;
+    recruitmentStatus: string;
 }
 
 export default function ClubCard({
     title,
     subTitle,
-    tags,
     onClick,
+    categoryName,
+    recruitmentStatus,
 }: ClubCardProps) {
+    console.log(categoryName, recruitmentStatus);
     return (
         <CardContainer onClick={onClick} type="button">
             <ProfileImage />
             <ClubInfo>
                 <TitleWrapper>
-                    {tags && (
-                        <TagContainer>
-                            {tags.map((tag, index) => (
-                                <Tag key={index} type={tag.type}>
-                                    {tag.text}
-                                </Tag>
-                            ))}
-                        </TagContainer>
-                    )}
+                    <TagContainer>
+                        <ClubTypeTag clubCategory={categoryName} />
+                        <RecruitStatusTag
+                            recruitmentStatus={recruitmentStatus}
+                        />
+                    </TagContainer>
                 </TitleWrapper>
                 <Title>{title}</Title>
                 <SubTitle>{subTitle}</SubTitle>

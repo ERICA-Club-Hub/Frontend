@@ -1,11 +1,8 @@
-import {
-    RecruitmentStatus,
-    getRecruitmentStatusInfo,
-} from '@/utils/clubDetail/getRecruitmentStatus';
+import { getRecruitmentStatusInfo } from '@/utils/clubDetail/getRecruitmentStatus';
 import ClubTag from '../ClubTag';
 
 interface RecruitStatusTagProps {
-    recruitmentStatus: RecruitmentStatus;
+    recruitmentStatus: string;
 }
 
 export default function RecruitStatusTag({

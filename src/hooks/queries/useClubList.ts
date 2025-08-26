@@ -3,6 +3,7 @@ import { collage, department, unionType } from '@/types/club-search.types';
 import { Category } from '@/utils/clubDetail/getCategoryEmoji';
 import { RecruitmentStatus } from '@/utils/clubDetail/getRecruitmentStatus';
 import { useQuery } from '@tanstack/react-query';
+import { useSearchParams } from 'react-router-dom';
 
 interface BaseClubParams {
     keyword?: string;
@@ -33,32 +34,85 @@ interface DepartmentClubParams extends BaseClubParams {
     department?: department;
     sortBy?: SortBy;
 }
+export type ClubType =
+    | 'central'
+    | 'union'
+    | 'college'
+    | 'department'
+    | 'popular';
+
+interface ClubSearchParams {
+    // 통합 인터페이스
+    type: ClubType;
+    keyword?: string;
+    status?: string;
+    sortBy?: string;
+    page?: number;
+    size?: number;
+    category?: string; // central용
+    unionType?: string; // union용
+    college?: string; // college, department용
+    department?: string; // department용
+}
 
 export type Club = {
     id: number;
     name: string;
-    description: string;
-    recruitmentStatus: RecruitmentStatus;
+    oneLiner: string;
+    recruitmentStatus: string;
     profileImageUrl: string;
-    activities: string;
-    leaderName: string;
-    leaderEmail: string;
-    leaderPhone: string;
-    membershipFee: number;
-    snsUrl: string;
-    applicationUrl: string;
-    category: {
-        clubCategoryName: Category;
-        centralCategoryName: string;
-        unionCategoryName: string;
-        collegeName: string;
-        departmentName: string;
-    };
+    categoryName: string;
 };
 
 interface ApiClubListResponse {
-    club: Club[];
+    content: Club[];
 }
+
+const buildClubApiUrl = (params: ClubSearchParams): string => {
+    const { type, ...searchParams } = params;
+
+    const baseUrl = `/api/clubs/${type}`;
+
+    const urlParams = new URLSearchParams();
+
+    Object.entries(searchParams).forEach(([key, value]) => {
+        if (value !== undefined && value !== null && value !== '') {
+            urlParams.set(key, value.toString());
+        }
+    });
+
+    return `${baseUrl}?${urlParams.toString()}`;
+};
+
+export const useClubSearch = (params: ClubSearchParams) => {
+    return useQuery({
+        queryKey: ['clubs', params.type, params],
+        queryFn: async (): Promise<ApiClubListResponse> => {
+            const url = buildClubApiUrl(params);
+            const response = await apiRequest({ url });
+            return response.result;
+        },
+    });
+};
+
+export const useClubSearchFromUrl = () => {
+    const [searchParams] = useSearchParams();
+
+    const params: ClubSearchParams = {
+        type: (searchParams.get('type') as ClubType) || 'popular',
+        keyword: searchParams.get('keyword') || undefined,
+        status: searchParams.get('status') || undefined,
+        sortBy: searchParams.get('sortBy') || undefined,
+        page: Number(searchParams.get('page')) || 0,
+        size: Number(searchParams.get('size')) || 10,
+        category: searchParams.get('category') || undefined,
+        unionType: searchParams.get('unionType') || undefined,
+        college: searchParams.get('college') || undefined,
+        department: searchParams.get('department') || undefined,
+    };
+
+    return useClubSearch(params);
+};
 
 export const usePopularClubs = (
     params: Pick<BaseClubParams, 'page' | 'size'>, // page, size만 사용하기 위해서

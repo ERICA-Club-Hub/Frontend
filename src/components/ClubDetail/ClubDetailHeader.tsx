@@ -6,9 +6,9 @@ import {
     getCategoryEmoji,
     getCategoryMapping,
 } from '@/utils/clubDetail/getCategoryEmoji';
-import { getRecruitmentStatus } from '@/utils/clubDetail/getRecruitmentStatus';
 import { useClubDetail } from '@/hooks/club-detail/useClubDetail';
 import { useClubDetailHeader } from '@/hooks/queries/club-detail/useClubDetailHeader';
+import { getRecruitmentStatusLabel } from '@/utils/clubDetail/getRecruitmentStatus';
 
 interface RecruitStateProps {
     $state?: '모집 중' | '모집 예정' | '모집 마감';
@@ -36,7 +36,9 @@ export default function ClubDetailHeader() {
                         </Tag>
                         <RecruitState>
                             {data?.recruitmentStatus &&
-                                getRecruitmentStatus(data.recruitmentStatus)}
+                                getRecruitmentStatusLabel(
+                                    data.recruitmentStatus,
+                                )}
                         </RecruitState>
                     </ClubTags>
                 </PreviewWrapper>
