@@ -2,24 +2,38 @@ import { useState } from 'react';
 import { Dropdown } from '../Common';
 import styled from 'styled-components';
 import ArrowIcon from '../../assets/common/expand-bottom.svg?react';
+import { useSearchParams } from 'react-router-dom';
 
 interface ClubListDropdownProps {
     title?: string;
     menuList?: string[];
-    selectedMenu: string | null;
+    searchKey: string;
 }
 
 export default function CLubListDropdown({
     title,
     menuList,
-    selectedMenu,
+    searchKey,
 }: ClubListDropdownProps) {
     const [isOpen, setIsOpen] = useState<boolean>(false);
+
+    const [searchParams, setSearchParams] = useSearchParams();
+    const selectedMenu = searchParams.get(searchKey) || null;
+
+    const handleSelectItem = (selectedItem: string) => {
+        const newParams = new URLSearchParams(searchParams);
+        newParams.set(searchKey, selectedItem);
+        setSearchParams(newParams);
+    };
     return (
         <Dropdown setIsOpen={setIsOpen}>
             <Dropdown.Header onClick={() => setIsOpen((prev) => !prev)}>
-                <DropdownHeaderContainer>
-                    <DropdownHeaderContent>{title}</DropdownHeaderContent>
+                <DropdownHeaderContainer
+                    $isSelected={selectedMenu ? true : false}
+                >
+                    <DropdownHeaderContent>
+                        {selectedMenu ? selectedMenu : title}
+                    </DropdownHeaderContent>
                     <ArrowIcon />
                 </DropdownHeaderContainer>
             </Dropdown.Header>
@@ -29,6 +43,7 @@ export default function CLubListDropdown({
                         menuList.map((menu) => (
                             <DropdownMenuItem
                                 $isSelected={selectedMenu === menu}
+                                onClick={() => handleSelectItem(menu)}
                             >
                                 <DropdownMenuContent key={menu}>
                                     {menu}
@@ -41,15 +56,17 @@ export default function CLubListDropdown({
     );
 }
 
-const DropdownHeaderContainer = styled.div`
+const DropdownHeaderContainer = styled.div<{ $isSelected: boolean }>`
     height: 24px;
     padding: 5px 11px 5px 11px;
     display: flex;
     gap: 6px;
-    background-color: rgba(255, 255, 255, 1);
+    background-color: ${({ $isSelected }) =>
+        $isSelected ? 'rgba(238, 244, 255, 1)' : 'rgba(255, 255, 255, 1)'};
     border-radius: 100px;
     justify-content: center;
     align-items: center;
+    width: max-content;
 `;
 
 const DropdownHeaderContent = styled.p`
@@ -72,7 +89,7 @@ const DropdownMenuContainer = styled.div`
     width: max-content;
 `;
 
-const DropdownMenuItem = styled.div<{ $isSelected: boolean }>`
+const DropdownMenuItem = styled.button<{ $isSelected: boolean }>`
     width: 100%;
     padding: 8px 24px 8px 24px;
     border-radius: 5px;

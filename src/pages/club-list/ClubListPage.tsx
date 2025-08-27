@@ -3,7 +3,6 @@ import { useState } from 'react';
 import { InputField } from '@/components/Common/InputField';
 import { useNavigate } from 'react-router-dom';
 import ClubCard from '@/components/Common/ClubCard';
-import SortingDropdown from '@/components/Common/SortingDropdown';
 import ErrorIcon from '@/assets/common/error-icon.svg?react';
 import ReadingGlassIcon from '@/assets/common/reading_glass.svg?react';
 import MainThumbnail from '@/assets/common/MainThumbnail.svg?react';
@@ -16,30 +15,10 @@ import CLubListDropdown from '@/components/Search/CLubListDropdown';
 const ClubListPage = () => {
     const navigate = useNavigate();
 
-    // 각각의 드롭다운을 위한 별도의 상태 관리
-    const [categoryFilter, setCategoryFilter] = useState<string>('none'); // 분과 필터 상태
-    const [recruitmentStatus, setRecruitmentStatus] = useState<string>('none'); // 모집상태 필터 상태
-    const [sortOrder, setSortOrder] = useState<string>('none'); // 정렬 기준 필터 상태
-    // 검색 기능을 위한 상태 관리
     const [searchTerm, setSearchTerm] = useState<string>(''); // 검색어 상태
 
     const handleSearch = () => {
         // 엔터나 검색 버튼 클릭 시에도 searchTerm이 변경되어 자동으로 fetchClubs가 호출됨
-    };
-
-    // 분과 선택 시 실행되는 함수
-    const handleCategorySelect = (value: string) => {
-        setCategoryFilter(value);
-    };
-
-    // 모집상태 선택 시 실행되는 함수
-    const handleRecruitmentStatusSelect = (value: string) => {
-        setRecruitmentStatus(value);
-    };
-
-    // 정렬 기준 선택 시 실행되는 함수
-    const handleSort = (value: string) => {
-        setSortOrder(value);
     };
 
     const { data, isLoading } = useClubSearchFromUrl();
@@ -77,7 +56,7 @@ const ClubListPage = () => {
                     <DropdownContainer>
                         {/* TODO dropdown 공통 컴포넌트 활용하는 거로 바꾸기 */}
                         <CLubListDropdown
-                            selectedMenu="가나다순으로 정렬"
+                            searchKey="sortBy"
                             title="정렬"
                             menuList={[
                                 '가나다순으로 정렬',
@@ -85,41 +64,33 @@ const ClubListPage = () => {
                                 '모집기준으로 정렬',
                             ]}
                         />
-
-                        <RightDropdowns>
-                            <SortingDropdown
-                                key="category-dropdown"
-                                options={[
-                                    { label: '선택없음', value: 'none' },
-                                    { label: '봉사분과', value: 'volunteer' },
-                                    { label: '예술분과', value: 'art' },
-                                    { label: '종교분과', value: 'religion' },
-                                    { label: '체육분과', value: 'sports' },
-                                    {
-                                        label: '학술교양분과',
-                                        value: 'academic',
-                                    },
-                                    { label: '연합동아리', value: 'union' },
-                                ]}
-                                onSelect={handleCategorySelect}
-                                defaultText="선택없음"
-                                value={categoryFilter}
-                                align="right"
-                            />
-                            <SortingDropdown
-                                key="recruitment-dropdown"
-                                options={[
-                                    { label: '선택없음', value: 'none' },
-                                    { label: '모집예정', value: 'upcoming' },
-                                    { label: '모집중', value: 'open' },
-                                    { label: '모집마감', value: 'closed' },
-                                ]}
-                                onSelect={handleRecruitmentStatusSelect}
-                                defaultText="선택없음"
-                                value={recruitmentStatus}
-                                align="right"
-                            />
-                        </RightDropdowns>
+                        <CLubListDropdown
+                            searchKey="sortBy"
+                            title="정렬"
+                            menuList={[
+                                '가나다순으로 정렬',
+                                '분과순으로 정렬',
+                                '모집기준으로 정렬',
+                            ]}
+                        />
+                        <CLubListDropdown
+                            searchKey="sortBy"
+                            title="정렬"
+                            menuList={[
+                                '가나다순으로 정렬',
+                                '분과순으로 정렬',
+                                '모집기준으로 정렬',
+                            ]}
+                        />
+                        <CLubListDropdown
+                            searchKey="sortBy"
+                            title="정렬"
+                            menuList={[
+                                '가나다순으로 정렬',
+                                '분과순으로 정렬',
+                                '모집기준으로 정렬',
+                            ]}
+                        />
                     </DropdownContainer>
 
                     <ClubListWrapper>
@@ -224,15 +195,12 @@ const SearchIcon = styled.button`
 
 const DropdownContainer = styled.div`
     display: flex;
-    justify-content: space-between;
     width: 320px;
     margin-top: 23px;
     margin-bottom: 10px;
-`;
-
-const RightDropdowns = styled.div`
-    display: flex;
-    gap: 8px;
+    gap: 5px;
+    overflow-x: auto;
+    scrollbar-width: none;
 `;
 
 const ClubListWrapper = styled.div`
