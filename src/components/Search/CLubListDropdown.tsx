@@ -77,9 +77,8 @@ const DropdownHeaderContent = styled.p`
 
 const DropdownMenuContainer = styled.div`
     border-radius: 10px;
-    margin-top: 5px;
+    top: 5px;
     background-color: white;
-    position: absolute;
     display: flex;
     flex-direction: column;
     padding: 5px;
@@ -87,6 +86,7 @@ const DropdownMenuContainer = styled.div`
     justify-content: center;
     align-items: center;
     width: max-content;
+    position: absolute;
 `;
 
 const DropdownMenuItem = styled.button<{ $isSelected: boolean }>`

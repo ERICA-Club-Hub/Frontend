@@ -66,7 +66,7 @@ const ClubListPage = () => {
                         />
                         <CLubListDropdown
                             searchKey="sortBy"
-                            title="정렬"
+                            title="모집기준"
                             menuList={[
                                 '가나다순으로 정렬',
                                 '분과순으로 정렬',
@@ -75,7 +75,7 @@ const ClubListPage = () => {
                         />
                         <CLubListDropdown
                             searchKey="sortBy"
-                            title="정렬"
+                            title="분과"
                             menuList={[
                                 '가나다순으로 정렬',
                                 '분과순으로 정렬',
@@ -84,7 +84,34 @@ const ClubListPage = () => {
                         />
                         <CLubListDropdown
                             searchKey="sortBy"
-                            title="정렬"
+                            title="단과대"
+                            menuList={[
+                                '가나다순으로 정렬',
+                                '분과순으로 정렬',
+                                '모집기준으로 정렬',
+                            ]}
+                        />
+                        <CLubListDropdown
+                            searchKey="sortBy"
+                            title="학과"
+                            menuList={[
+                                '가나다순으로 정렬',
+                                '분과순으로 정렬',
+                                '모집기준으로 정렬',
+                            ]}
+                        />
+                        <CLubListDropdown
+                            searchKey="sortBy"
+                            title="단과대"
+                            menuList={[
+                                '가나다순으로 정렬',
+                                '분과순으로 정렬',
+                                '모집기준으로 정렬',
+                            ]}
+                        />
+                        <CLubListDropdown
+                            searchKey="sortBy"
+                            title="카테고리"
                             menuList={[
                                 '가나다순으로 정렬',
                                 '분과순으로 정렬',
@@ -199,8 +226,9 @@ const DropdownContainer = styled.div`
     margin-top: 23px;
     margin-bottom: 10px;
     gap: 5px;
-    overflow-x: auto;
+    flex-wrap: wrap;
     scrollbar-width: none;
+    position: relative;
 `;
 
 const ClubListWrapper = styled.div`
