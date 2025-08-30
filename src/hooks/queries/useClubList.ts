@@ -92,6 +92,7 @@ export const useClubSearch = (params: ClubSearchParams) => {
             const response = await apiRequest({ url });
             return response.result;
         },
+        enabled: false,
     });
 };
 

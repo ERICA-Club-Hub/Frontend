@@ -63,6 +63,7 @@ const StyledTabContainer = styled.div<{
     $backgroundColor: string;
 }>`
     width: ${(props) => props.width};
+    height: 47px;
     display: flex;
     border-bottom: 1px solid #e2e8f0;
     margin-bottom: 9px;
