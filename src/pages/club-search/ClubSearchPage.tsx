@@ -1,5 +1,4 @@
 import { InputField } from '@/components/Common';
-import CLubListDropdown from '@/components/Search/CLubListDropdown';
 import SearchTab from '@/components/Search/SearchTab';
 import { useClubSearchFromUrl } from '@/hooks/queries/useClubList';
 import styled from 'styled-components';
@@ -14,6 +13,7 @@ import {
     getDepartmentOptions,
     getUnionCategoryOptions,
 } from '@/utils/searchKeywordMapping';
+import CLubListDropdown from '@/components/Search/SearchOptions/CLubListDropdown';
 
 export default function ClubSearchPage() {
     const navigate = useNavigate();
@@ -51,7 +51,6 @@ export default function ClubSearchPage() {
                     </SearchInputWrapper>
 
                     <DropdownContainer>
-                        {/* TODO dropdown 공통 컴포넌트 활용하는 거로 바꾸기 */}
                         <CLubListDropdown
                             searchKey="sortBy"
                             title="정렬"

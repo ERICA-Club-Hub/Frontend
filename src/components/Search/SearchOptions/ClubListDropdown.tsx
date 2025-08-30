@@ -1,52 +1,54 @@
 import { useState } from 'react';
-import { Dropdown } from '../Common';
+import { Dropdown } from '../../Common';
 import styled from 'styled-components';
-import ArrowIcon from '../../assets/common/expand-bottom.svg?react';
-import { useSearchParams } from 'react-router-dom';
+import ArrowIcon from '../../../assets/common/expand-bottom.svg?react';
+
+interface Option {
+    value: string;
+    label: string;
+}
 
 interface ClubListDropdownProps {
     title?: string;
-    menuList?: string[];
-    searchKey: string;
+    options?: Option[];
+    selectedValue?: string;
+    onSelect: (value: string) => void;
 }
 
-export default function CLubListDropdown({
+export default function ClubListDropdown({
     title,
-    menuList,
-    searchKey,
+    options,
+    selectedValue,
+    onSelect,
 }: ClubListDropdownProps) {
     const [isOpen, setIsOpen] = useState<boolean>(false);
 
-    const [searchParams, setSearchParams] = useSearchParams();
-    const selectedMenu = searchParams.get(searchKey) || null;
-
-    const handleSelectItem = (selectedItem: string) => {
-        const newParams = new URLSearchParams(searchParams);
-        newParams.set(searchKey, selectedItem);
-        setSearchParams(newParams);
+    const handleSelectItem = (option: Option) => {
+        onSelect(option.value);
+        setIsOpen(false);
     };
     return (
         <Dropdown setIsOpen={setIsOpen}>
             <Dropdown.Header onClick={() => setIsOpen((prev) => !prev)}>
                 <DropdownHeaderContainer
-                    $isSelected={selectedMenu ? true : false}
+                    $isSelected={selectedValue ? true : false}
                 >
                     <DropdownHeaderContent>
-                        {selectedMenu ? selectedMenu : title}
+                        {selectedValue ? selectedValue : title}
                     </DropdownHeaderContent>
                     <ArrowIcon />
                 </DropdownHeaderContainer>
             </Dropdown.Header>
             <Dropdown.Menu isOpen={isOpen}>
                 <DropdownMenuContainer>
-                    {menuList &&
-                        menuList.map((menu) => (
+                    {options &&
+                        options.map((option) => (
                             <DropdownMenuItem
-                                $isSelected={selectedMenu === menu}
-                                onClick={() => handleSelectItem(menu)}
+                                $isSelected={selectedValue === option.label}
+                                onClick={() => handleSelectItem(option)}
                             >
-                                <DropdownMenuContent key={menu}>
-                                    {menu}
+                                <DropdownMenuContent>
+                                    {option.label}
                                 </DropdownMenuContent>
                             </DropdownMenuItem>
                         ))}
