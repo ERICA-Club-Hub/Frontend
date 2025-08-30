@@ -8,6 +8,12 @@ import ClubCard from '@/components/Common/ClubCard';
 import ErrorIcon from '@/assets/common/error-icon.svg?react';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
+import {
+    getCentralCategoryOptions,
+    getCollegeOptions,
+    getDepartmentOptions,
+    getUnionCategoryOptions,
+} from '@/utils/searchKeywordMapping';
 
 export default function ClubSearchPage() {
     const navigate = useNavigate();
@@ -56,58 +62,37 @@ export default function ClubSearchPage() {
                             ]}
                         />
                         <CLubListDropdown
-                            searchKey="sortBy"
-                            title="모집기준"
-                            menuList={[
-                                '가나다순으로 정렬',
-                                '분과순으로 정렬',
-                                '모집기준으로 정렬',
-                            ]}
+                            searchKey="status"
+                            title="모집 상태"
+                            menuList={['모집중', '모집예정', '모집완료']}
                         />
                         <CLubListDropdown
-                            searchKey="sortBy"
-                            title="분과"
-                            menuList={[
-                                '가나다순으로 정렬',
-                                '분과순으로 정렬',
-                                '모집기준으로 정렬',
-                            ]}
+                            searchKey="college"
+                            title="단과대명"
+                            menuList={getCollegeOptions().map(
+                                (option) => option.label,
+                            )}
                         />
                         <CLubListDropdown
-                            searchKey="sortBy"
-                            title="단과대"
-                            menuList={[
-                                '가나다순으로 정렬',
-                                '분과순으로 정렬',
-                                '모집기준으로 정렬',
-                            ]}
+                            searchKey="department"
+                            title="학과명"
+                            menuList={getDepartmentOptions(
+                                /*selectedCollege ||*/ undefined,
+                            ).map((option) => option.label)}
                         />
                         <CLubListDropdown
-                            searchKey="sortBy"
-                            title="학과"
-                            menuList={[
-                                '가나다순으로 정렬',
-                                '분과순으로 정렬',
-                                '모집기준으로 정렬',
-                            ]}
+                            searchKey="category"
+                            title="연합 동아리 카테고리"
+                            menuList={getUnionCategoryOptions().map(
+                                (option) => option.label,
+                            )}
                         />
                         <CLubListDropdown
-                            searchKey="sortBy"
-                            title="단과대"
-                            menuList={[
-                                '가나다순으로 정렬',
-                                '분과순으로 정렬',
-                                '모집기준으로 정렬',
-                            ]}
-                        />
-                        <CLubListDropdown
-                            searchKey="sortBy"
-                            title="카테고리"
-                            menuList={[
-                                '가나다순으로 정렬',
-                                '분과순으로 정렬',
-                                '모집기준으로 정렬',
-                            ]}
+                            searchKey="category"
+                            title="동아리 카테고리"
+                            menuList={getCentralCategoryOptions().map(
+                                (option) => option.label,
+                            )}
                         />
                     </DropdownContainer>
 
