@@ -84,24 +84,12 @@ const buildClubApiUrl = (params: ClubSearchParams): string => {
     return `${baseUrl}?${urlParams.toString()}`;
 };
 
-export const useClubSearch = (params: ClubSearchParams) => {
-    return useQuery({
-        queryKey: ['clubs', params.type, params],
-        queryFn: async (): Promise<ApiClubListResponse> => {
-            const url = buildClubApiUrl(params);
-            const response = await apiRequest({ url });
-            return response.result;
-        },
-        enabled: false,
-    });
-};
-
-export const useClubSearchFromUrl = () => {
+export const useClubSearchFromUrl = (keyword: string) => {
     const [searchParams] = useSearchParams();
 
     const params: ClubSearchParams = {
         type: (searchParams.get('type') as ClubType) || 'popular',
-        keyword: searchParams.get('keyword') || undefined,
+        keyword: keyword,
         status: searchParams.get('status') || undefined,
         sortBy: searchParams.get('sortBy') || undefined,
         page: Number(searchParams.get('page')) || 0,
@@ -112,7 +100,15 @@ export const useClubSearchFromUrl = () => {
         department: searchParams.get('department') || undefined,
     };
 
-    return useClubSearch(params);
+    return useQuery({
+        queryKey: ['clubs', params.type, params],
+        queryFn: async (): Promise<ApiClubListResponse> => {
+            const url = buildClubApiUrl(params);
+            const response = await apiRequest({ url });
+            return response.result;
+        },
+        enabled: !keyword,
+    });
 };
 
 export const usePopularClubs = (

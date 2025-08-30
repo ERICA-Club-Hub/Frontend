@@ -6,26 +6,23 @@ import styled from 'styled-components';
 import ReadingGlassIcon from '@/assets/common/reading_glass.svg?react';
 import ClubCard from '@/components/Common/ClubCard';
 import ErrorIcon from '@/assets/common/error-icon.svg?react';
-import { useNavigate, useSearchParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 
 export default function ClubSearchPage() {
-    const { data, isLoading, refetch } = useClubSearchFromUrl();
     const navigate = useNavigate();
-    const [searchKeyword, setSearchKeyword] = useSearchParams();
     const [searchTerm, setSearchTerm] = useState<string>('');
+    const [currentKeyword, setCurrentKeyword] = useState<string>('');
+
+    const { data, isLoading, refetch } = useClubSearchFromUrl(currentKeyword);
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const value = e.target.value;
-        setSearchTerm(value);
+        setSearchTerm(e.target.value);
+    };
 
-        const newParams = new URLSearchParams(searchKeyword);
-        if (value.trim()) {
-            newParams.set('keyword', value);
-        } else {
-            newParams.delete('keyword');
-        }
-        setSearchKeyword(newParams);
+    const handleSearch = () => {
+        setCurrentKeyword(searchTerm);
+        refetch();
     };
 
     return (
@@ -42,7 +39,7 @@ export default function ClubSearchPage() {
                             value={searchTerm}
                             onChange={(e) => handleInputChange(e)}
                         />
-                        <SearchIcon onClick={() => refetch()}>
+                        <SearchIcon onClick={handleSearch}>
                             <ReadingGlassIcon />
                         </SearchIcon>
                     </SearchInputWrapper>
