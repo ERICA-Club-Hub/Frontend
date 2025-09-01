@@ -5,15 +5,16 @@ import styled from 'styled-components';
 import ReadingGlassIcon from '@/assets/common/reading_glass.svg?react';
 import ClubCard from '@/components/Common/ClubCard';
 import ErrorIcon from '@/assets/common/error-icon.svg?react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useState } from 'react';
 import {
-    getCentralCategoryOptions,
-    getCollegeOptions,
-    getDepartmentOptions,
-    getUnionCategoryOptions,
-} from '@/utils/searchKeywordMapping';
-import CLubListDropdown from '@/components/Search/SearchOptions/CLubListDropdown';
+    CentralCategoryDropdown,
+    CollegeDropdown,
+    DepartmentDropdown,
+    SortByDropdown,
+    StatusDropdown,
+    UnionCategoryDropdown,
+} from '@/components/Search/SearchOptions/ClubSearchOptions';
 
 export default function ClubSearchPage() {
     const navigate = useNavigate();
@@ -22,12 +23,30 @@ export default function ClubSearchPage() {
 
     const { data, isLoading, refetch } = useClubSearchFromUrl(currentKeyword);
 
+    const [searchKeyword, setSearchKeyword] = useSearchParams();
+
+    // 현재 선택된 값들
+    const selectedCollege = searchKeyword.get('college');
+    const selectedDepartment = searchKeyword.get('department');
+    const selectedStatus = searchKeyword.get('status');
+    const selectedSortBy = searchKeyword.get('sortBy');
+    const selectedUnionCategory = searchKeyword.get('union-category');
+    const selectedCentralCategory = searchKeyword.get('central-category');
+
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setSearchTerm(e.target.value);
     };
 
-    const handleSearch = () => {
+    const handleSearch = async () => {
         setCurrentKeyword(searchTerm);
+        await new Promise((resolve) => setTimeout(resolve, 0));
+        refetch();
+    };
+
+    const updateSearchParam = (searchKey: string, value: string) => {
+        const newParam = new URLSearchParams(searchKeyword);
+        newParam.set(searchKey, value);
+        setSearchKeyword(newParam);
         refetch();
     };
 
@@ -51,47 +70,42 @@ export default function ClubSearchPage() {
                     </SearchInputWrapper>
 
                     <DropdownContainer>
-                        <CLubListDropdown
-                            searchKey="sortBy"
-                            title="정렬"
-                            menuList={[
-                                '가나다순으로 정렬',
-                                '분과순으로 정렬',
-                                '모집기준으로 정렬',
-                            ]}
+                        <SortByDropdown
+                            selectedValue={selectedSortBy}
+                            onSelect={(value) =>
+                                updateSearchParam('sortBy', value)
+                            }
                         />
-                        <CLubListDropdown
-                            searchKey="status"
-                            title="모집 상태"
-                            menuList={['모집중', '모집예정', '모집완료']}
+                        <StatusDropdown
+                            selectedValue={selectedStatus}
+                            onSelect={(value) =>
+                                updateSearchParam('status', value)
+                            }
                         />
-                        <CLubListDropdown
-                            searchKey="college"
-                            title="단과대명"
-                            menuList={getCollegeOptions().map(
-                                (option) => option.label,
-                            )}
+                        <CollegeDropdown
+                            selectedValue={selectedCollege}
+                            onSelect={(value) =>
+                                updateSearchParam('college', value)
+                            }
                         />
-                        <CLubListDropdown
-                            searchKey="department"
-                            title="학과명"
-                            menuList={getDepartmentOptions(
-                                /*selectedCollege ||*/ undefined,
-                            ).map((option) => option.label)}
+                        <DepartmentDropdown
+                            selectedValue={selectedDepartment}
+                            collegeCode={selectedCollege}
+                            onSelect={(value) =>
+                                updateSearchParam('department', value)
+                            }
                         />
-                        <CLubListDropdown
-                            searchKey="category"
-                            title="연합 동아리 카테고리"
-                            menuList={getUnionCategoryOptions().map(
-                                (option) => option.label,
-                            )}
+                        <UnionCategoryDropdown
+                            selectedValue={selectedUnionCategory}
+                            onSelect={(value) =>
+                                updateSearchParam('union-category', value)
+                            }
                         />
-                        <CLubListDropdown
-                            searchKey="category"
-                            title="동아리 카테고리"
-                            menuList={getCentralCategoryOptions().map(
-                                (option) => option.label,
-                            )}
+                        <CentralCategoryDropdown
+                            selectedValue={selectedCentralCategory}
+                            onSelect={(value) =>
+                                updateSearchParam('central-category', value)
+                            }
                         />
                     </DropdownContainer>
 

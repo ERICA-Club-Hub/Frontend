@@ -11,7 +11,7 @@ interface Option {
 interface ClubListDropdownProps {
     title?: string;
     options?: Option[];
-    selectedValue?: string;
+    selectedValue?: string | null;
     onSelect: (value: string) => void;
 }
 
@@ -27,15 +27,19 @@ export default function ClubListDropdown({
         onSelect(option.value);
         setIsOpen(false);
     };
+
+    const selectedOption = options?.find(
+        (option) => option.value === selectedValue,
+    );
+    const displayText = selectedOption ? selectedOption.label : title;
+
     return (
         <Dropdown setIsOpen={setIsOpen}>
             <Dropdown.Header onClick={() => setIsOpen((prev) => !prev)}>
                 <DropdownHeaderContainer
                     $isSelected={selectedValue ? true : false}
                 >
-                    <DropdownHeaderContent>
-                        {selectedValue ? selectedValue : title}
-                    </DropdownHeaderContent>
+                    <DropdownHeaderContent>{displayText}</DropdownHeaderContent>
                     <ArrowIcon />
                 </DropdownHeaderContainer>
             </Dropdown.Header>
@@ -44,7 +48,7 @@ export default function ClubListDropdown({
                     {options &&
                         options.map((option) => (
                             <DropdownMenuItem
-                                $isSelected={selectedValue === option.label}
+                                $isSelected={selectedValue === option.value}
                                 onClick={() => handleSelectItem(option)}
                             >
                                 <DropdownMenuContent>

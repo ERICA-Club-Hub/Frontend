@@ -3,7 +3,14 @@ import Tab from '../Common/Tab';
 
 export type TabCategory = '중앙동아리' | '단과대' | '학과' | '연합동아리';
 
-const TAB_CATEGORY_PARAM = 'category';
+const TAB_TYPE_PARAM = 'type';
+
+const mapping = [
+    { label: '중앙동아리', value: 'central' },
+    { label: '단과대', value: 'college' },
+    { label: '학과', value: 'department' },
+    { label: '연합동아리', value: 'union' },
+];
 
 function isValidCategory(value: string | null): value is TabCategory {
     return (
@@ -14,22 +21,36 @@ function isValidCategory(value: string | null): value is TabCategory {
     );
 }
 
+const getServerValue = (label: TabCategory): string => {
+    return mapping.find((item) => item.label === label)?.value || 'central';
+};
+
+const getDisplayLabel = (serverValue: string): TabCategory => {
+    return (
+        (mapping.find((item) => item.value === serverValue)
+            ?.label as TabCategory) || '중앙동아리'
+    );
+};
+
 export default function SearchTab() {
     const [searchParams, setSearchParams] = useSearchParams();
 
-    const categoryParam = searchParams.get(TAB_CATEGORY_PARAM);
-    const activeCategory: TabCategory = isValidCategory(categoryParam)
-        ? categoryParam
+    const typeParam = searchParams.get(TAB_TYPE_PARAM);
+
+    const activeCategory: TabCategory = typeParam
+        ? getDisplayLabel(typeParam)
         : '중앙동아리';
 
     const handleTabChange = (category: string) => {
         if (isValidCategory(category)) {
             const newParams = new URLSearchParams(searchParams);
-            newParams.set(TAB_CATEGORY_PARAM, category);
+            const serverValue = getServerValue(category);
+            newParams.set(TAB_TYPE_PARAM, serverValue);
             setSearchParams(newParams);
         }
     };
 
+    console.log(activeCategory);
     return (
         <Tab backgroundColor="white" width="360px">
             <Tab.Item

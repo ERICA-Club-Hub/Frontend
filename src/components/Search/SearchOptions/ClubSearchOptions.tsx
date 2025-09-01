@@ -8,7 +8,7 @@ import {
 import ClubListDropdown from './CLubListDropdown';
 
 interface DropdownProps {
-    selectedValue?: string;
+    selectedValue?: string | null;
     onSelect: (value: string) => void;
 }
 

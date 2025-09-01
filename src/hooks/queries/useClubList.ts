@@ -101,13 +101,21 @@ export const useClubSearchFromUrl = (keyword: string) => {
     };
 
     return useQuery({
-        queryKey: ['clubs', params.type, params],
+        queryKey: [
+            'clubs',
+            params.type,
+            params.keyword,
+            params.status,
+            params.sortBy,
+            params.college,
+            params.department,
+            params.category,
+        ],
         queryFn: async (): Promise<ApiClubListResponse> => {
             const url = buildClubApiUrl(params);
             const response = await apiRequest({ url });
             return response.result;
         },
-        enabled: !keyword,
     });
 };
 

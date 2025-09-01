@@ -18,7 +18,6 @@ export default function ClubCard({
     categoryName,
     recruitmentStatus,
 }: ClubCardProps) {
-    console.log(categoryName, recruitmentStatus);
     return (
         <CardContainer onClick={onClick} type="button">
             <ProfileImage />
