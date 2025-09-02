@@ -275,6 +275,7 @@ export const getUnionCategoryDisplay = (
     return UNION_CATEGORY_MAPPING[categoryCode] || categoryCode;
 };
 
+// 단과대별 학과 받아오는 함수
 export const getDepartmentsByCollege = (
     collegeCode: CollegeCode,
 ): DepartmentInfo[] => {
@@ -283,22 +284,6 @@ export const getDepartmentsByCollege = (
         code: dept,
         name: DEPARTMENT_MAPPING[dept],
     }));
-};
-
-export const getCollegeByDepartment = (
-    departmentCode: DepartmentCode,
-): CollegeInfo | null => {
-    for (const [college, departments] of Object.entries(
-        COLLEGE_DEPARTMENT_MAPPING,
-    ) as [CollegeCode, DepartmentCode[]][]) {
-        if (departments.includes(departmentCode)) {
-            return {
-                code: college,
-                name: COLLEGE_MAPPING[college],
-            };
-        }
-    }
-    return null;
 };
 
 // 드롭다운용 옵션 생성

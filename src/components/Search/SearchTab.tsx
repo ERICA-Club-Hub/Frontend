@@ -1,36 +1,14 @@
 import { useSearchParams } from 'react-router-dom';
 import Tab from '../Common/Tab';
+import {
+    getDisplayLabel,
+    getServerTabValue,
+    isValidCategory,
+} from '@/utils/search/searchTabMapping';
 
 export type TabCategory = '중앙동아리' | '단과대' | '학과' | '연합동아리';
 
 const TAB_TYPE_PARAM = 'type';
-
-const mapping = [
-    { label: '중앙동아리', value: 'central' },
-    { label: '단과대', value: 'college' },
-    { label: '학과', value: 'department' },
-    { label: '연합동아리', value: 'union' },
-];
-
-function isValidCategory(value: string | null): value is TabCategory {
-    return (
-        value === '중앙동아리' ||
-        value === '단과대' ||
-        value === '학과' ||
-        value === '연합동아리'
-    );
-}
-
-const getServerValue = (label: TabCategory): string => {
-    return mapping.find((item) => item.label === label)?.value || 'central';
-};
-
-const getDisplayLabel = (serverValue: string): TabCategory => {
-    return (
-        (mapping.find((item) => item.value === serverValue)
-            ?.label as TabCategory) || '중앙동아리'
-    );
-};
 
 export default function SearchTab() {
     const [searchParams, setSearchParams] = useSearchParams();
@@ -44,7 +22,7 @@ export default function SearchTab() {
     const handleTabChange = (category: string) => {
         if (isValidCategory(category)) {
             const newParams = new URLSearchParams(searchParams);
-            const serverValue = getServerValue(category);
+            const serverValue = getServerTabValue(category);
             newParams.set(TAB_TYPE_PARAM, serverValue);
             setSearchParams(newParams);
         }

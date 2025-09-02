@@ -42,14 +42,15 @@ export default function ClubSearchPage() {
 
     const currentTab = searchKeyword.get('type') || 'popular';
 
-    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setSearchTerm(e.target.value);
-    };
-
     const handleSearch = async () => {
         setCurrentKeyword(searchTerm);
-        await new Promise((resolve) => setTimeout(resolve, 0));
         refetch();
+    };
+
+    const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+        if (e.key === 'Enter') {
+            handleSearch();
+        }
     };
 
     const updateSearchParam = (searchKey: string, value: string) => {
@@ -93,7 +94,8 @@ export default function ClubSearchPage() {
                             inputSize="large"
                             placeholder="원하는 동아리를 검색해 보세요."
                             value={searchTerm}
-                            onChange={(e) => handleInputChange(e)}
+                            onChange={(e) => setSearchTerm(e.target.value)}
+                            onKeyDown={handleKeyDown}
                         />
                         <SearchIcon onClick={handleSearch}>
                             <ReadingGlassIcon />
