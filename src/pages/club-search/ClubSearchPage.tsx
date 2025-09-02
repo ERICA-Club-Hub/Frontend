@@ -6,7 +6,7 @@ import ReadingGlassIcon from '@/assets/common/reading_glass.svg?react';
 import ClubCard from '@/components/Common/ClubCard';
 import ErrorIcon from '@/assets/common/error-icon.svg?react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
     CentralCategoryDropdown,
     CollegeDropdown,
@@ -21,7 +21,15 @@ export default function ClubSearchPage() {
     const [searchTerm, setSearchTerm] = useState<string>('');
     const [currentKeyword, setCurrentKeyword] = useState<string>('');
 
-    const { data, isLoading, refetch } = useClubSearchFromUrl(currentKeyword);
+    const {
+        data,
+        isLoading,
+        fetchNextPage,
+        hasNextPage,
+        isFetchingNextPage,
+        refetch,
+    } = useClubSearchFromUrl(currentKeyword);
+    const allClubs = data?.pages.flatMap((page) => page.content) || [];
 
     const [searchKeyword, setSearchKeyword] = useSearchParams();
 
@@ -56,6 +64,22 @@ export default function ClubSearchPage() {
         setSearchKeyword(newParam);
         refetch();
     };
+
+    useEffect(() => {
+        const handleScroll = () => {
+            if (
+                window.innerHeight + document.documentElement.scrollTop >=
+                document.documentElement.offsetHeight - 1000
+            ) {
+                if (hasNextPage && !isFetchingNextPage) {
+                    fetchNextPage();
+                }
+            }
+        };
+
+        window.addEventListener('scroll', handleScroll);
+        return () => window.removeEventListener('scroll', handleScroll);
+    }, [hasNextPage, isFetchingNextPage, fetchNextPage]);
 
     return (
         <PageContainer>
@@ -134,8 +158,8 @@ export default function ClubSearchPage() {
                     <ClubListWrapper>
                         {isLoading ? (
                             <div>로딩 중...</div>
-                        ) : data && data.content.length > 0 ? (
-                            data.content.map((club) => {
+                        ) : data && allClubs.length > 0 ? (
+                            allClubs.map((club) => {
                                 return (
                                     <ClubCard
                                         key={club.id}
