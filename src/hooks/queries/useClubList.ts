@@ -55,12 +55,12 @@ const buildClubApiUrl = (params: ClubSearchParams): string => {
     return `${baseUrl}?${urlParams.toString()}`;
 };
 
-export const useClubSearchFromUrl = (keyword: string) => {
+export const useClubSearchFromUrl = () => {
     const [searchParams] = useSearchParams();
 
     const params = {
         type: (searchParams.get('type') as ClubType) || 'central',
-        keyword: keyword,
+        keyword: searchParams.get('keyword') || undefined,
         status: searchParams.get('status') || undefined,
         sortBy: searchParams.get('sortBy') || undefined,
         size: Number(searchParams.get('size')) || 10,

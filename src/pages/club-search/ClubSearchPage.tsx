@@ -19,7 +19,6 @@ import {
 export default function ClubSearchPage() {
     const navigate = useNavigate();
     const [searchTerm, setSearchTerm] = useState<string>('');
-    const [currentKeyword, setCurrentKeyword] = useState<string>('');
 
     const {
         data,
@@ -28,7 +27,7 @@ export default function ClubSearchPage() {
         hasNextPage,
         isFetchingNextPage,
         refetch,
-    } = useClubSearchFromUrl(currentKeyword);
+    } = useClubSearchFromUrl();
     const allClubs = data?.pages.flatMap((page) => page.content) || [];
 
     const [searchKeyword, setSearchKeyword] = useSearchParams();
@@ -39,12 +38,24 @@ export default function ClubSearchPage() {
     const selectedStatus = searchKeyword.get('status');
     const selectedSortBy = searchKeyword.get('sortBy');
     const selectedCategory = searchKeyword.get('category');
+    const currentKeyword = searchKeyword.get('keyword') || '';
 
     const currentTab = searchKeyword.get('type') || 'central';
 
-    const handleSearch = async () => {
-        setCurrentKeyword(searchTerm);
-        refetch();
+    useEffect(() => {
+        setSearchTerm(currentKeyword);
+    }, [currentKeyword]);
+
+    const handleSearch = () => {
+        const newParams = new URLSearchParams(searchKeyword);
+
+        if (searchTerm.trim()) {
+            newParams.set('keyword', searchTerm.trim());
+        } else {
+            newParams.delete('keyword');
+        }
+
+        setSearchKeyword(newParams);
     };
 
     const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
