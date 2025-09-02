@@ -30,8 +30,9 @@ export default function ClubSearchPage() {
     const selectedDepartment = searchKeyword.get('department');
     const selectedStatus = searchKeyword.get('status');
     const selectedSortBy = searchKeyword.get('sortBy');
-    const selectedUnionCategory = searchKeyword.get('union-category');
-    const selectedCentralCategory = searchKeyword.get('central-category');
+    const selectedCategory = searchKeyword.get('category');
+
+    const currentTab = searchKeyword.get('type') || 'popular';
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setSearchTerm(e.target.value);
@@ -45,7 +46,13 @@ export default function ClubSearchPage() {
 
     const updateSearchParam = (searchKey: string, value: string) => {
         const newParam = new URLSearchParams(searchKeyword);
-        newParam.set(searchKey, value);
+
+        if (searchKeyword.get(searchKey) === value) {
+            newParam.delete(searchKey);
+        } else if (value) {
+            newParam.set(searchKey, value);
+        }
+
         setSearchKeyword(newParam);
         refetch();
     };
@@ -82,31 +89,46 @@ export default function ClubSearchPage() {
                                 updateSearchParam('status', value)
                             }
                         />
-                        <CollegeDropdown
-                            selectedValue={selectedCollege}
-                            onSelect={(value) =>
-                                updateSearchParam('college', value)
-                            }
-                        />
-                        <DepartmentDropdown
-                            selectedValue={selectedDepartment}
-                            collegeCode={selectedCollege}
-                            onSelect={(value) =>
-                                updateSearchParam('department', value)
-                            }
-                        />
-                        <UnionCategoryDropdown
-                            selectedValue={selectedUnionCategory}
-                            onSelect={(value) =>
-                                updateSearchParam('union-category', value)
-                            }
-                        />
-                        <CentralCategoryDropdown
-                            selectedValue={selectedCentralCategory}
-                            onSelect={(value) =>
-                                updateSearchParam('central-category', value)
-                            }
-                        />
+                        {(currentTab === 'college' ||
+                            currentTab === 'department') && (
+                            <>
+                                <CollegeDropdown
+                                    selectedValue={selectedCollege}
+                                    onSelect={(value) =>
+                                        updateSearchParam('college', value)
+                                    }
+                                />
+                                {currentTab === 'department' && (
+                                    <DepartmentDropdown
+                                        selectedValue={selectedDepartment}
+                                        college={selectedCollege}
+                                        onSelect={(value) =>
+                                            updateSearchParam(
+                                                'department',
+                                                value,
+                                            )
+                                        }
+                                    />
+                                )}
+                            </>
+                        )}
+                        {currentTab === 'central' && (
+                            <CentralCategoryDropdown
+                                selectedValue={selectedCategory}
+                                onSelect={(value) =>
+                                    updateSearchParam('category', value)
+                                }
+                            />
+                        )}
+
+                        {currentTab === 'union' && (
+                            <UnionCategoryDropdown
+                                selectedValue={selectedCategory}
+                                onSelect={(value) =>
+                                    updateSearchParam('category', value)
+                                }
+                            />
+                        )}
                     </DropdownContainer>
 
                     <ClubListWrapper>

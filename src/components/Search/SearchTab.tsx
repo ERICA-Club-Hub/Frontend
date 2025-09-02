@@ -50,7 +50,6 @@ export default function SearchTab() {
         }
     };
 
-    console.log(activeCategory);
     return (
         <Tab backgroundColor="white" width="360px">
             <Tab.Item

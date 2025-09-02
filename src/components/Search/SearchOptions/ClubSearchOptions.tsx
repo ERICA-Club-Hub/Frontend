@@ -5,7 +5,7 @@ import {
     getDepartmentOptions,
     getUnionCategoryOptions,
 } from '@/utils/searchKeywordMapping';
-import ClubListDropdown from './CLubListDropdown';
+import ClubListDropdown from './ClubListDropdown';
 
 interface DropdownProps {
     selectedValue?: string | null;
@@ -81,9 +81,9 @@ export function UnionCategoryDropdown({
 }: DropdownProps) {
     return (
         <ClubListDropdown
-            title="중앙 동아리 카테고리"
+            title="연합 동아리 카테고리"
             selectedValue={selectedValue}
-            options={getCentralCategoryOptions()}
+            options={getUnionCategoryOptions()}
             onSelect={onSelect}
         />
     );
@@ -95,9 +95,9 @@ export function CentralCategoryDropdown({
 }: DropdownProps) {
     return (
         <ClubListDropdown
-            title="연합 동아리 카테고리"
+            title="중앙 동아리 카테고리"
             selectedValue={selectedValue}
-            options={getUnionCategoryOptions()}
+            options={getCentralCategoryOptions()}
             onSelect={onSelect}
         />
     );
