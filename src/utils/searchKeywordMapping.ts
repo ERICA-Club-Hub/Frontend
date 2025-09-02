@@ -315,16 +315,20 @@ export const getCollegeOptions = (): {
 };
 
 export const getDepartmentOptions = (
-    collegeCode?: CollegeCode,
-): { value: DepartmentCode; label: string }[] => {
-    if (collegeCode) {
-        return getDepartmentsByCollege(collegeCode).map((dept) => ({
-            value: dept.code,
-            label: dept.name,
-        }));
+    collegeCode?: string,
+): {
+    value: DepartmentCode;
+    label: string;
+}[] => {
+    if (collegeCode && collegeCode in COLLEGE_MAPPING) {
+        return getDepartmentsByCollege(collegeCode as CollegeCode).map(
+            (dept) => ({
+                value: dept.code,
+                label: dept.name,
+            }),
+        );
     }
 
-    // 모든 학과 반환
     return (
         Object.entries(DEPARTMENT_MAPPING) as [DepartmentCode, string][]
     ).map(([code, name]) => ({

@@ -101,7 +101,7 @@ export default function ClubSearchPage() {
                                 {currentTab === 'department' && (
                                     <DepartmentDropdown
                                         selectedValue={selectedDepartment}
-                                        college={selectedCollege}
+                                        college={selectedCollege || ''}
                                         onSelect={(value) =>
                                             updateSearchParam(
                                                 'department',

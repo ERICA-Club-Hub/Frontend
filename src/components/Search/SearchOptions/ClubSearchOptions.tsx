@@ -1,5 +1,4 @@
 import {
-    CollegeCode,
     getCentralCategoryOptions,
     getCollegeOptions,
     getDepartmentOptions,
@@ -57,7 +56,7 @@ export function CollegeDropdown({ selectedValue, onSelect }: DropdownProps) {
 }
 
 interface DepartmentDropdownProps extends DropdownProps {
-    college?: CollegeCode;
+    college?: string;
 }
 
 export function DepartmentDropdown({
