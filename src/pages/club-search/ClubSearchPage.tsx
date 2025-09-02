@@ -40,7 +40,7 @@ export default function ClubSearchPage() {
     const selectedSortBy = searchKeyword.get('sortBy');
     const selectedCategory = searchKeyword.get('category');
 
-    const currentTab = searchKeyword.get('type') || 'popular';
+    const currentTab = searchKeyword.get('type') || 'central';
 
     const handleSearch = async () => {
         setCurrentKeyword(searchTerm);

@@ -59,7 +59,7 @@ export const useClubSearchFromUrl = (keyword: string) => {
     const [searchParams] = useSearchParams();
 
     const params = {
-        type: (searchParams.get('type') as ClubType) || 'popular',
+        type: (searchParams.get('type') as ClubType) || 'central',
         keyword: keyword,
         status: searchParams.get('status') || undefined,
         sortBy: searchParams.get('sortBy') || undefined,
