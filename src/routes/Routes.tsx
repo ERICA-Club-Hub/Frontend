@@ -32,6 +32,7 @@ import ClubAdminGurad from './ClubAdminGurad';
 import CompleteClubRegisterPage from '@/pages/admin/auth/register/CompleteClubRegisterPage';
 import ServiceAdminGuard from './ServiceAdminGuard';
 import ClubDetailPreviewPage from '@/pages/club-detail-preview/ClubDetailPreviewPage';
+import ClubSearchPage from '@/pages/club-search/ClubSearchPage';
 
 export default function AppRoutes() {
     return (
@@ -41,6 +42,9 @@ export default function AppRoutes() {
 
             {/* 동아리 상세 페이지 */}
             <Route path="/club/:id" element={<ClubDetailPage />} />
+
+            {/* 동아리 검색 페이지 */}
+            <Route path="/club/search" element={<ClubSearchPage />} />
 
             {/* 총동연 공지사항 페이지 */}
             <Route path="/union/notice" element={<UnionNoticePage />} />
