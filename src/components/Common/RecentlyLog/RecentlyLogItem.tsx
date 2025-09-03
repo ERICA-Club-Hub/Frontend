@@ -46,7 +46,7 @@ const LogoItemClubInfo = styled.div`
     left: 10px;
     display: flex;
     gap: 5px;
-    text-align: center;
+    align-items: center;
 `;
 
 const LogoItemClubLogo = styled.img`
