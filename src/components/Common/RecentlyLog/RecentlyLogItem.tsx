@@ -41,10 +41,22 @@ const LogoItemImg = styled.img`
 `;
 
 const LogoItemClubInfo = styled.div`
+    position: absolute;
     bottom: 10px;
     left: 10px;
+    display: flex;
+    gap: 5px;
+    text-align: center;
 `;
 
-const LogoItemClubLogo = styled.img``;
+const LogoItemClubLogo = styled.img`
+    width: 20px;
+    height: 20px;
+    border-radius: 1.33px;
+`;
 
-const LogoItemClubName = styled.span``;
+const LogoItemClubName = styled.span`
+    font-weight: 500;
+    font-size: 13px;
+    color: white;
+`;
