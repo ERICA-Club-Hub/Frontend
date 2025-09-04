@@ -8,6 +8,10 @@ import { useNavigate } from 'react-router-dom';
 import Button from '@/components/Common/Button';
 import { useRecentlyLog } from '@/hooks/queries/main/useRecentlyLogs';
 import { usePopularClub } from '@/hooks/queries/main/usePopularClub';
+import DepartmentMark from '@/assets/common/department-mark.svg?react';
+import CentralMark from '@/assets/common/central-mark.svg?react';
+import UnionMark from '@/assets/common/union-mark.svg?react';
+import CollegeMark from '@/assets/common/college-mark.svg?react';
 
 export default function MainPage() {
     const { popularResult, popularRequestSize, setPopularRequestSize } =
@@ -20,30 +24,29 @@ export default function MainPage() {
                 <SectionContainer>
                     <SectionTitle>카테고리별로 모아보기</SectionTitle>
                     <CategoryCollectContainer>
-                        {/*  TODO svgr 추가 */}
                         <CategoryCollect
-                            img={<></>}
+                            img={<CentralMark />}
                             categoryLabel="중앙동아리"
                             onClick={() =>
                                 navigator('/club/search?type=central')
                             }
                         ></CategoryCollect>
                         <CategoryCollect
-                            img={<></>}
+                            img={<CollegeMark></CollegeMark>}
                             categoryLabel="단과대별"
                             onClick={() =>
                                 navigator('/club/search?type=college')
                             }
                         ></CategoryCollect>
                         <CategoryCollect
-                            img={<></>}
+                            img={<DepartmentMark />}
                             categoryLabel="학과별"
                             onClick={() =>
                                 navigator('/club/search?type=department')
                             }
                         ></CategoryCollect>
                         <CategoryCollect
-                            img={<></>}
+                            img={<UnionMark />}
                             categoryLabel="연합동아리"
                             onClick={() => navigator('/club/search?type=union')}
                         ></CategoryCollect>
@@ -52,7 +55,6 @@ export default function MainPage() {
                 <Survey />
                 <SectionContainer>
                     <SectionTitle>지금 인기있는 동아리 · 학회</SectionTitle>
-                    {/* TODO API 연동 */}
                     <ClubListSection>
                         {popularResult &&
                             popularResult.map((clubInfo) => (
@@ -84,7 +86,6 @@ export default function MainPage() {
                 <SectionContainer>
                     <SectionTitle>최근 업로드 된 활동로그</SectionTitle>
                     <RecentlyLogContainer>
-                        {/* TODO API 연동 */}
                         {recentlyLogs &&
                             recentlyLogs.map((recentlyLog) => (
                                 <RecentlyLogItem
