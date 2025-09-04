@@ -10,7 +10,7 @@ interface RecentlyLogsResponse {
 
 export const useRecentlyLog = () => {
     const { data: recentlyLogs } = useQuery({
-        queryKey: ['dk'],
+        queryKey: ['recentlyLogs', 'club'],
         queryFn: async (): Promise<RecentlyLogsResponse[]> => {
             const response = await apiRequest({
                 url: '/api/activities/club/recent',
