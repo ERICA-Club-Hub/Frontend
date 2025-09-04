@@ -5,66 +5,14 @@ import RecentlyLogItem from '@/components/Common/RecentlyLog/RecentlyLogItem';
 import CategoryCollect from '@/components/Common/CategoryCollect';
 import ClubCard from '@/components/Common/ClubCard';
 import { useNavigate } from 'react-router-dom';
-import { useQuery } from '@tanstack/react-query';
-import { apiRequest } from '@/api/apiRequest';
-import { useState } from 'react';
 import Button from '@/components/Common/Button';
+import { useRecentlyLog } from '@/hooks/queries/main/useRecentlyLogs';
+import { usePopularClub } from '@/hooks/queries/main/usePopularClub';
 
 export default function MainPage() {
-    const [popularRequestSize, setPopularRequestSize] = useState<4 | 10>(4);
-
-    const { data: popularResult } = useQuery({
-        queryKey: [popularRequestSize, 'popular', 'club'],
-        queryFn: async () => {
-            const response = await apiRequest({
-                url: `/api/clubs/popular?page=0&size=${popularRequestSize}`,
-            });
-            return response.result.content;
-        },
-    });
-    console.log(popularResult);
-
-    const { data: APIrecentlyLogs } = useQuery({
-        queryKey: ['dk'],
-        queryFn: async () => {
-            const response = await apiRequest({
-                url: '/api/activities/club/recent',
-            });
-            return response.result.activityLogs;
-        },
-    });
-    console.log(APIrecentlyLogs);
-
-    const recentlyLogs = [
-        {
-            activityId: 1,
-            thumbnailUrl: '',
-            clubId: 1,
-            clubLogoImgUrl: '',
-            clubName: 'ddddddd',
-        },
-        {
-            activityId: 1,
-            thumbnailUrl: '',
-            clubId: 1,
-            clubLogoImgUrl: '',
-            clubName: '',
-        },
-        {
-            activityId: 1,
-            thumbnailUrl: '',
-            clubId: 1,
-            clubLogoImgUrl: '',
-            clubName: '',
-        },
-        {
-            activityId: 1,
-            thumbnailUrl: '',
-            clubId: 1,
-            clubLogoImgUrl: '',
-            clubName: '',
-        },
-    ];
+    const { popularResult, popularRequestSize, setPopularRequestSize } =
+        usePopularClub();
+    const { recentlyLogs } = useRecentlyLog();
     const navigator = useNavigate();
     return (
         <PageContainer>
@@ -106,46 +54,48 @@ export default function MainPage() {
                     <SectionTitle>지금 인기있는 동아리 · 학회</SectionTitle>
                     {/* TODO API 연동 */}
                     <ClubListSection>
-                        <ClubCard
-                            title="동아리 이름"
-                            subTitle="동아리 한줄소개"
-                            categoryName="연합동아리"
-                            recruitmentStatus="OPEN"
-                        />
-                        <ClubCard
-                            title="동아리 이름"
-                            subTitle="동아리 한줄소개"
-                            categoryName="연합동아리"
-                            recruitmentStatus="OPEN"
-                        />
-                        <ClubCard
-                            title="동아리 이름"
-                            subTitle="동아리 한줄소개"
-                            categoryName="연합동아리"
-                            recruitmentStatus="OPEN"
-                        />
-                        <Button
-                            variant="outlined"
-                            size="large"
-                            outlineColor="none"
-                            onClick={() => setPopularRequestSize(10)}
-                        >
-                            더보기
-                        </Button>
+                        {popularResult &&
+                            popularResult.map((clubInfo) => (
+                                <ClubCard
+                                    key={clubInfo.id}
+                                    title={clubInfo.name}
+                                    subTitle={clubInfo.oneLiner}
+                                    categoryName={clubInfo.categoryName}
+                                    recruitmentStatus={
+                                        clubInfo.recruitmentStatus
+                                    }
+                                    onClick={() =>
+                                        navigator(`/club/${clubInfo.id}`)
+                                    }
+                                />
+                            ))}
+                        {popularRequestSize === 4 && (
+                            <Button
+                                variant="outlined"
+                                size="large"
+                                outlineColor="none"
+                                onClick={() => setPopularRequestSize(10)}
+                            >
+                                더보기
+                            </Button>
+                        )}
                     </ClubListSection>
                 </SectionContainer>
                 <SectionContainer>
                     <SectionTitle>최근 업로드 된 활동로그</SectionTitle>
                     <RecentlyLogContainer>
                         {/* TODO API 연동 */}
-                        {recentlyLogs.map((recentlyLog) => (
-                            <RecentlyLogItem
-                                clubId={recentlyLog.clubId}
-                                imgUrl={recentlyLog.thumbnailUrl}
-                                clubLogoImgUrl={recentlyLog.clubLogoImgUrl}
-                                clubName={recentlyLog.clubName}
-                            />
-                        ))}
+                        {recentlyLogs &&
+                            recentlyLogs.map((recentlyLog) => (
+                                <RecentlyLogItem
+                                    clubId={recentlyLog.clubId}
+                                    imgUrl={recentlyLog.imageUrl}
+                                    clubLogoImgUrl={
+                                        recentlyLog.clubProfileImageUrl
+                                    }
+                                    clubName={recentlyLog.clubName}
+                                />
+                            ))}
                     </RecentlyLogContainer>
                 </SectionContainer>
             </ContentWrapper>
