@@ -10,7 +10,6 @@ import {
     // AdminUnionPage,
     ClubDetailPage,
     ClubIntroPage,
-    ClubListPage,
     ClubRegisterPage,
     EditAdminActivityLogPage,
     EditClubRegisterPage,
@@ -33,12 +32,13 @@ import CompleteClubRegisterPage from '@/pages/admin/auth/register/CompleteClubRe
 import ServiceAdminGuard from './ServiceAdminGuard';
 import ClubDetailPreviewPage from '@/pages/club-detail-preview/ClubDetailPreviewPage';
 import ClubSearchPage from '@/pages/club-search/ClubSearchPage';
+import MainPage from '@/pages/main/MainPage';
 
 export default function AppRoutes() {
     return (
         <Routes>
             {/* 메인 페이지 */}
-            <Route path="/" element={<ClubListPage />} />
+            <Route path="/" element={<MainPage />} />
 
             {/* 동아리 상세 페이지 */}
             <Route path="/club/:id" element={<ClubDetailPage />} />

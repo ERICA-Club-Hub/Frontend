@@ -22,7 +22,7 @@ export * from './admin/union/notice/AdminUnionNoticePage';
 export * from './admin/union/resources/AdminResourcesRegisterPage';
 
 export * from './club-detail/ClubDetailPage';
-export * from './club-list/ClubListPage';
+export * from './main/MainPage';
 export * from './FAQ/FAQPage';
 export * from './notice/ServiceNoticePage';
 export * from './notice/UnionNoticePage';
