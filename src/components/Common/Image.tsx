@@ -1,17 +1,21 @@
-import { convertToCDN } from '@/utils/convertToCDN';
+import { DEFAULT_IMG } from '@/constants/DEFAULT_IMG';
 
 interface ImageProps {
     src?: string;
     alt?: string;
-    width: string;
-    height: string;
+    width: number;
+    height: number;
+    quality?: number;
+    fallbackSrc?: string;
 }
 
-export default function Image({ src, alt, width, height }: ImageProps) {
-    const cdnUrl = convertToCDN({ src, options: {} });
-    if (cdnUrl) {
-        return <img src={cdnUrl} alt={alt} width={width} height={height} />;
-    } else {
-        return <img src={src} alt={alt} width={width} height={height} />;
-    }
+export default function OptimizedImageProps({
+    src,
+    alt = '이미지',
+    width,
+    height,
+    quality = 80,
+    fallbackSrc = DEFAULT_IMG,
+}: ImageProps) {
+    return <div></div>;
 }

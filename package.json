@@ -13,6 +13,7 @@
     "dependencies": {
         "@tanstack/react-query": "^5.62.11",
         "axios": "^1.7.9",
+        "browser-image-compression": "^2.0.2",
         "react": "18.2.0",
         "react-dom": "18.2.0",
         "react-router-dom": "^7.0.0",
