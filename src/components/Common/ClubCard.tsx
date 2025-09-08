@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import ClubTypeTag from './ClubCardTags/ClubTypeTag';
 import RecruitStatusTag from './ClubCardTags/RecruitStatusTag';
+import OptimizedImage from './Image';
 
 interface ClubCardProps {
     title: string;
@@ -9,6 +10,7 @@ interface ClubCardProps {
     onClick?: () => void;
     categoryName: string;
     recruitmentStatus: string;
+    clubProfileImageUrl: string;
 }
 
 export default function ClubCard({
@@ -17,10 +19,11 @@ export default function ClubCard({
     onClick,
     categoryName,
     recruitmentStatus,
+    clubProfileImageUrl,
 }: ClubCardProps) {
     return (
         <CardContainer onClick={onClick} type="button">
-            <ProfileImage />
+            <ProfileImage width={75} height={75} src={clubProfileImageUrl} />
             <ClubInfo>
                 <TitleWrapper>
                     <TagContainer>
@@ -51,7 +54,7 @@ const CardContainer = styled.button`
     cursor: pointer;
 `;
 
-const ProfileImage = styled.img`
+const ProfileImage = styled(OptimizedImage)`
     width: 75px;
     height: 75px;
     border-radius: 5px;

@@ -9,6 +9,7 @@ import {
 import { useClubDetail } from '@/hooks/club-detail/useClubDetail';
 import { useClubDetailHeader } from '@/hooks/queries/club-detail/useClubDetailHeader';
 import { getRecruitmentStatusLabel } from '@/utils/clubDetail/getRecruitmentStatus';
+import OptimizedImage from '../Common/Image';
 
 interface RecruitStateProps {
     $state?: '모집 중' | '모집 예정' | '모집 마감';
@@ -22,7 +23,8 @@ export default function ClubDetailHeader() {
             <ClubHeader>
                 <ClubImage
                     src={data?.profileImageUrl || DEFAULT_IMG}
-                    alt="Club Logo"
+                    width={70}
+                    height={70}
                 />
                 <PreviewWrapper>
                     <Preview>{data?.description}</Preview>
@@ -69,7 +71,7 @@ const ClubHeader = styled.div`
     border-radius: 10px;
 `;
 
-const ClubImage = styled.img`
+const ClubImage = styled(OptimizedImage)`
     width: 70px;
     height: 70px;
     border-radius: 10px;

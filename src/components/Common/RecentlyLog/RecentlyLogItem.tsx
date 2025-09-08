@@ -1,5 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
+import OptimizedImage from '../Image';
 
 interface RecentlyLogItemProps {
     clubId: number;
@@ -17,7 +18,7 @@ export default function RecentlyLogItem({
     const navigate = useNavigate();
     return (
         <LogItemStandard onClick={() => navigate(`/club/${clubId}`)}>
-            <LogoItemImg src={imgUrl} />
+            <LogoItemImg src={imgUrl} width={155} height={155} />
             <LogoItemClubInfo>
                 <LogoItemClubLogo src={clubLogoImgUrl} />
                 <LogoItemClubName>{clubName}</LogoItemClubName>
@@ -33,7 +34,7 @@ const LogItemStandard = styled.div`
     position: relative;
 `;
 
-const LogoItemImg = styled.img`
+const LogoItemImg = styled(OptimizedImage)`
     position: absolute;
     width: 155px;
     height: 155px;

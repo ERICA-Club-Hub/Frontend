@@ -15,6 +15,7 @@ export default function ClubListSection() {
                 {popularResult &&
                     popularResult.map((clubInfo) => (
                         <ClubCard
+                            clubProfileImageUrl={clubInfo.profileImageUrl}
                             key={clubInfo.id}
                             title={clubInfo.name}
                             subTitle={clubInfo.oneLiner}
