@@ -10,7 +10,7 @@ import { IActivityImageDTO } from '@/types/activity-log.types';
 
 interface LogMoadlProps {
     clubName?: string | null;
-    clubImgUrl?: string | null;
+    clubImg?: string | null;
     setModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
     selectedImageId: number;
     selectedImageUrl: string;
@@ -20,7 +20,7 @@ interface LogMoadlProps {
 // 이전 이미지 다음 이미지 정보도 API에 담아서 같이 주겠죠?!
 const ActivityLogModal = ({
     clubName,
-    clubImgUrl,
+    clubImg,
     setModalOpen,
     selectedImageId,
 }: LogMoadlProps) => {
@@ -66,7 +66,7 @@ const ActivityLogModal = ({
                             <Header>
                                 <ProfileSection>
                                     <ProfileImage
-                                        src={clubImgUrl || DEFAULT_IMG}
+                                        src={clubImg || DEFAULT_IMG}
                                         alt="club logo"
                                     />
                                     <ClubName>{clubName}</ClubName>

@@ -12,10 +12,10 @@ export const ERROR_MESSAGE: ErrorConfig = {
         },
     },
     '/api/clubs/:clubId': {
-        // 404: {
-        //     message: '없는 동아리입니다.',
-        //     action: () => window.history.back(),
-        // },
+        404: {
+            message: '없는 동아리입니다.',
+            action: () => window.history.back(),
+        },
     },
     default: {},
 };
