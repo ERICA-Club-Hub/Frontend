@@ -45,10 +45,19 @@ export default function OptimizedImage({
                 });
 
                 if (cdnUrl) {
-                    setFinalSrc(cdnUrl);
-                    return;
+                    try {
+                        const img = new Image();
+                        await new Promise<void>((resolve, reject) => {
+                            img.onload = () => resolve();
+                            img.onerror = reject;
+                            img.src = cdnUrl;
+                        });
+                        setFinalSrc(cdnUrl);
+                        return;
+                    } catch {
+                        //
+                    }
                 }
-
                 await tryFallbackMethods();
             } finally {
                 //
@@ -56,12 +65,6 @@ export default function OptimizedImage({
         };
 
         loadOptimizedImage();
-
-        return () => {
-            if (finalSrc && finalSrc.startsWith('blob:')) {
-                URL.revokeObjectURL(finalSrc);
-            }
-        };
     }, [src, width, height, quality, fallbackSrc]);
 
     // CDN 실패했을 때 or 원본 잘못됐을 때(onError 시에)대체 최적화 로직
