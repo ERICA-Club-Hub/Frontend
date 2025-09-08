@@ -9,14 +9,14 @@ type FeedbackModalProps = IModal & {
     type?: 'feedback';
     onSubmit?: (text: string) => void;
     placeholder?: string;
-};
+}
 
-export default function MainModal({
-    title,
+export default function MainModal({ 
+    title, 
     subtitle,
     type,
     onSubmit,
-    placeholder = '의견을 자유롭게 작성해 주세요.',
+    placeholder = "의견을 자유롭게 작성해 주세요.",
     ...modalProps
 }: FeedbackModalProps) {
     const [feedbackText, setFeedbackText] = useState('');
@@ -40,26 +40,20 @@ export default function MainModal({
                 {subtitle && <ModalSubtitle>{subtitle}</ModalSubtitle>}
                 {type === 'feedback' ? (
                     <FeedbackForm onSubmit={handleSubmit}>
-                        <TextArea
+                        <TextArea 
                             value={feedbackText}
                             onChange={(e) => setFeedbackText(e.target.value)}
                             placeholder={placeholder}
                         />
-                        <SubmitButton
-                            type={feedbackText ? 'submit' : 'button'}
-                            onClick={
-                                feedbackText
-                                    ? undefined
-                                    : () => modalProps.toggle()
-                            }
+                        <SubmitButton 
+                            type={feedbackText ? "submit" : "button"}
+                            onClick={feedbackText ? undefined : () => modalProps.toggle()}
                             $isSubmit={!!feedbackText}
                         >
-                            {feedbackText ? '완료' : '취소'}
+                            {feedbackText ? "완료" : "취소"}
                         </SubmitButton>
                     </FeedbackForm>
-                ) : (
-                    modalProps.children
-                )}
+                ) : modalProps.children}
             </ModalContent>
         </Modal>
     );
@@ -73,13 +67,13 @@ const ModalContent = styled.div`
     flex-direction: column;
     align-items: center;
     border-radius: 10px;
-    background: #fafafa;
+    background: #FAFAFA;
     box-shadow: 0px 5px 15px 0px rgba(0, 0, 0, 0.35);
 `;
 
 const ModalTitle = styled.h2`
     width: 100%;
-    color: ${(props) => props.theme.colors.mainBlack};
+    color: ${props => props.theme.colors.mainBlack};
     text-align: center;
     font-size: 16px;
     font-weight: 500;
@@ -106,14 +100,14 @@ const TextArea = styled.textarea`
     height: 98px;
     padding: 15px 20px;
     border-radius: 10px;
-    background: #eaeaea;
+    background: #EAEAEA;
     border: none;
     resize: none;
-    color: ${(props) => props.theme.colors.mainBlack};
+    color: ${props => props.theme.colors.mainBlack};
     font-size: 14px;
     font-weight: 500;
     margin-bottom: 10px;
-
+    
     &:focus {
         outline: none;
     }
@@ -132,8 +126,5 @@ const SubmitButton = styled.button<{ $isSubmit: boolean }>`
     font-weight: 600;
     cursor: pointer;
     color: white;
-    background-color: ${(props) =>
-        props.$isSubmit
-            ? props.theme.colors.mainBlue
-            : props.theme.colors.subGray};
+    background-color: ${props => props.$isSubmit ? props.theme.colors.mainBlue : props.theme.colors.subGray};
 `;

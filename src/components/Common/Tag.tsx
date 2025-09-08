@@ -10,6 +10,7 @@ const TagWrapper = styled.div<TagProps>`
     align-items: center;
     gap: 3px;
     border-radius: 5px;
+    font-family: Pretendard;
     font-size: 12px;
     font-weight: 500;
     line-height: normal;
@@ -17,7 +18,7 @@ const TagWrapper = styled.div<TagProps>`
     overflow: hidden;
     text-overflow: ellipsis;
     max-width: 100px;
-
+    
     ${({ type = 'default' }) => {
         switch (type) {
             case '동아리 및 질문':
@@ -45,7 +46,11 @@ const TagWrapper = styled.div<TagProps>`
 `;
 
 const Tag = ({ type, children }: React.PropsWithChildren<TagProps>) => {
-    return <TagWrapper type={type}>{children}</TagWrapper>;
+    return (
+        <TagWrapper type={type}>
+            {children}
+        </TagWrapper>
+    );
 };
 
 export { Tag };
