@@ -20,7 +20,7 @@ export default function RecentlyLogItem({
         <LogItemStandard onClick={() => navigate(`/club/${clubId}`)}>
             <LogoItemImg src={imgUrl} width={155} height={155} />
             <LogoItemClubInfo>
-                <LogoItemClubLogo src={clubLogoImgUrl} />
+                <LogoItemClubLogo width={20} height={20} src={clubLogoImgUrl} />
                 <LogoItemClubName>{clubName}</LogoItemClubName>
             </LogoItemClubInfo>
         </LogItemStandard>
@@ -50,7 +50,7 @@ const LogoItemClubInfo = styled.div`
     align-items: center;
 `;
 
-const LogoItemClubLogo = styled.img`
+const LogoItemClubLogo = styled(OptimizedImage)`
     width: 20px;
     height: 20px;
     border-radius: 1.33px;
