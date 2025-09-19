@@ -18,7 +18,6 @@ const Container = styled.div<{ $isOpen: boolean }>`
     background-color: ${({ theme }) => theme.colors.white};
     transform: translateY(0);
     z-index: 999;
-
     @keyframes dropdown {
         0% {
             transform: translateY(-15px);

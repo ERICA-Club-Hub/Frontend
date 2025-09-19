@@ -7,13 +7,9 @@ const FooterWrapper = styled.div`
     font-size: 12px;
     font-weight: 500;
     line-height: normal;
-    margin: 10px 0 60px 0;
+    margin: 20px 0 60px 0;
 `;
 
 export const Footer = () => {
-    return (
-        <FooterWrapper>
-            ⓒ 2025. 한자리. All Rights Reserved.
-        </FooterWrapper>
-    );
+    return <FooterWrapper>ⓒ 2025. 한자리. All Rights Reserved.</FooterWrapper>;
 };
