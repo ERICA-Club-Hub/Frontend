@@ -2,9 +2,9 @@ import styled from 'styled-components';
 import { useRecoilValue } from 'recoil';
 import NavigateArrow from '@/assets/common/navigate-arrow.svg?react';
 import { isAuthenticatedSelector } from '@/store/authState';
-import { filterHeaderMenus } from '@/utils/filterHeaderMenus';
 import { useAuthToggle } from '@/hooks/auth/useAuthToggle';
 import { NavigationLink } from '../NavigationLink';
+import { useFilteredMenus } from '@/hooks/ui/useFilteredMenus';
 
 interface NavigationDrawerProps {
     isOpen: boolean;
@@ -21,7 +21,7 @@ export default function NavigationDrawer({
 }: NavigationDrawerProps) {
     const isAuthenticatedValue = useRecoilValue(isAuthenticatedSelector); // 로그인 여부
     const { toggleAuthentication } = useAuthToggle(); // 로그인 & 로그아웃 로직
-    const filteredMenus = filterHeaderMenus(); // 어드민 유형에 따라 필터링된 메뉴
+    const filteredMenus = useFilteredMenus(); // 어드민 유형에 따라 필터링된 메뉴
 
     const handleToggleAuthBtn = () => {
         toggleAuthentication();

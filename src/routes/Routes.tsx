@@ -5,9 +5,6 @@ import {
     AdminClubPage,
     AdminClubRegisterManagePage,
     AdminLoginPage,
-    // AdminResourcesRegisterPage,
-    // AdminUnionNoticePage,
-    // AdminUnionPage,
     ClubDetailPage,
     ClubIntroPage,
     ClubListPage,
@@ -21,15 +18,11 @@ import {
     ResourcesPage,
     ServiceNoticePage,
     SummaryInfoPage,
-    UnionNoticePage,
 } from '@/pages';
 import { RedirectIfAuthenticated } from './RedirectIfAuthenticated';
 import ClubDetailPreview from '@/pages/club-detail-preview/ClubDetailPreview';
 import { AuthGuard } from './AuthGuard';
-// import UnionAdminGuard from './UnionAdminGuard';
 import ClubAdminGurad from './ClubAdminGurad';
-// import AdminUnionNoticeEditPage from '@/pages/admin/union/notice/AdminUnionNoticeEditPage';
-// import { AdminUnionNoticeRegisterPage } from '@/pages/admin/union/notice/AdminUnionNoticeRegisterPage';
 import CompleteClubRegisterPage from '@/pages/admin/auth/register/CompleteClubRegisterPage';
 import ServiceAdminGuard from './ServiceAdminGuard';
 
@@ -42,11 +35,8 @@ export default function AppRoutes() {
             {/* 동아리 상세 페이지 */}
             <Route path="/club/:id" element={<ClubDetailPage />} />
 
-            {/* 총동연 공지사항 페이지 */}
-            <Route path="/union/notice" element={<UnionNoticePage />} />
-
             {/* 서비스 공지사항 페이지 */}
-            <Route path="/club/notice" element={<ServiceNoticePage />} />
+            <Route path="/notice" element={<ServiceNoticePage />} />
 
             {/* 자료실 페이지 */}
             <Route path="/resources" element={<ResourcesPage />} />
@@ -126,12 +116,13 @@ export default function AppRoutes() {
                     />
                 </Route>
 
-                <Route
-                    path="/admin/club/register/manage"
-                    element={<ServiceAdminGuard />}
-                >
+                {/* 서비스 어드민 */}
+                <Route path="/admin/service" element={<ServiceAdminGuard />}>
                     <Route index element={<AdminClubRegisterManagePage />} />
                 </Route>
+
+                {/* 총동연 공지사항 페이지 */}
+                {/* <Route path="/union/notice" element={<UnionNoticePage />} /> */}
 
                 {/* 총동연 어드민 */}
                 {/* 총동연, 서비스 관리자 접근 가능 */}
