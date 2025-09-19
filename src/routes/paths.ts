@@ -12,7 +12,7 @@ export const PATHS = {
 
     // --- 서비스 어드민 대시보드 ---
     /* (신규) 동아리 등록 신청 관리 */
-    ADMIN_SERVICE_PENDING_REGISTRATIONS: '/admin/service/register/manage',
+    ADMIN_SERVICE_PENDING_REGISTRATIONS: '/admin/service/pending-registrations',
 
     /* 동아리 관리 */
     ADMIN_SERVICE_CLUB_MANAGE: '/admin/service/club/manage',

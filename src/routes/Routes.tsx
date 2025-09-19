@@ -26,6 +26,7 @@ import ServiceAdminPage from '@/pages/admin/service/dashboard/ServiceAdminPage';
 import ClubDetailPreviewPage from '@/pages/club-detail-preview/ClubDetailPreviewPage';
 import ClubSearchPage from '@/pages/club-search/ClubSearchPage';
 import MainPage from '@/pages/main/MainPage';
+import PendingRegistrationsPage from '@/pages/admin/service/pending-registrations/PendingRegistrationsPage';
 
 export default function AppRoutes() {
     return (
@@ -123,9 +124,16 @@ export default function AppRoutes() {
                     />
                 </Route>
 
-                {/* 서비스 어드민 */}
+                {/* --- 서비스 어드민 --- */}
                 <Route path="/admin/service" element={<ServiceAdminGuard />}>
+                    {/* 서비스 어드민 대시보드 */}
                     <Route index element={<ServiceAdminPage />} />
+
+                    {/* 신규 동아리 등록 신청 확인 */}
+                    <Route
+                        path="/admin/service/pending-registrations"
+                        element={<PendingRegistrationsPage />}
+                    />
                 </Route>
 
                 {/* 총동연 공지사항 페이지 */}
