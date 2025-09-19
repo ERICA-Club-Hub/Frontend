@@ -1,10 +1,10 @@
 import styled from 'styled-components';
 import { useRecoilValue } from 'recoil';
 import NavigateArrow from '@/assets/common/navigate-arrow.svg?react';
-import { ArrowLinkButton } from '../ArrowLinkButton';
 import { isAuthenticatedSelector } from '@/store/authState';
 import { filterHeaderMenus } from '@/utils/filterHeaderMenus';
 import { useAuthToggle } from '@/hooks/auth/useAuthToggle';
+import { NavigationLink } from '../NavigationLink';
 
 interface NavigationDrawerProps {
     isOpen: boolean;
@@ -39,9 +39,9 @@ export default function NavigationDrawer({
             <MenuList>
                 {filteredMenus.map((menu, index) => (
                     <MenuItem key={`navigate-menu-${index}`} onClick={toggle}>
-                        <ArrowLinkButton url={menu.url} size="small">
+                        <NavigationLink url={menu.url} size="small">
                             {menu.title}
-                        </ArrowLinkButton>
+                        </NavigationLink>
                     </MenuItem>
                 ))}
             </MenuList>

@@ -1,4 +1,4 @@
-import { ArrowLinkButton } from '@/components/Common';
+import { NavigationLink } from '@/components/Common';
 import { clubIdSelector, clubNameSelector } from '@/store/clubInfoState';
 import { useRecoilValue } from 'recoil';
 import styled from 'styled-components';
@@ -13,24 +13,24 @@ const AdminClubPage = () => {
                 <h1>{clubName}님, 환영해요.</h1>
 
                 <NavigationWrapper>
-                    <ArrowLinkButton
+                    <NavigationLink
                         size="large"
                         url={`/admin/club/${clubId}/summary-info`}
                     >
                         동아리 상세페이지 설정하기
-                    </ArrowLinkButton>
-                    <ArrowLinkButton
+                    </NavigationLink>
+                    <NavigationLink
                         size="large"
                         url={`/admin/club/${clubId}/activities/feed`}
                     >
                         활동로그 작성하기
-                    </ArrowLinkButton>
-                    <ArrowLinkButton
+                    </NavigationLink>
+                    <NavigationLink
                         size="large"
                         url={`/admin/club/${clubId}/register/edit`}
                     >
                         동아리 등록 정보 수정하기
-                    </ArrowLinkButton>
+                    </NavigationLink>
                 </NavigationWrapper>
             </Wrapper>
         </Container>
