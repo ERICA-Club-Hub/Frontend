@@ -1,14 +1,15 @@
 import { ReactNode } from 'react';
 import styled from 'styled-components';
-import { HeaderMenu } from './HeaderMenu';
-const RootLayout = ({ children }: { children: ReactNode }) => {
+import { AppHeader } from './Header/AppHeader';
+
+function RootLayout({ children }: { children: ReactNode }) {
     return (
         <Container>
-            <HeaderMenu />
+            <AppHeader />
             {children}
         </Container>
     );
-};
+}
 
 export { RootLayout };
 
