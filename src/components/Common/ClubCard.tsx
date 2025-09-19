@@ -1,43 +1,53 @@
 import styled from 'styled-components';
+import { Link, LinkProps } from 'react-router-dom';
 import ClubTypeTag from './ClubCardTags/ClubTypeTag';
 import RecruitStatusTag from './ClubCardTags/RecruitStatusTag';
 
-interface ClubCardProps {
-    title: string;
-    subTitle: string;
-    tags?: string[];
-    onClick?: () => void;
-    categoryName: string;
-    recruitmentStatus: string;
+interface ClubCardProps extends LinkProps {
+    title: string; // 동아리 이름
+    subTitle: string; // 한 줄 소개
+    categoryName: string; // 동아리 카테고리 이름 (타입화 필요)
+    recruitmentStatus?: string; // 모집 상태 (타입화 필요)
+    to: string; // 이동할 라우팅 주소
+    tags?: string[]; // tag 타입화 필요
 }
 
 export default function ClubCard({
     title,
     subTitle,
-    onClick,
     categoryName,
     recruitmentStatus,
+    to,
+    ...props
 }: ClubCardProps) {
+    const isAdminRoute = to.startsWith('/admin/service');
+
     return (
-        <CardContainer onClick={onClick} type="button">
-            <ProfileImage />
+        <CardContainer to={to} {...props}>
+            {/* 어드민 페이지에서는 프로필 이미지 미표시 */}
+            {!isAdminRoute && <ProfileImage />}
+
             <ClubInfo>
                 <TitleWrapper>
                     <TagContainer>
                         <ClubTypeTag clubCategory={categoryName} />
-                        <RecruitStatusTag
-                            recruitmentStatus={recruitmentStatus}
-                        />
+                        {recruitmentStatus && (
+                            <RecruitStatusTag
+                                recruitmentStatus={recruitmentStatus}
+                            />
+                        )}
                     </TagContainer>
                 </TitleWrapper>
+
                 <Title>{title}</Title>
+
                 <SubTitle>{subTitle}</SubTitle>
             </ClubInfo>
         </CardContainer>
     );
 }
 
-const CardContainer = styled.button`
+const CardContainer = styled(Link)`
     display: flex;
     width: 320px;
     height: 95px;
