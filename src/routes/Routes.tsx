@@ -3,7 +3,6 @@ import {
     AdminActivitiesFeedPage,
     AdminClubDetailPage,
     AdminClubPage,
-    AdminClubRegisterManagePage,
     AdminLoginPage,
     ClubDetailPage,
     ClubIntroPage,
@@ -25,6 +24,7 @@ import { AuthGuard } from './AuthGuard';
 import ClubAdminGurad from './ClubAdminGurad';
 import CompleteClubRegisterPage from '@/pages/admin/auth/register/CompleteClubRegisterPage';
 import ServiceAdminGuard from './ServiceAdminGuard';
+import ServiceAdminPage from '@/pages/admin/service/dashboard/ServiceAdminPage';
 
 export default function AppRoutes() {
     return (
@@ -56,18 +56,24 @@ export default function AppRoutes() {
                 <Route path="" element={<AdminLoginPage />} />
             </Route>
 
-            {/* 동아리 등록 페이지 */}
-            <Route path="/admin/club/register" element={<ClubRegisterPage />} />
+            {/* --- 동아리 등록 --- */}
+            <Route path="/admin/club/register">
+                {/* 동아리 등록 페이지 */}
+                <Route
+                    path="/admin/club/register"
+                    element={<ClubRegisterPage />}
+                />
 
-            {/* 동아리 등록 성공 페이지 */}
-            <Route
-                path="/admin/club/register/complete"
-                element={<CompleteClubRegisterPage />}
-            />
+                {/* 동아리 등록 성공 페이지 */}
+                <Route
+                    path="/admin/club/register/complete"
+                    element={<CompleteClubRegisterPage />}
+                />
+            </Route>
 
-            {/* 어드민 접근 권한 필요 -> 권한 없을 때 메인으로 리다이렉트 */}
+            {/* --- 어드민 --- */}
             <Route path="/admin" element={<AuthGuard />}>
-                {/* 동아리 어드민 */}
+                {/* --- 동아리 어드민 --- */}
                 {/* 서비스 관리자, 동아리 대표 접근 가능 */}
                 <Route path="/admin/club/:id" element={<ClubAdminGurad />}>
                     {/* 동아리 어드민 홈*/}
@@ -118,7 +124,7 @@ export default function AppRoutes() {
 
                 {/* 서비스 어드민 */}
                 <Route path="/admin/service" element={<ServiceAdminGuard />}>
-                    <Route index element={<AdminClubRegisterManagePage />} />
+                    <Route index element={<ServiceAdminPage />} />
                 </Route>
 
                 {/* 총동연 공지사항 페이지 */}
