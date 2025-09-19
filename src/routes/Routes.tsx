@@ -53,16 +53,13 @@ export default function AppRoutes() {
             {/* 로그인됐을 때 로그인 페이지 접근 제한 */}
             <Route path="/admin/login" element={<RedirectIfAuthenticated />}>
                 {/* 로그인 페이지 */}
-                <Route path="" element={<AdminLoginPage />} />
+                <Route index element={<AdminLoginPage />} />
             </Route>
 
             {/* --- 동아리 등록 --- */}
             <Route path="/admin/club/register">
                 {/* 동아리 등록 페이지 */}
-                <Route
-                    path="/admin/club/register"
-                    element={<ClubRegisterPage />}
-                />
+                <Route index element={<ClubRegisterPage />} />
 
                 {/* 동아리 등록 성공 페이지 */}
                 <Route
@@ -130,9 +127,6 @@ export default function AppRoutes() {
                 {/* 총동연 공지사항 페이지 */}
                 {/* <Route path="/union/notice" element={<UnionNoticePage />} /> */}
 
-                {/* 총동연 어드민 */}
-                {/* 총동연, 서비스 관리자 접근 가능 */}
-                {/* <Route path="/admin/union" element={<UnionAdminGuard />}> */}
                 {/* 총동연 어드민 홈*/}
                 {/* <Route path="/admin/union" element={<AdminUnionPage />} /> */}
 
