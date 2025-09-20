@@ -29,7 +29,7 @@ const useClubRegistrationRequestQuery = () => {
         }
     }, [isSuccess, data]);
 
-    return { isPending, data };
+    return { isPending, data, isError };
 };
 
 // 동아리 등록 요청 수락

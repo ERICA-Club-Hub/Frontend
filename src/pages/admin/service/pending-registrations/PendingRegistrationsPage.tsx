@@ -7,7 +7,7 @@ import useServiceAdminQueries from '@/hooks/queries/useServiceAdminQueries';
 
 export default function PendingRegistrationsPage() {
     const { useClubRegistrationRequestQuery } = useServiceAdminQueries();
-    const { isPending, data } = useClubRegistrationRequestQuery();
+    const { isPending, data, isError } = useClubRegistrationRequestQuery();
 
     const [searchTerm, setSearchTerm] = useState<string>('');
 
@@ -31,7 +31,11 @@ export default function PendingRegistrationsPage() {
                 />
             </InputWrapper>
 
-            <ClubList isPending={isPending} data={filteredData} />
+            <ClubList
+                isPending={isPending}
+                isError={isError}
+                data={filteredData}
+            />
         </Container>
     );
 }

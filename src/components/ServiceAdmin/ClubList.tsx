@@ -5,10 +5,12 @@ import { ClubRegistrationDTOList } from '@/types/club.types';
 
 interface ClublistProps {
     isPending: boolean;
+    isError: boolean;
     data?: ClubRegistrationDTOList[];
 }
 
-export default function ClubList({ isPending, data }: ClublistProps) {
+// 동아리 리스트를 받아서 렌더링하는 컴포넌트
+export default function ClubList({ isPending, isError, data }: ClublistProps) {
     if (isPending) {
         return (
             <SkeletonList>
@@ -17,6 +19,10 @@ export default function ClubList({ isPending, data }: ClublistProps) {
                 ))}
             </SkeletonList>
         );
+    }
+
+    if (isError) {
+        return <div>동아리 정보를 불러오는 데 실패했습니다.</div>;
     }
 
     if (!data || data.length === 0) {
