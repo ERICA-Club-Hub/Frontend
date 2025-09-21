@@ -2,6 +2,7 @@ import styled from 'styled-components';
 import Skeleton from '../Common/Loading/Skeleton';
 import ClubCard from '../Common/ClubCard';
 import { ClubRegistrationDTOList } from '@/types/club.types';
+import { PATHS } from '@/routes/paths';
 
 interface ClublistProps {
     isPending: boolean;
@@ -42,7 +43,9 @@ export default function ClubListView({
                         title={club.clubName}
                         subTitle={club.oneLiner}
                         categoryName={club.category.clubCategoryName}
-                        to={`/admin/service/registrations/${club.clubRegistrationId}`}
+                        to={PATHS.ADMIN_SERVICE_CLUB_DETAIL(
+                            club.clubRegistrationId,
+                        )}
                     />
                 ))}
         </Container>
