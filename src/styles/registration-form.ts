@@ -27,4 +27,16 @@ const Label = styled.label`
     color: ${({ theme }) => theme.colors.mainBlack};
 `;
 
-export { GuideText, InnerWrapper, Label };
+const Content = styled.div`
+    width: 320px;
+    min-width: 47px;
+    height: fit-content;
+    padding: 15px;
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: 500;
+    color: ${({ theme }) => theme.colors.mainBlack};
+    background-color: ${({ theme }) => theme.colors.white};
+`;
+
+export { GuideText, InnerWrapper, Label, Content };

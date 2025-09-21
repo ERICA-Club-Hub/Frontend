@@ -5,7 +5,7 @@ import Button from '@/components/Common/Button';
 import { TextArea } from '@/components/Common/TextArea';
 import { IClubRegisterValue } from '@/types';
 import { inputChangeHandler } from '@/utils/inputChangeHandler';
-import { GuideText, InnerWrapper, Label } from '@/styles/admin-club-register';
+import { GuideText, InnerWrapper, Label } from '@/styles/registration-form';
 import useBulletPointConverter from '@/hooks/actions/useBulletPointConverter';
 import ClubImageUpload from './ClubImageUpload';
 import { ClubCategorySelection } from './ClubCategorySelection';
@@ -213,7 +213,7 @@ function ClubRegisterForm({ editMode }: { editMode: boolean }) {
                     <Button type="submit" size="large" disabled={!isValid}>
                         {editMode
                             ? '동아리 등록 정보 수정하기'
-                            : '동아리 등록하기'}
+                            : '동아리 등록 요청하기'}
                     </Button>
                 </FormContainer>
             </Container>

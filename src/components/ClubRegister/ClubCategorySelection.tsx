@@ -1,5 +1,5 @@
 import useToggle from '@/hooks/actions/useToggle';
-import { InnerWrapper, Label } from '@/styles/admin-club-register';
+import { InnerWrapper, Label } from '@/styles/registration-form';
 import styled from 'styled-components';
 import { Dropdown } from '../Common';
 import ExpandArrowIcon from '@/assets/common/expand-arrow.svg?react';
