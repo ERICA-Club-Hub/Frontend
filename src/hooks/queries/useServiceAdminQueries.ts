@@ -8,7 +8,7 @@ import { PendingRegistrationResponse } from '@/types/club.types';
 // 등록 요청 동아리 조회
 const useClubRegistrationRequestQuery = () => {
     const { isPending, isSuccess, data, isError } = useQuery({
-        queryKey: ['clubRegisterRequest'],
+        queryKey: ['registrations', 'pending'],
         queryFn: async (): Promise<
             APIResponse<PendingRegistrationResponse>
         > => {
@@ -44,7 +44,7 @@ const useClubRegistrationRequestMutation = () =>
         },
         onSuccess: () => {
             queryClient.invalidateQueries({
-                queryKey: ['clubRegisterRequest'],
+                queryKey: ['registrations', 'pending'],
             });
         },
         onError: (error) => {
