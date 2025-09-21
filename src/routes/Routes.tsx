@@ -26,7 +26,9 @@ import ServiceAdminPage from '@/pages/admin/service/dashboard/ServiceAdminPage';
 import ClubDetailPreviewPage from '@/pages/club-detail-preview/ClubDetailPreviewPage';
 import ClubSearchPage from '@/pages/club-search/ClubSearchPage';
 import MainPage from '@/pages/main/MainPage';
-import PendingRegistrationsPage from '@/pages/admin/service/pending-registrations/PendingRegistrationsPage';
+import ReviewRegistrationsPage from '@/pages/admin/service/registrations/ReviewRegistrationsPage';
+import ClubManagementPage from '@/pages/admin/service/club-management/ClubManagementPage';
+import RegistrationsDetailPage from '@/pages/admin/service/registrations/RegistrationsDetailPage';
 
 export default function AppRoutes() {
     return (
@@ -131,8 +133,18 @@ export default function AppRoutes() {
 
                     {/* 신규 동아리 등록 신청 확인 */}
                     <Route
-                        path="/admin/service/pending-registrations"
-                        element={<PendingRegistrationsPage />}
+                        path="/admin/service/registrations"
+                        element={<ReviewRegistrationsPage />}
+                    />
+                    <Route
+                        path="/admin/service/registrations/:id"
+                        element={<RegistrationsDetailPage />}
+                    />
+
+                    {/* 동아리 관리 페이지 */}
+                    <Route
+                        path="/admin/service/club-management"
+                        element={<ClubManagementPage />}
                     />
                 </Route>
 

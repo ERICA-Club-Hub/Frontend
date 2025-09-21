@@ -2,9 +2,10 @@ import { useState } from 'react';
 import styled from 'styled-components';
 import ClubListView from '@/components/ServiceAdmin/ClubListView';
 import useServiceAdminQueries from '@/hooks/queries/useServiceAdminQueries';
-import ClubListPageLayout from '@/components/ServiceAdmin/ClubListPageLayout';
+import SearchInput from '@/components/ServiceAdmin/SearchInput';
 
-export default function PendingRegistrationsPage() {
+// 동아리 등록 요청 검토 페이지
+export default function ReviewRegistrationsPage() {
     const { useClubRegistrationRequestQuery } = useServiceAdminQueries();
     const { isPending, data, isError } = useClubRegistrationRequestQuery();
 
@@ -20,16 +21,14 @@ export default function PendingRegistrationsPage() {
 
     return (
         <Container>
-            <ClubListPageLayout
-                value={searchTerm}
-                onChange={handleSearchChange}
-                clubList={
-                    <ClubListView
-                        isPending={isPending}
-                        isError={isError}
-                        data={filteredData}
-                    />
-                }
+            <SearchInputWrapper>
+                <SearchInput value={searchTerm} onChange={handleSearchChange} />
+            </SearchInputWrapper>
+
+            <ClubListView
+                isPending={isPending}
+                isError={isError}
+                data={filteredData}
             />
         </Container>
     );
@@ -40,4 +39,8 @@ const Container = styled.div`
     flex-direction: column;
     align-items: center;
     padding-top: 20px;
+`;
+
+const SearchInputWrapper = styled.div`
+    margin-bottom: 20px;
 `;
