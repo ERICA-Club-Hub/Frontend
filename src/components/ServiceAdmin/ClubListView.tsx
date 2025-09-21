@@ -10,7 +10,11 @@ interface ClublistProps {
 }
 
 // 동아리 리스트를 받아서 렌더링하는 컴포넌트
-export default function ClubList({ isPending, isError, data }: ClublistProps) {
+export default function ClubListView({
+    isPending,
+    isError,
+    data,
+}: ClublistProps) {
     if (isPending) {
         return (
             <SkeletonList>
@@ -38,7 +42,7 @@ export default function ClubList({ isPending, isError, data }: ClublistProps) {
                         title={club.clubName}
                         subTitle={club.oneLiner}
                         categoryName={club.category.clubCategoryName}
-                        to="/admin/service"
+                        to={`/admin/service/registrations/${club.clubRegistrationId}`}
                     />
                 ))}
         </Container>
