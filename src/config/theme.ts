@@ -19,6 +19,8 @@ const theme: DefaultTheme = {
         mediumGray: '#EAEAEA',
         lightGray: '#F7F7F7',
         white: '#FFFFFF',
+
+        red: '#DC5151',
     },
 };
 
