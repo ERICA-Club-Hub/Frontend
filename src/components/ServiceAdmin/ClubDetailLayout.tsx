@@ -11,6 +11,14 @@ export default function ClubDetailLayout({
     data,
     button,
 }: ClubDetailLayoutProps) {
+    const categoryFields = [
+        { label: '동아리 분류', value: data.category.clubCategoryName },
+        { label: '동아리 분과', value: data.category.centralCategoryName },
+        { label: '연합 동아리 분류', value: data.category.unionCategoryName },
+        { label: '단과대', value: data.category.collegeName },
+        { label: '학과', value: data.category.departmentName },
+    ];
+
     return (
         <Container>
             <InnerContainer>
@@ -21,29 +29,20 @@ export default function ClubDetailLayout({
                         <Label>동아리 이름</Label>
                         <Content>{data.clubName}</Content>
                     </InnerWrapper>
-
                     <InnerWrapper>
                         <Label>대표자 이메일</Label>
                         <Content>{data.leaderEmail}</Content>
                     </InnerWrapper>
 
-                    <InnerWrapper>
-                        <Label>동아리 분류</Label>
-                        <Content>{data.category.clubCategoryName}</Content>
-                    </InnerWrapper>
-
-                    {data.category.clubCategoryName && (
-                        <InnerWrapper>
-                            <Label>학과 선택</Label>
-                            <Content>{data.category.clubCategoryName}</Content>
-                        </InnerWrapper>
-                    )}
-
-                    {data.category.collegeName && (
-                        <InnerWrapper>
-                            <Label>단과대 선택</Label>
-                            <Content>{data.category.collegeName}</Content>
-                        </InnerWrapper>
+                    {/* --- 동아리 카테고리 --- */}
+                    {categoryFields.map(
+                        (field) =>
+                            field.value && (
+                                <InnerWrapper>
+                                    <Label>{field.label}</Label>
+                                    <Content>{field.value}</Content>
+                                </InnerWrapper>
+                            ),
                     )}
 
                     <InnerWrapper>
@@ -56,12 +55,10 @@ export default function ClubDetailLayout({
                             <button>클릭해서 크게 보기</button>
                         </ImageContent>
                     </InnerWrapper>
-
                     <InnerWrapper>
                         <Label>동아리 한 줄 소개</Label>
                         <Content>{data.oneLiner}</Content>
                     </InnerWrapper>
-
                     <InnerWrapper>
                         <Label>동아리 간단소개</Label>
                         <Content>{data.briefIntroduction}</Content>
