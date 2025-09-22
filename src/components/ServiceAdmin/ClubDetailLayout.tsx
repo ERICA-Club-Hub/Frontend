@@ -107,6 +107,6 @@ const ImageContent = styled(Content)`
     button {
         font-size: 14px;
         font-weight: 400;
-        color: ${({ theme }) => theme.colors.mainGary};
+        color: ${({ theme }) => theme.colors.mainGray};
     }
 `;

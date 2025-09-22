@@ -59,7 +59,6 @@ const Container = styled.div`
     gap: 10px;
     flex: 1;
     width: 320px;
-    height: 85px;
     padding-bottom: 45px;
 `;
 

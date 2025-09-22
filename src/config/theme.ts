@@ -14,7 +14,7 @@ const theme: DefaultTheme = {
 
         black: '#000000',
         mainBlack: '#232323',
-        mainGary: '#606060',
+        mainGray: '#606060',
         subGray: '#989898',
         mediumGray: '#EAEAEA',
         lightGray: '#F7F7F7',
