@@ -2,6 +2,7 @@ import styled from 'styled-components';
 import Button from '../Common/Button';
 import ClubCard from '../Common/ClubCard';
 import { usePopularClub } from '@/hooks/queries/main/usePopularClub';
+import { PATHS } from '@/routes/paths';
 
 export default function ClubListSection() {
     const { popularResult, popularRequestSize, setPopularRequestSize } =
@@ -18,7 +19,7 @@ export default function ClubListSection() {
                             subTitle={clubInfo.oneLiner}
                             categoryName={clubInfo.categoryName}
                             recruitmentStatus={clubInfo.recruitmentStatus}
-                            to={`/club/${clubInfo.id}`}
+                            to={PATHS.CLUB_DETAIL(clubInfo.id)}
                         />
                     ))}
                 {popularRequestSize === 4 && (

@@ -15,6 +15,7 @@ import {
     StatusDropdown,
     UnionCategoryDropdown,
 } from '@/components/Search/SearchOptions/ClubSearchOptions';
+import { PATHS } from '@/routes/paths';
 
 export default function ClubSearchPage() {
     const [searchTerm, setSearchTerm] = useState<string>('');
@@ -181,7 +182,7 @@ export default function ClubSearchPage() {
                                         recruitmentStatus={
                                             club.recruitmentStatus
                                         }
-                                        to={`/club/${club.id}`}
+                                        to={PATHS.CLUB_DETAIL(club.id)}
                                     />
                                 );
                             })

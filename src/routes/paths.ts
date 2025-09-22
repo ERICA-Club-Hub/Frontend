@@ -2,8 +2,16 @@ import { ADMIN_TYPE } from '@/types/admin.types';
 import { DrawerMenuType } from '@/types/routes.types';
 
 export const PATHS = {
+    /* 동아리 상세 페이지 */
+    CLUB_DETAIL: (clubId: number) => `/club/${clubId}`,
+
+    /* 자료실 */
     RESOURCES: '/resources',
+
+    /* 서비스 공지사항 */
     NOTICE: '/notice',
+
+    /* 자주 묻는 질문 */
     FAQ: '/faq',
 
     // --- 어드민 대시보드 페이지 ---
