@@ -36,18 +36,17 @@ export default function ClubListView({
 
     return (
         <Container>
-            {data &&
-                data.map((club) => (
-                    <ClubCard
-                        key={club.clubRegistrationId}
-                        title={club.clubName}
-                        subTitle={club.oneLiner}
-                        categoryName={club.category.clubCategoryName}
-                        to={PATHS.ADMIN_SERVICE_CLUB_DETAIL(
-                            club.clubRegistrationId,
-                        )}
-                    />
-                ))}
+            {data.map((club) => (
+                <ClubCard
+                    key={club.clubRegistrationId}
+                    title={club.clubName}
+                    subTitle={club.oneLiner}
+                    categoryName={club.category.clubCategoryName}
+                    to={PATHS.ADMIN_SERVICE_CLUB_DETAIL(
+                        club.clubRegistrationId,
+                    )}
+                />
+            ))}
         </Container>
     );
 }

@@ -11,10 +11,6 @@ export default function ReviewRegistrationsPage() {
 
     const [searchTerm, setSearchTerm] = useState<string>('');
 
-    const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setSearchTerm(e.target.value);
-    };
-
     const filteredData = data?.filter((club) =>
         club.clubName.toLowerCase().includes(searchTerm.toLowerCase()),
     );
@@ -22,7 +18,7 @@ export default function ReviewRegistrationsPage() {
     return (
         <Container>
             <SearchInputWrapper>
-                <SearchInput value={searchTerm} onChange={handleSearchChange} />
+                <SearchInput value={searchTerm} setValue={setSearchTerm} />
             </SearchInputWrapper>
 
             <ClubListView

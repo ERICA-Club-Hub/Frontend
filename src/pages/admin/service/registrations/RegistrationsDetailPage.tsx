@@ -13,6 +13,15 @@ export default function RegistrationsDetailPage() {
     const { id } = useParams();
     const queryClient = useQueryClient();
 
+    if (!id) {
+        return (
+            <ErrorMessage>
+                잘못된 접근입니다. <br />
+                목록 페이지에서 다시 시도해주세요.
+            </ErrorMessage>
+        );
+    }
+
     const cachedData = queryClient.getQueryData<
         APIResponse<PendingRegistrationResponse>
     >(['registrations', 'pending']);

@@ -4,10 +4,14 @@ import SearchIcon from '@/assets/common/search.svg?react';
 
 interface SearchInputProps {
     value: string; // 검색어 상태
-    onChange: (e: React.ChangeEvent<HTMLInputElement>) => void; // 검색어 변경 핸들러
+    setValue: React.Dispatch<React.SetStateAction<string>>;
 }
 
-export default function SearchInput({ value, onChange }: SearchInputProps) {
+export default function SearchInput({ value, setValue }: SearchInputProps) {
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setValue(e.target.value);
+    };
+
     return (
         <InputWrapper>
             <StyledSearchIcon />
@@ -15,7 +19,7 @@ export default function SearchInput({ value, onChange }: SearchInputProps) {
                 inputSize="large"
                 placeholder="동아리 검색"
                 value={value}
-                onChange={onChange}
+                onChange={handleChange}
             />
         </InputWrapper>
     );
