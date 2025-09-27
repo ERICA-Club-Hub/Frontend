@@ -2,8 +2,16 @@ import { ADMIN_TYPE } from '@/types/admin.types';
 import { DrawerMenuType } from '@/types/routes.types';
 
 export const PATHS = {
+    /* 동아리 상세 페이지 */
+    CLUB_DETAIL: (clubId: number) => `/club/${clubId}`,
+
+    /* 자료실 */
     RESOURCES: '/resources',
+
+    /* 서비스 공지사항 */
     NOTICE: '/notice',
+
+    /* 자주 묻는 질문 */
     FAQ: '/faq',
 
     // --- 어드민 대시보드 페이지 ---
@@ -12,10 +20,14 @@ export const PATHS = {
 
     // --- 서비스 어드민 대시보드 ---
     /* (신규) 동아리 등록 신청 관리 */
-    ADMIN_SERVICE_PENDING_REGISTRATIONS: '/admin/service/register/manage',
+    ADMIN_SERVICE_REVIEW_REGISTRATIONS: '/admin/service/registrations',
 
     /* 동아리 관리 */
-    ADMIN_SERVICE_CLUB_MANAGE: '/admin/service/club/manage',
+    ADMIN_SERVICE_CLUB_MANAGE: '/admin/service/club-management',
+
+    /* 동아리 디테일 페이지 */
+    ADMIN_SERVICE_CLUB_DETAIL: (clubId: number) =>
+        `/admin/service/registrations/${clubId}`,
 
     /* 서비스 공지사항*/
     ADMIN_SERVICE_NOTICE: '/admin/service/notice',
@@ -81,7 +93,7 @@ export const adminMenus: DrawerMenuType[] = [
 export const serviceAdminMenus = [
     {
         label: '신규 동아리 등록 신청 확인하기',
-        url: PATHS.ADMIN_SERVICE_PENDING_REGISTRATIONS,
+        url: PATHS.ADMIN_SERVICE_REVIEW_REGISTRATIONS,
     },
     {
         label: '동아리 관리하기',

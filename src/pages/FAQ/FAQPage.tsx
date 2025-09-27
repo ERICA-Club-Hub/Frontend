@@ -16,7 +16,7 @@ const ContentWrapper = styled.div`
 `;
 
 const Title = styled.div`
-    color: ${props => props.theme.colors.mainBlack};
+    color: ${(props) => props.theme.colors.mainBlack};
     font-family: Pretendard;
     font-size: 16px;
     font-weight: 600;
@@ -42,15 +42,15 @@ const ContentBox = styled.div<{ $isVisible: boolean }>`
     width: 320px;
     flex-shrink: 0;
     border-radius: 10px;
-    border: 1px solid ${props => props.theme.colors.lightGray};
-    background: ${props => props.theme.colors.white};
+    border: 1px solid ${(props) => props.theme.colors.lightGray};
+    background: ${(props) => props.theme.colors.white};
     overflow: hidden;
     transition: max-height 0.3s ease-in-out;
 `;
 
 const ContentText = styled.div`
     width: 320px;
-    color: ${props => props.theme.colors.mainGary};
+    color: ${(props) => props.theme.colors.mainGray};
     font-family: Pretendard;
     font-size: 14px;
     font-style: normal;

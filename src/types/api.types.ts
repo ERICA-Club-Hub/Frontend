@@ -1,3 +1,10 @@
+interface APIResponse<T> {
+    result: T; // 데이터 내용
+    code: string; // 상태 코드
+    isSuccess: boolean; // 성공 여부
+    message: string; // 응답 메시지
+}
+
 interface RequestConfig {
     url: string;
     method?: string; // default GET으로 할거라 일단 optional
@@ -18,4 +25,4 @@ interface ErrorConfig {
     };
 }
 
-export type { RequestConfig, ErrorConfig };
+export type { APIResponse, RequestConfig, ErrorConfig };

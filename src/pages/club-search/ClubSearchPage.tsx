@@ -5,7 +5,7 @@ import styled from 'styled-components';
 import ReadingGlassIcon from '@/assets/common/reading_glass.svg?react';
 import ClubCard from '@/components/Common/ClubCard';
 import ErrorIcon from '@/assets/common/error-icon.svg?react';
-import { useNavigate, useSearchParams } from 'react-router-dom';
+import { useSearchParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import {
     CentralCategoryDropdown,
@@ -15,9 +15,9 @@ import {
     StatusDropdown,
     UnionCategoryDropdown,
 } from '@/components/Search/SearchOptions/ClubSearchOptions';
+import { PATHS } from '@/routes/paths';
 
 export default function ClubSearchPage() {
-    const navigate = useNavigate();
     const [searchTerm, setSearchTerm] = useState<string>('');
 
     const {
@@ -182,9 +182,7 @@ export default function ClubSearchPage() {
                                         recruitmentStatus={
                                             club.recruitmentStatus
                                         }
-                                        onClick={() =>
-                                            navigate(`/club/${club.id}`)
-                                        }
+                                        to={PATHS.CLUB_DETAIL(club.id)}
                                     />
                                 );
                             })

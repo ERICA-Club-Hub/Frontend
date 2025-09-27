@@ -15,11 +15,13 @@ declare module 'styled-components' {
 
             black: string;
             mainBlack: string;
-            mainGary: string;
+            mainGray: string;
             subGray: string;
             mediumGray: string;
             lightGray: string;
             white: string;
+
+            red: string;
         };
     }
 }
