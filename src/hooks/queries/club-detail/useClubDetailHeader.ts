@@ -1,7 +1,14 @@
 import { apiRequest } from '@/api/apiRequest';
-import { Category } from '@/utils/clubDetail/getCategoryEmoji';
 import { useQuery } from '@tanstack/react-query';
 import { RecruitmentStatus } from '@/utils/clubDetail/getRecruitmentStatus';
+
+interface Category {
+    clubCategoryName: string | null;
+    centralCategoryName: string | null;
+    unionCategoryName: string | null;
+    collegeName: string | null;
+    departmentName: string | null;
+}
 
 interface ApiClubDetailHeaderResponse {
     profileImageUrl?: string;

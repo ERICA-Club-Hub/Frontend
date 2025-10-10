@@ -2,13 +2,10 @@ import styled from 'styled-components';
 import { DEFAULT_IMG } from '@/constants/DEFAULT_IMG';
 import Button from '../Common/Button';
 
-import {
-    getCategoryEmoji,
-    getCategoryMapping,
-} from '@/utils/clubDetail/getCategoryEmoji';
 import { useClubDetail } from '@/hooks/club-detail/useClubDetail';
 import { useClubDetailHeader } from '@/hooks/queries/club-detail/useClubDetailHeader';
 import { getRecruitmentStatusLabel } from '@/utils/clubDetail/getRecruitmentStatus';
+import { getCentralCategoryDisplayByKoreanName } from '@/utils/search/searchKeywordMapping';
 
 interface RecruitStateProps {
     $state?: '모집 중' | '모집 예정' | '모집 마감';
@@ -32,8 +29,10 @@ export default function ClubDetailHeader() {
                 <ClubTags>
                     {/* TODO 추후에 data 여부에 따라 loading 적용 */}
                     <Tag>
-                        {data?.category && getCategoryEmoji(data?.category)}{' '}
-                        {data?.category && getCategoryMapping(data?.category)}
+                        {data?.category?.collegeName &&
+                            getCentralCategoryDisplayByKoreanName(
+                                data.category.collegeName,
+                            )}
                     </Tag>
                     <RecruitState>
                         {data?.recruitmentStatus &&
