@@ -13,7 +13,12 @@ interface RecruitStateProps {
 
 export default function ClubDetailHeader() {
     const { isPreview, clubId } = useClubDetail();
-    const { data } = useClubDetailHeader(clubId || '', isPreview);
+    const { data, isLoading } = useClubDetailHeader(clubId || '', isPreview);
+
+    if (isLoading) {
+        return <div>로딩 중...</div>;
+    }
+
     return (
         <ClubHeader>
             <ClubImage
@@ -27,7 +32,6 @@ export default function ClubDetailHeader() {
                 </PreviewContainer>
 
                 <ClubTags>
-                    {/* TODO 추후에 data 여부에 따라 loading 적용 */}
                     <Tag>
                         {data?.category?.clubCategoryName &&
                             getCentralCategoryDisplayByKoreanName(
