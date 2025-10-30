@@ -1,3 +1,4 @@
+import { AdminType } from '@/types/admin.types';
 import { getAccessToken } from '@/utils/tokenHandler';
 import { atom, selector } from 'recoil';
 import { recoilPersist } from 'recoil-persist';
@@ -14,17 +15,17 @@ const isAuthenticated = atom({
     effects_UNSTABLE: [persistAtom],
 });
 
-// 어드민 유형을 확인하는 상태 (club, union, service)
-const adminType = atom<string | null>({
-    key: 'adminType',
-    default: null, // 초기값은 null
-    effects_UNSTABLE: [persistAtom],
-});
-
 // 로그인 여부를 확인하는 selector
 const isAuthenticatedSelector = selector({
     key: 'isAuthenticatedSelector',
     get: ({ get }) => get(isAuthenticated), // isAuthenticated의 현재 상태 값을 가져옴
+});
+
+// 어드민 유형을 확인하는 상태 (club, service, null)
+const adminType = atom<AdminType>({
+    key: 'adminType',
+    default: null, // 초기값은 null
+    effects_UNSTABLE: [persistAtom],
 });
 
 // 어드민 유형을 확인하는 selector

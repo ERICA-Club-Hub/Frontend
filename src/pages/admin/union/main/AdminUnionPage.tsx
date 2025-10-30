@@ -1,4 +1,4 @@
-import { ArrowLinkButton } from '@/components/Common';
+import { NavigationLink } from '@/components/Common';
 import styled from 'styled-components';
 
 const AdminUnionPage = () => {
@@ -8,12 +8,12 @@ const AdminUnionPage = () => {
                 <h1>총동아리연합회님, 환영해요.</h1>
 
                 <NavigationWrapper>
-                    <ArrowLinkButton size="large" url="/admin/union/notice">
+                    <NavigationLink size="large" url="/admin/union/notice">
                         총동연 공지사항 등록하기
-                    </ArrowLinkButton>
-                    <ArrowLinkButton size="large" url="/admin/union/resources">
+                    </NavigationLink>
+                    <NavigationLink size="large" url="/admin/union/resources">
                         자료 등록하기
-                    </ArrowLinkButton>
+                    </NavigationLink>
                 </NavigationWrapper>
             </Wrapper>
         </Container>

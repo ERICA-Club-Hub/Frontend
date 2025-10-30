@@ -3,11 +3,7 @@ import {
     AdminActivitiesFeedPage,
     AdminClubDetailPage,
     AdminClubPage,
-    AdminClubRegisterManagePage,
     AdminLoginPage,
-    // AdminResourcesRegisterPage,
-    // AdminUnionNoticePage,
-    // AdminUnionPage,
     ClubDetailPage,
     ClubIntroPage,
     ClubRegisterPage,
@@ -20,19 +16,19 @@ import {
     ResourcesPage,
     ServiceNoticePage,
     SummaryInfoPage,
-    UnionNoticePage,
 } from '@/pages';
 import { RedirectIfAuthenticated } from './RedirectIfAuthenticated';
 import { AuthGuard } from './AuthGuard';
-// import UnionAdminGuard from './UnionAdminGuard';
 import ClubAdminGurad from './ClubAdminGurad';
-// import AdminUnionNoticeEditPage from '@/pages/admin/union/notice/AdminUnionNoticeEditPage';
-// import { AdminUnionNoticeRegisterPage } from '@/pages/admin/union/notice/AdminUnionNoticeRegisterPage';
 import CompleteClubRegisterPage from '@/pages/admin/auth/register/CompleteClubRegisterPage';
 import ServiceAdminGuard from './ServiceAdminGuard';
+import ServiceAdminPage from '@/pages/admin/service/dashboard/ServiceAdminPage';
 import ClubDetailPreviewPage from '@/pages/club-detail-preview/ClubDetailPreviewPage';
 import ClubSearchPage from '@/pages/club-search/ClubSearchPage';
 import MainPage from '@/pages/main/MainPage';
+import ReviewRegistrationsPage from '@/pages/admin/service/registrations/ReviewRegistrationsPage';
+import ClubManagementPage from '@/pages/admin/service/club-management/ClubManagementPage';
+import RegistrationsDetailPage from '@/pages/admin/service/registrations/RegistrationsDetailPage';
 
 export default function AppRoutes() {
     return (
@@ -46,11 +42,8 @@ export default function AppRoutes() {
             {/* 동아리 검색 페이지 */}
             <Route path="/club/search" element={<ClubSearchPage />} />
 
-            {/* 총동연 공지사항 페이지 */}
-            <Route path="/union/notice" element={<UnionNoticePage />} />
-
             {/* 서비스 공지사항 페이지 */}
-            <Route path="/club/notice" element={<ServiceNoticePage />} />
+            <Route path="/notice" element={<ServiceNoticePage />} />
 
             {/* 자료실 페이지 */}
             <Route path="/resources" element={<ResourcesPage />} />
@@ -67,21 +60,24 @@ export default function AppRoutes() {
             {/* 로그인됐을 때 로그인 페이지 접근 제한 */}
             <Route path="/admin/login" element={<RedirectIfAuthenticated />}>
                 {/* 로그인 페이지 */}
-                <Route path="" element={<AdminLoginPage />} />
+                <Route index element={<AdminLoginPage />} />
             </Route>
 
-            {/* 동아리 등록 페이지 */}
-            <Route path="/admin/club/register" element={<ClubRegisterPage />} />
+            {/* --- 동아리 등록 --- */}
+            <Route path="/admin/club/register">
+                {/* 동아리 등록 페이지 */}
+                <Route index element={<ClubRegisterPage />} />
 
-            {/* 동아리 등록 성공 페이지 */}
-            <Route
-                path="/admin/club/register/complete"
-                element={<CompleteClubRegisterPage />}
-            />
+                {/* 동아리 등록 성공 페이지 */}
+                <Route
+                    path="/admin/club/register/complete"
+                    element={<CompleteClubRegisterPage />}
+                />
+            </Route>
 
-            {/* 어드민 접근 권한 필요 -> 권한 없을 때 메인으로 리다이렉트 */}
+            {/* --- 어드민 --- */}
             <Route path="/admin" element={<AuthGuard />}>
-                {/* 동아리 어드민 */}
+                {/* --- 동아리 어드민 --- */}
                 {/* 서비스 관리자, 동아리 대표 접근 가능 */}
                 <Route path="/admin/club/:id" element={<ClubAdminGurad />}>
                     {/* 동아리 어드민 홈*/}
@@ -130,16 +126,31 @@ export default function AppRoutes() {
                     />
                 </Route>
 
-                <Route
-                    path="/admin/club/register/manage"
-                    element={<ServiceAdminGuard />}
-                >
-                    <Route index element={<AdminClubRegisterManagePage />} />
+                {/* --- 서비스 어드민 --- */}
+                <Route path="/admin/service" element={<ServiceAdminGuard />}>
+                    {/* 서비스 어드민 대시보드 */}
+                    <Route index element={<ServiceAdminPage />} />
+
+                    {/* 신규 동아리 등록 신청 확인 */}
+                    <Route
+                        path="/admin/service/registrations"
+                        element={<ReviewRegistrationsPage />}
+                    />
+                    <Route
+                        path="/admin/service/registrations/:id"
+                        element={<RegistrationsDetailPage />}
+                    />
+
+                    {/* 동아리 관리 페이지 */}
+                    <Route
+                        path="/admin/service/club-management"
+                        element={<ClubManagementPage />}
+                    />
                 </Route>
 
-                {/* 총동연 어드민 */}
-                {/* 총동연, 서비스 관리자 접근 가능 */}
-                {/* <Route path="/admin/union" element={<UnionAdminGuard />}> */}
+                {/* 총동연 공지사항 페이지 */}
+                {/* <Route path="/union/notice" element={<UnionNoticePage />} /> */}
+
                 {/* 총동연 어드민 홈*/}
                 {/* <Route path="/admin/union" element={<AdminUnionPage />} /> */}
 

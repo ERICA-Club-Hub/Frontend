@@ -12,8 +12,6 @@ export const RedirectIfAuthenticated = () => {
     return isAuthenticated ? (
         adminType === 'club' ? (
             <Navigate to={`/admin/club/${clubId}`} replace={true} />
-        ) : adminType === 'union' ? (
-            <Navigate to="/admin/union" replace={true} />
         ) : (
             <Navigate to="/" />
         )

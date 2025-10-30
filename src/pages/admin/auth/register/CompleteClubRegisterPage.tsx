@@ -39,6 +39,6 @@ const GuideText = styled.div`
     font-size: 14px;
     font-weight: 500;
     margin-bottom: 40px;
-    color: ${({ theme }) => theme.colors.mainGary};
+    color: ${({ theme }) => theme.colors.mainGray};
     text-align: center;
 `;

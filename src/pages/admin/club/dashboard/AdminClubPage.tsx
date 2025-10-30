@@ -1,11 +1,13 @@
-import { ArrowLinkButton } from '@/components/Common';
-import { clubIdSelector, clubNameSelector } from '@/store/clubInfoState';
 import { useRecoilValue } from 'recoil';
 import styled from 'styled-components';
+import { NavigationLink } from '@/components/Common';
+import { getClubAdminMenus } from '@/routes/paths';
+import { clubIdSelector, clubNameSelector } from '@/store/clubInfoState';
 
 const AdminClubPage = () => {
     const clubId = useRecoilValue(clubIdSelector);
     const clubName = useRecoilValue(clubNameSelector);
+    const menus = clubId !== null ? getClubAdminMenus(clubId) : [];
 
     return (
         <Container>
@@ -13,24 +15,15 @@ const AdminClubPage = () => {
                 <h1>{clubName}님, 환영해요.</h1>
 
                 <NavigationWrapper>
-                    <ArrowLinkButton
-                        size="large"
-                        url={`/admin/club/${clubId}/summary-info`}
-                    >
-                        동아리 상세페이지 설정하기
-                    </ArrowLinkButton>
-                    <ArrowLinkButton
-                        size="large"
-                        url={`/admin/club/${clubId}/activities/feed`}
-                    >
-                        활동로그 작성하기
-                    </ArrowLinkButton>
-                    <ArrowLinkButton
-                        size="large"
-                        url={`/admin/club/${clubId}/register/edit`}
-                    >
-                        동아리 등록 정보 수정하기
-                    </ArrowLinkButton>
+                    {menus.map((menu) => (
+                        <NavigationLink
+                            key={menu.label}
+                            size="large"
+                            url={menu.url}
+                        >
+                            {menu.label}
+                        </NavigationLink>
+                    ))}
                 </NavigationWrapper>
             </Wrapper>
         </Container>

@@ -2,22 +2,22 @@ import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import NavigateArrow from '@/assets/common/navigate-arrow.svg?react';
 
-// large: 320 x 45
-// small: 288 x 17
+// large: 320 x 45  - 어드민 대시보드에서 사용
+// small: 288 x 17  - AppHeader의 NavigationDrawer에서 사용
 
 type Size = 'large' | 'small';
 
-interface ArrowLinkButtonProps {
+interface NavigationLinkProps {
     children: React.ReactNode;
     url: string;
     size?: Size;
 }
 
-const ArrowLinkButton = ({
+const NavigationLink = ({
     children,
     url,
     size = 'small',
-}: ArrowLinkButtonProps) => {
+}: NavigationLinkProps) => {
     return (
         <StyledLink to={url} size={size}>
             {children}
@@ -29,7 +29,7 @@ const ArrowLinkButton = ({
     );
 };
 
-export { ArrowLinkButton };
+export { NavigationLink };
 
 const StyledLink = styled(Link)<{ size: Size }>`
     display: flex;

@@ -1,14 +1,17 @@
-import { apiRequest } from '@/api/apiRequest';
-import { queryClient } from '@/config/queryClient';
-import { ClubIdType } from '@/types';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { useEffect } from 'react';
+import { apiRequest } from '@/api/apiRequest';
+import { queryClient } from '@/config/queryClient';
+import { APIResponse, ClubIdType } from '@/types';
+import { PendingRegistrationResponse } from '@/types/club.types';
 
 // 등록 요청 동아리 조회
 const useClubRegistrationRequestQuery = () => {
-    const { isSuccess, data, isError } = useQuery({
-        queryKey: ['clubRegisterRequest'],
-        queryFn: async () => {
+    const { isPending, isSuccess, data, isError } = useQuery({
+        queryKey: ['registrations', 'pending'],
+        queryFn: async (): Promise<
+            APIResponse<PendingRegistrationResponse>
+        > => {
             return await apiRequest({
                 url: `/api/clubs/service-admin/registrations`,
                 method: 'GET',
@@ -26,7 +29,7 @@ const useClubRegistrationRequestQuery = () => {
         }
     }, [isSuccess, data]);
 
-    return { data };
+    return { isPending, data, isError };
 };
 
 // 동아리 등록 요청 수락
@@ -41,7 +44,7 @@ const useClubRegistrationRequestMutation = () =>
         },
         onSuccess: () => {
             queryClient.invalidateQueries({
-                queryKey: ['clubRegisterRequest'],
+                queryKey: ['registrations', 'pending'],
             });
         },
         onError: (error) => {
@@ -49,11 +52,11 @@ const useClubRegistrationRequestMutation = () =>
         },
     });
 
-function useAdminClubQueries() {
+function useServiceAdminQueries() {
     return {
         useClubRegistrationRequestQuery,
         useClubRegistrationRequestMutation,
     };
 }
 
-export default useAdminClubQueries;
+export default useServiceAdminQueries;
