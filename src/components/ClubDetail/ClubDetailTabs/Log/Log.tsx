@@ -1,25 +1,19 @@
-import { useState } from 'react';
 import styled from 'styled-components';
-import { ActivityLogModal } from '../../ActivityLogModal';
 import { useActivityLogList } from '@/hooks/queries/club-detail/useClubLog';
 import { useClubIdByParams } from '@/hooks/useClubIdByParams';
+import { useNavigate } from 'react-router-dom';
 
 export default function Log() {
     const clubId = useClubIdByParams();
+    const navigate = useNavigate();
     const { data: activityLogResponse, isLoading } = useActivityLogList(clubId);
-    const [modalOpen, setModalOpen] = useState<boolean>(false);
-    const [selectedImageId, setSelectedImageId] = useState<number | undefined>(
-        0,
-    );
-    const [selectedImageUrl, setSelectedImageUrl] = useState<
-        string | undefined
-    >('');
 
-    const handleClickImg = (id?: number, url?: string) => {
-        if (!id || !url) alert('잘못된 활동 로그에 대한 접근입니다.');
-        setSelectedImageUrl(url);
-        setSelectedImageId(id);
-        setModalOpen(true);
+    const handleClickImg = (activityId?: number) => {
+        if (!activityId) {
+            alert('잘못된 활동 로그에 대한 접근입니다.');
+            return;
+        }
+        navigate(`/club/${clubId}/${activityId}`);
     };
 
     if (isLoading) {
@@ -32,32 +26,15 @@ export default function Log() {
     return activityLogList.length > 0 ? (
         <Container>
             <LogGrid>
-                <LogImg
-                    onClick={() => {
-                        handleClickImg(0, '');
-                    }}
-                    src={'asdf'}
-                />
                 {activityLogList.map((activity) => (
                     <LogImg
-                        onClick={() => {
-                            handleClickImg(
-                                activity.activityId,
-                                activity.thumbnailUrl,
-                            );
-                        }}
+                        onClick={() => handleClickImg(activity.activityId)}
                         key={activity.activityId}
                         src={activity.thumbnailUrl}
+                        alt="activity log"
                     />
                 ))}
             </LogGrid>
-            {modalOpen && (
-                <ActivityLogModal
-                    setModalOpen={setModalOpen}
-                    selectedImageId={selectedImageId}
-                    selectedImageUrl={selectedImageUrl}
-                />
-            )}
         </Container>
     ) : (
         <NullContainer>
@@ -98,6 +75,12 @@ const LogImg = styled.img`
     width: 92px;
     height: 92px;
     border-radius: 5px;
+    cursor: pointer;
+    transition: transform 0.2s;
+
+    &:hover {
+        transform: scale(1.05);
+    }
 `;
 
 const NullContainer = styled.div`

@@ -31,7 +31,7 @@ export const useActivityLogDetail = (activityId: string) => {
             });
 
             if (response.isSuccess) {
-                return response.result;
+                return response;
             }
             throw new Error('활동 로그 상세 불러오기 실패');
         },

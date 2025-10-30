@@ -29,6 +29,7 @@ import MainPage from '@/pages/main/MainPage';
 import ReviewRegistrationsPage from '@/pages/admin/service/registrations/ReviewRegistrationsPage';
 import ClubManagementPage from '@/pages/admin/service/club-management/ClubManagementPage';
 import RegistrationsDetailPage from '@/pages/admin/service/registrations/RegistrationsDetailPage';
+import ClubActivityLogDetailPage from '@/pages/club-detail/ClubActivityLogDetailPage';
 
 export default function AppRoutes() {
     return (
@@ -38,6 +39,12 @@ export default function AppRoutes() {
 
             {/* 동아리 상세 페이지 */}
             <Route path="/club/:id" element={<ClubDetailPage />} />
+
+            {/* 동아리 활동 로그 상세 페이지 */}
+            <Route
+                path="/club/:id/:activityId"
+                element={<ClubActivityLogDetailPage />}
+            />
 
             {/* 동아리 검색 페이지 */}
             <Route path="/club/search" element={<ClubSearchPage />} />

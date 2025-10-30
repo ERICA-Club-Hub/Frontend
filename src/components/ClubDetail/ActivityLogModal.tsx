@@ -1,208 +1,208 @@
-import { apiRequest } from '@/api/apiRequest';
-import { useClickOutside } from '@/hooks/actions/useClickOutside';
-import { useEffect, useRef, useState } from 'react';
-import closeIcon from '../../assets/common/closed-btn.svg';
-import left from '../../assets/common/Expand_right.svg';
-import right from '../../assets/common/card_right_arrow.svg';
+import { useRef } from 'react';
 import styled from 'styled-components';
 import { DEFAULT_IMG } from '@/constants/DEFAULT_IMG';
-import { IActivityImageDTO } from '@/types/activity-log.types';
+import { useActivityIdByParams } from '@/hooks/useActivityIdByParams';
+import { useActivityLogDetail } from '@/hooks/queries/club-detail/useClubLog';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { Pagination, Navigation } from 'swiper/modules';
+import 'swiper/css';
+import 'swiper/css/pagination';
+import 'swiper/css/navigation';
 
-interface LogMoadlProps {
-    clubName?: string | null;
-    clubImgUrl?: string | null;
-    setModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
-    selectedImageId: number;
-    selectedImageUrl: string;
-}
-
-// 여기서 동아리 명, 동아리 이미지도 사용되는데 props로 전달해서 사용해야할지?.?
-// 이전 이미지 다음 이미지 정보도 API에 담아서 같이 주겠죠?!
-const ActivityLogModal = ({
-    clubName,
-    clubImgUrl,
-    setModalOpen,
-    selectedImageId,
-}: LogMoadlProps) => {
-    const [modalContent, setModalContent] = useState<string>('');
-    const [modalDate, setModalDate] = useState<string>('');
-    const [activityList, setActivityList] = useState<IActivityImageDTO[]>();
-    const [currentIdx, setCurrentIdx] = useState<number>(0);
-
-    useEffect(() => {
-        const getActivities = async (activityId: number) => {
-            const response = await apiRequest({
-                url: `/api/activities/${activityId}`,
-            });
-            setActivityList(response.result.activityImageDTOList);
-            setModalContent(response.result.content);
-            setModalDate(response.result.date);
-        };
-        getActivities(selectedImageId);
-    }, [selectedImageId]);
-
-    const handlePrevImage = () => {
-        if (activityList && currentIdx > 0) {
-            setCurrentIdx(currentIdx - 1);
-        }
-    };
-
-    const handleNextImage = () => {
-        if (activityList && currentIdx < activityList.length - 1) {
-            setCurrentIdx(currentIdx + 1);
-        }
-    };
+const ActivityLogDetail = () => {
+    const activityId = useActivityIdByParams();
+    const { data: activityLogDetailResponse, isLoading } =
+        useActivityLogDetail(activityId);
 
     const ref = useRef<HTMLDivElement>(null);
-    useClickOutside(ref, () => {
-        setModalOpen(false);
-    });
+
+    if (isLoading) {
+        return <div>로딩 중...</div>;
+    }
+
+    const activityDetail = activityLogDetailResponse?.result;
+    const imageList = activityDetail?.activityImageDTOList || [];
+
     return (
-        <ModalWrapper>
-            <ModalOverlay>
-                <Modal ref={ref}>
-                    {activityList && (
-                        <>
-                            <Header>
-                                <ProfileSection>
-                                    <ProfileImage
-                                        src={clubImgUrl || DEFAULT_IMG}
-                                        alt="club logo"
-                                    />
-                                    <ClubName>{clubName}</ClubName>
-                                </ProfileSection>
-                                <CloseButton
-                                    onClick={() => setModalOpen(false)}
-                                >
-                                    <img src={closeIcon} />
-                                </CloseButton>
-                            </Header>
-                            <ImageSection>
-                                <NavButton onClick={handlePrevImage}>
-                                    <img src={left} />
-                                </NavButton>
-                                <MainImage
-                                    src={activityList[currentIdx].imageUrl}
-                                    alt="activity log"
-                                />
-                                <NavButton onClick={handleNextImage}>
-                                    <img src={right} />
-                                </NavButton>
-                            </ImageSection>
-                            <ContentSection>
-                                <Date>{modalDate}</Date>
-                                <Divider />
-                                <Description>{modalContent}</Description>
-                            </ContentSection>
-                        </>
-                    )}
-                </Modal>
-            </ModalOverlay>
-        </ModalWrapper>
+        <Container ref={ref}>
+            <ClubInfo>
+                <ClubInfoProfileImage
+                    src={activityDetail?.clubImageUrl || DEFAULT_IMG}
+                    alt="club profile"
+                />
+                <LogInfo>
+                    <LogInfoClubName>
+                        {activityDetail?.clubName || 'UMC ERICA'}
+                    </LogInfoClubName>
+                    <LogInfoDate>
+                        {activityDetail?.date || '2024.12.01'}
+                    </LogInfoDate>
+                </LogInfo>
+            </ClubInfo>
+
+            <SwiperWrapper>
+                <Swiper
+                    modules={[Pagination, Navigation]}
+                    spaceBetween={10}
+                    slidesPerView={'auto'}
+                    centeredSlides={true}
+                    pagination={{
+                        clickable: true,
+                        type: 'bullets',
+                    }}
+                >
+                    {imageList?.map((imageUrl, index) => (
+                        <SwiperSlide key={index}>
+                            <ActivityImage
+                                src={imageUrl.imageUrl}
+                                alt={`activity ${index + 1}`}
+                            />
+                        </SwiperSlide>
+                    ))}
+                </Swiper>
+            </SwiperWrapper>
+
+            {activityDetail?.content && (
+                <ContentSection>
+                    <ContentTitle>활동 내용</ContentTitle>
+                    <ContentText>{activityDetail.content}</ContentText>
+                </ContentSection>
+            )}
+        </Container>
     );
 };
 
-const ModalWrapper = styled.div`
-    z-index: 1500;
-    position: absolute;
-`;
-
-const ModalOverlay = styled.div`
-    background-color: rgb(0 0 0 /71%);
-    position: fixed;
-    justify-content: center;
-    inset: 0px;
+const Container = styled.div`
+    width: 100%;
+    min-height: 100vh;
     display: flex;
-    align-items: center;
+    flex-direction: column;
 `;
 
-const Modal = styled.div`
-    min-height: 350px;
-    max-height: 422px;
-    width: 320px;
+const ClubInfo = styled.section`
+    height: 66px;
+    width: 100%;
+    padding: 15px 0 15px 29px;
     background-color: white;
-    border-radius: 10px;
-    padding: 20px;
-`;
-
-const Header = styled.div`
     display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 14px;
+    gap: 10px;
+    margin-bottom: 15px;
 `;
 
-const ProfileSection = styled.div`
-    display: flex;
-    align-items: center;
-`;
-
-const ProfileImage = styled.img`
-    margin-right: 10px;
-    width: 29px;
-    height: 29px;
-    border-radius: 50%;
-`;
-
-const ClubName = styled.span`
-    font-weight: 500;
-    font-size: 14px;
-    line-height: 16.8px;
-`;
-
-const CloseButton = styled.button`
-    align-items: center;
-    display: flex;
-    width: 20px;
-    height: 20px;
-    cursor: pointer;
-`;
-
-const ImageSection = styled.div`
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 10px;
-`;
-
-const NavButton = styled.button`
-    width: 24px;
-    height: 24px;
-    background: none;
-    border: none;
-    cursor: pointer;
-    padding-left: 9px;
-    padding-right: 9px;
-    padding-top: 6px;
-    padding-bottom: 6px;
-    font-weight: 800;
-`;
-
-const MainImage = styled.img`
-    width: 210px;
-    height: 210px;
+const ClubInfoProfileImage = styled.img`
+    height: 36px;
+    width: 36px;
+    border-radius: 5.33px;
     object-fit: cover;
-    border-radius: 5px;
 `;
 
-const ContentSection = styled.div``;
-
-const Date = styled.div`
-    color: rgba(152, 152, 152, 1);
-    margin-bottom: 7px;
+const LogInfo = styled.div`
+    display: flex;
+    gap: 5px;
+    flex-direction: column;
+    height: 100%;
 `;
 
-const Divider = styled.hr`
-    border: none;
-    border-top: 1px solid rgba(234, 234, 234, 1);
-    margin: 7px 0;
-`;
-
-const Description = styled.p`
-    white-space: pre-line;
+const LogInfoClubName = styled.h3`
     font-weight: 500;
     font-size: 14px;
-    line-height: 18px;
+    color: black;
 `;
 
-export { ActivityLogModal };
+const LogInfoDate = styled.span`
+    font-weight: 500;
+    font-size: 12px;
+    color: #989898;
+`;
+
+const SwiperWrapper = styled.div`
+    width: 100%;
+    padding-bottom: 28px;
+
+    .swiper {
+        width: 100%;
+        display: flex;
+        gap: 10px;
+        overflow: visible;
+    }
+
+    .swiper-slide {
+        width: 200px;
+        height: 200px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 10px;
+        overflow: hidden;
+        transition: opacity 0.3s;
+        opacity: 0.4;
+        &::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.6);
+            z-index: 1;
+            transition: opacity 0.3s;
+        }
+    }
+
+    .swiper-slide-active {
+        opacity: 1;
+        &::before {
+            opacity: 0;
+        }
+    }
+
+    .swiper-pagination {
+        background-color: white;
+        padding: 2px;
+        gap: 10px;
+        border-radius: 100px;
+        width: fit-content;
+        bottom: -30px;
+        left: 50%;
+        transform: translateX(-50%);
+
+        .swiper-pagination-fraction {
+            color: white;
+            background-color: rgba(0, 0, 0, 0.5);
+            padding: 4px 12px;
+            border-radius: 12px;
+            width: fit-content;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+    }
+`;
+
+const ActivityImage = styled.img`
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+`;
+
+const ContentSection = styled.section`
+    background-color: white;
+    padding: 20px;
+    margin: 15px 20px 0 20px;
+    border-radius: 10px;
+`;
+
+const ContentTitle = styled.h4`
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 12px;
+    color: #000;
+`;
+
+const ContentText = styled.p`
+    font-size: 14px;
+    line-height: 1.6;
+    color: #333;
+    white-space: pre-wrap;
+`;
+
+export { ActivityLogDetail };
