@@ -10,25 +10,25 @@
  * ---------------------------------------------------------------
  */
 
-import { ApiResponseString } from "./data-contracts";
-import { HttpClient, RequestParams } from "./http-client";
+import { ApiResponseString } from './data-contracts';
+import { HttpClient, RequestParams } from './http-client';
 
 export class HealthCheck<
-  SecurityDataType = unknown,
+    SecurityDataType = unknown,
 > extends HttpClient<SecurityDataType> {
-  /**
-   * No description
-   *
-   * @tags 서버 상태 확인
-   * @name HealthCheck
-   * @request GET:/health-check
-   * @secure
-   */
-  healthCheck = (params: RequestParams = {}) =>
-    this.request<ApiResponseString, any>({
-      path: `/health-check`,
-      method: "GET",
-      secure: true,
-      ...params,
-    });
+    /**
+     * No description
+     *
+     * @tags Health Check
+     * @name HealthCheck
+     * @request GET:/health-check
+     * @secure
+     */
+    healthCheck = (params: RequestParams = {}) =>
+        this.request<ApiResponseString, any>({
+            path: `/health-check`,
+            method: 'GET',
+            secure: true,
+            ...params,
+        });
 }
