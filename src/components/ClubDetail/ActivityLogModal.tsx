@@ -1,4 +1,3 @@
-import { useRef } from 'react';
 import styled from 'styled-components';
 import { DEFAULT_IMG } from '@/constants/DEFAULT_IMG';
 import { useActivityIdByParams } from '@/hooks/useActivityIdByParams';
@@ -7,14 +6,11 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import { Pagination, Navigation } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/pagination';
-import 'swiper/css/navigation';
 
 const ActivityLogDetail = () => {
     const activityId = useActivityIdByParams();
     const { data: activityLogDetailResponse, isLoading } =
         useActivityLogDetail(activityId);
-
-    const ref = useRef<HTMLDivElement>(null);
 
     if (isLoading) {
         return <div>로딩 중...</div>;
@@ -24,7 +20,7 @@ const ActivityLogDetail = () => {
     const imageList = activityDetail?.activityImageDTOList || [];
 
     return (
-        <Container ref={ref}>
+        <Container>
             <ClubInfo>
                 <ClubInfoProfileImage
                     src={activityDetail?.clubImageUrl || DEFAULT_IMG}
@@ -135,7 +131,6 @@ const SwiperWrapper = styled.div`
         border-radius: 10px;
         overflow: hidden;
         transition: opacity 0.3s;
-        opacity: 0.4;
         &::before {
             content: '';
             position: absolute;
@@ -159,7 +154,6 @@ const SwiperWrapper = styled.div`
     .swiper-pagination {
         background-color: white;
         padding: 2px;
-        gap: 10px;
         border-radius: 100px;
         width: fit-content;
         bottom: -30px;
