@@ -2,18 +2,18 @@ import { useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 
 /**
- * URL params에서 clubId를 추출하고, undefined인 경우 메인 페이지로 리다이렉트
- * @returns clubId(무조건 string)
+ * URL params에서 id를 추출하고, undefined인 경우 메인 페이지로 리다이렉트
+ * @returns id(무조건 string)
  */
 export const useClubIdByParams = (): string => {
-    const { clubId } = useParams<{ clubId: string }>();
+    const { id } = useParams<{ id: string }>();
     const navigate = useNavigate();
 
     useEffect(() => {
-        if (!clubId || clubId.trim() === '') {
+        if (!id || id.trim() === '') {
             navigate('/', { replace: true });
         }
-    }, [clubId, navigate]);
+    }, [id, navigate]);
 
-    return clubId as string;
+    return id as string;
 };
