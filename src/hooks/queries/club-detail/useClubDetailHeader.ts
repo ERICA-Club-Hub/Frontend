@@ -1,28 +1,11 @@
 import { apiRequest } from '@/api/apiRequest';
 import { useQuery } from '@tanstack/react-query';
-import { RecruitmentStatus } from '@/utils/clubDetail/getRecruitmentStatus';
-
-interface Category {
-    clubCategoryName: string | null;
-    centralCategoryName: string | null;
-    unionCategoryName: string | null;
-    collegeName: string | null;
-    departmentName: string | null;
-}
-
-interface ApiClubDetailHeaderResponse {
-    profileImageUrl?: string;
-    description: string;
-    name: string;
-    category: Category;
-    recruitmentStatus: RecruitmentStatus;
-    applicationUrl: string;
-}
+import { ClubOverviewResponse } from '@/api/data-contracts';
 
 export const useClubDetailHeader = (clubId: string, isPreview: boolean) => {
     return useQuery({
         queryKey: ['clubDetailHeader', clubId, isPreview],
-        queryFn: async (): Promise<ApiClubDetailHeaderResponse> => {
+        queryFn: async (): Promise<ClubOverviewResponse> => {
             const requestUrl = isPreview
                 ? `/api/clubs/club-admin/${clubId}/draft`
                 : `/api/clubs/${clubId}/overview`;

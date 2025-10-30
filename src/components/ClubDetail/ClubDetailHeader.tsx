@@ -29,9 +29,9 @@ export default function ClubDetailHeader() {
                 <ClubTags>
                     {/* TODO 추후에 data 여부에 따라 loading 적용 */}
                     <Tag>
-                        {data?.category?.collegeName &&
+                        {data?.category?.clubCategoryName &&
                             getCentralCategoryDisplayByKoreanName(
-                                data.category.collegeName,
+                                data.category.clubCategoryName,
                             )}
                     </Tag>
                     <RecruitState>
