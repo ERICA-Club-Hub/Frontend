@@ -8,7 +8,8 @@
         "build": "tsc -b && vite build",
         "lint": "eslint .",
         "preview": "vite preview",
-        "gen-pwa": "pwa-assets-generator --preset minimal public/logo.svg"
+        "gen-pwa": "pwa-assets-generator --preset minimal public/logo.svg",
+        "generate-api": "swagger-typescript-api generate -p https://dev.backend.hanjari.site/v3/api-docs -o ./src/api --modular --extract-request-params"
     },
     "dependencies": {
         "@tanstack/react-query": "^5.62.11",
@@ -34,6 +35,7 @@
         "eslint-plugin-react-hooks": "^5.0.0",
         "eslint-plugin-react-refresh": "^0.4.16",
         "globals": "^15.14.0",
+        "swagger-typescript-api": "^13.2.15",
         "typescript": "^5.7.3",
         "typescript-eslint": "^8.18.2",
         "vite": "^6.0.5",
