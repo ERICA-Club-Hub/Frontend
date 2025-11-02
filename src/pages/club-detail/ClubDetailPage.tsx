@@ -13,9 +13,15 @@ const ClubDetailPage = () => {
     return (
         <PageContainer>
             <ClubDetailHeader />
-            {/* <Tab activeTab={activeTab} setActiveTab={setActiveTab} /> */}
-            <ClubDetailTab setActiveTab={setActiveTab} activeTab={activeTab} />
-            <TabContents activeTab={activeTab} />
+            <TabContainer>
+                <ClubDetailTab
+                    setActiveTab={setActiveTab}
+                    activeTab={activeTab}
+                />
+            </TabContainer>
+            <TabContentsContainer>
+                <TabContents activeTab={activeTab} />
+            </TabContentsContainer>
         </PageContainer>
     );
 };
@@ -25,6 +31,19 @@ const PageContainer = styled.div`
     flex-direction: column;
     align-items: center;
     padding-top: 20px;
+`;
+
+const TabContainer = styled.div`
+    width: 100%;
+    background: white;
+    display: flex;
+    justify-content: center;
+    height: 47px;
+`;
+
+const TabContentsContainer = styled.div`
+    margin-top: 15px;
+    margin-bottom: 20px;
 `;
 
 export { ClubDetailPage };

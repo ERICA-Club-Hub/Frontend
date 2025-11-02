@@ -5,24 +5,35 @@ import { usePopularClub } from '@/hooks/queries/main/usePopularClub';
 import { PATHS } from '@/routes/paths';
 
 export default function ClubListSection() {
-    const { popularResult, popularRequestSize, setPopularRequestSize } =
-        usePopularClub();
+    const {
+        popularResult,
+        popularRequestSize,
+        setPopularRequestSize,
+        isLoading,
+    } = usePopularClub();
+
+    const popularList = popularResult?.result?.content || [];
+
+    if (isLoading) {
+        return <div>로딩 중...</div>;
+    }
+
     return (
         <SectionSectionContainer>
             <SectionTitle>지금 인기있는 동아리 · 학회</SectionTitle>
             <ClubListContainer>
-                {popularResult &&
-                    popularResult.map((clubInfo) => (
-                        <ClubCard
-                            key={clubInfo.id}
-                            title={clubInfo.name}
-                            subTitle={clubInfo.oneLiner}
-                            categoryName={clubInfo.categoryName}
-                            recruitmentStatus={clubInfo.recruitmentStatus}
-                            to={PATHS.CLUB_DETAIL(clubInfo.id)}
-                        />
-                    ))}
-                {popularRequestSize === 4 && (
+                {popularList.map((club) => (
+                    <ClubCard
+                        key={club.id}
+                        title={club.name}
+                        subTitle={club.oneLiner}
+                        categoryName={club.categoryName}
+                        recruitmentStatus={club.recruitmentStatus}
+                        to={PATHS.CLUB_DETAIL(club.id)}
+                        profileImageUrl={club.profileImageUrl}
+                    />
+                ))}
+                {popularRequestSize === 4 && popularList.length >= 4 && (
                     <Button
                         variant="outlined"
                         size="large"

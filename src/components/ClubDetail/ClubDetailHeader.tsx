@@ -2,13 +2,10 @@ import styled from 'styled-components';
 import { DEFAULT_IMG } from '@/constants/DEFAULT_IMG';
 import Button from '../Common/Button';
 
-import {
-    getCategoryEmoji,
-    getCategoryMapping,
-} from '@/utils/clubDetail/getCategoryEmoji';
 import { useClubDetail } from '@/hooks/club-detail/useClubDetail';
 import { useClubDetailHeader } from '@/hooks/queries/club-detail/useClubDetailHeader';
 import { getRecruitmentStatusLabel } from '@/utils/clubDetail/getRecruitmentStatus';
+import { getCentralCategoryDisplayByKoreanName } from '@/utils/search/searchKeywordMapping';
 
 interface RecruitStateProps {
     $state?: '모집 중' | '모집 예정' | '모집 마감';
@@ -16,33 +13,37 @@ interface RecruitStateProps {
 
 export default function ClubDetailHeader() {
     const { isPreview, clubId } = useClubDetail();
-    const { data } = useClubDetailHeader(clubId || '', isPreview);
+    const { data, isLoading } = useClubDetailHeader(clubId || '', isPreview);
+
+    if (isLoading) {
+        return <div>로딩 중...</div>;
+    }
+
     return (
-        <>
-            <ClubHeader>
-                <ClubImage
-                    src={data?.profileImageUrl || DEFAULT_IMG}
-                    alt="Club Logo"
-                />
-                <PreviewWrapper>
-                    <Preview>{data?.description}</Preview>
+        <ClubHeader>
+            <ClubImage
+                src={data?.profileImageUrl || DEFAULT_IMG}
+                alt="Club Logo"
+            />
+            <PreviewWrapper>
+                <PreviewContainer>
                     <ClubTitle>{data?.name}</ClubTitle>
-                    <ClubTags>
-                        {/* TODO 추후에 data 여부에 따라 loading 적용 */}
-                        <Tag>
-                            {data?.category && getCategoryEmoji(data?.category)}{' '}
-                            {data?.category &&
-                                getCategoryMapping(data?.category)}
-                        </Tag>
-                        <RecruitState>
-                            {data?.recruitmentStatus &&
-                                getRecruitmentStatusLabel(
-                                    data.recruitmentStatus,
-                                )}
-                        </RecruitState>
-                    </ClubTags>
-                </PreviewWrapper>
-            </ClubHeader>
+                    <Preview>{data?.description}</Preview>
+                </PreviewContainer>
+
+                <ClubTags>
+                    <Tag>
+                        {data?.category?.clubCategoryName &&
+                            getCentralCategoryDisplayByKoreanName(
+                                data.category.clubCategoryName,
+                            )}
+                    </Tag>
+                    <RecruitState>
+                        {data?.recruitmentStatus &&
+                            getRecruitmentStatusLabel(data.recruitmentStatus)}
+                    </RecruitState>
+                </ClubTags>
+            </PreviewWrapper>
             <Button
                 onClick={() => {
                     if (data?.applicationUrl) {
@@ -55,29 +56,43 @@ export default function ClubDetailHeader() {
                     ? '모집이 마감되었어요.'
                     : '가입 신청하기'}
             </Button>
-        </>
+        </ClubHeader>
     );
 }
 
 const ClubHeader = styled.div`
-    width: 320px;
+    margin-top: 110px;
+    height: 200px;
+    width: 100%;
     min-height: 104px;
     background: white;
     display: flex;
     padding: 17px;
-    margin-bottom: 8px;
-    border-radius: 10px;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: relative;
 `;
 
 const ClubImage = styled.img`
-    width: 70px;
-    height: 70px;
+    width: 75px;
+    height: 75px;
     border-radius: 10px;
     margin-right: 21px;
     object-fit: cover;
+    position: absolute;
+    background-color: black;
+    top: -35px;
+    left: 50%;
+    transform: translateX(-50%);
 `;
 
-const PreviewWrapper = styled.div``;
+const PreviewWrapper = styled.div`
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+`;
 
 const Preview = styled.div`
     color: #aeaeae;
@@ -85,15 +100,26 @@ const Preview = styled.div`
     font-size: 13px;
 `;
 
+const PreviewContainer = styled.div`
+    margin-top: 47px;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 5px;
+    margin-bottom: 10px;
+`;
+
 const ClubTitle = styled.h1`
     font-size: 18px;
     font-weight: 600;
-    margin-bottom: 11px;
 `;
 
 const ClubTags = styled.div`
     display: flex;
     gap: 8px;
+    margin-bottom: 20px;
 `;
 
 const Tag = styled.span`

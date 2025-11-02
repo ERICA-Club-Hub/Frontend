@@ -4,12 +4,13 @@ import ClubTypeTag from './ClubCardTags/ClubTypeTag';
 import RecruitStatusTag from './ClubCardTags/RecruitStatusTag';
 
 interface ClubCardProps extends LinkProps {
-    title: string; // 동아리 이름
-    subTitle: string; // 한 줄 소개
-    categoryName: string; // 동아리 카테고리 이름 (타입화 필요)
+    title?: string; // 동아리 이름
+    subTitle?: string; // 한 줄 소개
+    categoryName?: string; // 동아리 카테고리 이름 (타입화 필요)
     recruitmentStatus?: string; // 모집 상태 (타입화 필요)
     to: string; // 이동할 라우팅 주소
     tags?: string[]; // tag 타입화 필요
+    profileImageUrl?: string;
 }
 
 export default function ClubCard({
@@ -18,6 +19,7 @@ export default function ClubCard({
     categoryName,
     recruitmentStatus,
     to,
+    profileImageUrl,
     ...props
 }: ClubCardProps) {
     const isAdminRoute = to.startsWith('/admin/service');
@@ -25,7 +27,7 @@ export default function ClubCard({
     return (
         <CardContainer to={to} {...props}>
             {/* 어드민 페이지에서는 프로필 이미지 미표시 */}
-            {!isAdminRoute && <ProfileImage />}
+            {!isAdminRoute && <ProfileImage src={profileImageUrl} />}
 
             <ClubInfo>
                 <TitleWrapper>

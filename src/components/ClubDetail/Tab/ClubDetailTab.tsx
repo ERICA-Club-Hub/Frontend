@@ -9,7 +9,7 @@ interface TabProps {
 export default function ClubDetailTab({ setActiveTab, activeTab }: TabProps) {
     const { isPreview } = useClubDetail();
     return (
-        <Tab>
+        <Tab backgroundColor="white">
             <Tab.Item
                 tabKey="intro"
                 activeTab={activeTab}

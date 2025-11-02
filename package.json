@@ -5,7 +5,7 @@
     "type": "module",
     "scripts": {
         "dev": "vite",
-        "build": "tsc -b && vite build",
+        "build": "vite build",
         "lint": "eslint .",
         "preview": "vite preview",
         "gen-pwa": "pwa-assets-generator --preset minimal public/logo.svg",
@@ -20,7 +20,8 @@
         "recoil": "^0.7.7",
         "recoil-persist": "^5.1.0",
         "scheduler": "0.23.0",
-        "styled-components": "^6.1.13"
+        "styled-components": "^6.1.13",
+        "swiper": "^12.0.3"
     },
     "devDependencies": {
         "@eslint/js": "^9.17.0",

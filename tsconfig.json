@@ -13,7 +13,8 @@
         },
         "types": ["vite-plugin-svgr/client"],
         "declaration": false,
-        "emitDeclarationOnly": false
+        "emitDeclarationOnly": false,
+        "noEmit": true
     },
     "include": ["src", "svg.d.ts"],
     "exclude": ["src/**/*"],
