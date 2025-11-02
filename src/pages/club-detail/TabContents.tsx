@@ -1,5 +1,5 @@
 import Intro from '@/components/ClubDetail/ClubDetailTabs/Intro/Intro';
-import Log from '@/components/ClubDetail/ClubDetailTabs/Log/Log';
+import ClubActivityLog from '@/components/ClubDetail/ClubDetailTabs/Log/ClubActivityLog';
 import Recruit from '@/components/ClubDetail/ClubDetailTabs/Recruit/Recruit';
 
 interface TabContentsProps {
@@ -13,7 +13,7 @@ export default function TabContentsSwitch({ activeTab }: TabContentsProps) {
         case 'recruit':
             return <Recruit />;
         case 'log':
-            return <Log />;
+            return <ClubActivityLog />;
         default:
             return null;
     }

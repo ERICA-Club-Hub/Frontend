@@ -3,7 +3,7 @@ import { useActivityLogList } from '@/hooks/queries/club-detail/useClubLog';
 import { useClubIdByParams } from '@/hooks/useClubIdByParams';
 import { useNavigate } from 'react-router-dom';
 
-export default function Log() {
+export default function ClubActivityLog() {
     const clubId = useClubIdByParams();
     const navigate = useNavigate();
     const { data: activityLogResponse, isLoading } = useActivityLogList(clubId);
