@@ -2,6 +2,7 @@ import styled from 'styled-components';
 import { useActivityLogList } from '@/hooks/queries/club-detail/useClubLog';
 import { useClubIdByParams } from '@/hooks/useClubIdByParams';
 import { useNavigate } from 'react-router-dom';
+import { PATHS } from '@/routes/paths';
 
 export default function ClubActivityLog() {
     const clubId = useClubIdByParams();
@@ -13,7 +14,7 @@ export default function ClubActivityLog() {
             alert('잘못된 활동 로그에 대한 접근입니다.');
             return;
         }
-        navigate(`/club/${clubId}/${activityId}`);
+        navigate(PATHS.CLUB_ACTIVITY_DETAIL(clubId, activityId));
     };
 
     if (isLoading) {

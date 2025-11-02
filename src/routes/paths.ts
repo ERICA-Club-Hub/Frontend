@@ -5,6 +5,12 @@ export const PATHS = {
     /* 동아리 상세 페이지 */
     CLUB_DETAIL: (clubId?: number) => `/club/${clubId}`,
 
+    /* 동아리 활동 로그 상세 페이지 */
+    CLUB_ACTIVITY_DETAIL: (
+        clubId?: number | string,
+        activityId?: number | string,
+    ) => `/club/${clubId}/${activityId}`,
+
     /* 자료실 */
     RESOURCES: '/resources',
 
