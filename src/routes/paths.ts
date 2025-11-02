@@ -3,7 +3,7 @@ import { DrawerMenuType } from '@/types/routes.types';
 
 export const PATHS = {
     /* 동아리 상세 페이지 */
-    CLUB_DETAIL: (clubId: number) => `/club/${clubId}`,
+    CLUB_DETAIL: (clubId?: number) => `/club/${clubId}`,
 
     /* 자료실 */
     RESOURCES: '/resources',

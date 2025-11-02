@@ -2,7 +2,7 @@ import { getCategoryEmojiByLabel } from '@/utils/clubDetail/getCategoryEmoji';
 import ClubTag from '../ClubTag';
 
 interface ClubTypeTagProps {
-    clubCategory: string;
+    clubCategory?: string;
 }
 
 export default function ClubTypeTag({ clubCategory }: ClubTypeTagProps) {

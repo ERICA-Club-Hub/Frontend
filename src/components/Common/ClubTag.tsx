@@ -2,7 +2,7 @@ import styled from 'styled-components';
 
 interface ClubTagProps {
     emoji?: string;
-    text: string;
+    text?: string;
     backgroundColor: string;
     textColor: string;
 }
