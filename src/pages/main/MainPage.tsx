@@ -3,7 +3,7 @@ import { Footer } from '@/components/Common/Footer';
 import Survey from '@/components/Main/Survey';
 import CategoryCollectSection from '@/components/Main/CategoryCollectSection';
 import RecentlyLogSection from '@/components/Main/RecentlyLogSection';
-import ClubListSection from '@/components/Main/ClubListSection';
+import RecentlyUpdatedClubs from '@/components/Main/RecentlyUpdatedClubs';
 
 export default function MainPage() {
     return (
@@ -11,7 +11,7 @@ export default function MainPage() {
             <ContentWrapper>
                 <CategoryCollectSection />
                 <Survey />
-                <ClubListSection />
+                <RecentlyUpdatedClubs />
                 <RecentlyLogSection />
             </ContentWrapper>
             <Footer />
