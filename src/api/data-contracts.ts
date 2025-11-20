@@ -10,9 +10,18 @@
  * ---------------------------------------------------------------
  */
 
+/** DTO for creating a service announcement */
 export interface CreateServiceAnnouncementRequestDTO {
-    title?: string;
-    content?: string;
+    /**
+     * Announcement title
+     * @example "Server Maintenance Notice"
+     */
+    title: string;
+    /**
+     * Announcement content
+     * @example "There will be a server maintenance from midnight."
+     */
+    content: string;
 }
 
 export interface ApiResponseObject {
@@ -22,19 +31,29 @@ export interface ApiResponseObject {
     result?: object;
 }
 
-export interface FeedbackDTO {
+export interface FeedbackRequest {
     content?: string;
 }
 
-export interface ApiResponseVoid {
+export interface ApiResponseFeedbackCommandResponse {
     isSuccess?: boolean;
     code?: string;
     message?: string;
-    result?: object;
+    result?: FeedbackCommandResponse;
 }
 
+export interface FeedbackCommandResponse {
+    /** @format int64 */
+    feedbackId?: number;
+}
+
+/** DTO for creating a document */
 export interface CreateDocumentRequest {
-    title?: string;
+    /**
+     * Document title
+     * @example "Club Rules"
+     */
+    title: string;
 }
 
 export interface ApiResponseLong {
@@ -45,8 +64,17 @@ export interface ApiResponseLong {
     result?: number;
 }
 
+/** Club Category */
 export interface Category {
+    /**
+     * Central club category
+     * @example "ACADEMIC"
+     */
     central?: 'VOLUNTEER' | 'ART' | 'SPORTS' | 'RELIGION' | 'ACADEMIC';
+    /**
+     * Union club category
+     * @example "IT"
+     */
     union?:
         | 'IT'
         | 'MARKETING_AD'
@@ -57,6 +85,10 @@ export interface Category {
         | 'PRESENTATION'
         | 'BOOK'
         | 'ETC';
+    /**
+     * College
+     * @example "SOFTWARE_CONVERGENCE"
+     */
     college?:
         | 'GLOBAL_LAW_COMMUNICATION'
         | 'KYUNG_SANG'
@@ -68,6 +100,10 @@ export interface Category {
         | 'PHARMACY'
         | 'SPORT_ARTS'
         | 'LIONS_COLLEGE';
+    /**
+     * Department
+     * @example "COMPUTER_SCIENCE_ENGINEERING"
+     */
     department?:
         | 'ARCHITECTURE'
         | 'CONSTRUCTION_ENVIRONMENT'
@@ -114,24 +150,52 @@ export interface Category {
         | 'MUSIC';
 }
 
+/** DTO for basic club information request */
 export interface ClubBasicInformationRequest {
-    clubName?: string;
-    leaderEmail?: string;
-    clubType?: 'CENTRAL' | 'UNION' | 'COLLEGE' | 'DEPARTMENT';
-    category?: Category;
-    oneLiner?: string;
-    briefIntroduction?: string;
+    /**
+     * Club name
+     * @example "Hanjari"
+     */
+    clubName: string;
+    /**
+     * Leader's email
+     * @example "leader@example.com"
+     */
+    leaderEmail: string;
+    /**
+     * Club type
+     * @example "CENTRAL"
+     */
+    clubType: 'CENTRAL' | 'UNION' | 'COLLEGE' | 'DEPARTMENT';
+    /** Category information */
+    category: Category;
+    /**
+     * A short introduction of the club
+     * @example "The best central club at Hanyang University ERICA"
+     */
+    oneLiner: string;
+    /**
+     * A brief introduction of the club
+     * @example "Hanjari is a central club at Hanyang University ERICA."
+     */
+    briefIntroduction: string;
 }
 
 export interface ApiResponseClubCommandResponse {
     isSuccess?: boolean;
     code?: string;
     message?: string;
+    /** DTO for club command response */
     result?: ClubCommandResponse;
 }
 
+/** DTO for club command response */
 export interface ClubCommandResponse {
-    /** @format int64 */
+    /**
+     * Club ID
+     * @format int64
+     * @example 1
+     */
     clubId?: number;
 }
 
@@ -139,33 +203,85 @@ export interface ApiResponseClubCodeResponse {
     isSuccess?: boolean;
     code?: string;
     message?: string;
+    /** DTO for club code response */
     result?: ClubCodeResponse;
 }
 
+/** DTO for club code response */
 export interface ClubCodeResponse {
+    /**
+     * Club code
+     * @example "hanjari"
+     */
     code?: string;
 }
 
+/** DTO for club detail request */
 export interface ClubDetailRequest {
-    recruitmentStatus?: 'UPCOMING' | 'OPEN' | 'CLOSED';
-    leaderName?: string;
-    leaderPhone?: string;
-    activities?: string;
-    /** @format int32 */
-    membershipFee?: number;
+    /**
+     * Recruitment status
+     * @example "RECRUITING"
+     */
+    recruitmentStatus: 'UPCOMING' | 'OPEN' | 'CLOSED';
+    /**
+     * Leader's name
+     * @example "Gildong Hong"
+     */
+    leaderName: string;
+    /**
+     * Leader's phone number
+     * @example "010-1234-5678"
+     */
+    leaderPhone: string;
+    /**
+     * Club activities
+     * @example "Regular meeting every Monday"
+     */
+    activities: string;
+    /**
+     * Membership fee
+     * @format int32
+     * @example 10000
+     */
+    membershipFee: number;
+    /**
+     * SNS URL
+     * @example "https://www.instagram.com/hanjari_"
+     */
     snsUrl?: string;
+    /**
+     * Application URL
+     * @example "https://forms.gle/..."
+     */
     applicationUrl?: string;
 }
 
+/** DTO for club schedule list request */
 export interface ClubScheduleListRequest {
-    schedules?: ClubScheduleRequest[];
+    /** List of club schedules */
+    schedules: ClubScheduleRequest[];
 }
 
+/** DTO for club schedule request */
 export interface ClubScheduleRequest {
-    /** @format int32 */
-    month?: number;
-    content?: string;
-    /** @format int64 */
+    /**
+     * Month
+     * @format int32
+     * @min 1
+     * @max 12
+     * @example 3
+     */
+    month: number;
+    /**
+     * Schedule content
+     * @example "General meeting"
+     */
+    content: string;
+    /**
+     * Schedule ID (required for updates)
+     * @format int64
+     * @example 1
+     */
     scheduleId?: number;
 }
 
@@ -173,18 +289,34 @@ export interface ApiResponseScheduleListResponse {
     isSuccess?: boolean;
     code?: string;
     message?: string;
+    /** DTO for schedule list response */
     result?: ScheduleListResponse;
 }
 
+/** DTO for schedule list response */
 export interface ScheduleListResponse {
+    /** List of schedules */
     schedules?: ScheduleResponse[];
 }
 
+/** DTO for schedule response */
 export interface ScheduleResponse {
-    /** @format int64 */
+    /**
+     * Schedule ID
+     * @format int64
+     * @example 1
+     */
     id?: number;
-    /** @format int32 */
+    /**
+     * Month
+     * @format int32
+     * @example 3
+     */
     month?: number;
+    /**
+     * Schedule content
+     * @example "General meeting"
+     */
     content?: string;
 }
 
@@ -192,72 +324,190 @@ export interface ApiResponseClubScheduleDraftResponse {
     isSuccess?: boolean;
     code?: string;
     message?: string;
+    /** DTO for club schedule draft response */
     result?: ClubScheduleDraftResponse;
 }
 
+/** DTO for club schedule draft response */
 export interface ClubScheduleDraftResponse {
+    /** List of club schedule drafts */
     schedules?: ScheduleDraftResponse[];
-    /** @format int32 */
+    /**
+     * Total number of elements
+     * @format int32
+     * @example 10
+     */
     totalElements?: number;
 }
 
+/** DTO for schedule draft response */
 export interface ScheduleDraftResponse {
-    /** @format int64 */
+    /**
+     * Schedule ID
+     * @format int64
+     * @example 1
+     */
     id?: number;
-    /** @format int32 */
+    /**
+     * Month
+     * @format int32
+     * @example 3
+     */
     month?: number;
+    /**
+     * Schedule content
+     * @example "General meeting"
+     */
     content?: string;
 }
 
+/** DTO for club recruitment request */
 export interface ClubRecruitmentRequest {
-    due?: string;
-    notice?: string;
+    /**
+     * Recruitment due date
+     * @example "2024-03-31"
+     */
+    due: string;
+    /**
+     * Recruitment notice
+     * @example "Interview after document submission"
+     */
+    notice: string;
+    /**
+     * Etc
+     * @example "For further questions..."
+     */
     etc?: string;
 }
 
+/** DTO for club introduction request */
 export interface ClubIntroductionRequest {
-    introduction?: string;
-    activity?: string;
-    recruitment?: string;
+    /**
+     * The introduction of the club
+     * @example "Hanjari is..."
+     */
+    introduction: string;
+    /**
+     * The activities of the club
+     * @example "Regular meeting every Monday"
+     */
+    activity: string;
+    /**
+     * Recruitment information
+     * @example "Always open"
+     */
+    recruitment: string;
 }
 
-export interface LoginRequestDTO {
-    code?: string;
-}
-
-export interface ApiResponseLoginResponseDTO {
+export interface ApiResponseVoid {
     isSuccess?: boolean;
     code?: string;
     message?: string;
-    result?: LoginResponseDTO;
+    result?: object;
 }
 
-export interface LoginResponseDTO {
+/** DTO for login request */
+export interface LoginRequest {
+    /**
+     * OAuth authorization code
+     * @example "authorization_code"
+     */
+    code: string;
+}
+
+export interface ApiResponseLoginResponse {
+    isSuccess?: boolean;
+    code?: string;
+    message?: string;
+    result?: LoginResponse;
+}
+
+export interface LoginResponse {
     /** @format int64 */
     clubId?: number;
     clubName?: string;
 }
 
-export interface CommonAnnouncementRequest {
-    title?: string;
-    url?: string;
+/** DTO for creating/updating an announcement */
+export interface AnnouncementRequest {
+    /**
+     * The title of the announcement
+     * @example "Recruiting new members for the first semester of 2024"
+     */
+    title: string;
+    /**
+     * The URL of the announcement
+     * @example "https://www.hanjari.kr/announcement/1"
+     */
+    url: string;
 }
 
+export interface AnnouncementCommandResponse {
+    /** @format int64 */
+    announcementId?: number;
+}
+
+export interface ApiResponseAnnouncementCommandResponse {
+    isSuccess?: boolean;
+    code?: string;
+    message?: string;
+    result?: AnnouncementCommandResponse;
+}
+
+/** DTO for creating an activity */
 export interface CreateActivityRequest {
-    content?: string;
-    /** @format date */
-    date?: string;
+    /**
+     * The content of the activity
+     * @example "1st General Meeting of 2024"
+     */
+    content: string;
+    /**
+     * The date of the activity
+     * @format date
+     * @example "2024-03-01"
+     */
+    date: string;
 }
 
+export interface ActivityCommandResponse {
+    /** @format int64 */
+    activityId?: number;
+}
+
+export interface ApiResponseActivityCommandResponse {
+    isSuccess?: boolean;
+    code?: string;
+    message?: string;
+    result?: ActivityCommandResponse;
+}
+
+/** DTO for updating a document */
 export interface UpdateDocumentRequest {
-    title?: string;
+    /**
+     * Document title
+     * @example "Club Rules"
+     */
+    title: string;
+    /**
+     * List of file IDs to be removed
+     * @example [1,2,3]
+     */
     removedFileIdList?: number[];
 }
 
+/** DTO for updating an activity */
 export interface UpdateActivityRequest {
-    content?: string;
-    /** @format date */
-    date?: string;
+    /**
+     * The content of the activity
+     * @example "1st General Meeting of 2024"
+     */
+    content: string;
+    /**
+     * The date of the activity
+     * @format date
+     * @example "2024-03-01"
+     */
+    date: string;
 }
 
 export interface ApiResponseString {
@@ -271,21 +521,45 @@ export interface ApiResponseServiceAnnouncementSearchDTO {
     isSuccess?: boolean;
     code?: string;
     message?: string;
+    /** DTO for service announcement search response */
     result?: ServiceAnnouncementSearchDTO;
 }
 
+/** DTO for service announcement details */
 export interface ServiceAnnouncementDetailDTO {
-    /** @format int64 */
+    /**
+     * Service announcement ID
+     * @format int64
+     * @example 1
+     */
     id?: number;
+    /**
+     * Service announcement title
+     * @example "Server Maintenance Notice"
+     */
     title?: string;
+    /**
+     * Service announcement content
+     * @example "There will be a server maintenance from midnight."
+     */
     content?: string;
-    /** @format date-time */
+    /**
+     * Creation timestamp
+     * @format date-time
+     * @example "2024-03-01T10:00:00"
+     */
     createdAt?: string;
 }
 
+/** DTO for service announcement search response */
 export interface ServiceAnnouncementSearchDTO {
+    /** List of service announcement details */
     serviceAnnouncements?: ServiceAnnouncementDetailDTO[];
-    /** @format int32 */
+    /**
+     * Total number of elements
+     * @format int32
+     * @example 10
+     */
     totalElements?: number;
 }
 
@@ -293,6 +567,7 @@ export interface ApiResponseServiceAnnouncementDetailDTO {
     isSuccess?: boolean;
     code?: string;
     message?: string;
+    /** DTO for service announcement details */
     result?: ServiceAnnouncementDetailDTO;
 }
 
@@ -300,18 +575,34 @@ export interface ApiResponseGetAllDocumentsResponse {
     isSuccess?: boolean;
     code?: string;
     message?: string;
+    /** DTO for getting all documents response */
     result?: GetAllDocumentsResponse;
 }
 
+/** DTO for document */
 export interface DocumentDTO {
-    /** @format int64 */
+    /**
+     * Document ID
+     * @format int64
+     * @example 1
+     */
     id?: number;
+    /**
+     * Document title
+     * @example "Club Rules"
+     */
     title?: string;
-    /** @format date */
+    /**
+     * Document creation date
+     * @format date
+     * @example "2024-03-01"
+     */
     date?: string;
 }
 
+/** DTO for getting all documents response */
 export interface GetAllDocumentsResponse {
+    /** List of document DTOs */
     documentDTOList?: DocumentDTO[];
 }
 
@@ -319,46 +610,116 @@ export interface ApiResponseGetDocumentFilesResponse {
     isSuccess?: boolean;
     code?: string;
     message?: string;
+    /** DTO for getting document files response */
     result?: GetDocumentFilesResponse;
 }
 
-export interface FileDTO {
+export interface FileDownloadDTO {
+    /** @format int64 */
+    fileId?: number;
     fileName?: string;
+    extension?: string;
+    /** @format int64 */
+    size?: number;
+    /** @format date-time */
+    updatedAt?: string;
     downloadUrl?: string;
 }
 
+/** DTO for getting document files response */
 export interface GetDocumentFilesResponse {
-    fileDTOList?: FileDTO[];
+    /** List of file DTOs */
+    fileDTOList?: FileDownloadDTO[];
 }
 
 export interface ApiResponseClubDetailListResponse {
     isSuccess?: boolean;
     code?: string;
     message?: string;
+    /** DTO for club detail list response */
     result?: ClubDetailListResponse;
 }
 
+/** DTO for club detail list response */
 export interface ClubDetailListResponse {
+    /** List of club responses */
     clubs?: ClubResponse[];
-    /** @format int32 */
+    /**
+     * Total number of elements
+     * @format int32
+     * @example 100
+     */
     totalElements?: number;
 }
 
+/** DTO for club response */
 export interface ClubResponse {
-    /** @format int64 */
+    /**
+     * Club ID
+     * @format int64
+     * @example 1
+     */
     id?: number;
+    /**
+     * Club name
+     * @example "Hanjari"
+     */
     name?: string;
+    /**
+     * Club description (one-liner)
+     * @example "The best central club at Hanyang University ERICA"
+     */
     description?: string;
+    /**
+     * Recruitment status
+     * @example "RECRUITING"
+     */
     recruitmentStatus?: 'UPCOMING' | 'OPEN' | 'CLOSED';
+    /**
+     * Club profile image URL
+     * @example "https://.../profile.png"
+     */
     profileImageUrl?: string;
+    /**
+     * Club activities
+     * @example "Regular meeting every Monday"
+     */
     activities?: string;
+    /**
+     * Leader's name
+     * @example "Gildong Hong"
+     */
     leaderName?: string;
+    /**
+     * Leader's email
+     * @example "leader@example.com"
+     */
     leaderEmail?: string;
+    /**
+     * Leader's phone number
+     * @example "010-1234-5678"
+     */
     leaderPhone?: string;
-    /** @format int32 */
+    /**
+     * Membership fee
+     * @format int32
+     * @example 10000
+     */
     membershipFee?: number;
+    /**
+     * SNS URL
+     * @example "https://www.instagram.com/hanjari_"
+     */
     snsUrl?: string;
+    /**
+     * Application URL
+     * @example "https://forms.gle/..."
+     */
     applicationUrl?: string;
+    /**
+     * Club type
+     * @example "CENTRAL"
+     */
     clubType?: 'CENTRAL' | 'UNION' | 'COLLEGE' | 'DEPARTMENT';
 }
 
@@ -366,6 +727,7 @@ export interface ApiResponseClubResponse {
     isSuccess?: boolean;
     code?: string;
     message?: string;
+    /** DTO for club response */
     result?: ClubResponse;
 }
 
@@ -373,12 +735,19 @@ export interface ApiResponseClubScheduleResponse {
     isSuccess?: boolean;
     code?: string;
     message?: string;
+    /** DTO for club schedule response */
     result?: ClubScheduleResponse;
 }
 
+/** DTO for club schedule response */
 export interface ClubScheduleResponse {
+    /** List of club schedules */
     schedules?: ScheduleResponse[];
-    /** @format int32 */
+    /**
+     * Total number of elements
+     * @format int32
+     * @example 10
+     */
     totalElements?: number;
 }
 
@@ -386,13 +755,31 @@ export interface ApiResponseClubRecruitmentResponse {
     isSuccess?: boolean;
     code?: string;
     message?: string;
+    /** DTO for club recruitment response */
     result?: ClubRecruitmentResponse;
 }
 
+/** DTO for club recruitment response */
 export interface ClubRecruitmentResponse {
+    /**
+     * Recruitment due date
+     * @example "2024-03-31"
+     */
     due?: string;
+    /**
+     * Recruitment target
+     * @example "Undergraduate students"
+     */
     target?: string;
+    /**
+     * Recruitment notice
+     * @example "Interview after document submission"
+     */
     notice?: string;
+    /**
+     * Other recruitment information
+     * @example "For further questions..."
+     */
     etc?: string;
 }
 
@@ -400,25 +787,73 @@ export interface ApiResponseClubOverviewResponse {
     isSuccess?: boolean;
     code?: string;
     message?: string;
+    /** DTO for club overview response */
     result?: ClubOverviewResponse;
 }
 
+/** DTO for category response */
 export interface CategoryResponse {
+    /**
+     * Club category name
+     * @example "Central Club"
+     */
     clubCategoryName?: string;
+    /**
+     * Central category name
+     * @example "Academic"
+     */
     centralCategoryName?: string;
+    /**
+     * Union category name
+     * @example "IT"
+     */
     unionCategoryName?: string;
+    /**
+     * College name
+     * @example "College of Software Convergence"
+     */
     collegeName?: string;
+    /**
+     * Department name
+     * @example "Department of Computer Science and Engineering"
+     */
     departmentName?: string;
 }
 
+/** DTO for club overview response */
 export interface ClubOverviewResponse {
-    /** @format int64 */
+    /**
+     * Club ID
+     * @format int64
+     * @example 1
+     */
     id?: number;
+    /**
+     * Club name
+     * @example "Hanjari"
+     */
     name?: string;
+    /**
+     * Club description (one-liner)
+     * @example "The best central club at Hanyang University ERICA"
+     */
     description?: string;
+    /**
+     * Recruitment status
+     * @example "RECRUITING"
+     */
     recruitmentStatus?: 'UPCOMING' | 'OPEN' | 'CLOSED';
+    /**
+     * Club profile image URL
+     * @example "https://.../profile.png"
+     */
     profileImageUrl?: string;
+    /**
+     * Application URL
+     * @example "https://forms.gle/..."
+     */
     applicationUrl?: string;
+    /** Club category information */
     category?: CategoryResponse;
 }
 
@@ -426,11 +861,21 @@ export interface ApiResponseClubIntroductionResponse {
     isSuccess?: boolean;
     code?: string;
     message?: string;
+    /** DTO for club introduction response */
     result?: ClubIntroductionResponse;
 }
 
+/** DTO for club introduction response */
 export interface ClubIntroductionResponse {
+    /**
+     * Club introduction content
+     * @example "Hanjari is..."
+     */
     introduction?: string;
+    /**
+     * Club activity content
+     * @example "Regular meeting every Monday"
+     */
     activity?: string;
 }
 
@@ -438,16 +883,42 @@ export interface ApiResponseClubBasicInfoResponse {
     isSuccess?: boolean;
     code?: string;
     message?: string;
+    /** DTO for club basic information response (draft) */
     result?: ClubBasicInfoResponse;
 }
 
+/** DTO for club basic information response (draft) */
 export interface ClubBasicInfoResponse {
+    /**
+     * Leader's name
+     * @example "Gildong Hong"
+     */
     leaderName?: string;
+    /**
+     * Leader's email
+     * @example "leader@example.com"
+     */
     leaderEmail?: string;
+    /**
+     * Leader's phone number
+     * @example "010-1234-5678"
+     */
     leaderPhone?: string;
+    /**
+     * Club activities
+     * @example "Regular meeting every Monday"
+     */
     activities?: string;
-    /** @format int32 */
+    /**
+     * Membership fee
+     * @format int32
+     * @example 10000
+     */
     membershipFee?: number;
+    /**
+     * SNS URL
+     * @example "https://www.instagram.com/hanjari_"
+     */
     snsUrl?: string;
 }
 
@@ -455,21 +926,64 @@ export interface ApiResponseClubDetailDraftResponse {
     isSuccess?: boolean;
     code?: string;
     message?: string;
+    /** DTO for club detail draft response */
     result?: ClubDetailDraftResponse;
 }
 
+/** DTO for club detail draft response */
 export interface ClubDetailDraftResponse {
+    /**
+     * Club name
+     * @example "Hanjari"
+     */
     name?: string;
+    /**
+     * Club description (one-liner)
+     * @example "The best central club at Hanyang University ERICA"
+     */
     description?: string;
+    /**
+     * Recruitment status
+     * @example "RECRUITING"
+     */
     recruitmentStatus?: 'UPCOMING' | 'OPEN' | 'CLOSED';
+    /**
+     * Leader's name
+     * @example "Gildong Hong"
+     */
     leaderName?: string;
+    /**
+     * Leader's phone number
+     * @example "010-1234-5678"
+     */
     leaderPhone?: string;
+    /**
+     * Club activities
+     * @example "Regular meeting every Monday"
+     */
     activities?: string;
-    /** @format int32 */
+    /**
+     * Membership fee
+     * @format int32
+     * @example 10000
+     */
     membershipFee?: number;
+    /**
+     * SNS URL
+     * @example "https://www.instagram.com/hanjari_"
+     */
     snsUrl?: string;
+    /**
+     * Application URL
+     * @example "https://forms.gle/..."
+     */
     applicationUrl?: string;
+    /**
+     * Club profile image URL
+     * @example "https://.../profile.png"
+     */
     profileImageUrl?: string;
+    /** Club category information */
     category?: CategoryResponse;
 }
 
@@ -477,28 +991,72 @@ export interface ApiResponseClubSearchResponse {
     isSuccess?: boolean;
     code?: string;
     message?: string;
+    /** DTO for club search response */
     result?: ClubSearchResponse;
 }
 
+/** DTO for club search response */
 export interface ClubSearchResponse {
+    /** List of club search results */
     content?: ClubSearchResult[];
-    /** @format int64 */
+    /**
+     * Total number of elements
+     * @format int64
+     * @example 100
+     */
     totalElements?: number;
-    /** @format int32 */
+    /**
+     * Current page number (0-indexed)
+     * @format int32
+     * @example 0
+     */
     page?: number;
-    /** @format int32 */
+    /**
+     * Number of elements per page
+     * @format int32
+     * @example 10
+     */
     size?: number;
-    /** @format int32 */
+    /**
+     * Total number of pages
+     * @format int32
+     * @example 10
+     */
     totalPages?: number;
 }
 
+/** Club search result item */
 export interface ClubSearchResult {
-    /** @format int64 */
+    /**
+     * Club ID
+     * @format int64
+     * @example 1
+     */
     id?: number;
+    /**
+     * Club name
+     * @example "Hanjari"
+     */
     name?: string;
+    /**
+     * One-liner introduction
+     * @example "The best central club at Hanyang University ERICA"
+     */
     oneLiner?: string;
+    /**
+     * Club profile image URL
+     * @example "https://.../profile.png"
+     */
     profileImageUrl?: string;
+    /**
+     * Category name
+     * @example "Academic"
+     */
     categoryName?: string;
+    /**
+     * Recruitment status
+     * @example "RECRUITING"
+     */
     recruitmentStatus?: 'UPCOMING' | 'OPEN' | 'CLOSED';
 }
 
@@ -506,34 +1064,92 @@ export interface ApiResponseGetRegistrationsResponse {
     isSuccess?: boolean;
     code?: string;
     message?: string;
+    /** DTO for getting registrations response */
     result?: GetRegistrationsResponse;
 }
 
+/** DTO for club registration response */
 export interface ClubRegistrationResponse {
-    /** @format int64 */
+    /**
+     * Club registration ID
+     * @format int64
+     * @example 1
+     */
     clubRegistrationId?: number;
+    /**
+     * Club name
+     * @example "Hanjari"
+     */
     clubName?: string;
+    /**
+     * Leader's email
+     * @example "leader@example.com"
+     */
     leaderEmail?: string;
+    /**
+     * One-liner introduction
+     * @example "The best central club at Hanyang University ERICA"
+     */
     oneLiner?: string;
+    /**
+     * Brief introduction
+     * @example "Hanjari is a central club at Hanyang University ERICA."
+     */
     briefIntroduction?: string;
+    /** Club category information */
     category?: CategoryResponse;
 }
 
+/** DTO for getting registrations response */
 export interface GetRegistrationsResponse {
+    /** List of club registration responses */
     clubRegistrationResponseDTOList?: ClubRegistrationResponse[];
+}
+
+export interface ApiResponseGetOfficialAccounts {
+    isSuccess?: boolean;
+    code?: string;
+    message?: string;
+    result?: GetOfficialAccounts;
+}
+
+export interface ClubInstaAccountDTO {
+    clubName?: string;
+    accountName?: string;
+    profileImage?: string;
+    instagramProfileUrl?: string;
+}
+
+export interface GetOfficialAccounts {
+    officialAccounts?: ClubInstaAccountDTO[];
 }
 
 export interface ApiResponseClubRecruitmentDraftResponse {
     isSuccess?: boolean;
     code?: string;
     message?: string;
+    /** DTO for club recruitment draft response */
     result?: ClubRecruitmentDraftResponse;
 }
 
+/** DTO for club recruitment draft response */
 export interface ClubRecruitmentDraftResponse {
+    /** Club response DTO */
     club?: ClubResponse;
+    /**
+     * Recruitment due date
+     * @example "2024-03-31"
+     */
     due?: string;
+    /**
+     * Recruitment notice
+     * @example "Interview after document submission"
+     */
     notice?: string;
+    /**
+     * Other recruitment information
+     * @example "For further questions..."
+     */
     etc?: string;
 }
 
@@ -541,23 +1157,59 @@ export interface ApiResponseClubIntroductionDraftResponse {
     isSuccess?: boolean;
     code?: string;
     message?: string;
+    /** DTO for club introduction draft response */
     result?: ClubIntroductionDraftResponse;
 }
 
+/** DTO for club introduction draft response */
 export interface ClubIntroductionDraftResponse {
+    /** Club response DTO */
     club?: ClubResponse;
+    /**
+     * Club introduction content
+     * @example "Hanjari is..."
+     */
     introduction?: string;
+    /**
+     * Club activity content
+     * @example "Regular meeting every Monday"
+     */
     activity?: string;
+    /**
+     * Recruitment information
+     * @example "Always open"
+     */
     recruitment?: string;
 }
 
+/** DTO for announcement */
 export interface AnnouncementDTO {
-    /** @format int64 */
+    /**
+     * Announcement ID
+     * @format int64
+     * @example 1
+     */
     announcementId?: number;
+    /**
+     * Announcement title
+     * @example "Recruiting new members for the first semester of 2024"
+     */
     title?: string;
-    /** @format date */
+    /**
+     * Announcement date
+     * @format date
+     * @example "2024-03-01"
+     */
     date?: string;
+    /**
+     * Announcement URL
+     * @example "https://www.hanjari.kr/announcement/1"
+     */
     url?: string;
+    /**
+     * Thumbnail image URL
+     * @example "https://.../thumbnail.png"
+     */
     thumbnailUrl?: string;
 }
 
@@ -565,16 +1217,28 @@ export interface ApiResponseGetAllAnnouncementResponse {
     isSuccess?: boolean;
     code?: string;
     message?: string;
+    /** DTO for getting all announcements response */
     result?: GetAllAnnouncementResponse;
 }
 
+/** DTO for getting all announcements response */
 export interface GetAllAnnouncementResponse {
+    /** List of announcement DTOs */
     announcementDTOList?: AnnouncementDTO[];
 }
 
+/** DTO for activity image */
 export interface ActivityImageDTO {
-    /** @format int32 */
+    /**
+     * Image order index
+     * @format int32
+     * @example 1
+     */
     orderIndex?: number;
+    /**
+     * Image URL
+     * @example "https://.../image.png"
+     */
     imageUrl?: string;
 }
 
@@ -582,21 +1246,49 @@ export interface ApiResponseGetSpecificActivityResponse {
     isSuccess?: boolean;
     code?: string;
     message?: string;
+    /** DTO for getting a specific activity response */
     result?: GetSpecificActivityResponse;
 }
 
+/** DTO for getting a specific activity response */
 export interface GetSpecificActivityResponse {
+    /**
+     * Club name
+     * @example "Hanjari"
+     */
     clubName?: string;
+    /**
+     * Club image URL
+     * @example "https://.../club.png"
+     */
     clubImageUrl?: string;
+    /**
+     * Activity content
+     * @example "1st General Meeting of 2024"
+     */
     content?: string;
-    /** @format date */
+    /**
+     * Activity date
+     * @format date
+     * @example "2024-03-01"
+     */
     date?: string;
+    /** List of activity image DTOs */
     activityImageDTOList?: ActivityImageDTO[];
 }
 
+/** DTO for activity thumbnail */
 export interface ActivityThumbnailDTO {
-    /** @format int64 */
+    /**
+     * Activity ID
+     * @format int64
+     * @example 1
+     */
     activityId?: number;
+    /**
+     * Thumbnail image URL
+     * @example "https://.../thumbnail.png"
+     */
     thumbnailUrl?: string;
 }
 
@@ -604,10 +1296,13 @@ export interface ApiResponseGetAllActivityResponse {
     isSuccess?: boolean;
     code?: string;
     message?: string;
+    /** DTO for getting all activities response */
     result?: GetAllActivityResponse;
 }
 
+/** DTO for getting all activities response */
 export interface GetAllActivityResponse {
+    /** List of activity thumbnail DTOs */
     activityThumbnailDTOList?: ActivityThumbnailDTO[];
 }
 
@@ -615,18 +1310,38 @@ export interface ApiResponseRecentActivityLogResponse {
     isSuccess?: boolean;
     code?: string;
     message?: string;
+    /** DTO for recent activity log response */
     result?: RecentActivityLogResponse;
 }
 
+/** Recent activity log */
 export interface RecentActivityLog {
+    /**
+     * Activity image URL
+     * @example "https://.../activity.png"
+     */
     imageUrl?: string;
-    /** @format int64 */
+    /**
+     * Club ID
+     * @format int64
+     * @example 1
+     */
     clubId?: number;
+    /**
+     * Club name
+     * @example "Hanjari"
+     */
     clubName?: string;
+    /**
+     * Club profile image URL
+     * @example "https://.../club_profile.png"
+     */
     clubProfileImageUrl?: string;
 }
 
+/** DTO for recent activity log response */
 export interface RecentActivityLogResponse {
+    /** List of recent activity logs */
     activityLogs?: RecentActivityLog[];
 }
 
