@@ -59,11 +59,11 @@ const ClubInfo = styled.div`
 const ClubName = styled.p`
     font-weight: 500;
     font-size: 12px;
-    color: '#1C232C';
+    color: #1c232c;
 `;
 
 const ClubSNSId = styled.p`
     font-weight: 400;
     font-size: 12px;
-    color: '#587189';
+    color: #587189;
 `;
