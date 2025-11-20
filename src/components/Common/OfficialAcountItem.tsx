@@ -32,13 +32,15 @@ const ItemContainer = styled.div`
     display: flex;
     gap: 8px;
     justify-content: center;
+    align-items: center;
     flex-direction: column;
+    background-color: #fdfdfd;
+    border: 1px solid #eceff3;
 `;
 
 const ClubLogoContainr = styled.div`
     width: 72px;
     height: 72px;
-    padding: 0 16px 0 16px;
 `;
 
 const ClubLogo = styled.img`
@@ -49,6 +51,9 @@ const ClubLogo = styled.img`
 
 const ClubInfo = styled.div`
     padding: 0 12px 0 12px;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
 `;
 
 const ClubName = styled.p`
