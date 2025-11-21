@@ -4,15 +4,17 @@ interface OfficialAcountItemProps {
     clubLogoUrl?: string;
     clubName: string;
     clubSNSId: string;
+    onClick: () => void;
 }
 
 export default function OfficialAcountItem({
     clubName,
     clubLogoUrl,
     clubSNSId,
+    onClick,
 }: OfficialAcountItemProps) {
     return (
-        <ItemContainer>
+        <ItemContainer onClick={onClick}>
             <ClubLogoContainr>
                 <ClubLogo src={clubLogoUrl} />
             </ClubLogoContainr>
