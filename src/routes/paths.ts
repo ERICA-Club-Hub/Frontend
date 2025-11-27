@@ -11,6 +11,8 @@ export const PATHS = {
         activityId?: number | string,
     ) => `/club/${clubId}/${activityId}`,
 
+    CLUB_OFFICIAL_ACOUNTS_LIST: () => `/official-accounts`,
+
     /* 자료실 */
     RESOURCES: '/resources',
 

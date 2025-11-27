@@ -30,6 +30,7 @@ import ReviewRegistrationsPage from '@/pages/admin/service/registrations/ReviewR
 import ClubManagementPage from '@/pages/admin/service/club-management/ClubManagementPage';
 import RegistrationsDetailPage from '@/pages/admin/service/registrations/RegistrationsDetailPage';
 import ClubActivityLogDetailPage from '@/pages/club-detail/ClubActivityLogDetailPage';
+import OfficialAccountsPage from '@/pages/official-accounts/OfficialAccountsPage';
 
 export default function AppRoutes() {
     return (
@@ -81,6 +82,11 @@ export default function AppRoutes() {
                     element={<CompleteClubRegisterPage />}
                 />
             </Route>
+
+            <Route
+                path="official-accounts"
+                element={<OfficialAccountsPage />}
+            />
 
             {/* --- 어드민 --- */}
             <Route path="/admin" element={<AuthGuard />}>
