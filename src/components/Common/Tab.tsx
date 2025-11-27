@@ -29,11 +29,10 @@ const TabItem = ({
     return (
         <TabButton
             onClick={() => !disabled && onTabChange(tabKey)}
-            $isActive={isActive}
             disabled={disabled}
             className={className}
         >
-            {children}
+            <TabText $isActive={isActive}>{children}</TabText>
         </TabButton>
     );
 };
@@ -70,29 +69,42 @@ const StyledTabContainer = styled.div<{
     background-color: ${(props) => props.$backgroundColor};
 `;
 
-const TabButton = styled.button<{
-    $isActive: boolean;
-}>`
+const TabButton = styled.button`
     flex: 1;
     width: auto;
     padding-top: 24px;
-    padding-bottom: 7px;
     border: none;
-    border-bottom: 2px solid
-        ${(props) => (props.$isActive ? '#33639C' : 'transparent')};
-    color: ${(props) => (props.disabled ? '#cccccc' : '#000000')};
-    font-weight: 500;
-    font-size: 14px;
-    cursor: ${(props) => (props.disabled ? 'not-allowed' : 'pointer')};
+    background: transparent;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
     transition: all 0.2s ease;
 
     &:hover {
-        opacity: ${(props) => (props.disabled ? 1 : 0.8)};
+        opacity: 0.8;
     }
 
     &:disabled {
-        color: #cccccc;
         cursor: not-allowed;
+        opacity: 1;
+    }
+`;
+
+const TabText = styled.span<{
+    $isActive: boolean;
+}>`
+    display: inline-block;
+    padding-bottom: 7px;
+    border-bottom: 2px solid
+        ${(props) => (props.$isActive ? '#33639C' : 'transparent')};
+    color: #000000;
+    font-weight: ${(props) => (props.$isActive ? '600' : '400')};
+    font-size: 14px;
+    transition: all 0.2s ease;
+
+    ${TabButton}:disabled & {
+        color: #cccccc;
     }
 `;
 
