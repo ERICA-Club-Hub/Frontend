@@ -4,10 +4,10 @@ import { useQuery } from '@tanstack/react-query';
 
 export const useClubSNS = () => {
     const { data, isLoading, isError } = useQuery({
-        queryKey: ['club', 'official-accounts'],
+        queryKey: ['club', 'instagram', 'popular'],
         queryFn: async (): Promise<ApiResponseGetOfficialAccounts> => {
             const reponse = await apiRequest({
-                url: '/api/clubs/official-accounts',
+                url: '/api/clubs/instagram/popular',
             });
             return reponse;
         },
