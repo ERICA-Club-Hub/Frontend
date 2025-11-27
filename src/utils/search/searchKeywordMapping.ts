@@ -305,7 +305,11 @@ export const getDepartmentOptions = (
     value: DepartmentCode;
     label: string;
 }[] => {
-    if (collegeCode && collegeCode in COLLEGE_MAPPING) {
+    if (!collegeCode) {
+        return [];
+    }
+
+    if (collegeCode in COLLEGE_MAPPING) {
         return getDepartmentsByCollege(collegeCode as CollegeCode).map(
             (dept) => ({
                 value: dept.code,
@@ -314,14 +318,8 @@ export const getDepartmentOptions = (
         );
     }
 
-    return (
-        Object.entries(DEPARTMENT_MAPPING) as [DepartmentCode, string][]
-    ).map(([code, name]) => ({
-        value: code,
-        label: name,
-    }));
+    return [];
 };
-
 export const getCentralCategoryOptions = (): {
     value: CentralCategoryCode;
     label: string;
@@ -356,4 +354,243 @@ export const getCentralCategoryDisplayByKoreanName = (
         ([_, value]) => value.includes(koreanName),
     );
     return categoryEntry ? categoryEntry[1] : `🎓 ${koreanName}`;
+};
+
+export type SortByCode = 'NAME_ASC' | 'CATEGORY_ASC' | 'RECRUITMENT_STATUS_ASC';
+
+export const SORT_BY_MAPPING: Record<SortByCode, string> = {
+    NAME_ASC: '이름순',
+    CATEGORY_ASC: '카테고리순',
+    RECRUITMENT_STATUS_ASC: '모집상태순',
+};
+
+export const getSortByDisplay = (sortByCode: SortByCode): string => {
+    return SORT_BY_MAPPING[sortByCode] || sortByCode;
+};
+
+export const getSortByOptions = (): {
+    value: SortByCode;
+    label: string;
+}[] => {
+    return (Object.entries(SORT_BY_MAPPING) as [SortByCode, string][]).map(
+        ([code, name]) => ({
+            value: code,
+            label: name,
+        }),
+    );
+};
+
+// ===== 모집 상태 매핑 =====
+export type RecruitmentStatusCode = 'UPCOMING' | 'OPEN' | 'CLOSED';
+
+export const RECRUITMENT_STATUS_MAPPING: Record<RecruitmentStatusCode, string> =
+    {
+        UPCOMING: '모집 예정',
+        OPEN: '모집중',
+        CLOSED: '모집 마감',
+    };
+
+export const getRecruitmentStatusDisplay = (
+    statusCode: RecruitmentStatusCode,
+): string => {
+    return RECRUITMENT_STATUS_MAPPING[statusCode] || statusCode;
+};
+
+export const getRecruitmentStatusOptions = (): {
+    value: RecruitmentStatusCode;
+    label: string;
+}[] => {
+    return (
+        Object.entries(RECRUITMENT_STATUS_MAPPING) as [
+            RecruitmentStatusCode,
+            string,
+        ][]
+    ).map(([code, name]) => ({
+        value: code,
+        label: name,
+    }));
+};
+
+// ===== 서버 DTO → 한글명만 (이모지 제외) =====
+export const getCollegeNameOnly = (collegeCode: CollegeCode): string => {
+    const fullDisplay = COLLEGE_MAPPING[collegeCode] || collegeCode;
+    return fullDisplay.replace(/^[^\s]+\s/, ''); // 이모지 제거
+};
+
+export const getDepartmentNameOnly = (
+    departmentCode: DepartmentCode,
+): string => {
+    const fullDisplay = DEPARTMENT_MAPPING[departmentCode] || departmentCode;
+    return fullDisplay.replace(/^[^\s]+\s/, ''); // 이모지 제거
+};
+
+export const getCentralCategoryNameOnly = (
+    categoryCode: CentralCategoryCode,
+): string => {
+    const fullDisplay = CENTRAL_CATEGORY_MAPPING[categoryCode] || categoryCode;
+    return fullDisplay.replace(/^[^\s]+\s/, ''); // 이모지 제거
+};
+
+export const getUnionCategoryNameOnly = (
+    categoryCode: UnionCategoryCode,
+): string => {
+    const fullDisplay = UNION_CATEGORY_MAPPING[categoryCode] || categoryCode;
+    return fullDisplay.replace(/^[^\s]+\s/, ''); // 이모지 제거
+};
+
+// ===== 카테고리별 한글명 리스트 (이모지 포함) =====
+export const getAllCollegesWithEmoji = (): string[] => {
+    return Object.values(COLLEGE_MAPPING);
+};
+
+export const getAllDepartmentsWithEmoji = (): string[] => {
+    return Object.values(DEPARTMENT_MAPPING);
+};
+
+export const getAllCentralCategoriesWithEmoji = (): string[] => {
+    return Object.values(CENTRAL_CATEGORY_MAPPING);
+};
+
+export const getAllUnionCategoriesWithEmoji = (): string[] => {
+    return Object.values(UNION_CATEGORY_MAPPING);
+};
+
+// ===== 카테고리별 한글명 리스트 (이모지 제외) =====
+export const getAllCollegesNameOnly = (): string[] => {
+    return Object.values(COLLEGE_MAPPING).map((name) =>
+        name.replace(/^[^\s]+\s/, ''),
+    );
+};
+
+export const getAllDepartmentsNameOnly = (): string[] => {
+    return Object.values(DEPARTMENT_MAPPING).map((name) =>
+        name.replace(/^[^\s]+\s/, ''),
+    );
+};
+
+export const getAllCentralCategoriesNameOnly = (): string[] => {
+    return Object.values(CENTRAL_CATEGORY_MAPPING).map((name) =>
+        name.replace(/^[^\s]+\s/, ''),
+    );
+};
+
+export const getAllUnionCategoriesNameOnly = (): string[] => {
+    return Object.values(UNION_CATEGORY_MAPPING).map((name) =>
+        name.replace(/^[^\s]+\s/, ''),
+    );
+};
+
+// ===== 특정 단과대의 학과 리스트 (이모지 포함) =====
+export const getDepartmentsByCollegeWithEmoji = (
+    collegeCode: CollegeCode,
+): string[] => {
+    const departments = COLLEGE_DEPARTMENT_MAPPING[collegeCode] || [];
+    return departments.map((dept) => DEPARTMENT_MAPPING[dept]);
+};
+
+// ===== 특정 단과대의 학과 리스트 (이모지 제외) =====
+export const getDepartmentsByCollegeNameOnly = (
+    collegeCode: CollegeCode,
+): string[] => {
+    const departments = COLLEGE_DEPARTMENT_MAPPING[collegeCode] || [];
+    return departments.map((dept) =>
+        DEPARTMENT_MAPPING[dept].replace(/^[^\s]+\s/, ''),
+    );
+};
+
+// ===== 역방향 매핑: 한글명 → 서버 코드 =====
+export const getCollegeCodeByName = (name: string): CollegeCode | null => {
+    const entry = Object.entries(COLLEGE_MAPPING).find(
+        ([_, value]) => value === name || value.includes(name),
+    );
+    return entry ? (entry[0] as CollegeCode) : null;
+};
+
+export const getDepartmentCodeByName = (
+    name: string,
+): DepartmentCode | null => {
+    const entry = Object.entries(DEPARTMENT_MAPPING).find(
+        ([_, value]) => value === name || value.includes(name),
+    );
+    return entry ? (entry[0] as DepartmentCode) : null;
+};
+
+export const getCentralCategoryCodeByName = (
+    name: string,
+): CentralCategoryCode | null => {
+    const entry = Object.entries(CENTRAL_CATEGORY_MAPPING).find(
+        ([_, value]) => value === name || value.includes(name),
+    );
+    return entry ? (entry[0] as CentralCategoryCode) : null;
+};
+
+export const getUnionCategoryCodeByName = (
+    name: string,
+): UnionCategoryCode | null => {
+    const entry = Object.entries(UNION_CATEGORY_MAPPING).find(
+        ([_, value]) => value === name || value.includes(name),
+    );
+    return entry ? (entry[0] as UnionCategoryCode) : null;
+};
+
+// 드롭다운용 옵션 생성 (이모지 제외)
+export const getCollegeOptionsNameOnly = (): {
+    value: CollegeCode;
+    label: string;
+}[] => {
+    return (Object.entries(COLLEGE_MAPPING) as [CollegeCode, string][]).map(
+        ([code, name]) => ({
+            value: code,
+            label: name.replace(/^[^\s]+\s/, ''), // 이모지 제거
+        }),
+    );
+};
+
+export const getDepartmentOptionsNameOnly = (
+    collegeCode?: string,
+): {
+    value: DepartmentCode;
+    label: string;
+}[] => {
+    if (!collegeCode) {
+        return [];
+    }
+
+    if (collegeCode in COLLEGE_MAPPING) {
+        return getDepartmentsByCollege(collegeCode as CollegeCode).map(
+            (dept) => ({
+                value: dept.code,
+                label: dept.name.replace(/^[^\s]+\s/, ''), // 이모지 제거
+            }),
+        );
+    }
+
+    return [];
+};
+
+export const getCentralCategoryOptionsNameOnly = (): {
+    value: CentralCategoryCode;
+    label: string;
+}[] => {
+    return (
+        Object.entries(CENTRAL_CATEGORY_MAPPING) as [
+            CentralCategoryCode,
+            string,
+        ][]
+    ).map(([code, name]) => ({
+        value: code,
+        label: name.replace(/^[^\s]+\s/, ''), // 이모지 제거
+    }));
+};
+
+export const getUnionCategoryOptionsNameOnly = (): {
+    value: UnionCategoryCode;
+    label: string;
+}[] => {
+    return (
+        Object.entries(UNION_CATEGORY_MAPPING) as [UnionCategoryCode, string][]
+    ).map(([code, name]) => ({
+        value: code,
+        label: name.replace(/^[^\s]+\s/, ''), // 이모지 제거
+    }));
 };

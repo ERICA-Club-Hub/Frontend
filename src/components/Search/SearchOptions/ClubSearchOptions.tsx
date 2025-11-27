@@ -1,8 +1,8 @@
 import {
-    getCentralCategoryOptions,
-    getCollegeOptions,
-    getDepartmentOptions,
-    getUnionCategoryOptions,
+    getCentralCategoryOptionsNameOnly,
+    getCollegeOptionsNameOnly,
+    getDepartmentOptionsNameOnly,
+    getUnionCategoryOptionsNameOnly,
 } from '@/utils/search/searchKeywordMapping';
 import ClubListDropdown from './ClubListDropdown';
 
@@ -47,9 +47,9 @@ export function StatusDropdown({ selectedValue, onSelect }: DropdownProps) {
 export function CollegeDropdown({ selectedValue, onSelect }: DropdownProps) {
     return (
         <ClubListDropdown
-            title="단과대명"
+            title="단과대"
             selectedValue={selectedValue}
-            options={getCollegeOptions()}
+            options={getCollegeOptionsNameOnly()}
             onSelect={onSelect}
         />
     );
@@ -66,9 +66,9 @@ export function DepartmentDropdown({
 }: DepartmentDropdownProps) {
     return (
         <ClubListDropdown
-            title="단과대명"
+            title="학과"
             selectedValue={selectedValue}
-            options={getDepartmentOptions(college)}
+            options={getDepartmentOptionsNameOnly(college)}
             onSelect={onSelect}
         />
     );
@@ -80,9 +80,9 @@ export function UnionCategoryDropdown({
 }: DropdownProps) {
     return (
         <ClubListDropdown
-            title="연합 동아리 카테고리"
+            title="분야"
             selectedValue={selectedValue}
-            options={getUnionCategoryOptions()}
+            options={getUnionCategoryOptionsNameOnly()}
             onSelect={onSelect}
         />
     );
@@ -94,9 +94,9 @@ export function CentralCategoryDropdown({
 }: DropdownProps) {
     return (
         <ClubListDropdown
-            title="중앙 동아리 카테고리"
+            title="분과"
             selectedValue={selectedValue}
-            options={getCentralCategoryOptions()}
+            options={getCentralCategoryOptionsNameOnly()}
             onSelect={onSelect}
         />
     );
