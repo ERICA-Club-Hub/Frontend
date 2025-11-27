@@ -6,7 +6,11 @@ import {
     isValidCategory,
 } from '@/utils/search/searchTabMapping';
 
-export type TabCategory = '중앙동아리' | '단과대' | '학과' | '연합동아리';
+export type TabCategory =
+    | '중앙동아리'
+    | '단과대동아리'
+    | '학과동아리'
+    | '연합동아리';
 
 const TAB_TYPE_PARAM = 'type';
 
@@ -21,9 +25,11 @@ export default function SearchTab() {
 
     const handleTabChange = (category: string) => {
         if (isValidCategory(category)) {
-            const newParams = new URLSearchParams(searchParams);
             const serverValue = getServerTabValue(category);
+
+            const newParams = new URLSearchParams();
             newParams.set(TAB_TYPE_PARAM, serverValue);
+
             setSearchParams(newParams);
         }
     };
@@ -38,18 +44,18 @@ export default function SearchTab() {
                 중앙동아리
             </Tab.Item>
             <Tab.Item
-                tabKey="단과대"
+                tabKey="단과대동아리"
                 activeTab={activeCategory}
                 onTabChange={handleTabChange}
             >
-                단과대
+                단과대동아리
             </Tab.Item>
             <Tab.Item
-                tabKey="학과"
+                tabKey="학과동아리"
                 activeTab={activeCategory}
                 onTabChange={handleTabChange}
             >
-                학과
+                학과동아리
             </Tab.Item>
             <Tab.Item
                 tabKey="연합동아리"
