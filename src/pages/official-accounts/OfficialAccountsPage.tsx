@@ -1,6 +1,5 @@
 import OfficialAcountItem from '@/components/Common/OfficialAcountItem';
 import SearchTab from '@/components/Search/SearchTab';
-import { useClubSNS } from '@/hooks/queries/main/useClubSNS';
 import styled from 'styled-components';
 import { useSearchParams } from 'react-router-dom';
 import {
@@ -9,17 +8,50 @@ import {
     DepartmentDropdown,
     UnionCategoryDropdown,
 } from '@/components/Search/SearchOptions/ClubSearchOptions';
+import { useClubSNSByType } from '@/hooks/queries/main/useClubSNS';
+import { useEffect } from 'react';
+import { ClubType } from '@/hooks/queries/useClubList';
+
+const VALID_TABS: Record<string, ClubType> = {
+    central: 'central',
+    union: 'union',
+    college: 'college',
+    department: 'department',
+};
 
 export default function OfficialAccountsPage() {
-    const { data, isLoading, isError } = useClubSNS();
     const [searchParams, setSearchParams] = useSearchParams();
 
-    const accounts = data?.result?.officialAccounts ?? [];
-
-    const currentTab = searchParams.get('type') || 'central';
+    const tabParam = searchParams.get('type') || 'central';
+    const currentTabParam = VALID_TABS[tabParam] || 'central';
     const selectedCategory = searchParams.get('category');
     const selectedCollege = searchParams.get('college');
     const selectedDepartment = searchParams.get('department');
+
+    const { accounts, fetchNextPage, hasNextPage, isFetchingNextPage } =
+        useClubSNSByType({
+            clubType: currentTabParam,
+            category: selectedCategory || undefined,
+            college: selectedCollege || undefined,
+            department: selectedDepartment || undefined,
+            size: 12,
+        });
+
+    useEffect(() => {
+        const handleScroll = () => {
+            if (
+                window.innerHeight + document.documentElement.scrollTop >=
+                document.documentElement.offsetHeight - 1000
+            ) {
+                if (hasNextPage && !isFetchingNextPage) {
+                    fetchNextPage();
+                }
+            }
+        };
+
+        window.addEventListener('scroll', handleScroll);
+        return () => window.removeEventListener('scroll', handleScroll);
+    }, [hasNextPage, isFetchingNextPage, fetchNextPage]);
 
     const updateSearchParam = (searchKey: string, value: string) => {
         const newParams = new URLSearchParams(searchParams);
@@ -41,7 +73,7 @@ export default function OfficialAccountsPage() {
                 </TabContainer>
 
                 <DropdownContainer>
-                    {currentTab === 'central' && (
+                    {currentTabParam === 'central' && (
                         <CentralCategoryDropdown
                             selectedValue={selectedCategory}
                             onSelect={(value) =>
@@ -50,7 +82,7 @@ export default function OfficialAccountsPage() {
                         />
                     )}
 
-                    {currentTab === 'college' && (
+                    {currentTabParam === 'college' && (
                         <CollegeDropdown
                             selectedValue={selectedCollege}
                             onSelect={(value) =>
@@ -59,7 +91,7 @@ export default function OfficialAccountsPage() {
                         />
                     )}
 
-                    {currentTab === 'department' && (
+                    {currentTabParam === 'department' && (
                         <>
                             <CollegeDropdown
                                 selectedValue={selectedCollege}
@@ -77,7 +109,7 @@ export default function OfficialAccountsPage() {
                         </>
                     )}
 
-                    {currentTab === 'union' && (
+                    {currentTabParam === 'union' && (
                         <UnionCategoryDropdown
                             selectedValue={selectedCategory}
                             onSelect={(value) =>
@@ -88,13 +120,10 @@ export default function OfficialAccountsPage() {
                 </DropdownContainer>
 
                 <ClubSearchContainer>
-                    {isLoading && <div>불러오는 중...</div>}
-                    {isError && <div>오류가 발생했습니다.</div>}
-                    {accounts &&
-                        accounts.length > 0 &&
-                        accounts.map((account) => (
+                    {accounts.length > 0 &&
+                        accounts.map((account, index) => (
                             <OfficialAcountItem
-                                key={`${account.clubName}-${account.accountName}`}
+                                key={`${account.clubName}-${account.accountName}-${index}`}
                                 clubName={account.clubName ?? ''}
                                 clubLogoUrl={account.profileImage}
                                 clubSNSId={account.accountName ?? ''}

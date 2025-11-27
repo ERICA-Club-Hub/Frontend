@@ -34,7 +34,7 @@ import {
   ApiResponseGetAllAnnouncementResponse,
   ApiResponseGetAllDocumentsResponse,
   ApiResponseGetDocumentFilesResponse,
-  ApiResponseGetOfficialAccounts,
+  ApiResponseGetInstagrams,
   ApiResponseGetRegistrationsResponse,
   ApiResponseGetSpecificActivityResponse,
   ApiResponseLoginResponse,
@@ -73,6 +73,11 @@ import {
   GetClubSchedulesParams,
   GetCollageClubsByConditionParams,
   GetDocumentFilesParams,
+  GetInstagramCentralParams,
+  GetInstagramCollegeParams,
+  GetInstagramDepartmentParams,
+  GetInstagramParams,
+  GetInstagramUnionParams,
   GetPopularClubsParams,
   GetServiceAnnouncementParams,
   GetSpecificActivityParams,
@@ -1078,15 +1083,107 @@ export class Api<
   /**
    * No description
    *
-   * @tags club-controller
-   * @name GetOfficialAccounts
-   * @request GET:/api/clubs/official-accounts
+   * @tags club-instagram-search-controller
+   * @name GetInstagram
+   * @request GET:/api/clubs/instagram
    * @secure
    */
-  getOfficialAccounts = (params: RequestParams = {}) =>
-    this.request<ApiResponseGetOfficialAccounts, any>({
-      path: `/api/clubs/official-accounts`,
+  getInstagram = (query: GetInstagramParams, params: RequestParams = {}) =>
+    this.request<ApiResponseGetInstagrams, any>({
+      path: `/api/clubs/instagram`,
       method: "GET",
+      query: query,
+      secure: true,
+      ...params,
+    });
+  /**
+   * No description
+   *
+   * @tags club-instagram-search-controller
+   * @name GetInstagramUnion
+   * @request GET:/api/clubs/instagram/union
+   * @secure
+   */
+  getInstagramUnion = (
+    query: GetInstagramUnionParams,
+    params: RequestParams = {},
+  ) =>
+    this.request<ApiResponseGetInstagrams, any>({
+      path: `/api/clubs/instagram/union`,
+      method: "GET",
+      query: query,
+      secure: true,
+      ...params,
+    });
+  /**
+   * No description
+   *
+   * @tags club-instagram-search-controller
+   * @name GetInstagramPopular
+   * @request GET:/api/clubs/instagram/popular
+   * @secure
+   */
+  getInstagramPopular = (params: RequestParams = {}) =>
+    this.request<ApiResponseGetInstagrams, any>({
+      path: `/api/clubs/instagram/popular`,
+      method: "GET",
+      secure: true,
+      ...params,
+    });
+  /**
+   * No description
+   *
+   * @tags club-instagram-search-controller
+   * @name GetInstagramDepartment
+   * @request GET:/api/clubs/instagram/department
+   * @secure
+   */
+  getInstagramDepartment = (
+    query: GetInstagramDepartmentParams,
+    params: RequestParams = {},
+  ) =>
+    this.request<ApiResponseGetInstagrams, any>({
+      path: `/api/clubs/instagram/department`,
+      method: "GET",
+      query: query,
+      secure: true,
+      ...params,
+    });
+  /**
+   * No description
+   *
+   * @tags club-instagram-search-controller
+   * @name GetInstagramCollege
+   * @request GET:/api/clubs/instagram/college
+   * @secure
+   */
+  getInstagramCollege = (
+    query: GetInstagramCollegeParams,
+    params: RequestParams = {},
+  ) =>
+    this.request<ApiResponseGetInstagrams, any>({
+      path: `/api/clubs/instagram/college`,
+      method: "GET",
+      query: query,
+      secure: true,
+      ...params,
+    });
+  /**
+   * No description
+   *
+   * @tags club-instagram-search-controller
+   * @name GetInstagramCentral
+   * @request GET:/api/clubs/instagram/central
+   * @secure
+   */
+  getInstagramCentral = (
+    query: GetInstagramCentralParams,
+    params: RequestParams = {},
+  ) =>
+    this.request<ApiResponseGetInstagrams, any>({
+      path: `/api/clubs/instagram/central`,
+      method: "GET",
+      query: query,
       secure: true,
       ...params,
     });
