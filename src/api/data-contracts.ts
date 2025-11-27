@@ -1106,22 +1106,30 @@ export interface GetRegistrationsResponse {
     clubRegistrationResponseDTOList?: ClubRegistrationResponse[];
 }
 
-export interface ApiResponseGetOfficialAccounts {
+export interface ApiResponseGetInstagrams {
     isSuccess?: boolean;
     code?: string;
     message?: string;
-    result?: GetOfficialAccounts;
+    result?: GetInstagrams;
 }
 
-export interface ClubInstaAccountDTO {
+export interface ClubInstagramDTO {
     clubName?: string;
     accountName?: string;
     profileImage?: string;
     instagramProfileUrl?: string;
 }
 
-export interface GetOfficialAccounts {
-    officialAccounts?: ClubInstaAccountDTO[];
+export interface GetInstagrams {
+    officialAccounts?: ClubInstagramDTO[];
+    /** @format int64 */
+    totalElements?: number;
+    /** @format int32 */
+    page?: number;
+    /** @format int32 */
+    size?: number;
+    /** @format int32 */
+    totalPage?: number;
 }
 
 export interface ApiResponseClubRecruitmentDraftResponse {
@@ -1561,6 +1569,138 @@ export interface GetUnionClubsByConditionParams {
 }
 
 export interface GetPopularClubsParams {
+    /**
+     * @format int32
+     * @default 0
+     */
+    page?: number;
+    /**
+     * @format int32
+     * @default 10
+     */
+    size?: number;
+}
+
+export interface GetInstagramParams {
+    clubType: 'CENTRAL' | 'UNION' | 'COLLEGE' | 'DEPARTMENT';
+    /**
+     * @format int32
+     * @default 0
+     */
+    page?: number;
+    /**
+     * @format int32
+     * @default 10
+     */
+    size?: number;
+}
+
+export interface GetInstagramUnionParams {
+    category?:
+        | 'IT'
+        | 'MARKETING_AD'
+        | 'ECONOMY_MANAGEMENT'
+        | 'VOLUNTEER'
+        | 'SPORTS'
+        | 'LANGUAGE'
+        | 'PRESENTATION'
+        | 'BOOK'
+        | 'ETC';
+    /**
+     * @format int32
+     * @default 0
+     */
+    page?: number;
+    /**
+     * @format int32
+     * @default 10
+     */
+    size?: number;
+}
+
+export interface GetInstagramDepartmentParams {
+    department?:
+        | 'ARCHITECTURE'
+        | 'CONSTRUCTION_ENVIRONMENT'
+        | 'TRANSPORT_LOGISTICS'
+        | 'ELECTRICAL_ENGINEERING'
+        | 'BATTERY_MATERIAL_CHEMICAL'
+        | 'MATERIAL_CHEMICAL'
+        | 'MECHANICAL'
+        | 'INDUSTRIAL_MANAGEMENT'
+        | 'ROBOT'
+        | 'FUSION_SYSTEM'
+        | 'SMART_FUSION'
+        | 'INTELLIGENT_ROBOT'
+        | 'ENERGY_BIO'
+        | 'MARINE_FUSION'
+        | 'COMPUTER'
+        | 'ICT'
+        | 'AI'
+        | 'DATA'
+        | 'PHARMACY'
+        | 'SEMICONDUCTOR'
+        | 'BIO'
+        | 'DEFENSE_INTELLIGENCE'
+        | 'KOREAN_STUDIES'
+        | 'CHINA_STUDIES'
+        | 'JAPAN_STUDIES'
+        | 'ENGLISH_STUDIES'
+        | 'FRENCH_STUDIES'
+        | 'ADVERTISING'
+        | 'MEDIA'
+        | 'CULTURE'
+        | 'ANTHROPOLOGY'
+        | 'BUSINESS_ADMINISTRATION'
+        | 'ECONOMICS'
+        | 'ACTUARIAL_SCIENCE'
+        | 'ACCOUNTING'
+        | 'INTEGRATED_DESIGN'
+        | 'JEWELRY'
+        | 'INDUSTRIAL_DESIGN'
+        | 'COMMUNICATION_DESIGN'
+        | 'MEDIA_DESIGN'
+        | 'SPORTS_SCIENCE'
+        | 'DANCE'
+        | 'MUSIC';
+    /**
+     * @format int32
+     * @default 0
+     */
+    page?: number;
+    /**
+     * @format int32
+     * @default 10
+     */
+    size?: number;
+}
+
+export interface GetInstagramCollegeParams {
+    college?:
+        | 'GLOBAL_LAW_COMMUNICATION'
+        | 'KYUNG_SANG'
+        | 'COMMUNICATION_CULTURE'
+        | 'ENGINEERING'
+        | 'CONVERGENCE'
+        | 'SOFTWARE'
+        | 'DESIGN'
+        | 'PHARMACY'
+        | 'SPORT_ARTS'
+        | 'LIONS_COLLEGE';
+    /**
+     * @format int32
+     * @default 0
+     */
+    page?: number;
+    /**
+     * @format int32
+     * @default 10
+     */
+    size?: number;
+}
+
+export interface GetInstagramCentralParams {
+    category?: 'VOLUNTEER' | 'ART' | 'SPORTS' | 'RELIGION' | 'ACADEMIC';
     /**
      * @format int32
      * @default 0
