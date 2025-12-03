@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 import { useToast } from '../actions/useToast';
 import { useTokenExpired } from '../auth/useTokenExpired';
 
@@ -6,7 +6,7 @@ const useErrorHandler = () => {
     const { showToast } = useToast();
     const { handleTokenExpired } = useTokenExpired();
 
-    const handleError = (error: any, action?: () => void) => {
+    const handleError = (error: AxiosError, action?: () => void) => {
         if (axios.isAxiosError(error)) {
             const status = error.response?.status;
 
