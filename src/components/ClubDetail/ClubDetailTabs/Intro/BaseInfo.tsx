@@ -9,6 +9,14 @@ import {
     useClubInfo,
     useIsPreview,
 } from '@/hooks/queries/club-detail/useClubIntro';
+import { FALLBACK_MESSAGES } from '@/constants/BASE_INFO_FALLBACK';
+
+type BaseInfoItem = {
+    key: string;
+    iconUrl: string;
+    label: string;
+    value: string;
+} & ({ clickable: true; onClick: () => void } | { clickable: false });
 
 export default function BaseInfo() {
     const { id, isPreview } = useIsPreview();
@@ -21,26 +29,26 @@ export default function BaseInfo() {
         }
     };
 
-    const baseInfo = [
+    const baseInfo: BaseInfoItem[] = [
         {
             key: 'leader',
             iconUrl: jjang,
             label: '대표',
-            value: data?.leaderName || '대표자 이름이 없습니다.',
+            value: data?.leaderName || FALLBACK_MESSAGES.leader,
             clickable: false,
         },
         {
             key: 'contact',
             iconUrl: phone,
             label: '연락처',
-            value: data?.leaderPhone || '연락처 정보가 제공되지 않았습니다.',
+            value: data?.leaderPhone || FALLBACK_MESSAGES.contact,
             clickable: false,
         },
         {
             key: 'meeting',
             iconUrl: label,
             label: '정기모임',
-            value: data?.activities || '정해진 정기모임이 없습니다.',
+            value: data?.activities || FALLBACK_MESSAGES.meeting,
             clickable: false,
         },
         {
@@ -49,17 +57,29 @@ export default function BaseInfo() {
             label: '회비',
             value: data?.membershipFee
                 ? `${data.membershipFee}원`
-                : '회비 정보가 제공되지 않았습니다.',
+                : FALLBACK_MESSAGES.fee,
             clickable: false,
         },
-        {
-            key: 'sns',
-            iconUrl: sns,
-            label: 'SNS',
-            value: data?.snsUrl ? `@${data.snsUrl}` : 'SNS 정보가 없습니다.',
-            clickable: !!data?.snsUrl,
-            onClick: handleSnsClick,
-        },
+        ...(data?.snsUrl
+            ? [
+                  {
+                      key: 'sns',
+                      iconUrl: sns,
+                      label: 'SNS',
+                      value: `@${data.snsUrl}`,
+                      clickable: true,
+                      onClick: handleSnsClick,
+                  } satisfies BaseInfoItem,
+              ]
+            : [
+                  {
+                      key: 'sns',
+                      iconUrl: sns,
+                      label: 'SNS',
+                      value: FALLBACK_MESSAGES.sns,
+                      clickable: false,
+                  } satisfies BaseInfoItem,
+              ]),
     ];
 
     return (
