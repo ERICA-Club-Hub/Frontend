@@ -1,16 +1,35 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko">
     <head>
         <meta charset="UTF-8" />
         <meta
             name="viewport"
             content="width=device-width, initial-scale=1.0, user-scalable=no"
         />
-        <meta content="/thumbnail.png" property="og:image" />
+        <meta name="robots" content="index, follow" />
         <meta
-            content="한양대학교 ERICA 동아리 모음 서비스"
+            name="keywords"
+            content="한자리, 한양대, 한양대학교, ERICA, 에리카, 동아리, 대학 동아리, 한양대 동아리, 한양대 에리카 동아리, 동아리 모집, 동아리 정보"
+        />
+        <meta
+            name="description"
+            content="한양대학교 ERICA 캠퍼스의 모든 동아리를 한자리에서 만나보세요. 동아리 정보, 활동 내용, 모집 공고를 한눈에 확인하세요."
+        />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://hanjari.site" />
+        <meta property="og:title" content="한자리 - 한양대 ERICA 동아리 모음" />
+        <meta
+            content="한양대학교 ERICA 캠퍼스의 모든 동아리를 한자리에서"
             property="og:description"
         />
+        <meta property="og:image:width" content="1200" />
+        <meta property="og:image:height" content="630" />
+        <meta content="/thumbnail.png" property="og:image" />
+        <meta property="og:image:alt" content="한자리 로고" />
+        <meta property="og:site_name" content="한자리" />
+        <meta property="og:locale" content="ko_KR" />
+        <meta name="author" content="한자리 팀" />
+
         <link rel="icon" type="image/png" href="/maskable_icon_x48.png" />
         <link rel="icon" type="image/png" href="/maskable_icon_x72.png" />
         <link rel="icon" type="image/png" href="/maskable_icon_x96.png" />
@@ -26,9 +45,36 @@
         />
         <link rel="mask-icon" href="/mask-icon.svg" color="#FFFFFF" />
         <meta name="theme-color" content="#ffffff" />
-        <title>한자리</title>
+        <title>한자리 - 한양대 ERICA 동아리 모음</title>
 
-      
+        <!-- TODO 검색 엔드포인트 추가 -->
+        <script type="application/ld+json">
+            {
+                "@context": "https://schema.org",
+                "@type": "WebSite",
+                "name": "한자리",
+                "alternateName": "hanjari",
+                "url": "https://hanjari.site",
+                "description": "한양대학교 ERICA 캠퍼스 동아리 모음 플랫폼",
+                "potentialAction": {
+                    "@type": "SearchAction",
+                    "target": "https://hanjari.site/club/search?keyword={search_term_string}",
+                    "query-input": "required name=search_term_string"
+                }
+            }
+        </script>
+
+        <script type="application/ld+json">
+            {
+                "@context": "https://schema.org",
+                "@type": "Organization",
+                "name": "한자리",
+                "url": "https://hanjari.site",
+                "logo": "https://hanjari.site/maskable_icon_x512.png",
+                "description": "한양대학교 ERICA 캠퍼스의 모든 동아리 정보를 제공하는 플랫폼"
+            }
+        </script>
+
         <!-- Google tag (gtag.js) -->
         <script
             async
