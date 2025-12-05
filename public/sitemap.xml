@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  
+  <url>
+    <loc>https://hanjari.site</loc>
+    <changefreq>daily</changefreq>
+    <priority>1.0</priority>
+  </url>
+
+  <url>
+    <loc>https://hanjari.site/club/search</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <url>
+    <loc>https://hanjari.site/official-accounts</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <url>
+    <loc>https://hanjari.site/notice</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  
+  <url>
+    <loc>https://hanjari.site/resources</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  
+  <url>
+    <loc>https://hanjari.site/faq</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <!-- TODO 실제 동아리 정보 받으면 API에서 동적으로 -->
+
+</urlset>
