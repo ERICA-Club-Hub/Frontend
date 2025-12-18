@@ -1,97 +1,26 @@
-import sns from '../../../../assets/common/sns.svg';
-import jjang from '../../../../assets/common/jjang.svg';
-import card from '../../../../assets/common/card.svg';
-import phone from '../../../../assets/common/phone.svg';
-import label from '../../../../assets/common/label.svg';
-import styled from 'styled-components';
+import { useBaseInfo } from '@/hooks/club-detail/useBaseInfo';
 import ContentBlock from '../ContentBlock';
-import {
-    useClubInfo,
-    useIsPreview,
-} from '@/hooks/queries/club-detail/useClubIntro';
-import { FALLBACK_MESSAGES } from '@/constants/BASE_INFO_FALLBACK';
-
-type BaseInfoItem = {
-    key: string;
-    iconUrl: string;
-    label: string;
-    value: string;
-} & ({ clickable: true; onClick: () => void } | { clickable: false });
+import styled from 'styled-components';
 
 export default function BaseInfo() {
-    const { id, isPreview } = useIsPreview();
-    const { data } = useClubInfo(id || '', isPreview);
+    const { items, isLoading } = useBaseInfo();
 
-    const handleSnsClick = () => {
-        if (data?.snsUrl) {
-            const username = data.snsUrl.replace('@', '');
-            window.open(`https://www.instagram.com/${username}`, '_blank');
-        }
-    };
-
-    const baseInfo: BaseInfoItem[] = [
-        {
-            key: 'leader',
-            iconUrl: jjang,
-            label: '대표',
-            value: data?.leaderName || FALLBACK_MESSAGES.leader,
-            clickable: false,
-        },
-        {
-            key: 'contact',
-            iconUrl: phone,
-            label: '연락처',
-            value: data?.leaderPhone || FALLBACK_MESSAGES.contact,
-            clickable: false,
-        },
-        {
-            key: 'meeting',
-            iconUrl: label,
-            label: '정기모임',
-            value: data?.activities || FALLBACK_MESSAGES.meeting,
-            clickable: false,
-        },
-        {
-            key: 'fee',
-            iconUrl: card,
-            label: '회비',
-            value: data?.membershipFee
-                ? `${data.membershipFee}원`
-                : FALLBACK_MESSAGES.fee,
-            clickable: false,
-        },
-        ...(data?.snsUrl
-            ? [
-                  {
-                      key: 'sns',
-                      iconUrl: sns,
-                      label: 'SNS',
-                      value: `@${data.snsUrl}`,
-                      clickable: true,
-                      onClick: handleSnsClick,
-                  } satisfies BaseInfoItem,
-              ]
-            : [
-                  {
-                      key: 'sns',
-                      iconUrl: sns,
-                      label: 'SNS',
-                      value: FALLBACK_MESSAGES.sns,
-                      clickable: false,
-                  } satisfies BaseInfoItem,
-              ]),
-    ];
+    if (isLoading) return null;
 
     return (
         <ContentBlock title="동아리 기본 정보">
             <ClubDetails>
-                {baseInfo.map((info) => (
+                {items.map((info) => (
                     <DetailRow key={info.key}>
                         <IconImage src={info.iconUrl} alt={info.label} />
                         <DetailLabel>{info.label}</DetailLabel>
                         <DetailValue
                             $clickable={info.clickable}
-                            onClick={info.clickable ? info.onClick : undefined}
+                            onClick={
+                                info.clickable && 'onClick' in info
+                                    ? info.onClick
+                                    : undefined
+                            }
                         >
                             {info.value}
                         </DetailValue>
