@@ -2,21 +2,19 @@
 @import 'tailwindcss';
 
 @theme {
-    /* Font Family - Tailwind 클래스용 */
+    /* Font Family */
     --font-family-sans: 'Pretendard', -apple-system, BlinkMacSystemFont,
         system-ui, sans-serif;
 
-    /* Primary Colors - Tailwind 클래스용 (text-primary-50, bg-primary-500 등) */
+    /* Colors */
     --color-primary-50: #dae9fc;
     --color-primary-500: #1264c4;
     --color-primary-600: #0e4c95;
 
-    /* Sub Colors - Tailwind 클래스용 (text-sub-green, bg-sub-orange 등) */
     --color-sub-green: #00bd00;
     --color-sub-orange: #f08a00;
     --color-sub-warning: #f32828;
 
-    /* Neutral Colors - Tailwind 클래스용 */
     --color-neutral-00: #fdfdfd;
     --color-neutral-50: #f9fafb;
     --color-neutral-100: #eceff3;
@@ -29,39 +27,47 @@
     --color-neutral-800: #303d4b;
     --color-neutral-900: #1c232c;
 
-    /* Background - Tailwind 클래스용 */
     --color-background-default: #f7f7f9;
 
-    /* Legacy Colors */
     --color-gray-600: #606060;
     --color-gray-light: #aeaeae;
     --color-gray-333: #333333;
     --color-gray-666: #666666;
 
-    /* Typography - Font Sizes (Tailwind 클래스용: text-header-01 등) */
+    /* Badge Colors */
+    --color-badge-blue-bg: #dae9fc;
+    --color-badge-blue-text: #0e4c95;
+    --color-badge-orange-bg: #fff4e4;
+    --color-badge-green-bg: #f1f9dc;
+    --color-badge-green-text: #8bb421;
+    --color-badge-gray-bg: #f7f7f7;
+}
+
+/* Styled-components용 CSS 변수 */
+:root {
+    --font-sans: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui,
+        sans-serif;
+
+    /* Font Sizes */
     --font-size-header-01: 24px;
     --font-size-subtitle-01: 20px;
     --font-size-subtitle-02: 18px;
     --font-size-body-01: 16px;
+    --font-size-small: 13px;
     --font-size-body-03: 14px;
     --font-size-caption: 12px;
+    --font-size-emoji-large: 30px;
 
-    /* Typography - Line Heights */
+    /* Line Heights */
     --line-height-header: 1.3;
     --line-height-body: 1.5;
 
-    /* Typography - Font Weights */
+    /* Font Weights */
     --font-weight-bold: 700;
     --font-weight-semibold: 600;
     --font-weight-medium: 500;
-}
 
-/* Styled-components나 일반 CSS에서 사용할 CSS 변수 */
-:root {
-    /* @theme에 정의한 값을 CSS 변수로도 사용 가능하게 복사 */
-    --font-sans: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui,
-        sans-serif;
-
+    /* Colors for styled-components */
     --primary-50: #dae9fc;
     --primary-500: #1264c4;
     --primary-600: #0e4c95;
@@ -146,5 +152,56 @@
 
     h1 {
         margin: 0;
+    }
+}
+
+@layer utilities {
+    /* Typography Classes */
+    .text-header-01 {
+        font-size: var(--font-size-header-01);
+        line-height: var(--line-height-header);
+    }
+
+    .text-subtitle-01 {
+        font-size: var(--font-size-subtitle-01);
+        line-height: var(--line-height-body);
+    }
+
+    .text-subtitle-02 {
+        font-size: var(--font-size-subtitle-02);
+        line-height: var(--line-height-body);
+    }
+
+    .text-body-01 {
+        font-size: var(--font-size-body-01);
+        line-height: var(--line-height-body);
+    }
+
+    .text-body-03 {
+        font-size: var(--font-size-body-03);
+        line-height: var(--line-height-body);
+    }
+
+    .text-caption {
+        font-size: var(--font-size-caption);
+        line-height: var(--line-height-body);
+    }
+
+    .text-small {
+        font-size: var(--font-size-small);
+        line-height: var(--line-height-body);
+    }
+
+    /* Font Weight Classes */
+    .font-bold {
+        font-weight: var(--font-weight-bold);
+    }
+
+    .font-semibold {
+        font-weight: var(--font-weight-semibold);
+    }
+
+    .font-medium {
+        font-weight: var(--font-weight-medium);
     }
 }
