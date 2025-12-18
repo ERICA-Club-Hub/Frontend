@@ -12,6 +12,7 @@
         "generate-api": "swagger-typescript-api generate -p https://dev.backend.hanjari.site/v3/api-docs -o ./src/api --modular --extract-request-params"
     },
     "dependencies": {
+        "@tailwindcss/vite": "^4.0.0",
         "@tanstack/react-query": "^5.62.11",
         "axios": "^1.7.9",
         "react": "18.2.0",
@@ -21,7 +22,8 @@
         "recoil-persist": "^5.1.0",
         "scheduler": "0.23.0",
         "styled-components": "^6.1.13",
-        "swiper": "^12.0.3"
+        "swiper": "^12.0.3",
+        "tailwindcss": "^4.0.0"
     },
     "devDependencies": {
         "@eslint/js": "^9.17.0",
