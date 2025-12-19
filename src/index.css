@@ -123,3 +123,84 @@
         margin: 0;
     }
 }
+
+/* Toast 애니메이션 */
+@keyframes toast-fade-in {
+    from {
+        opacity: 0;
+        transform: translate(-50%, 20px);
+    }
+    to {
+        opacity: 1;
+        transform: translate(-50%, 0);
+    }
+}
+
+@keyframes toast-fade-out {
+    from {
+        opacity: 1;
+        transform: translate(-50%, 0);
+    }
+    to {
+        opacity: 0;
+        transform: translate(-50%, 20px);
+    }
+}
+
+/* Modal 애니메이션 */
+@keyframes modal-fade-in {
+    0% {
+        transform: scale(0.9) translate(-55%, -60%);
+        opacity: 0;
+    }
+    100% {
+        transform: scale(1) translate(-50%, -50%);
+        opacity: 1;
+    }
+}
+
+@keyframes modal-fade-out {
+    0% {
+        transform: scale(1) translate(-50%, -50%);
+        opacity: 1;
+    }
+    100% {
+        transform: scale(0.9) translate(-55%, -60%);
+        opacity: 0;
+    }
+}
+
+@keyframes modal-backdrop-show {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+/* Loading 애니메이션 */
+@keyframes loading-bounce {
+    to {
+        transform: translateY(-10px);
+    }
+}
+
+@keyframes skeleton-loading {
+    0% {
+        background-color: #e3e7ec;
+    }
+    100% {
+        background-color: #f2f4f6;
+    }
+}
+
+/* Dropdown 애니메이션 */
+@keyframes dropdown-slide {
+    0% {
+        transform: translateY(-15px);
+    }
+    100% {
+        transform: translateY(0);
+    }
+}
