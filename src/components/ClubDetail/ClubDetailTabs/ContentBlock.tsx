@@ -1,5 +1,4 @@
 import { PropsWithChildren } from 'react';
-import styled from 'styled-components';
 
 interface ContentBlockProps extends PropsWithChildren {
     hasTitle?: boolean;
@@ -14,42 +13,20 @@ export default function ContentBlock({
     children,
 }: ContentBlockProps) {
     return (
-        <Container>
-            {hasTitle && <Title>{title}</Title>}
+        <div className="bg-white rounded-[10px] p-5 w-[328px] mb-[7px]">
+            {hasTitle && (
+                <div className="-mt-[5px] mb-[15px] text-body-01 font-semibold">
+                    {title}
+                </div>
+            )}
             {children}
             {content && (
-                <Content>
-                    <ContentSpan>
+                <div className="w-[278px] mb-[25px]">
+                    <span className="whitespace-pre-line text-body-03 text-gray-600">
                         {content === '' ? `${title} 내용이 비었어요.` : content}
-                    </ContentSpan>
-                </Content>
+                    </span>
+                </div>
             )}
-        </Container>
+        </div>
     );
 }
-
-const Container = styled.div`
-    background-color: white;
-    border-radius: 10px;
-    padding: 20px;
-    width: 328px;
-    margin-bottom: 7px;
-`;
-
-const Title = styled.div`
-    margin-top: -5px;
-    margin-bottom: 15px;
-    font-size: 16px;
-    font-weight: 600;
-`;
-
-const Content = styled.div`
-    width: 278px;
-    margin-bottom: 25px;
-`;
-
-const ContentSpan = styled.span`
-    white-space: pre-line;
-    font-size: 14px;
-    color: #606060;
-`;

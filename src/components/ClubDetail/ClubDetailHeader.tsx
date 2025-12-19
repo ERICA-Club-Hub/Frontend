@@ -1,15 +1,36 @@
-import styled from 'styled-components';
 import { DEFAULT_IMG } from '@/constants/DEFAULT_IMG';
 import Button from '../Common/Button';
+import { cva, type VariantProps } from 'class-variance-authority';
+import { cn } from '@/utils/cn';
 
 import { useClubDetail } from '@/hooks/club-detail/useClubDetail';
 import { useClubDetailHeader } from '@/hooks/queries/club-detail/useClubDetailHeader';
 import { getRecruitmentStatusLabel } from '@/utils/clubDetail/getRecruitmentStatus';
 import { getCentralCategoryDisplayByKoreanName } from '@/utils/search/searchKeywordMapping';
 
-interface RecruitStateProps {
-    $state?: '모집 중' | '모집 예정' | '모집 마감';
-}
+const recruitStateVariants = cva(
+    'flex min-w-[42px] px-[5px] py-[2px] rounded-[5px] text-caption items-center',
+    {
+        variants: {
+            status: {
+                recruiting: 'bg-badge-orange-bg text-sub-orange',
+                scheduled: 'bg-badge-green-bg text-badge-green-text',
+                closed: 'bg-badge-gray-bg text-gray-600',
+            },
+        },
+        defaultVariants: {
+            status: 'closed',
+        },
+    },
+);
+
+type RecruitStateVariant = VariantProps<typeof recruitStateVariants>['status'];
+
+const getRecruitStateVariant = (label: string): RecruitStateVariant => {
+    if (label === '모집 중') return 'recruiting';
+    if (label === '모집 예정') return 'scheduled';
+    return 'closed';
+};
 
 export default function ClubDetailHeader() {
     const { isPreview, clubId } = useClubDetail();
@@ -19,31 +40,47 @@ export default function ClubDetailHeader() {
         return <div>로딩 중...</div>;
     }
 
+    const recruitmentLabel = data?.recruitmentStatus
+        ? getRecruitmentStatusLabel(data.recruitmentStatus)
+        : '';
+
+    const recruitStateVariant = getRecruitStateVariant(recruitmentLabel);
+
     return (
-        <ClubHeader>
-            <ClubImage
+        <div className="mt-[110px] h-[200px] w-full min-h-[104px] bg-white flex p-[17px] flex-col justify-center items-center relative">
+            <img
                 src={data?.profileImageUrl || DEFAULT_IMG}
                 alt="Club Logo"
+                className="w-[75px] h-[75px] rounded-[10px] mr-[21px] object-cover absolute bg-black -top-[35px] left-1/2 -translate-x-1/2"
             />
-            <PreviewWrapper>
-                <PreviewContainer>
-                    <ClubTitle>{data?.name}</ClubTitle>
-                    <Preview>{data?.description}</Preview>
-                </PreviewContainer>
+            <div className="flex flex-col justify-center items-center">
+                <div className="mt-[47px] flex justify-center flex-col items-center text-center gap-[5px] mb-[10px]">
+                    <h1 className="text-subtitle-02 font-semibold">
+                        {data?.name}
+                    </h1>
+                    <div className="text-neutral-300 font-bold text-body-03">
+                        {data?.description}
+                    </div>
+                </div>
 
-                <ClubTags>
-                    <Tag>
+                <div className="flex gap-2 mb-5">
+                    <span className="rounded-[4px] px-[5px] py-[2px] text-caption bg-badge-blue-bg text-badge-blue-text">
                         {data?.category?.clubCategoryName &&
                             getCentralCategoryDisplayByKoreanName(
                                 data.category.clubCategoryName,
                             )}
-                    </Tag>
-                    <RecruitState>
-                        {data?.recruitmentStatus &&
-                            getRecruitmentStatusLabel(data.recruitmentStatus)}
-                    </RecruitState>
-                </ClubTags>
-            </PreviewWrapper>
+                    </span>
+                    <span
+                        className={cn(
+                            recruitStateVariants({
+                                status: recruitStateVariant,
+                            }),
+                        )}
+                    >
+                        {recruitmentLabel}
+                    </span>
+                </div>
+            </div>
             <Button
                 onClick={() => {
                     if (data?.applicationUrl) {
@@ -56,104 +93,6 @@ export default function ClubDetailHeader() {
                     ? '모집이 마감되었어요.'
                     : '가입 신청하기'}
             </Button>
-        </ClubHeader>
+        </div>
     );
 }
-
-const ClubHeader = styled.div`
-    margin-top: 110px;
-    height: 200px;
-    width: 100%;
-    min-height: 104px;
-    background: white;
-    display: flex;
-    padding: 17px;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    position: relative;
-`;
-
-const ClubImage = styled.img`
-    width: 75px;
-    height: 75px;
-    border-radius: 10px;
-    margin-right: 21px;
-    object-fit: cover;
-    position: absolute;
-    background-color: black;
-    top: -35px;
-    left: 50%;
-    transform: translateX(-50%);
-`;
-
-const PreviewWrapper = styled.div`
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-`;
-
-const Preview = styled.div`
-    color: #aeaeae;
-    font-weight: 700;
-    font-size: 13px;
-`;
-
-const PreviewContainer = styled.div`
-    margin-top: 47px;
-    display: flex;
-    justify-content: center;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-    gap: 5px;
-    margin-bottom: 10px;
-`;
-
-const ClubTitle = styled.h1`
-    font-size: 18px;
-    font-weight: 600;
-`;
-
-const ClubTags = styled.div`
-    display: flex;
-    gap: 8px;
-    margin-bottom: 20px;
-`;
-
-const Tag = styled.span`
-    border-radius: 4px;
-    padding: 2px 5px 2px 5px;
-    padding: 2p;
-    font-size: 12px;
-    background-color: #eef4ff;
-    color: #33639c;
-`;
-
-const RecruitState = styled.span<RecruitStateProps>`
-    display: flex;
-    min-width: 42px;
-    padding: 2px 5px 2px 5px;
-    border-radius: 5px;
-    font-size: 12px;
-    align-items: center;
-    background-color: ${(props) => {
-        if (props.$state === '모집 중') {
-            return '#fff4e4';
-        } else if (props.$state === '모집 예정') {
-            return '#F1F9DC';
-        } else {
-            return '#F7F7F7';
-        }
-    }};
-    color: ${(props) => {
-        if (props.$state === '모집 중') {
-            return '#F08A00';
-        } else if (props.$state === '모집 예정') {
-            return '#8BB421';
-        } else {
-            return '#606060';
-        }
-    }};
-`;

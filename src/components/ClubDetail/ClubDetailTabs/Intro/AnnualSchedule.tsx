@@ -1,4 +1,3 @@
-import styled from 'styled-components';
 import ContentBlock from '../ContentBlock';
 import {
     useClubSchedules,
@@ -12,64 +11,24 @@ export default function AnnualSchedule() {
     return (
         <ContentBlock title="주요 연간 일정">
             {data?.schedules && data.schedules.length > 0 ? (
-                <ScheduleContents>
+                <div className="flex flex-col gap-2">
                     {data.schedules.map((schedule) => (
-                        <ContentsRow key={schedule.month}>
-                            <ContentsLabel>{schedule.month}월</ContentsLabel>
-                            <ContentsValue>{schedule.content}</ContentsValue>
-                        </ContentsRow>
+                        <div key={schedule.month} className="flex">
+                            <span className="flex bg-badge-blue-bg rounded-full w-[35px] h-5 justify-center items-center text-badge-blue-text text-caption font-semibold">
+                                {schedule.month}월
+                            </span>
+                            <span className="flex-1 flex justify-start text-body-03 font-medium mt-px ml-[7px]">
+                                {schedule.content}
+                            </span>
+                        </div>
                     ))}
-                </ScheduleContents>
+                </div>
             ) : (
-                <SchedulesNull>
-                    <XSize>🅧</XSize>
+                <div className="flex flex-col text-center gap-2">
+                    <span className="text-emoji-large">🅧</span>
                     <div>주요 연간 일정이 비었어요.</div>
-                </SchedulesNull>
+                </div>
             )}
         </ContentBlock>
     );
 }
-
-const ScheduleContents = styled.div`
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-`;
-
-const ContentsRow = styled.div`
-    display: flex;
-`;
-
-const ContentsLabel = styled.span`
-    display: flex;
-    background-color: #eef4ff;
-    border-radius: 100px;
-    width: 35px;
-    height: 20px;
-    justify-content: center;
-    align-items: center;
-    color: #33639c;
-    font-size: 12px;
-    font-weight: 600;
-`;
-
-const ContentsValue = styled.span`
-    flex: 1;
-    display: flex;
-    justify-content: flex-start;
-    font-size: 14px;
-    font-weight: 500;
-    margin-top: 1px;
-    margin-left: 7px;
-`;
-
-const SchedulesNull = styled.div`
-    display: flex;
-    flex-direction: column;
-    text-align: center;
-    gap: 8px;
-`;
-
-const XSize = styled.span`
-    font-size: 30px;
-`;

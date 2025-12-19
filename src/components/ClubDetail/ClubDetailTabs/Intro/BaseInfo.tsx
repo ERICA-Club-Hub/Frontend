@@ -3,7 +3,6 @@ import jjang from '../../../../assets/common/jjang.svg';
 import card from '../../../../assets/common/card.svg';
 import phone from '../../../../assets/common/phone.svg';
 import label from '../../../../assets/common/label.svg';
-import styled from 'styled-components';
 import ContentBlock from '../ContentBlock';
 import {
     useClubInfo,
@@ -49,41 +48,21 @@ export default function BaseInfo() {
     ];
     return (
         <ContentBlock title="동아리 기본 정보">
-            <ClubDetails>
+            <div className="flex flex-col gap-[11.5px]">
                 {baseInfo.map((info) => (
-                    <DetailRow>
-                        <IconImage src={info.iconUrl} alt={info.label} />
-                        <DetailLabel>{info.label}</DetailLabel>
-                        <DetailValue>{info.value}</DetailValue>
-                    </DetailRow>
+                    <div key={info.key} className="flex items-center gap-4">
+                        <img
+                            src={info.iconUrl}
+                            alt={info.label}
+                            className="w-[15px] h-[15px]"
+                        />
+                        <span className="text-gray-666 min-w-20">
+                            {info.label}
+                        </span>
+                        <span className="text-gray-333">{info.value}</span>
+                    </div>
                 ))}
-            </ClubDetails>
+            </div>
         </ContentBlock>
     );
 }
-
-const ClubDetails = styled.div`
-    display: flex;
-    flex-direction: column;
-    gap: 11.5px;
-`;
-
-const IconImage = styled.img`
-    width: 15px;
-    height: 15px;
-`;
-
-const DetailRow = styled.div`
-    display: flex;
-    align-items: center;
-    gap: 16px;
-`;
-
-const DetailLabel = styled.span`
-    color: #666;
-    min-width: 80px;
-`;
-
-const DetailValue = styled.span`
-    color: #333;
-`;
