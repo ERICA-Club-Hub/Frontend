@@ -1,5 +1,5 @@
 import { ReactNode } from 'react';
-import styled from 'styled-components';
+import { cn } from '@/utils/cn';
 
 interface CategoryCollectProps {
     img: ReactNode;
@@ -13,33 +13,19 @@ export default function CategoryCollect({
     onClick,
 }: CategoryCollectProps) {
     return (
-        <CategoryCollectWrapper>
-            <CategoryCollectBlock onClick={onClick}>{img}</CategoryCollectBlock>
-            <CategoryLabel>{categoryLabel}</CategoryLabel>
-        </CategoryCollectWrapper>
+        <div className="flex flex-col items-center justify-center gap-[10px]">
+            <button
+                onClick={onClick}
+                className={cn(
+                    'w-[66px] h-[66px] rounded-[10px] bg-white',
+                    'flex items-center justify-center'
+                )}
+            >
+                {img}
+            </button>
+            <span className="font-medium text-caption text-gray-600">
+                {categoryLabel}
+            </span>
+        </div>
     );
 }
-
-const CategoryCollectWrapper = styled.div`
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-`;
-
-const CategoryCollectBlock = styled.button`
-    width: 66px;
-    height: 66px;
-    border-radius: 10px;
-    background-color: white;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-`;
-
-const CategoryLabel = styled.span`
-    font-weight: 500;
-    font-size: 12px;
-    color: #606060;
-`;

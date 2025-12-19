@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import { cn } from '@/utils/cn';
 
 interface TabItemProps {
     tabKey: string;
@@ -27,13 +27,33 @@ const TabItem = ({
     const isActive = activeTab === tabKey;
 
     return (
-        <TabButton
+        <button
             onClick={() => !disabled && onTabChange(tabKey)}
             disabled={disabled}
-            className={className}
+            className={cn(
+                'flex-1 w-auto pt-[24px]',
+                'border-0 bg-transparent cursor-pointer',
+                'flex justify-center items-end',
+                'transition-all duration-200 ease-in-out',
+                'hover:opacity-80',
+                'disabled:cursor-not-allowed disabled:opacity-100',
+                className
+            )}
         >
-            <TabText $isActive={isActive}>{children}</TabText>
-        </TabButton>
+            <span
+                className={cn(
+                    'inline-block pb-[7px]',
+                    'border-b-2 text-black text-body-03',
+                    'transition-all duration-200 ease-in-out',
+                    isActive
+                        ? 'border-badge-blue-text font-semibold'
+                        : 'border-transparent font-normal',
+                    disabled && 'text-[#cccccc]'
+                )}
+            >
+                {children}
+            </span>
+        </button>
     );
 };
 
@@ -41,71 +61,19 @@ const TabContainer = ({
     children,
     width = '320px',
     className,
-    backgroundColor = 'none',
+    backgroundColor = 'transparent',
 }: TabContainerProps) => {
     return (
-        <StyledTabContainer
-            width={width}
-            className={className}
-            $backgroundColor={backgroundColor}
+        <div
+            className={cn('h-[47px] flex mb-[9px] justify-center', className)}
+            style={{ width, backgroundColor }}
         >
             {children}
-        </StyledTabContainer>
+        </div>
     );
 };
 
 TabContainer.Item = TabItem;
 const Tab = TabContainer;
-
-const StyledTabContainer = styled.div<{
-    width: string;
-    $backgroundColor: string;
-}>`
-    width: ${(props) => props.width};
-    height: 47px;
-    display: flex;
-    margin-bottom: 9px;
-    justify-content: center;
-    background-color: ${(props) => props.$backgroundColor};
-`;
-
-const TabButton = styled.button`
-    flex: 1;
-    width: auto;
-    padding-top: 24px;
-    border: none;
-    background: transparent;
-    cursor: pointer;
-    display: flex;
-    justify-content: center;
-    align-items: flex-end;
-    transition: all 0.2s ease;
-
-    &:hover {
-        opacity: 0.8;
-    }
-
-    &:disabled {
-        cursor: not-allowed;
-        opacity: 1;
-    }
-`;
-
-const TabText = styled.span<{
-    $isActive: boolean;
-}>`
-    display: inline-block;
-    padding-bottom: 7px;
-    border-bottom: 2px solid
-        ${(props) => (props.$isActive ? '#33639C' : 'transparent')};
-    color: #000000;
-    font-weight: ${(props) => (props.$isActive ? '600' : '400')};
-    font-size: 14px;
-    transition: all 0.2s ease;
-
-    ${TabButton}:disabled & {
-        color: #cccccc;
-    }
-`;
 
 export default Tab;

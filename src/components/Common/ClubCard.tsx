@@ -1,5 +1,5 @@
-import styled from 'styled-components';
 import { Link, LinkProps } from 'react-router-dom';
+import { cn } from '@/utils/cn';
 import ClubTypeTag from './ClubCardTags/ClubTypeTag';
 import RecruitStatusTag from './ClubCardTags/RecruitStatusTag';
 
@@ -25,92 +25,44 @@ export default function ClubCard({
     const isAdminRoute = to.startsWith('/admin/service');
 
     return (
-        <CardContainer to={to} {...props}>
+        <Link
+            to={to}
+            {...props}
+            className={cn(
+                'flex w-[320px] h-[95px] p-[10px]',
+                'justify-start items-center gap-[15px]',
+                'rounded-[10px] border border-[#eaeaea] bg-white',
+                'cursor-pointer'
+            )}
+        >
             {/* 어드민 페이지에서는 프로필 이미지 미표시 */}
-            {!isAdminRoute && <ProfileImage src={profileImageUrl} />}
+            {!isAdminRoute && (
+                <img
+                    src={profileImageUrl}
+                    className="w-[75px] h-[75px] rounded-[5px]"
+                />
+            )}
 
-            <ClubInfo>
-                <TitleWrapper>
-                    <TagContainer>
+            <div className="flex flex-col w-[204px] h-[65px] justify-start items-start">
+                <div className="flex gap-[6px] mb-[7px]">
+                    <div className="flex gap-[6px]">
                         <ClubTypeTag clubCategory={categoryName} />
                         {recruitmentStatus && (
                             <RecruitStatusTag
                                 recruitmentStatus={recruitmentStatus}
                             />
                         )}
-                    </TagContainer>
-                </TitleWrapper>
+                    </div>
+                </div>
 
-                <Title>{title}</Title>
+                <p className="text-[#232323] text-body-01 font-semibold leading-normal m-0 mb-[5px] whitespace-nowrap overflow-hidden text-ellipsis">
+                    {title}
+                </p>
 
-                <SubTitle>{subTitle}</SubTitle>
-            </ClubInfo>
-        </CardContainer>
+                <p className="text-gray-light text-small font-medium leading-normal w-full m-0 whitespace-nowrap overflow-hidden text-ellipsis text-left">
+                    {subTitle}
+                </p>
+            </div>
+        </Link>
     );
 }
-
-const CardContainer = styled(Link)`
-    display: flex;
-    width: 320px;
-    height: 95px;
-    padding: 10px;
-    justify-content: flex-start;
-    align-items: center;
-    gap: 15px;
-    border-radius: 10px;
-    border: 1px solid #eaeaea;
-    background: #fff;
-    cursor: pointer;
-`;
-
-const ProfileImage = styled.img`
-    width: 75px;
-    height: 75px;
-    border-radius: 5px;
-`;
-
-const ClubInfo = styled.div`
-    display: flex;
-    flex-direction: column;
-    width: 204px;
-    height: 65px;
-    justify-content: flex-start;
-    align-items: flex-start;
-`;
-
-const TitleWrapper = styled.div`
-    display: flex;
-    gap: 6px;
-    margin-bottom: 7px;
-`;
-
-const Title = styled.p`
-    color: #232323;
-    font-size: 16px;
-    font-style: normal;
-    font-weight: 600;
-    line-height: normal;
-    margin: 0 0 5px 0;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-`;
-
-const TagContainer = styled.div`
-    display: flex;
-    gap: 6px;
-`;
-
-const SubTitle = styled.p`
-    color: #aeaeae;
-    font-size: 13px;
-    font-style: normal;
-    font-weight: 500;
-    line-height: normal;
-    width: 100%;
-    margin: 0;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    text-align: left;
-`;

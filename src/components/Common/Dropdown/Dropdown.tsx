@@ -1,5 +1,4 @@
 import { ReactNode, useRef } from 'react';
-import styled from 'styled-components';
 import DropdownHeader from './Header';
 import { useClickOutside } from '@/hooks/actions/useClickOutside';
 import DropdownMenu from './Menu';
@@ -14,14 +13,14 @@ const Dropdown = ({ children, setIsOpen }: DropdownProps) => {
 
     useClickOutside(dropdownRef, setIsOpen);
 
-    return <DropdownContainer ref={dropdownRef}>{children}</DropdownContainer>;
+    return (
+        <div ref={dropdownRef} className="relative">
+            {children}
+        </div>
+    );
 };
 
 Dropdown.Header = DropdownHeader;
 Dropdown.Menu = DropdownMenu;
 
 export { Dropdown };
-
-const DropdownContainer = styled.div`
-    position: relative;
-`;

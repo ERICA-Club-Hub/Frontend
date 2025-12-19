@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import { cn } from '@/utils/cn';
 import { useState, useRef, useEffect } from 'react';
 import ArrowIcon from '../../assets/common/sortingdropdown_arrow.svg';
 
@@ -15,82 +15,16 @@ interface SortingDropdownProps {
     align?: 'left' | 'right';
 }
 
-const StyledDropdown = styled.div<{ $isSelected: boolean; $selectedValue: string | null; $firstOptionValue: string | null }>`
-    display: inline-flex;
-    padding: 5px 11px;
-    align-items: center;
-    gap: 6px;
-    border-radius: 100px;
-    background: ${props => {
-        // 첫 번째 옵션이 선택되었을 때는 흰색 배경 유지
-        if (props.$selectedValue === props.$firstOptionValue) return '#FFF';
-        // 다른 옵션이 선택되었을 때는 파란색 배경으로 변경
-        return props.$isSelected ? '#EEF4FF' : '#FFF';
-    }};
-    position: relative;
-    cursor: pointer;
-`;
-
-const StyledList = styled.ul`
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    display: flex;
-    align-items: center;
-    gap: 6px;
-`;
-
-const StyledDropdownMenu = styled.ul<{ $isOpen: boolean; $align?: 'left' | 'right' }>`
-    display: ${props => props.$isOpen ? 'block' : 'none'};
-    position: absolute;
-    top: 100%;
-    ${props => props.$align === 'right' ? 'right: 0;' : 'left: 0;'}
-    min-width: 100%;
-    list-style: none;
-    padding: 5px;
-    margin-top: 5px;
-    background: #FFF;
-    border-radius: 10px;
-    box-shadow: 0px 2px 2px 0px rgba(0, 0, 0, 0.10);
-    z-index: 1000;
-    white-space: nowrap;
-`;
-
-const StyledMenuItem = styled.li`
-    color: #232323;
-    text-align: center;
-    font-family: Pretendard;
-    font-size: 12px;
-    font-style: normal;
-    font-weight: 500;
-    line-height: normal;
-    padding: 8px 11px;
-    border-radius: 5px;
-
-    &:hover {
-        font-weight: 600;
-        background: #F7F7F7;
-    }
-`;
-
-const StyledListItem = styled.li<{ $isSelected?: boolean }>`
-    font-family: Pretendard;
-    font-size: 12px;
-    font-style: normal;
-    font-weight: ${props => props.$isSelected ? '600' : '400'};
-    line-height: normal;
-    cursor: pointer;
-`;
-
-const ArrowImage = styled.img<{ $isOpen: boolean }>`
-    width: 8px;
-    height: 5px;
-    transform: ${props => props.$isOpen ? 'rotate(180deg)' : 'rotate(0deg)'};
-    transition: transform 0.2s ease-in-out;
-`;
-
-const SortingDropdown = ({ options, onSelect, defaultText, value, align = 'left' }: SortingDropdownProps) => {
-    const [selectedValue, setSelectedValue] = useState<string | null>(value || null);
+const SortingDropdown = ({
+    options,
+    onSelect,
+    defaultText,
+    value,
+    align = 'left',
+}: SortingDropdownProps) => {
+    const [selectedValue, setSelectedValue] = useState<string | null>(
+        value || null
+    );
     const [isOpen, setIsOpen] = useState(false);
     const dropdownRef = useRef<HTMLDivElement>(null);
 
@@ -100,7 +34,10 @@ const SortingDropdown = ({ options, onSelect, defaultText, value, align = 'left'
 
     useEffect(() => {
         const handleClickOutside = (event: MouseEvent) => {
-            if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+            if (
+                dropdownRef.current &&
+                !dropdownRef.current.contains(event.target as Node)
+            ) {
                 setIsOpen(false);
             }
         };
@@ -121,35 +58,78 @@ const SortingDropdown = ({ options, onSelect, defaultText, value, align = 'left'
         setIsOpen(!isOpen);
     };
 
+    const isFirstOptionSelected =
+        selectedValue === options[0]?.value || selectedValue === null;
+    const backgroundClass = isFirstOptionSelected
+        ? 'bg-white'
+        : 'bg-badge-blue-bg';
+
     return (
-        <StyledDropdown 
-            ref={dropdownRef} 
-            $isSelected={selectedValue !== null}
-            $selectedValue={selectedValue}
-            $firstOptionValue={options[0]?.value || null}
+        <div
+            ref={dropdownRef}
+            className={cn(
+                'inline-flex px-[11px] py-[5px]',
+                'items-center gap-[6px]',
+                'rounded-full',
+                backgroundClass,
+                'relative cursor-pointer'
+            )}
         >
-            <StyledList onClick={toggleDropdown}>
+            <ul
+                onClick={toggleDropdown}
+                className="list-none p-0 m-0 flex items-center gap-[6px]"
+            >
                 {selectedValue === null ? (
-                    <StyledListItem>{defaultText}</StyledListItem>
+                    <li className="text-caption font-normal leading-normal cursor-pointer">
+                        {defaultText}
+                    </li>
                 ) : (
-                    <StyledListItem $isSelected={true}>
-                        {options.find(option => option.value === selectedValue)?.label}
-                    </StyledListItem>
+                    <li className="text-caption font-semibold leading-normal cursor-pointer">
+                        {
+                            options.find(
+                                (option) => option.value === selectedValue
+                            )?.label
+                        }
+                    </li>
                 )}
-                <ArrowImage src={ArrowIcon} alt="arrow" $isOpen={isOpen} />
-            </StyledList>
-            
-            <StyledDropdownMenu $isOpen={isOpen} $align={align}>
+                <img
+                    src={ArrowIcon}
+                    alt="arrow"
+                    className={cn(
+                        'w-[8px] h-[5px]',
+                        'transition-transform duration-200 ease-in-out',
+                        isOpen ? 'rotate-180' : 'rotate-0'
+                    )}
+                />
+            </ul>
+
+            <ul
+                className={cn(
+                    'absolute top-full mt-[5px]',
+                    align === 'right' ? 'right-0' : 'left-0',
+                    'min-w-full',
+                    'list-none p-[5px] m-0',
+                    'bg-white rounded-[10px]',
+                    'shadow-[0px_2px_2px_0px_rgba(0,0,0,0.10)]',
+                    'z-[1000] whitespace-nowrap',
+                    isOpen ? 'block' : 'hidden'
+                )}
+            >
                 {options.map((option) => (
-                    <StyledMenuItem
+                    <li
                         key={option.value}
                         onClick={() => handleSelect(option.value)}
+                        className={cn(
+                            'text-[#232323] text-center text-caption font-medium leading-normal',
+                            'px-[11px] py-[8px] rounded-[5px]',
+                            'hover:font-semibold hover:bg-[#F7F7F7]'
+                        )}
                     >
                         {option.label}
-                    </StyledMenuItem>
+                    </li>
                 ))}
-            </StyledDropdownMenu>
-        </StyledDropdown>
+            </ul>
+        </div>
     );
 };
 

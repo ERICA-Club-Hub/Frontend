@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import { cn } from '@/utils/cn';
 
 interface ClubTagProps {
     emoji?: string;
@@ -14,38 +14,16 @@ export default function ClubTag({
     textColor,
 }: ClubTagProps) {
     return (
-        <ClubTagContainer
-            backgroundColor={backgroundColor}
-            textColor={textColor}
+        <div
+            className={cn(
+                'px-[5px] py-[2px] flex gap-[3px]',
+                'font-medium text-caption leading-[100%]',
+                'rounded-[5px] h-[18px] items-center'
+            )}
+            style={{ backgroundColor, color: textColor }}
         >
-            {emoji && <EmojiText>{emoji}</EmojiText>}
-            <TagText>{text}</TagText>
-        </ClubTagContainer>
+            {emoji && <span className="m-0 flex-shrink-0">{emoji}</span>}
+            <span className="m-0">{text}</span>
+        </div>
     );
 }
-
-const ClubTagContainer = styled.div<{
-    backgroundColor: string;
-    textColor: string;
-}>`
-    padding: 2px 5px 2px 5px;
-    display: flex;
-    gap: 3px;
-    background-color: ${({ backgroundColor }) => backgroundColor};
-    color: ${({ textColor }) => textColor};
-    font-weight: 500;
-    font-size: 12px;
-    line-height: 100%;
-    border-radius: 5px;
-    height: 18px;
-    align-items: center;
-`;
-
-const EmojiText = styled.span`
-    margin: 0;
-    flex-shrink: 0;
-`;
-
-const TagText = styled.span`
-    margin: 0;
-`;

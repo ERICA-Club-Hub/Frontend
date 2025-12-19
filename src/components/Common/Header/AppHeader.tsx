@@ -1,5 +1,4 @@
 import { useRef } from 'react';
-import styled from 'styled-components';
 import HeaderMenuIcon from '@/assets/common/header-menu.svg?react';
 import HomeIcon from '@/assets/common/home-icon.svg?react';
 import ClosedBtn from '@/assets/common/closed-btn.svg?react';
@@ -18,33 +17,35 @@ function AppHeader() {
 
     return (
         <>
-            <Container>
-                <LogoWrapper to="/">
+            <header className="fixed top-0 left-1/2 -translate-x-1/2 flex justify-between items-center w-full min-w-[360px] max-w-[600px] min-h-[55px] px-[20px] bg-white cursor-pointer z-[100]">
+                <Link to="/" className="flex items-center gap-[7px]">
                     <Logo />
                     <LogoText />
-                </LogoWrapper>
+                </Link>
 
                 {isOpen ? (
-                    <ClosedButton
+                    <button
                         type="button"
                         aria-label="메뉴 닫기"
                         onClick={toggle}
+                        className="flex items-center justify-center cursor-pointer"
                     >
                         <ClosedBtn width="24" height="24" />
-                    </ClosedButton>
+                    </button>
                 ) : (
-                    <IconWrapper>
+                    <div className="flex items-center gap-[10px]">
                         <Link to="/">
                             <HomeIcon />
                         </Link>
-                        <DrawerMenuButton
+                        <button
                             type="button"
                             aria-label="메뉴 열기"
                             onClick={toggle}
+                            className="cursor-pointer pt-[1px]"
                         >
                             <HeaderMenuIcon />
-                        </DrawerMenuButton>
-                    </IconWrapper>
+                        </button>
+                    </div>
                 )}
 
                 {/* 드롭다운 매뉴 */}
@@ -54,54 +55,9 @@ function AppHeader() {
                     setIsOpen={setIsOpen}
                     dropdownRef={dropdownRef}
                 />
-            </Container>
+            </header>
         </>
     );
 }
 
 export { AppHeader };
-
-const Container = styled.header`
-    position: fixed;
-    top: 0;
-    left: 50%;
-    margin: 0 auto;
-
-    transform: translateX(-50%);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    width: 100%;
-    min-width: 360px;
-    max-width: 600px;
-    min-height: 55px;
-    padding: 0 20px;
-
-    background-color: ${(prop) => prop.theme.colors.white};
-    cursor: pointer;
-    z-index: 100;
-`;
-
-const LogoWrapper = styled(Link)`
-    display: flex;
-    align-items: center;
-    gap: 7px;
-`;
-
-const IconWrapper = styled.div`
-    display: flex;
-    align-items: center;
-    gap: 10px;
-`;
-
-const ClosedButton = styled.button`
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-`;
-
-const DrawerMenuButton = styled.button`
-    cursor: pointer;
-    padding-top: 1px; // 홈 아이콘이랑 수평 맞추기 위한 padding
-`;

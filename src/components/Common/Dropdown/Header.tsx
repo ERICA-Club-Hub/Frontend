@@ -1,5 +1,4 @@
 import { ReactNode } from 'react';
-import styled from 'styled-components';
 
 export interface DropdownHeaderProps {
     children: ReactNode;
@@ -8,14 +7,10 @@ export interface DropdownHeaderProps {
 
 const DropdownHeader = ({ children, onClick }: DropdownHeaderProps) => {
     return (
-        <Container onClick={onClick}>
+        <div onClick={onClick} className="cursor-pointer">
             <h4>{children}</h4>
-        </Container>
+        </div>
     );
 };
 
 export default DropdownHeader;
-
-const Container = styled.div`
-    cursor: pointer;
-`;

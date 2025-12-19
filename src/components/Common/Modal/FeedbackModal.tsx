@@ -1,6 +1,6 @@
 import { IModal } from '@/types/modal.types';
 import { FormEvent, useState } from 'react';
-import styled from 'styled-components';
+import { cn } from '@/utils/cn';
 import Modal from './Modal';
 
 type FeedbackModalProps = IModal & {
@@ -35,105 +35,67 @@ export default function MainModal({
 
     return (
         <Modal {...modalProps}>
-            <ModalContent>
-                {title && <ModalTitle>{title}</ModalTitle>}
-                {subtitle && <ModalSubtitle>{subtitle}</ModalSubtitle>}
+            <div
+                className={cn(
+                    'w-[320px] h-[236px] p-[15px]',
+                    'flex flex-col items-center',
+                    'rounded-[10px] bg-[#fafafa]',
+                    'shadow-[0px_5px_15px_0px_rgba(0,0,0,0.35)]'
+                )}
+            >
+                {title && (
+                    <h2 className="w-full text-[#232323] text-center text-body-01 font-medium mb-[10px]">
+                        {title}
+                    </h2>
+                )}
+                {subtitle && (
+                    <p className="w-full text-[#989898] text-center text-caption font-medium mb-[15px]">
+                        {subtitle}
+                    </p>
+                )}
                 {type === 'feedback' ? (
-                    <FeedbackForm onSubmit={handleSubmit}>
-                        <TextArea
+                    <form
+                        onSubmit={handleSubmit}
+                        className="w-full flex flex-col flex-1"
+                    >
+                        <textarea
                             value={feedbackText}
                             onChange={(e) => setFeedbackText(e.target.value)}
                             placeholder={placeholder}
+                            className={cn(
+                                'h-[98px] px-[20px] py-[15px]',
+                                'rounded-[10px] bg-[#eaeaea]',
+                                'border-0 resize-none',
+                                'text-[#232323] text-body-03 font-medium',
+                                'mb-[10px]',
+                                'focus:outline-none',
+                                'placeholder:text-[#989898]'
+                            )}
                         />
-                        <SubmitButton
+                        <button
                             type={feedbackText ? 'submit' : 'button'}
                             onClick={
                                 feedbackText
                                     ? undefined
                                     : () => modalProps.toggle()
                             }
-                            $isSubmit={!!feedbackText}
+                            className={cn(
+                                'h-[35px] w-full',
+                                'border-0 rounded-[8px]',
+                                'text-body-03 font-semibold',
+                                'cursor-pointer text-white',
+                                feedbackText
+                                    ? 'bg-primary-500'
+                                    : 'bg-neutral-400'
+                            )}
                         >
                             {feedbackText ? '완료' : '취소'}
-                        </SubmitButton>
-                    </FeedbackForm>
+                        </button>
+                    </form>
                 ) : (
                     modalProps.children
                 )}
-            </ModalContent>
+            </div>
         </Modal>
     );
 }
-
-const ModalContent = styled.div`
-    width: 320px;
-    height: 236px;
-    padding: 15px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    border-radius: 10px;
-    background: #fafafa;
-    box-shadow: 0px 5px 15px 0px rgba(0, 0, 0, 0.35);
-`;
-
-const ModalTitle = styled.h2`
-    width: 100%;
-    color: ${(props) => props.theme.colors.mainBlack};
-    text-align: center;
-    font-size: 16px;
-    font-weight: 500;
-    margin-bottom: 10px;
-`;
-
-const ModalSubtitle = styled.p`
-    width: 100%;
-    color: #989898;
-    text-align: center;
-    font-size: 12px;
-    font-weight: 500;
-    margin-bottom: 15px;
-`;
-
-const FeedbackForm = styled.form`
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    flex: 1;
-`;
-
-const TextArea = styled.textarea`
-    height: 98px;
-    padding: 15px 20px;
-    border-radius: 10px;
-    background: #eaeaea;
-    border: none;
-    resize: none;
-    color: ${(props) => props.theme.colors.mainBlack};
-    font-size: 14px;
-    font-weight: 500;
-    margin-bottom: 10px;
-
-    &:focus {
-        outline: none;
-    }
-
-    &::placeholder {
-        color: #989898;
-    }
-`;
-
-const SubmitButton = styled.button<{ $isSubmit: boolean }>`
-    height: 35px;
-    width: 100%;
-    border: none;
-    border-radius: 8px;
-    font-size: 14px;
-    font-weight: 600;
-    cursor: pointer;
-    color: white;
-    background-color: ${(props) =>
-        props.$isSubmit
-            ? props.theme.colors.mainBlue
-            : props.theme.colors.subGray};
-`;

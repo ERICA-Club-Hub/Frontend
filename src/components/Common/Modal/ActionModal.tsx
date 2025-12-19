@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import { cn } from '@/utils/cn';
 import Modal from './Modal';
 import Button from '../Button';
 import { IActionModal } from '@/types/modal.types';
@@ -6,9 +6,17 @@ import { IActionModal } from '@/types/modal.types';
 export default function ActionModal({ isOpen, toggle, action }: IActionModal) {
     return (
         <Modal isOpen={isOpen} toggle={toggle}>
-            <ModalWrapper>
-                <ModalTitle>정말 삭제하시겠습니까?</ModalTitle>
-                <ModalButtonWrapper>
+            <div
+                className={cn(
+                    'flex flex-col items-center gap-[15px]',
+                    'w-[205px] h-[99px] pt-[25px]',
+                    'rounded-[10px] bg-white'
+                )}
+            >
+                <h2 className="text-caption font-medium text-black">
+                    정말 삭제하시겠습니까?
+                </h2>
+                <div className="flex gap-[5px]">
                     <Button
                         type="button"
                         size="small"
@@ -26,31 +34,8 @@ export default function ActionModal({ isOpen, toggle, action }: IActionModal) {
                     >
                         삭제
                     </Button>
-                </ModalButtonWrapper>
-            </ModalWrapper>
+                </div>
+            </div>
         </Modal>
     );
 }
-
-const ModalWrapper = styled.div`
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 15px;
-    width: 205px;
-    height: 99px;
-    padding-top: 25px;
-    border-radius: 10px;
-    background-color: ${({ theme }) => theme.colors.white};
-`;
-
-const ModalTitle = styled.h2`
-    font-size: 12px;
-    font-weight: 500;
-    color: #000;
-`;
-
-const ModalButtonWrapper = styled.div`
-    display: flex;
-    gap: 5px;
-`;
