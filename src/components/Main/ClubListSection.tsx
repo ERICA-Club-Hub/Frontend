@@ -1,4 +1,3 @@
-import styled from 'styled-components';
 import Button from '../Common/Button';
 import ClubCard from '../Common/ClubCard';
 import { usePopularClub } from '@/hooks/queries/main/usePopularClub';
@@ -19,9 +18,11 @@ export default function ClubListSection() {
     }
 
     return (
-        <SectionSectionContainer>
-            <SectionTitle>지금 인기있는 동아리 · 학회</SectionTitle>
-            <ClubListContainer>
+        <section className="flex flex-col">
+            <h3 className="font-medium text-subtitle-01 mt-[30px] mb-5">
+                지금 인기있는 동아리 · 학회
+            </h3>
+            <section className="flex flex-col gap-[7px]">
                 {popularList.map((club) => (
                     <ClubCard
                         key={club.id}
@@ -43,25 +44,7 @@ export default function ClubListSection() {
                         더보기
                     </Button>
                 )}
-            </ClubListContainer>
-        </SectionSectionContainer>
+            </section>
+        </section>
     );
 }
-
-const SectionTitle = styled.h3`
-    font-weight: 500;
-    font-size: 20px;
-    margin-top: 30px;
-    margin-bottom: 20px;
-`;
-
-const SectionSectionContainer = styled.section`
-    display: flex;
-    flex-direction: column;
-`;
-
-const ClubListContainer = styled.section`
-    display: flex;
-    flex-direction: column;
-    gap: 7px;
-`;

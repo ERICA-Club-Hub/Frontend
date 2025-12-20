@@ -1,4 +1,3 @@
-import styled from 'styled-components';
 import SurveyBox from '@/assets/common/surveyBox.svg?react';
 import SurveyCardArrow from '@/assets/common/surveyCard_arrow.svg?react';
 import FeedbackModal from '@/components/Common/Modal/FeedbackModal';
@@ -29,11 +28,14 @@ export default function Survey() {
         },
     });
     return (
-        <SurveyBoxContainer>
-            <SurveyButton onClick={toggleSurveyModal}>
+        <div className="flex justify-center items-center mt-5">
+            <button
+                onClick={toggleSurveyModal}
+                className="relative bg-transparent border-none cursor-pointer p-0 flex items-center [&_svg:last-child]:absolute [&_svg:last-child]:right-[25px] [&_svg:last-child]:top-1/2 [&_svg:last-child]:-translate-y-1/2"
+            >
                 <SurveyBox />
                 <SurveyCardArrow />
-            </SurveyButton>
+            </button>
             <FeedbackModal
                 isOpen={isSurveyModalOpen}
                 toggle={toggleSurveyModal}
@@ -44,30 +46,6 @@ export default function Survey() {
                     submitFeedBackMutation.mutate(content)
                 }
             />
-        </SurveyBoxContainer>
+        </div>
     );
 }
-
-const SurveyBoxContainer = styled.div`
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-top: 20px;
-`;
-
-const SurveyButton = styled.button`
-    position: relative;
-    background: none;
-    border: none;
-    cursor: pointer;
-    padding: 0;
-    display: flex;
-    align-items: center;
-
-    svg:last-child {
-        position: absolute;
-        right: 25px;
-        top: 50%;
-        transform: translateY(-50%);
-    }
-`;
