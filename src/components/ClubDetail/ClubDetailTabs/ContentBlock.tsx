@@ -22,7 +22,7 @@ export default function ContentBlock({
             {children}
             {content && (
                 <div className="w-[278px] mb-[25px]">
-                    <span className="whitespace-pre-line text-body-03 text-gray-600">
+                    <span className="whitespace-pre-line text-body-03 text-neutral-700">
                         {content === '' ? `${title} 내용이 비었어요.` : content}
                     </span>
                 </div>

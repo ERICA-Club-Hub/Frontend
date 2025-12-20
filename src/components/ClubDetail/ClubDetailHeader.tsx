@@ -15,7 +15,7 @@ const recruitStateVariants = cva(
             status: {
                 recruiting: 'bg-badge-orange-bg text-sub-orange',
                 scheduled: 'bg-badge-green-bg text-badge-green-text',
-                closed: 'bg-badge-gray-bg text-gray-600',
+                closed: 'bg-badge-gray-bg text-neutral-700',
             },
         },
         defaultVariants: {
@@ -58,7 +58,7 @@ export default function ClubDetailHeader() {
                     <h1 className="text-subtitle-02 font-semibold">
                         {data?.name}
                     </h1>
-                    <div className="text-neutral-300 font-bold text-body-03">
+                    <div className="text-neutral-300 font-regular text-body-03">
                         {data?.description}
                     </div>
                 </div>

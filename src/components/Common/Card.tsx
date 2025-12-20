@@ -28,7 +28,7 @@ const cardVariants = cva(
         defaultVariants: {
             variant: 'unionNotice',
         },
-    }
+    },
 );
 
 const Card = ({
@@ -49,7 +49,7 @@ const Card = ({
             {$variant === 'unionNotice' && (
                 <>
                     <div
-                        className="w-[55px] h-[55px] flex-shrink-0 rounded-[5px] mx-[15px] my-[8px] ml-[8px] bg-gray-light"
+                        className="w-[55px] h-[55px] flex-shrink-0 rounded-[5px] mx-[15px] my-[8px] ml-[8px] bg-neutral-600"
                         style={{
                             background: $imagePath
                                 ? `url(${$imagePath}) lightgray 50% / cover no-repeat`
@@ -60,7 +60,7 @@ const Card = ({
                         <div className="text-[#232323] text-body-03 font-semibold leading-normal text-left">
                             {title}
                         </div>
-                        <div className="text-gray-light text-caption font-medium leading-normal text-left">
+                        <div className="text-neutral-600 text-caption font-medium leading-normal text-left">
                             {date}
                         </div>
                     </div>
@@ -73,7 +73,7 @@ const Card = ({
                         <div className="text-[#232323] text-body-03 font-semibold leading-normal text-left">
                             {title}
                         </div>
-                        <div className="text-gray-light text-caption font-medium leading-normal text-left">
+                        <div className="text-neutral-600 text-caption font-medium leading-normal text-left">
                             {date}
                         </div>
                     </div>
@@ -82,7 +82,7 @@ const Card = ({
                         alt="right arrow"
                         className={cn(
                             'w-[24px] h-[24px] ml-auto transition-transform duration-300 ease-in-out',
-                            isRotated ? 'rotate-90' : 'rotate-0'
+                            isRotated ? 'rotate-90' : 'rotate-0',
                         )}
                     />
                 </>
@@ -94,7 +94,7 @@ const Card = ({
                         <div className="text-[#232323] text-body-03 font-semibold leading-normal text-left">
                             {title}
                         </div>
-                        <div className="text-gray-light text-caption font-medium leading-normal text-left">
+                        <div className="text-neutral-600 text-caption font-medium leading-normal text-left">
                             {date}
                         </div>
                     </div>
@@ -121,7 +121,7 @@ const Card = ({
                         alt="right arrow"
                         className={cn(
                             'w-[24px] h-[24px] ml-auto transition-transform duration-300 ease-in-out',
-                            isRotated ? 'rotate-90' : 'rotate-0'
+                            isRotated ? 'rotate-90' : 'rotate-0',
                         )}
                     />
                 </>

@@ -31,7 +31,7 @@ const ActivityLogDetail = () => {
                     <h3 className="font-medium text-body-03 text-black">
                         {activityDetail?.clubName || 'UMC ERICA'}
                     </h3>
-                    <span className="font-medium text-caption text-gray-light">
+                    <span className="font-medium text-caption text-neutral-600">
                         {activityDetail?.date || '2024.12.01'}
                     </span>
                 </div>
@@ -65,7 +65,7 @@ const ActivityLogDetail = () => {
                     <h4 className="text-body-01 font-semibold mb-[12px] text-black">
                         활동 내용
                     </h4>
-                    <p className="text-body-03 leading-body text-gray-333 whitespace-pre-wrap">
+                    <p className="text-body-03 leading-body text-neutral-700 whitespace-pre-wrap">
                         {activityDetail.content}
                     </p>
                 </section>

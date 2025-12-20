@@ -56,10 +56,10 @@ export default function BaseInfo() {
                             alt={info.label}
                             className="w-[15px] h-[15px]"
                         />
-                        <span className="text-gray-666 min-w-20">
+                        <span className="text-neutral-400 min-w-20">
                             {info.label}
                         </span>
-                        <span className="text-gray-333">{info.value}</span>
+                        <span className="text-neutral-700">{info.value}</span>
                     </div>
                 ))}
             </div>

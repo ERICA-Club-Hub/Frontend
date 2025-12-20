@@ -32,7 +32,7 @@ export default function ClubCard({
                 'flex w-[320px] h-[95px] p-[10px]',
                 'justify-start items-center gap-[15px]',
                 'rounded-[10px] border border-[#eaeaea] bg-white',
-                'cursor-pointer'
+                'cursor-pointer',
             )}
         >
             {/* 어드민 페이지에서는 프로필 이미지 미표시 */}
@@ -59,7 +59,7 @@ export default function ClubCard({
                     {title}
                 </p>
 
-                <p className="text-gray-light text-small font-medium leading-normal w-full m-0 whitespace-nowrap overflow-hidden text-ellipsis text-left">
+                <p className="text-neutral-600 text-small font-medium leading-normal w-full m-0 whitespace-nowrap overflow-hidden text-ellipsis text-left">
                     {subTitle}
                 </p>
             </div>

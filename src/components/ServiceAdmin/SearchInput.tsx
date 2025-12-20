@@ -13,7 +13,7 @@ export default function SearchInput({ value, setValue }: SearchInputProps) {
 
     return (
         <div className="relative">
-            <SearchIcon className="absolute left-[15px] top-1/2 -translate-y-1/2 text-gray-light" />
+            <SearchIcon className="absolute left-[15px] top-1/2 -translate-y-1/2 text-neutral-600" />
             <InputField
                 inputSize="large"
                 placeholder="동아리 검색"

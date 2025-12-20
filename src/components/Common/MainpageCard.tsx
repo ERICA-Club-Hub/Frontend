@@ -27,7 +27,7 @@ const MainpageCard = ({
                 'flex-shrink-0 rounded-[10px]',
                 'border border-[#EAEAEA] bg-white',
                 'cursor-pointer text-left',
-                'hover:bg-[#F7F7F7]'
+                'hover:bg-[#F7F7F7]',
             )}
         >
             <div className="flex items-center gap-[6px] w-full justify-between">
@@ -42,7 +42,7 @@ const MainpageCard = ({
                     ))}
                 </div>
             </div>
-            <div className="self-stretch text-gray-light text-small font-medium leading-normal">
+            <div className="self-stretch text-neutral-600 text-small font-medium leading-normal">
                 {subtitle}
             </div>
         </button>

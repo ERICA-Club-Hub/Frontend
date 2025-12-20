@@ -1,4 +1,4 @@
-import { cva, type VariantProps } from 'class-variance-authority';
+import { cva } from 'class-variance-authority';
 import { cn } from '@/utils/cn';
 
 interface TagProps {
@@ -11,15 +11,15 @@ const tagVariants = cva(
         variants: {
             type: {
                 '동아리 및 질문': 'bg-badge-blue-bg text-badge-blue-text',
-                '모집중': 'bg-badge-orange-bg text-sub-orange',
-                '모집마감': 'bg-badge-gray-bg text-gray-600',
-                '모집예정': 'bg-badge-green-bg text-badge-green-text',
+                모집중: 'bg-badge-orange-bg text-sub-orange',
+                모집마감: 'bg-badge-gray-bg text-neutral-700',
+                모집예정: 'bg-badge-green-bg text-badge-green-text',
             },
         },
         defaultVariants: {
             type: '동아리 및 질문',
         },
-    }
+    },
 );
 
 const Tag = ({ type, children }: React.PropsWithChildren<TagProps>) => {

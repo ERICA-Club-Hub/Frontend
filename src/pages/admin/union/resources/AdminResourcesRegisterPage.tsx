@@ -74,7 +74,7 @@ const AdminResourcesRegisterPage = ({
                     <input
                         onChange={handleInputChange}
                         placeholder="자료 제목을 정확히 입력해 주세요."
-                        className="bg-neutral-100 h-[40px] rounded-[10px] text-left pl-[15px] text-body-03 font-normal text-black placeholder:text-gray-light"
+                        className="bg-neutral-100 h-[40px] rounded-[10px] text-left pl-[15px] text-body-03 font-normal text-black placeholder:text-neutral-600"
                     />
                 </div>
                 <div className="p-5 flex flex-col gap-[10px] bg-white rounded-[10px]">
@@ -88,7 +88,7 @@ const AdminResourcesRegisterPage = ({
                                 onChange={handleFileChange}
                                 className="opacity-0 absolute w-full h-full cursor-pointer"
                             />
-                            <div className="bg-neutral-100 h-[40px] rounded-[10px] flex items-center justify-center text-body-03 text-gray-light">
+                            <div className="bg-neutral-100 h-[40px] rounded-[10px] flex items-center justify-center text-body-03 text-neutral-600">
                                 📂 버튼을 클릭해 업로드 해주세요.
                             </div>
                         </div>
@@ -99,11 +99,13 @@ const AdminResourcesRegisterPage = ({
                                     key={`file-${index}`}
                                     className="flex flex-col gap-[10px]"
                                 >
-                                    <div className="bg-neutral-100 h-[40px] rounded-[10px] flex items-center text-body-03 text-gray-light relative justify-between px-[15px]">
+                                    <div className="bg-neutral-100 h-[40px] rounded-[10px] flex items-center text-body-03 text-neutral-600 relative justify-between px-[15px]">
                                         <span className="font-medium text-caption text-black">
                                             📂 {file.name}
                                         </span>
-                                        <button onClick={() => removeItem(index)}>
+                                        <button
+                                            onClick={() => removeItem(index)}
+                                        >
                                             X
                                         </button>
                                     </div>
@@ -115,7 +117,7 @@ const AdminResourcesRegisterPage = ({
                                     onChange={handleFileChange}
                                     className="opacity-0 absolute w-full h-full cursor-pointer"
                                 />
-                                <div className="bg-neutral-100 h-[40px] rounded-[10px] flex items-center justify-center text-body-03 text-gray-light">
+                                <div className="bg-neutral-100 h-[40px] rounded-[10px] flex items-center justify-center text-body-03 text-neutral-600">
                                     + 자료 추가하기
                                 </div>
                             </div>

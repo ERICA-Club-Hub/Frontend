@@ -32,12 +32,6 @@
     /* Background */
     --color-background-default: #f7f7f9;
 
-    /* Legacy Colors */
-    --color-gray-600: #606060;
-    --color-gray-light: #aeaeae;
-    --color-gray-333: #333333;
-    --color-gray-666: #666666;
-
     /* Badge Colors */
     --color-badge-blue-bg: #dae9fc;
     --color-badge-blue-text: #0e4c95;
@@ -61,9 +55,9 @@
     --leading-body: 1.5;
 
     /* Typography - Font Weights (자동으로 font-* 클래스 생성) */
-    --font-weight-bold: 700;
     --font-weight-semibold: 600;
     --font-weight-medium: 500;
+    --font-weight-regular: 400;
 }
 
 @keyframes fadeIn {
