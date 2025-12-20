@@ -66,6 +66,24 @@
     --font-weight-medium: 500;
 }
 
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes backgroundFade {
+    from {
+        opacity: 0.9;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
 @layer base {
     * {
         box-sizing: border-box;

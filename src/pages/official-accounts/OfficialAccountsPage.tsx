@@ -1,6 +1,5 @@
 import OfficialAcountItem from '@/components/Common/OfficialAcountItem';
 import SearchTab from '@/components/Search/SearchTab';
-import styled from 'styled-components';
 import { useSearchParams } from 'react-router-dom';
 import {
     CentralCategoryDropdown,
@@ -66,13 +65,13 @@ export default function OfficialAccountsPage() {
     };
 
     return (
-        <PageContainer>
-            <ContentWrapper>
-                <TabContainer>
+        <div className="min-h-screen flex flex-col">
+            <div className="flex-1 flex flex-col items-center">
+                <div className="w-screen bg-white flex justify-center h-[47px]">
                     <SearchTab />
-                </TabContainer>
+                </div>
 
-                <DropdownContainer>
+                <div className="min-w-[320px] flex mt-2 gap-[5px] scrollbar-none relative justify-end">
                     {currentTabParam === 'central' && (
                         <CentralCategoryDropdown
                             selectedValue={selectedCategory}
@@ -117,9 +116,9 @@ export default function OfficialAccountsPage() {
                             }
                         />
                     )}
-                </DropdownContainer>
+                </div>
 
-                <ClubSearchContainer>
+                <div className="grid grid-cols-3 gap-x-[10px] gap-y-2 py-2 pb-5">
                     {accounts.length > 0 &&
                         accounts.map((account, index) => (
                             <OfficialAcountItem
@@ -135,47 +134,8 @@ export default function OfficialAccountsPage() {
                                 }
                             />
                         ))}
-                </ClubSearchContainer>
-            </ContentWrapper>
-        </PageContainer>
+                </div>
+            </div>
+        </div>
     );
 }
-
-const PageContainer = styled.div`
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-`;
-
-const ContentWrapper = styled.div`
-    flex: 1 0 auto;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-`;
-
-const TabContainer = styled.div`
-    width: 100vw;
-    background-color: white;
-    display: flex;
-    justify-content: center;
-    height: 47px;
-`;
-
-const DropdownContainer = styled.div`
-    min-width: 320px;
-    display: flex;
-    margin-top: 8px;
-    gap: 5px;
-    scrollbar-width: none;
-    position: relative;
-    justify-content: flex-end;
-`;
-
-const ClubSearchContainer = styled.div`
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    grid-column-gap: 10px;
-    grid-row-gap: 8px;
-    padding: 8px 0 20px 0;
-`;
