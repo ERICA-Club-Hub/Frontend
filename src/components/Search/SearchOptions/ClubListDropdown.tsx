@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Dropdown } from '../../Common';
-import styled from 'styled-components';
 import ArrowIcon from '../../../assets/common/expand-bottom.svg?react';
+import { cn } from '@/utils/cn';
 
 interface Option {
     value: string;
@@ -33,77 +33,44 @@ export default function ClubListDropdown({
     );
     const displayText = selectedOption ? selectedOption.label : title;
 
+    const hasSelectedValue = !!selectedValue;
+
     return (
         <Dropdown setIsOpen={setIsOpen}>
             <Dropdown.Header onClick={() => setIsOpen((prev) => !prev)}>
-                <DropdownHeaderContainer
-                    $isSelected={selectedValue ? true : false}
+                <div
+                    className={cn(
+                        'h-6 py-[5px] px-[11px] flex gap-1.5 rounded-full justify-center items-center w-max',
+                        hasSelectedValue
+                            ? 'bg-[rgba(238,244,255,1)]'
+                            : 'bg-white',
+                    )}
                 >
-                    <DropdownHeaderContent>{displayText}</DropdownHeaderContent>
+                    <p className="text-caption font-normal text-black">
+                        {displayText}
+                    </p>
                     <ArrowIcon />
-                </DropdownHeaderContainer>
+                </div>
             </Dropdown.Header>
             <Dropdown.Menu isOpen={isOpen}>
-                <DropdownMenuContainer>
+                <div className="rounded-[10px] top-[5px] bg-white flex flex-col p-[5px] gap-[5px] justify-center items-center w-max absolute">
                     {options &&
                         options.map((option) => (
-                            <DropdownMenuItem
-                                $isSelected={selectedValue === option.value}
+                            <button
+                                key={option.value}
+                                className={cn(
+                                    'w-full py-2 px-6 rounded-[5px]',
+                                    selectedValue === option.value
+                                        ? 'bg-[#F7F7F7] font-semibold'
+                                        : 'bg-white font-medium',
+                                )}
                                 onClick={() => handleSelectItem(option)}
                             >
-                                <DropdownMenuContent>
-                                    {option.label}
-                                </DropdownMenuContent>
-                            </DropdownMenuItem>
+                                <p className="text-caption">{option.label}</p>
+                            </button>
                         ))}
-                </DropdownMenuContainer>
+                </div>
             </Dropdown.Menu>
         </Dropdown>
     );
 }
-
-const DropdownHeaderContainer = styled.div<{ $isSelected: boolean }>`
-    height: 24px;
-    padding: 5px 11px 5px 11px;
-    display: flex;
-    gap: 6px;
-    background-color: ${({ $isSelected }) =>
-        $isSelected ? 'rgba(238, 244, 255, 1)' : 'rgba(255, 255, 255, 1)'};
-    border-radius: 100px;
-    justify-content: center;
-    align-items: center;
-    width: max-content;
-`;
-
-const DropdownHeaderContent = styled.p`
-    font-size: 12px;
-    font-weight: 400;
-    color: black;
-`;
-
-const DropdownMenuContainer = styled.div`
-    border-radius: 10px;
-    top: 5px;
-    background-color: white;
-    display: flex;
-    flex-direction: column;
-    padding: 5px;
-    gap: 5px;
-    justify-content: center;
-    align-items: center;
-    width: max-content;
-    position: absolute;
-`;
-
-const DropdownMenuItem = styled.button<{ $isSelected: boolean }>`
-    width: 100%;
-    padding: 8px 24px 8px 24px;
-    border-radius: 5px;
-    background-color: ${({ $isSelected }) =>
-        $isSelected ? '#F7F7F7' : 'white'};
-    font-weight: ${({ $isSelected }) => ($isSelected ? 600 : 500)};
-`;
-
-const DropdownMenuContent = styled.p`
-    font-size: 12px;
-`;
