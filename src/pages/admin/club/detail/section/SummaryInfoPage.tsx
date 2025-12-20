@@ -1,18 +1,18 @@
-import styled from 'styled-components';
 import { InputField } from '@/components/Common';
 import { useState } from 'react';
 import { summaryInfoList } from '@/constants/club-detail-register';
 import Button from '@/components/Common/Button';
 import {
-    SectionWrapper,
-    Label,
-    ButtonGroupWrapper,
-} from '@/styles/admin-club-detail/style';
+    AdminSection,
+    AdminSectionLabel,
+    AdminButtonGroup,
+} from '@/components/Common';
 import { inputChangeHandler } from '@/utils/inputChangeHandler';
 import { ISummaryInfoValue } from '@/types';
 import { RecruitmentStatus } from '@/components/AdminClubDetail';
 import useClubAdminQueries from '@/hooks/queries/useClubAdminQueries';
 import LoadingModal from '@/components/Common/Loading/LoadingModal';
+import { cn } from '@/utils/cn';
 
 function SummaryInfoPage() {
     const [inputValue, setInputValue] = useState<ISummaryInfoValue>({
@@ -46,7 +46,7 @@ function SummaryInfoPage() {
 
     return (
         <>
-            <FormContainer onSubmit={handleSubmit}>
+            <form onSubmit={handleSubmit} className="flex flex-col gap-[10px]">
                 {/* 동아리 모집 여부 */}
                 <RecruitmentStatus
                     inputValue={inputValue}
@@ -54,14 +54,19 @@ function SummaryInfoPage() {
                 />
 
                 {/* 동아리 요약 정보 */}
-                <ClubSummaryInfo>
-                    <h2>동아리 요약 정보</h2>
+                <AdminSection className="h-[472px]">
+                    <h2 className="w-full mb-5 text-subtitle-02 font-semibold text-black">
+                        동아리 요약 정보
+                    </h2>
 
-                    <SummaryInfoList>
+                    <ul className="flex flex-col justify-center gap-[10px]">
                         {summaryInfoList.map((summaryInfo, index) => (
-                            <SummaryInfoItem key={`summary-info-${index}`}>
-                                <LabelContainer>
-                                    <Label
+                            <li
+                                key={`summary-info-${index}`}
+                                className="flex flex-col items-center gap-[10px]"
+                            >
+                                <div className="flex justify-start items-center gap-[5px] w-[280px]">
+                                    <AdminSectionLabel
                                         style={
                                             // SNS 한정 width 조정 (100% -> auto)
                                             summaryInfo.label === 'SNS' ||
@@ -71,16 +76,18 @@ function SummaryInfoPage() {
                                         }
                                     >
                                         {summaryInfo.label}
-                                    </Label>
+                                    </AdminSectionLabel>
                                     {summaryInfo.label === 'SNS' && (
-                                        <OptionalLabel>(선택)</OptionalLabel>
+                                        <span className="text-body-03 font-normal text-neutral-400">
+                                            (선택)
+                                        </span>
                                     )}
                                     {summaryInfo.label === '회비' && (
-                                        <OptionalLabel>
+                                        <span className="text-body-03 font-normal text-neutral-400">
                                             (숫자만 입력가능)
-                                        </OptionalLabel>
+                                        </span>
                                     )}
-                                </LabelContainer>
+                                </div>
                                 <InputField
                                     value={
                                         inputValue[
@@ -106,19 +113,21 @@ function SummaryInfoPage() {
                                     }
                                     maxLength={20}
                                 />
-                            </SummaryInfoItem>
+                            </li>
                         ))}
-                    </SummaryInfoList>
-                </ClubSummaryInfo>
+                    </ul>
+                </AdminSection>
 
                 {/* 동아리 신청 폼 링크 */}
-                <ApplyLink>
-                    <LabelContainer>
-                        <Label style={{ width: 'auto' }}>
+                <AdminSection className="h-[101px] gap-[8px] mb-[10px]">
+                    <div className="flex justify-start items-center gap-[5px] w-[280px]">
+                        <AdminSectionLabel style={{ width: 'auto' }}>
                             동아리 신청 폼 링크
-                        </Label>
-                        <OptionalLabel>(선택)</OptionalLabel>
-                    </LabelContainer>
+                        </AdminSectionLabel>
+                        <span className="text-body-03 font-normal text-neutral-400">
+                            (선택)
+                        </span>
+                    </div>
                     <InputField
                         value={inputValue.applicationUrl}
                         name="applicationUrl"
@@ -136,9 +145,9 @@ function SummaryInfoPage() {
                             })
                         }
                     />
-                </ApplyLink>
+                </AdminSection>
 
-                <ButtonGroupWrapper>
+                <AdminButtonGroup>
                     {/* <Button
                         type="button"
                         size="small"
@@ -150,8 +159,8 @@ function SummaryInfoPage() {
                     <Button type="submit" size="small" disabled={!isValid}>
                         저장하기
                     </Button>
-                </ButtonGroupWrapper>
-            </FormContainer>
+                </AdminButtonGroup>
+            </form>
 
             <LoadingModal
                 isPending={saveSummaryInfoMutation.isPending}
@@ -162,55 +171,3 @@ function SummaryInfoPage() {
 }
 
 export { SummaryInfoPage };
-
-const FormContainer = styled.form`
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-`;
-
-const ClubSummaryInfo = styled(SectionWrapper)`
-    height: 472px;
-
-    h2 {
-        width: 100%;
-        margin-bottom: 20px;
-        font-size: 18px;
-        font-weight: 600;
-        color: ${({ theme }) => theme.colors.mainBlack};
-    }
-`;
-
-const SummaryInfoList = styled.ul`
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    gap: 10px;
-`;
-
-const LabelContainer = styled.div`
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-    gap: 5px;
-    width: 280px;
-`;
-
-const OptionalLabel = styled.span`
-    font-size: 14px;
-    font-weight: 400;
-    color: ${({ theme }) => theme.colors.subGray};
-`;
-
-const SummaryInfoItem = styled.li`
-    display: flex;
-    flex-direction: column;
-    item-align: center;
-    gap: 10px;
-`;
-
-const ApplyLink = styled(SectionWrapper)`
-    height: 101px;
-    gap: 8px;
-    margin-bottom: 10px;
-`;

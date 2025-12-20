@@ -1,5 +1,4 @@
-import styled from 'styled-components';
-import { ButtonGroupWrapper } from '@/styles/admin-club-detail/style';
+import { AdminButtonGroup } from '@/components/Common';
 import { useState } from 'react';
 import Button from '@/components/Common/Button';
 import { IClubIntroValue, IEventScheduleValue } from '@/types';
@@ -71,14 +70,14 @@ function ClubIntroPage() {
                     setDeleteScheduleIdList,
                 }}
             >
-                <Container>
+                <div className="flex flex-col gap-[10px]">
                     {/* 주요 활동 일정 입력 */}
                     <MonthlyEventSchedule />
 
                     {/* 동아리 소개글 */}
                     <ClubDescription />
 
-                    <ButtonGroupWrapper>
+                    <AdminButtonGroup>
                         {/* <Button
                             name="preview"
                             type="button"
@@ -98,8 +97,8 @@ function ClubIntroPage() {
                         >
                             저장하기
                         </Button>
-                    </ButtonGroupWrapper>
-                </Container>
+                    </AdminButtonGroup>
+                </div>
             </ClubIntroProvider>
 
             {/* 로딩 모달 */}
@@ -118,9 +117,3 @@ function ClubIntroPage() {
 }
 
 export { ClubIntroPage };
-
-const Container = styled.div`
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-`;

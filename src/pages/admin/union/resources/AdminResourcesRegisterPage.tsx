@@ -2,7 +2,6 @@ import { apiRequest } from '@/api/apiRequest';
 import Button from '@/components/Common/Button';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import styled from 'styled-components';
 
 type mode = 'edit' | 'manage';
 
@@ -66,51 +65,67 @@ const AdminResourcesRegisterPage = ({
         }
     };
     return (
-        <Container>
-            <CardContainer>
-                <CardContent>
-                    <CardTitle>자료 제목을 입력해 주세요.</CardTitle>
-                    <CardInput
+        <div className="pt-[15px] px-5 flex flex-col gap-[10px]">
+            <div className="flex flex-col gap-[10px]">
+                <div className="p-5 flex flex-col gap-[10px] bg-white rounded-[10px]">
+                    <span className="text-black font-semibold text-body-03">
+                        자료 제목을 입력해 주세요.
+                    </span>
+                    <input
                         onChange={handleInputChange}
                         placeholder="자료 제목을 정확히 입력해 주세요."
+                        className="bg-neutral-100 h-[40px] rounded-[10px] text-left pl-[15px] text-body-03 font-normal text-black placeholder:text-gray-light"
                     />
-                </CardContent>
-                <CardContent>
-                    <CardTitle>자료를 업로드 해주세요.</CardTitle>
+                </div>
+                <div className="p-5 flex flex-col gap-[10px] bg-white rounded-[10px]">
+                    <span className="text-black font-semibold text-body-03">
+                        자료를 업로드 해주세요.
+                    </span>
                     {selectedFiles.length === 0 ? (
-                        <UploadContainer>
-                            <HiddenInput onChange={handleFileChange} />
-                            <UploadBox>
+                        <div className="relative">
+                            <input
+                                type="file"
+                                onChange={handleFileChange}
+                                className="opacity-0 absolute w-full h-full cursor-pointer"
+                            />
+                            <div className="bg-neutral-100 h-[40px] rounded-[10px] flex items-center justify-center text-body-03 text-gray-light">
                                 📂 버튼을 클릭해 업로드 해주세요.
-                            </UploadBox>
-                        </UploadContainer>
+                            </div>
+                        </div>
                     ) : (
-                        <MapContainer>
+                        <div className="flex flex-col gap-[10px]">
                             {selectedFiles.map((file, index) => (
-                                <MapContainer>
-                                    <MapUploadContainer>
-                                        <MapUploadBox>
+                                <div
+                                    key={`file-${index}`}
+                                    className="flex flex-col gap-[10px]"
+                                >
+                                    <div className="bg-neutral-100 h-[40px] rounded-[10px] flex items-center text-body-03 text-gray-light relative justify-between px-[15px]">
+                                        <span className="font-medium text-caption text-black">
                                             📂 {file.name}
-                                        </MapUploadBox>
-                                        <RemoveItemBtn
-                                            onClick={() => removeItem(index)}
-                                        >
+                                        </span>
+                                        <button onClick={() => removeItem(index)}>
                                             X
-                                        </RemoveItemBtn>
-                                    </MapUploadContainer>
-                                </MapContainer>
+                                        </button>
+                                    </div>
+                                </div>
                             ))}
-                            <UploadContainer>
-                                <HiddenInput onChange={handleFileChange} />
-                                <UploadBox>+ 자료 추가하기</UploadBox>
-                            </UploadContainer>
-                        </MapContainer>
+                            <div className="relative">
+                                <input
+                                    type="file"
+                                    onChange={handleFileChange}
+                                    className="opacity-0 absolute w-full h-full cursor-pointer"
+                                />
+                                <div className="bg-neutral-100 h-[40px] rounded-[10px] flex items-center justify-center text-body-03 text-gray-light">
+                                    + 자료 추가하기
+                                </div>
+                            </div>
+                        </div>
                     )}
-                </CardContent>
-            </CardContainer>
-            <ButtonContainer>
+                </div>
+            </div>
+            <div className="flex justify-end gap-[5px]">
                 {mode === 'manage' ? (
-                    <ButtonContainer>
+                    <div className="flex justify-end gap-[5px]">
                         <Button
                             size="small"
                             variant="filled"
@@ -119,9 +134,9 @@ const AdminResourcesRegisterPage = ({
                         >
                             저장하기
                         </Button>
-                    </ButtonContainer>
+                    </div>
                 ) : (
-                    <ButtonContainer>
+                    <div className="flex justify-end gap-[5px]">
                         <Button
                             size="small"
                             variant="outlined"
@@ -137,111 +152,11 @@ const AdminResourcesRegisterPage = ({
                         >
                             수정하기
                         </Button>
-                    </ButtonContainer>
+                    </div>
                 )}
-            </ButtonContainer>
-        </Container>
+            </div>
+        </div>
     );
 };
 
 export { AdminResourcesRegisterPage };
-
-const Container = styled.div`
-    padding-top: 15px;
-    padding-left: 20px;
-    padding-right: 20px;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-`;
-
-const CardContainer = styled.div`
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-`;
-
-const CardContent = styled.div`
-    padding: 20px;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    background-color: #ffffff;
-    border-radius: 10px;
-`;
-
-const CardTitle = styled.span`
-    color: black;
-    font-weight: 600;
-    font-size: 14px;
-`;
-
-const CardInput = styled.input`
-    background-color: #f7f7f7;
-    height: 40px;
-    border-radius: 10px;
-    text-align: left;
-    padding-left: 15px;
-    font-size: 14px;
-    font-weight: 400;
-    color: black;
-    &::placeholder {
-        color: #989898;
-    }
-`;
-
-const HiddenInput = styled.input.attrs({ type: 'file' })`
-    opacity: 0;
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    cursor: pointer;
-`;
-const UploadBox = styled.div`
-    background-color: #f7f7f7;
-    height: 40px;
-    border-radius: 10px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 14px;
-    color: #989898;
-`;
-const UploadContainer = styled.div`
-    position: relative;
-`;
-
-const MapContainer = styled.div`
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-`;
-
-const MapUploadContainer = styled.div`
-    background-color: #f7f7f7;
-    height: 40px;
-    border-radius: 10px;
-    display: flex;
-    align-items: center;
-    font-size: 14px;
-    color: #989898;
-    position: relative;
-    display: flex;
-    justify-content: space-between;
-    padding-left: 15px;
-    padding-right: 15px;
-`;
-
-const MapUploadBox = styled.span`
-    font-weight: 500;
-    font-size: 12px;
-    color: black;
-`;
-
-const RemoveItemBtn = styled.button``;
-
-const ButtonContainer = styled.div`
-    display: flex;
-    justify-content: flex-end;
-    gap: 5px;
-`;

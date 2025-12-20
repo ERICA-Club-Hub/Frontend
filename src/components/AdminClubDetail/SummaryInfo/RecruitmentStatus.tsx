@@ -1,10 +1,10 @@
-import styled from 'styled-components';
 import { Dropdown } from '@/components/Common';
 import DropdownArrow from '@/assets/common/dropdown_arrow.svg?react';
-import { Label, SectionWrapper } from '@/styles/admin-club-detail/style';
+import { AdminSection, AdminSectionLabel } from '@/components/Common';
 import useToggle from '@/hooks/actions/useToggle';
 import { recruitStatus } from '@/constants/club-detail-register';
 import { ISummaryInfoValue } from '@/types';
+import { cn } from '@/utils/cn';
 
 interface IRecruitmentStatus {
     inputValue: ISummaryInfoValue;
@@ -23,15 +23,26 @@ function RecruitmentStatus({ inputValue, setInputValue }: IRecruitmentStatus) {
         toggle();
     };
 
+    const hasSelectedValue = !!inputValue.recruitmentStatus;
+
     return (
-        <Container>
-            <Label>동아리 모집 여부</Label>
+        <AdminSection className="h-[101px] gap-[8px]">
+            <AdminSectionLabel>동아리 모집 여부</AdminSectionLabel>
             <Dropdown setIsOpen={setIsOpen}>
                 <Dropdown.Header onClick={toggle}>
-                    <DropdownHeaderWrapper
-                        $selectedValue={inputValue.recruitmentStatus}
+                    <div
+                        className={cn(
+                            'flex justify-between items-center w-[280px] h-[40px] px-[15px] rounded-[10px] bg-neutral-100',
+                        )}
                     >
-                        <h4>
+                        <h4
+                            className={cn(
+                                'text-body-03',
+                                hasSelectedValue
+                                    ? 'font-medium text-black'
+                                    : 'font-normal text-neutral-400'
+                            )}
+                        >
                             {inputValue.recruitmentStatus === 'UPCOMING'
                                 ? '모집예정'
                                 : inputValue.recruitmentStatus === 'OPEN'
@@ -40,90 +51,41 @@ function RecruitmentStatus({ inputValue, setInputValue }: IRecruitmentStatus) {
                                 ? '모집완료'
                                 : '모집기준 선택'}
                         </h4>
-                        <IconWrapper $isOpen={isOpen}>
+                        <div
+                            className={cn(
+                                'transition-transform duration-[400ms] ease-in-out',
+                                isOpen ? 'rotate-180' : 'rotate-0'
+                            )}
+                        >
                             <DropdownArrow />
-                        </IconWrapper>
-                    </DropdownHeaderWrapper>
+                        </div>
+                    </div>
                 </Dropdown.Header>
                 <Dropdown.Menu isOpen={isOpen}>
-                    <DropdownItemList>
-                        {recruitStatus.map((item, index) => (
-                            <DropdownItem
-                                key={`recruit-status-${index}`}
-                                onClick={() => handleRecruitmentStatus(item)}
-                                $isSelected={
-                                    inputValue.recruitmentStatus === item.value
-                                }
-                            >
-                                {item.label}
-                            </DropdownItem>
-                        ))}
-                    </DropdownItemList>
+                    <ul className="flex flex-col justify-center items-center gap-[5px] absolute top-[11px] left-0 w-[280px] h-[138px] rounded-[10px] bg-white shadow-[0px_3px_3px_rgba(0,0,0,0.1)]">
+                        {recruitStatus.map((item, index) => {
+                            const isSelected =
+                                inputValue.recruitmentStatus === item.value;
+                            return (
+                                <li
+                                    key={`recruit-status-${index}`}
+                                    onClick={() => handleRecruitmentStatus(item)}
+                                    className={cn(
+                                        'flex justify-center items-center w-[260px] h-[36px] rounded-[5px] text-body-03 cursor-pointer',
+                                        isSelected
+                                            ? 'text-white bg-primary-500'
+                                            : 'text-black bg-neutral-100'
+                                    )}
+                                >
+                                    {item.label}
+                                </li>
+                            );
+                        })}
+                    </ul>
                 </Dropdown.Menu>
             </Dropdown>
-        </Container>
+        </AdminSection>
     );
 }
 
 export { RecruitmentStatus };
-
-const Container = styled(SectionWrapper)`
-    height: 101px;
-    gap: 8px;
-`;
-
-const DropdownHeaderWrapper = styled.div<{ $selectedValue: string }>`
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    width: 280px;
-    height: 40px;
-    padding: 0 15px;
-    border-radius: 10px;
-    h4 {
-        font-size: 14px;
-        font-weight: ${({ $selectedValue }) =>
-            $selectedValue ? '500' : '400'};
-        color: ${({ $selectedValue, theme }) =>
-            $selectedValue ? theme.colors.mainBlack : theme.colors.subGray};
-    }
-    background-color: ${({ theme }) => theme.colors.lightGray};
-`;
-
-const IconWrapper = styled.div<{ $isOpen?: boolean }>`
-    transform: ${({ $isOpen }) =>
-        $isOpen ? 'rotate(180deg)' : 'rotate(0deg)'};
-    transition: transform 0.4s ease;
-`;
-
-const DropdownItemList = styled.ul`
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    gap: 5px;
-    position: absolute;
-    top: 11px;
-    left: 0;
-    width: 280px;
-    height: 138px;
-    border-radius: 10px;
-    background-color: ${({ theme }) => theme.colors.white};
-    box-shadow: 0px 3px 3px rgba(0, 0, 0, 0.1);
-`;
-
-const DropdownItem = styled.li<{ $isSelected: boolean }>`
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 260px;
-    height: 36px;
-    border-radius: 5px;
-
-    font-size: 14px;
-    color: ${({ $isSelected, theme }) =>
-        $isSelected ? theme.colors.white : theme.colors.mainBlack};
-    background-color: ${({ $isSelected, theme }) =>
-        $isSelected ? theme.colors.mainBlue : theme.colors.lightGray};
-    cursor: pointer;
-`;

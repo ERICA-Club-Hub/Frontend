@@ -1,13 +1,12 @@
 import { useState } from 'react';
-import styled from 'styled-components';
 import Button from '@/components/Common/Button';
 import { TextArea } from '@/components/Common/TextArea';
 import { recruitNoticeList } from '@/constants/club-detail-register';
 import {
-    ButtonGroupWrapper,
-    Label,
-    SectionWrapper,
-} from '@/styles/admin-club-detail/style';
+    AdminButtonGroup,
+    AdminSection,
+    AdminSectionLabel,
+} from '@/components/Common';
 import { inputChangeHandler } from '@/utils/inputChangeHandler';
 import { IRecruitNoticeValue } from '@/types';
 import useBulletPointConverter from '@/hooks/actions/useBulletPointConverter';
@@ -43,14 +42,18 @@ function RecruitNoticePage() {
 
     return (
         <>
-            <Container>
-                <RecruitNoticeWrapper>
-                    <h2>모집안내 글 작성</h2>
+            <div className="flex flex-col">
+                <AdminSection className="min-h-[719px] mb-[15px]">
+                    <h2 className="w-full mb-5 text-subtitle-02 font-semibold text-black">
+                        모집안내 글 작성
+                    </h2>
 
-                    <RecruitNoticeFormList>
+                    <div className="flex flex-col gap-5">
                         {recruitNoticeList.map((recruitNotice, index) => (
-                            <RecruitNoticeForm key={`club-intro-${index}`}>
-                                <Label>{recruitNotice.label}</Label>
+                            <div key={`club-intro-${index}`} className="flex flex-col gap-[10px]">
+                                <AdminSectionLabel>
+                                    {recruitNotice.label}
+                                </AdminSectionLabel>
                                 <TextArea
                                     size="large"
                                     backgroundColor="gray"
@@ -81,12 +84,12 @@ function RecruitNoticePage() {
                                         })
                                     }
                                 />
-                            </RecruitNoticeForm>
+                            </div>
                         ))}
-                    </RecruitNoticeFormList>
-                </RecruitNoticeWrapper>
+                    </div>
+                </AdminSection>
 
-                <ButtonGroupWrapper>
+                <AdminButtonGroup>
                     {/* <Button
                         name="preview"
                         type="button"
@@ -106,8 +109,8 @@ function RecruitNoticePage() {
                     >
                         저장하기
                     </Button>
-                </ButtonGroupWrapper>
-            </Container>
+                </AdminButtonGroup>
+            </div>
 
             {/* 로딩 모달 */}
             <LoadingModal
@@ -119,33 +122,3 @@ function RecruitNoticePage() {
 }
 
 export { RecruitNoticePage };
-
-const Container = styled.div`
-    display: flex;
-    flex-direction: column;
-`;
-
-const RecruitNoticeWrapper = styled(SectionWrapper)`
-    min-height: 719px;
-    margin-bottom: 15px;
-
-    h2 {
-        width: 100%;
-        margin-bottom: 20px;
-        font-size: 18px;
-        font-weight: 600;
-        color: ${({ theme }) => theme.colors.mainBlack};
-    }
-`;
-
-const RecruitNoticeFormList = styled.div`
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-`;
-
-const RecruitNoticeForm = styled.div`
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-`;
