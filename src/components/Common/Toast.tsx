@@ -39,9 +39,7 @@ export default function Toast() {
                 'rounded-[10px] z-[9999]',
                 'text-body-03 font-medium leading-[1.3]',
                 'items-center justify-center gap-[7px]',
-                animating
-                    ? 'animate-[toast-fade-in_0.3s_ease-in-out_forwards]'
-                    : 'animate-[toast-fade-out_0.3s_ease-in-out_forwards]'
+                animating ? 'animate-toast-in' : 'animate-toast-out'
             )}
         >
             {toast.message && <img src={Icon} />}

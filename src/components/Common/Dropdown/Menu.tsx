@@ -8,7 +8,7 @@ export interface DropdownMenuProps {
 const DropdownMenu = ({ children, isOpen }: DropdownMenuProps) => {
     if (!isOpen) return null;
     return (
-        <div className="relative bg-white z-[999] animate-[dropdown-slide_0.3s_ease]">
+        <div className="relative bg-white z-[999] animate-dropdown">
             {children}
         </div>
     );

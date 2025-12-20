@@ -57,10 +57,8 @@ export default function Modal({
             className={cn(
                 'fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2',
                 'p-0 border-0 bg-transparent',
-                isOpen
-                    ? 'animate-[modal-fade-in_0.4s_ease]'
-                    : 'animate-[modal-fade-out_0.4s_ease]',
-                '[&[open]::backdrop]:animate-[modal-backdrop-show_0.4s_ease]',
+                isOpen ? 'animate-modal-in' : 'animate-modal-out',
+                '[&[open]::backdrop]:animate-modal-backdrop',
                 '[&::backdrop]:bg-[rgba(35,35,35,0.4)]'
             )}
             onClick={handleClickOutside}

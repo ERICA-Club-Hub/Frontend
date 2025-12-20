@@ -35,7 +35,7 @@ export default function LoadingModal({ isPending, isSuccess }: ILoadingModal) {
                             key={index}
                             className={cn(
                                 'w-[10px] h-[10px] rounded-full bg-primary-500',
-                                'animate-[loading-bounce_0.5s_infinite_alternate]'
+                                'animate-bounce'
                             )}
                             style={{
                                 animationDelay: `${index * 0.1}s`,

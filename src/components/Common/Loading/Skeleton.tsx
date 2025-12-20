@@ -7,7 +7,7 @@ export default function Skeleton({
 }) {
     return (
         <div
-            className="rounded-[10px] animate-[skeleton-loading_0.8s_linear_infinite_alternate]"
+            className="rounded-[10px] animate-skeleton-fast"
             style={{ width: `${width}px`, height: `${height}px` }}
         />
     );

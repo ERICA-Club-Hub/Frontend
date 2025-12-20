@@ -58,23 +58,186 @@
     --font-weight-semibold: 600;
     --font-weight-medium: 500;
     --font-weight-regular: 400;
+
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+        }
+        to {
+            opacity: 1;
+        }
+    }
+    @keyframes toast-fade-in {
+        from {
+            opacity: 0;
+            transform: translate(-50%, 20px);
+        }
+        to {
+            opacity: 1;
+            transform: translate(-50%, 0);
+        }
+    }
+    @keyframes toast-fade-out {
+        from {
+            opacity: 1;
+            transform: translate(-50%, 0);
+        }
+        to {
+            opacity: 0;
+            transform: translate(-50%, 20px);
+        }
+    }
+    @keyframes modal-fade-in {
+        0% {
+            transform: scale(0.9) translate(-55%, -60%);
+            opacity: 0;
+        }
+        100% {
+            transform: scale(1) translate(-50%, -50%);
+            opacity: 1;
+        }
+    }
+    @keyframes loading-bounce {
+        to {
+            transform: translateY(-10px);
+        }
+    }
+    @keyframes skeleton-loading {
+        0% {
+            background-color: var(--color-neutral-100);
+        }
+        100% {
+            background-color: var(--color-neutral-50);
+        }
+    }
+    @keyframes backgroundFade {
+        from {
+            opacity: 0.9;
+        }
+        to {
+            opacity: 1;
+        }
+    }
+    @keyframes dropdown-slide {
+        0% {
+            transform: translateY(-15px);
+        }
+        100% {
+            transform: translateY(0);
+        }
+    }
+    @keyframes modal-fade-out {
+        0% {
+            transform: scale(1) translate(-50%, -50%);
+            opacity: 1;
+        }
+        100% {
+            transform: scale(0.9) translate(-55%, -60%);
+            opacity: 0;
+        }
+    }
+    @keyframes modal-backdrop-show {
+        0% {
+            opacity: 0;
+        }
+        100% {
+            opacity: 1;
+        }
+    }
+
+    /* Animation Utilities */
+    --animate-fade-in: fadeIn 0.3s ease-in-out;
+    --animate-fade-in-slow: fadeIn 1.5s ease-in-out;
+    --animate-background-fade: backgroundFade 1s ease-in-out;
+    --animate-toast-in: toast-fade-in 0.3s ease-out forwards;
+    --animate-toast-out: toast-fade-out 0.3s ease-in forwards;
+    --animate-modal-in: modal-fade-in 0.4s ease-out;
+    --animate-modal-out: modal-fade-out 0.4s ease;
+    --animate-modal-backdrop: modal-backdrop-show 0.4s ease;
+    --animate-dropdown: dropdown-slide 0.3s ease;
+    --animate-bounce: loading-bounce 0.5s infinite alternate;
+    --animate-skeleton: skeleton-loading 1.2s infinite alternate;
+    --animate-skeleton-fast: skeleton-loading 0.8s linear infinite alternate;
 }
 
-@keyframes fadeIn {
-    from {
-        opacity: 0;
+/* TODO 디자이너 답변 확인되면 위에 정의된 타이포 제거하고 utilities로만 타이포 변경 */
+@layer utilities {
+    /* --- 1. Header (24px, 600, 1.3) --- */
+    .text-h1 {
+        font-size: var(--text-header-01);
+        font-weight: var(--font-weight-semibold);
+        line-height: var(--leading-header);
+        letter-spacing: -0.02em;
     }
-    to {
-        opacity: 1;
-    }
-}
 
-@keyframes backgroundFade {
-    from {
-        opacity: 0.9;
+    /* --- 2. Subtitle (20px/18px, 600, 1.3) --- */
+    .text-s1 {
+        font-size: var(--text-subtitle-01);
+        font-weight: var(--font-weight-semibold);
+        line-height: var(--leading-header);
+        letter-spacing: -0.02em;
     }
-    to {
-        opacity: 1;
+    .text-s2 {
+        font-size: var(--text-subtitle-02);
+        font-weight: var(--font-weight-semibold);
+        line-height: var(--leading-header);
+        letter-spacing: -0.02em;
+    }
+
+    /* --- 3. Body (16px, 500/600, 1.5) --- */
+    .text-b1 {
+        font-size: var(--text-body-01);
+        font-weight: var(--font-weight-medium);
+        line-height: var(--leading-body);
+        letter-spacing: -0.02em;
+    }
+    .text-b2 {
+        font-size: var(--text-body-01);
+        font-weight: var(--font-weight-semibold);
+        line-height: var(--leading-body);
+        letter-spacing: -0.02em;
+    }
+
+    /* --- 4. Body (14px, 600/400, 1.5) --- */
+    .text-b3 {
+        font-size: var(--text-body-03);
+        font-weight: var(--font-weight-semibold);
+        line-height: var(--leading-body);
+        letter-spacing: -0.02em;
+    }
+    .text-b4 {
+        font-size: var(--text-body-03);
+        font-weight: var(--font-weight-regular);
+        line-height: var(--leading-body);
+        letter-spacing: -0.02em;
+    }
+
+    /* --- 5. Caption (12px, 400/500/600, 1.35) --- */
+    .text-c1 {
+        font-size: var(--text-caption);
+        font-weight: var(--font-weight-regular);
+        line-height: 1.35; /* 피그마 135% 기준 */
+        letter-spacing: -0.01em;
+    }
+    .text-c2 {
+        font-size: var(--text-caption);
+        font-weight: var(--font-weight-medium);
+        line-height: 1.35;
+        letter-spacing: -0.01em;
+    }
+    .text-c3 {
+        font-size: var(--text-caption);
+        font-weight: var(--font-weight-semibold);
+        line-height: 1.35;
+        letter-spacing: -0.01em;
+    }
+
+    /* --- 6. Caption Small (10px, 500, 1.3) --- */
+    .text-c4 {
+        font-size: 10px; /* 기존 --text-small은 13px이므로 이미지 수치 우선 */
+        font-weight: var(--font-weight-medium);
+        line-height: var(--leading-header); /* 1.3 */
+        letter-spacing: -0.01em;
     }
 }
 
@@ -133,86 +296,5 @@
 
     h1 {
         margin: 0;
-    }
-}
-
-/* Toast 애니메이션 */
-@keyframes toast-fade-in {
-    from {
-        opacity: 0;
-        transform: translate(-50%, 20px);
-    }
-    to {
-        opacity: 1;
-        transform: translate(-50%, 0);
-    }
-}
-
-@keyframes toast-fade-out {
-    from {
-        opacity: 1;
-        transform: translate(-50%, 0);
-    }
-    to {
-        opacity: 0;
-        transform: translate(-50%, 20px);
-    }
-}
-
-/* Modal 애니메이션 */
-@keyframes modal-fade-in {
-    0% {
-        transform: scale(0.9) translate(-55%, -60%);
-        opacity: 0;
-    }
-    100% {
-        transform: scale(1) translate(-50%, -50%);
-        opacity: 1;
-    }
-}
-
-@keyframes modal-fade-out {
-    0% {
-        transform: scale(1) translate(-50%, -50%);
-        opacity: 1;
-    }
-    100% {
-        transform: scale(0.9) translate(-55%, -60%);
-        opacity: 0;
-    }
-}
-
-@keyframes modal-backdrop-show {
-    0% {
-        opacity: 0;
-    }
-    100% {
-        opacity: 1;
-    }
-}
-
-/* Loading 애니메이션 */
-@keyframes loading-bounce {
-    to {
-        transform: translateY(-10px);
-    }
-}
-
-@keyframes skeleton-loading {
-    0% {
-        background-color: #e3e7ec;
-    }
-    100% {
-        background-color: #f2f4f6;
-    }
-}
-
-/* Dropdown 애니메이션 */
-@keyframes dropdown-slide {
-    0% {
-        transform: translateY(-15px);
-    }
-    100% {
-        transform: translateY(0);
     }
 }
