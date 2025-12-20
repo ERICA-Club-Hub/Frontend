@@ -1,6 +1,5 @@
 import { IActivitiesLog } from '@/types';
 import { useNavigate } from 'react-router-dom';
-import styled from 'styled-components';
 
 function FeedThumbnailImage({ activityLog }: { activityLog: IActivitiesLog }) {
     const navigate = useNavigate();
@@ -13,22 +12,14 @@ function FeedThumbnailImage({ activityLog }: { activityLog: IActivitiesLog }) {
     };
 
     return (
-        <Container key={activityLog.activityId} onClick={handleRouting}>
-            <ThumbnailImage
+        <div key={activityLog.activityId} onClick={handleRouting}>
+            <img
                 key={activityLog.activityId}
                 src={activityLog.thumbnailUrl}
+                className="w-[95px] h-[95px] rounded-[5px] object-cover"
             />
-        </Container>
+        </div>
     );
 }
 
 export { FeedThumbnailImage };
-
-const Container = styled.div``;
-
-const ThumbnailImage = styled.img`
-    width: 95px;
-    height: 95px;
-    border-radius: 5px;
-    object-fit: cover;
-`;

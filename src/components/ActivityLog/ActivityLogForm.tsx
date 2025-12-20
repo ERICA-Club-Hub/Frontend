@@ -1,10 +1,9 @@
 import { useLocation } from 'react-router-dom';
-import styled from 'styled-components';
 import { useEffect, useState } from 'react';
 import { IActivityLogValue } from '@/types';
 import { inputChangeHandler } from '@/utils/inputChangeHandler';
 import { TextArea } from '../Common/TextArea';
-import { ButtonWrapper } from '@/styles/button';
+import { AdminButtonWrapper } from '@/components/Common';
 import Button from '../Common/Button';
 import useToggle from '@/hooks/actions/useToggle';
 import ActionModal from '../Common/Modal/ActionModal';
@@ -119,14 +118,14 @@ function ActivityLogForm({ mode }: { mode: string }) {
                     isEditBtnClicked,
                 }}
             >
-                <Container>
-                    <ActivityLogFormWrapper>
+                <div className="flex flex-col items-center pt-5">
+                    <div className="flex flex-col items-center justify-center w-[320px] h-[413px] rounded-[10px] bg-white mb-[15px]">
                         {/* 이미지 캐러셀 */}
                         <CarouselImage />
 
                         {/* 날짜 입력 폼 */}
-                        <DateInputWrapper>
-                            <DateInput
+                        <div className="w-[230px]">
+                            <input
                                 value={inputValue.date}
                                 name="date"
                                 type="text"
@@ -145,10 +144,11 @@ function ActivityLogForm({ mode }: { mode: string }) {
                                         setInputValue,
                                     })
                                 }
+                                className="w-[95px] h-[22px] rounded-[5px] text-caption font-medium px-[10px] py-1 bg-neutral-100 text-neutral-500 placeholder:text-caption placeholder:font-medium placeholder:text-neutral-500"
                             />
-                        </DateInputWrapper>
+                        </div>
 
-                        <Line />
+                        <div className="w-[210px] h-px my-[5px] bg-neutral-200" />
 
                         {/* 내용 입력 폼 */}
                         <TextArea
@@ -172,8 +172,8 @@ function ActivityLogForm({ mode }: { mode: string }) {
                                 })
                             }
                         />
-                    </ActivityLogFormWrapper>
-                    <ButtonWrapper>
+                    </div>
+                    <AdminButtonWrapper>
                         {mode === 'edit' && !isEditBtnClicked ? (
                             <>
                                 <Button
@@ -206,8 +206,8 @@ function ActivityLogForm({ mode }: { mode: string }) {
                                 저장하기
                             </Button>
                         )}
-                    </ButtonWrapper>
-                </Container>
+                    </AdminButtonWrapper>
+                </div>
             </ActivityLogProvider>
 
             {/* 로딩 Modal */}
@@ -233,50 +233,3 @@ function ActivityLogForm({ mode }: { mode: string }) {
 }
 
 export { ActivityLogForm };
-
-const Container = styled.div`
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding-top: 20px;
-`;
-
-const ActivityLogFormWrapper = styled.div`
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    width: 320px;
-    height: 413px;
-    border-radius: 10px;
-    background-color: ${({ theme }) => theme.colors.white};
-    margin-bottom: 15px;
-`;
-
-const DateInputWrapper = styled.div`
-    width: 230px;
-`;
-
-const DateInput = styled.input`
-    width: 95px;
-    height: 22px;
-    border-radius: 5px;
-    font-size: 12px;
-    font-weight: 500;
-    padding: 4px 10px;
-    background-color: ${({ theme }) => theme.colors.lightGray};
-    color: ${({ theme }) => theme.colors.subGray};
-
-    &::placeholder {
-        font-size: 12px;
-        font-weight: 500;
-        color: ${({ theme }) => theme.colors.subGray};
-    }
-`;
-
-const Line = styled.div`
-    width: 210px;
-    height: 1px;
-    margin: 5px;
-    background-color: ${({ theme }) => theme.colors.mediumGray};
-`;
