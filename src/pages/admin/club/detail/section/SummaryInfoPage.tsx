@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import { InputField } from '@/components/Common';
 import { useState } from 'react';
-import { summaryInfoList } from '@/constants/club-detail-register';
+import { summaryInfoList } from '@/constants/club-detail-register.constant';
 import Button from '@/components/Common/Button';
 import {
     SectionWrapper,

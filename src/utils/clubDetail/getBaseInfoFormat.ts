@@ -2,7 +2,7 @@ import {
     BASE_INFO_CONFIG,
     FALLBACK_MESSAGES,
     SNS_CONFIG,
-} from '@/constants/BASE_INFO';
+} from '@/constants/base-info.constant';
 import { ApiClubInfoResponse } from '@/hooks/queries/club-detail/useClubIntro';
 
 export type BaseInfoItem = {

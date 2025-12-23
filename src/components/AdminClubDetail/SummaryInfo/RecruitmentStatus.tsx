@@ -3,7 +3,7 @@ import { Dropdown } from '@/components/Common';
 import DropdownArrow from '@/assets/common/dropdown_arrow.svg?react';
 import { Label, SectionWrapper } from '@/styles/admin-club-detail/style';
 import useToggle from '@/hooks/actions/useToggle';
-import { recruitStatus } from '@/constants/club-detail-register';
+import { recruitStatus } from '@/constants/club-detail-register.constant';
 import { ISummaryInfoValue } from '@/types';
 
 interface IRecruitmentStatus {
