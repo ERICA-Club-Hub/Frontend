@@ -20,6 +20,7 @@ import {
   ApiResponseClubCommandResponse,
   ApiResponseClubDetailDraftResponse,
   ApiResponseClubDetailListResponse,
+  ApiResponseClubIdResponse,
   ApiResponseClubIntroductionDraftResponse,
   ApiResponseClubIntroductionResponse,
   ApiResponseClubOverviewResponse,
@@ -1184,6 +1185,22 @@ export class Api<
       path: `/api/clubs/instagram/central`,
       method: "GET",
       query: query,
+      secure: true,
+      ...params,
+    });
+  /**
+   * @description ## 동아리의 ID를 전체 조회합니다.
+   *
+   * @tags Club Overview
+   * @name GetAllClubIds
+   * @summary [동아리 조회] 동아리 ID 전체 조회
+   * @request GET:/api/clubs/ids
+   * @secure
+   */
+  getAllClubIds = (params: RequestParams = {}) =>
+    this.request<ApiResponseClubIdResponse, any>({
+      path: `/api/clubs/ids`,
+      method: "GET",
       secure: true,
       ...params,
     });

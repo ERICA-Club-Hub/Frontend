@@ -1132,6 +1132,19 @@ export interface GetInstagrams {
     totalPage?: number;
 }
 
+export interface ApiResponseClubIdResponse {
+    isSuccess?: boolean;
+    code?: string;
+    message?: string;
+    result?: ClubIdResponse;
+}
+
+export interface ClubIdResponse {
+    clubIds?: number[];
+    /** @format int64 */
+    totalElements?: number;
+}
+
 export interface ApiResponseClubRecruitmentDraftResponse {
     isSuccess?: boolean;
     code?: string;
