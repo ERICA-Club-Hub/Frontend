@@ -20,6 +20,7 @@
     --color-neutral-00: #fdfdfd;
     --color-neutral-50: #f9fafb;
     --color-neutral-100: #eceff3;
+    --color-neutral-150: #eceff3; /* Stroke용 */
     --color-neutral-200: #c7d0db;
     --color-neutral-300: #aebccb;
     --color-neutral-400: #8fa3b7;
@@ -28,6 +29,14 @@
     --color-neutral-700: #44576a;
     --color-neutral-800: #303d4b;
     --color-neutral-900: #1c232c;
+
+    --color-service-key: var(--color-primary-600);
+    --color-text-main: var(--color-neutral-900);
+    --color-text-sub: var(--color-neutral-600);
+    --color-text-placeholder: var(--color-neutral-400);
+    --color-text-hint: var(--color-neutral-400);
+    --color-text-error: var(--color-sub-warning);
+    --color-stroke-status: var(--color-neutral-150);
 
     /* Background */
     --color-background-default: #f7f7f9;
