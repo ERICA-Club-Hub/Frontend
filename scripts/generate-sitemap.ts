@@ -1,5 +1,8 @@
 import type { ApiResponseClubIdResponse } from '../src/api/data-contracts';
 import fs from 'fs';
+import { config } from 'dotenv';
+
+config();
 
 const STATIC_PAGES = [
     { loc: 'https://hanjari.site', priority: 1.0, changefreq: 'daily' },
@@ -60,7 +63,7 @@ ${pages
 
 async function generateSitemap(): Promise<void> {
     try {
-        const response = await fetch(`${BASE_URL}/clubs/ids`);
+        const response = await fetch(`${BASE_URL}/api/clubs/ids`);
 
         if (!response.ok) {
             throw new Error(`API 호출 실패: ${response.status}`);
@@ -87,9 +90,18 @@ async function generateSitemap(): Promise<void> {
 
         const sitemap = generateSitemapXML(allPages);
         fs.writeFileSync('public/sitemap.xml', sitemap);
-    } catch {
+    } catch (error) {
+        // ✅ 수정: 에러 출력
+        console.error('❌ Sitemap 생성 실패:');
+        console.error('에러:', error);
+        console.log('⚠️  정적 페이지만으로 sitemap을 생성합니다.');
+
         const sitemap = generateSitemapXML(STATIC_PAGES);
         fs.writeFileSync('public/sitemap.xml', sitemap);
+
+        console.log(
+            `✅ Fallback sitemap 생성 완료 (${STATIC_PAGES.length}개 페이지)`,
+        );
     }
 }
 
