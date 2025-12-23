@@ -3,8 +3,8 @@ import { InnerWrapper, Label } from '@/styles/registration-form';
 import styled from 'styled-components';
 import { Dropdown } from '../Common';
 import ExpandArrowIcon from '@/assets/common/expand-arrow.svg?react';
-import { clubCategory } from '@/constants';
 import { IClubRegisterValue } from '@/types';
+import { clubCategory } from '@/constants/navigations.constant';
 
 interface IClubCategorySelection {
     inputValue: IClubRegisterValue;

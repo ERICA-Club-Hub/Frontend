@@ -16,7 +16,7 @@ interface ApiClubScheduleResponse {
     schedules: Schedule[];
 }
 
-interface ApiClubInfoResponse {
+export interface ApiClubInfoResponse {
     leaderName: string;
     leaderEmail: string;
     leaderPhone: string;

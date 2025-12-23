@@ -7,7 +7,7 @@ import { useNavigate } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
 import { clubIdSelector } from '@/store/clubInfoState';
 import { useErrorHandler } from '../handler/useErrorHandler';
-import { MAX_FILE_SIZE } from '@/constants/MAX_FILE_SIZE';
+import { MAX_FILE_SIZE } from '@/constants/max-file-size.constant';
 import { calculateFormDataSize } from '@/utils/calculateFileSize';
 import { useToast } from '../actions/useToast';
 import convertURLtoFile from '@/utils/convertURLtoFile';
