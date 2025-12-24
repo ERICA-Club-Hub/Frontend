@@ -30,7 +30,7 @@
     --color-neutral-800: #303d4b;
     --color-neutral-900: #1c232c;
 
-    --color-service-key: var(--color-primary-600);
+    --color-brand: var(--color-primary-600);
     --color-text-main: var(--color-neutral-900);
     --color-text-sub: var(--color-neutral-600);
     --color-text-placeholder: var(--color-neutral-400);
