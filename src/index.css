@@ -8,8 +8,15 @@
 
     /* Primary Colors */
     --color-primary-50: #dae9fc;
+    --color-primary-100: #abcef7;
+    --color-primary-200: #7cb3f3;
+    --color-primary-300: #4497f8;
+    --color-primary-400: #1f7dea;
     --color-primary-500: #1264c4;
     --color-primary-600: #0e4c95;
+    --color-primary-700: #0a3467;
+    --color-primary-800: #051d38;
+    --color-primary-900: #010509;
 
     /* Sub Colors */
     --color-sub-green: #00bd00;
@@ -48,6 +55,10 @@
     --color-badge-green-bg: #f1f9dc;
     --color-badge-green-text: #8bb421;
     --color-badge-gray-bg: #f7f7f7;
+
+    /* Effects - Drop Shadows */
+    --shadow-dropdown: 0 0 120px 0 #ffffff, 0 0 10px 0 rgba(0, 0, 0, 0.12);
+    --shadow-default: 0 2px 4px 0 rgba(0, 0, 0, 0.12);
 
     /* Typography - Font Sizes (자동으로 text-* 클래스 생성) */
     --text-header-01: 24px;
