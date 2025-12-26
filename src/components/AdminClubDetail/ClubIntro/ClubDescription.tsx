@@ -1,5 +1,5 @@
 import { TextArea } from '@/components/Common/TextArea';
-import { clubIntroList } from '@/constants/club-detail-register';
+import { clubIntroList } from '@/constants/club-detail-register.constant';
 import useBulletPointConverter from '@/hooks/actions/useBulletPointConverter';
 import useClubIntroContext from '@/hooks/contexts/useClubIntroContext';
 import useClubAdminQueries from '@/hooks/queries/useClubAdminQueries';

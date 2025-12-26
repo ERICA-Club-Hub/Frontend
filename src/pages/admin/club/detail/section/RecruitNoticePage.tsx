@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import Button from '@/components/Common/Button';
 import { TextArea } from '@/components/Common/TextArea';
-import { recruitNoticeList } from '@/constants/club-detail-register';
+import { recruitNoticeList } from '@/constants/club-detail-register.constant';
 import {
     AdminButtonGroup,
     AdminSection,

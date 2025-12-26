@@ -5,9 +5,9 @@ import {
 } from '@/components/Common';
 import { Dropdown } from '../Common';
 import ExpandArrowIcon from '@/assets/common/expand-arrow.svg?react';
-import { clubCategory } from '@/constants';
 import { IClubRegisterValue } from '@/types';
 import { cn } from '@/utils/cn';
+import { clubCategory } from '@/constants/navigations.constant';
 
 interface IClubCategorySelection {
     inputValue: IClubRegisterValue;
@@ -58,7 +58,8 @@ function ClubCategorySelection({
                 <Dropdown.Menu isOpen={isOpen}>
                     <ul className="absolute top-[5px] left-0 flex flex-wrap justify-center items-center p-[10px] gap-[10px] w-[320px] rounded-[10px] bg-white shadow-[0px_3px_3px_rgba(0,0,0,0.1)]">
                         {clubCategory.map((item, index) => {
-                            const isSelected = inputValue.category === item.name;
+                            const isSelected =
+                                inputValue.category === item.name;
                             return (
                                 <li
                                     key={`club-category-${index}`}

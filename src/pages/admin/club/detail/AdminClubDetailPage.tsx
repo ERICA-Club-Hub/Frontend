@@ -1,7 +1,7 @@
 import { TopNavigator } from '@/components/Common';
-import { clubDetailRegisterNavigations } from '@/constants';
 import { useState } from 'react';
 import { Outlet, useLocation, useNavigate, useParams } from 'react-router-dom';
+import { clubDetailRegisterNavigations } from '@/constants/navigations.constant';
 
 const AdminClubDetailPage = () => {
     const { id: clubId } = useParams();

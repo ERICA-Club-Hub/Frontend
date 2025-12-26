@@ -1,4 +1,4 @@
-import { DEFAULT_IMG } from '@/constants/DEFAULT_IMG';
+import { DEFAULT_IMG } from '@/constants/default-image.constant';
 import { useActivityIdByParams } from '@/hooks/useActivityIdByParams';
 import { useActivityLogDetail } from '@/hooks/queries/club-detail/useClubLog';
 import { Swiper, SwiperSlide } from 'swiper/react';

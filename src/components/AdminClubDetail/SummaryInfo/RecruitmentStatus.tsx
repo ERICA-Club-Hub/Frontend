@@ -2,7 +2,7 @@ import { Dropdown } from '@/components/Common';
 import DropdownArrow from '@/assets/common/dropdown_arrow.svg?react';
 import { AdminSection, AdminSectionLabel } from '@/components/Common';
 import useToggle from '@/hooks/actions/useToggle';
-import { recruitStatus } from '@/constants/club-detail-register';
+import { recruitStatus } from '@/constants/club-detail-register.constant';
 import { ISummaryInfoValue } from '@/types';
 import { cn } from '@/utils/cn';
 

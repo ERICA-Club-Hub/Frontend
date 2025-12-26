@@ -1,4 +1,4 @@
-import { DEFAULT_IMG } from '@/constants/DEFAULT_IMG';
+import { DEFAULT_IMG } from '@/constants/default-image.constant';
 import Button from '../Common/Button';
 import { cva, type VariantProps } from 'class-variance-authority';
 import { cn } from '@/utils/cn';
