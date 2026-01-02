@@ -1,59 +1,5 @@
-import styled from 'styled-components';
+import { cn } from '@/utils/cn';
 import { Tag } from './Tag';
-
-const CardContainer = styled.button`
-    display: flex;
-    width: 320px;
-    height: 70px;
-    padding: 15px;
-    flex-direction: column;
-    align-items: flex-start;
-    justify-content: center;
-    gap: 4.5px;
-    flex-shrink: 0;
-    border-radius: 10px;
-    border: 1px solid #EAEAEA;
-    background: #FFF;
-    cursor: pointer;
-    text-align: left;
-    
-    &:hover {
-        background: #F7F7F7;
-    }
-`;
-
-const TitleWrapper = styled.div`
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    width: 100%;
-    justify-content: space-between;
-`;
-
-const Title = styled.div`
-    width: 160px;
-    color: #232323;
-    font-family: Pretendard;
-    font-size: 16px;
-    font-style: normal;
-    font-weight: 600;
-    line-height: normal;
-`;
-
-const TagContainer = styled.div`
-    display: flex;
-    gap: 6px;
-`;
-
-const Subtitle = styled.div`
-    align-self: stretch;
-    color: #AEAEAE;
-    font-family: Pretendard;
-    font-size: 13px;
-    font-style: normal;
-    font-weight: 500;
-    line-height: normal;
-`;
 
 interface MainpageCardProps {
     title: string;
@@ -65,22 +11,42 @@ interface MainpageCardProps {
     onClick?: () => void;
 }
 
-const MainpageCard = ({ title, subtitle, tags = [], onClick }: MainpageCardProps) => {
+const MainpageCard = ({
+    title,
+    subtitle,
+    tags = [],
+    onClick,
+}: MainpageCardProps) => {
     return (
-        <CardContainer onClick={onClick} type="button">
-            <TitleWrapper>
-                <Title>{title}</Title>
-                <TagContainer>
+        <button
+            onClick={onClick}
+            type="button"
+            className={cn(
+                'flex w-[320px] h-[70px] px-[15px] py-[15px]',
+                'flex-col items-start justify-center gap-[4.5px]',
+                'flex-shrink-0 rounded-[10px]',
+                'border border-[#EAEAEA] bg-white',
+                'cursor-pointer text-left',
+                'hover:bg-[#F7F7F7]',
+            )}
+        >
+            <div className="flex items-center gap-[6px] w-full justify-between">
+                <div className="w-[160px] text-[#232323] text-body-01 font-semibold leading-normal">
+                    {title}
+                </div>
+                <div className="flex gap-[6px]">
                     {tags.map((tag, index) => (
                         <Tag key={index} type={tag.type}>
                             {tag.text}
                         </Tag>
                     ))}
-                </TagContainer>
-            </TitleWrapper>
-            <Subtitle>{subtitle}</Subtitle>
-        </CardContainer>
-    )
-}
+                </div>
+            </div>
+            <div className="self-stretch text-neutral-600 text-small font-medium leading-normal">
+                {subtitle}
+            </div>
+        </button>
+    );
+};
 
 export default MainpageCard;

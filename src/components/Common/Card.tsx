@@ -1,4 +1,5 @@
-import styled, { css } from 'styled-components';
+import { cva } from 'class-variance-authority';
+import { cn } from '@/utils/cn';
 import { Tag } from './Tag';
 import downloadIcon from '../../assets/common/card_download.svg';
 import rightArrowIcon from '../../assets/common/card_right_arrow.svg';
@@ -13,85 +14,22 @@ interface CardProps {
     isRotated?: boolean;
 }
 
-const CardWrapper = styled.button<{ $variant?: string }>`
-    width: 320px;
-    height: 71px;
-    position: relative;
-    display: flex;
-    border-radius: 10px;
-    background: #ffffff;
-    border: 1px solid var(--Gray-4, #f7f7f7);
-    align-items: center;
-    cursor: pointer;
-    padding: 0;
-    transition: background-color 0.2s ease;
-
-    &:hover {
-        background-color: #f5f5f5;
-    }
-
-    ${({ $variant }) =>
-        ($variant === 'serviceNotice' ||
-            $variant === 'resources' ||
-            $variant === 'FAQ') &&
-        css`
-            padding: 0 20px;
-        `}
-`;
-
-const CardImage = styled.div<{ $imagePath?: string }>`
-    width: 55px;
-    height: 55px;
-    flex-shrink: 0;
-    border-radius: 5px;
-    margin: 8px 15px 8px 8px;
-    background: ${({ $imagePath }) =>
-        $imagePath
-            ? `url(${$imagePath}) lightgray 50% / cover no-repeat`
-            : 'lightgray'};
-`;
-
-const TitleDateWrapper = styled.div<{ $variant?: string }>`
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
-    padding: 18px 0px 17px 0px;
-    width: 100%;
-`;
-
-const CardTitle = styled.div`
-    color: var(--Black, #232323);
-    font-family: Pretendard;
-    font-size: 14px;
-    font-style: normal;
-    font-weight: 600;
-    line-height: normal;
-    text-align: left;
-`;
-
-const CardDate = styled.div`
-    color: #aeaeae;
-    font-family: Pretendard;
-    font-size: 12px;
-    font-style: normal;
-    font-weight: 500;
-    line-height: normal;
-    text-align: left;
-`;
-
-const IconBase = styled.img<{ $isRotated?: boolean }>`
-    width: 24px;
-    height: 24px;
-    margin-left: auto;
-    transition: transform 0.3s ease;
-    transform: ${({ $isRotated }) =>
-        $isRotated ? 'rotate(90deg)' : 'rotate(0deg)'};
-`;
-
-const TagWrapper = styled.div`
-    display: flex;
-    flex-wrap: wrap;
-`;
+const cardVariants = cva(
+    'w-[320px] h-[71px] relative flex rounded-[10px] bg-white border border-[#f7f7f7] items-center cursor-pointer p-0 transition-colors duration-200 ease-in-out hover:bg-[#f5f5f5]',
+    {
+        variants: {
+            variant: {
+                unionNotice: '',
+                serviceNotice: 'px-[20px]',
+                resources: 'px-[20px]',
+                FAQ: 'px-[20px]',
+            },
+        },
+        defaultVariants: {
+            variant: 'unionNotice',
+        },
+    },
+);
 
 const Card = ({
     $variant = 'unionNotice',
@@ -103,57 +41,92 @@ const Card = ({
     isRotated,
 }: CardProps) => {
     return (
-        <CardWrapper $variant={$variant} onClick={onClick} type="button">
+        <button
+            className={cn(cardVariants({ variant: $variant }))}
+            onClick={onClick}
+            type="button"
+        >
             {$variant === 'unionNotice' && (
                 <>
-                    <CardImage $imagePath={$imagePath} />
-                    <TitleDateWrapper $variant={$variant}>
-                        <CardTitle>{title}</CardTitle>
-                        <CardDate>{date}</CardDate>
-                    </TitleDateWrapper>
+                    <div
+                        className="w-[55px] h-[55px] flex-shrink-0 rounded-[5px] mx-[15px] my-[8px] ml-[8px] bg-neutral-600"
+                        style={{
+                            background: $imagePath
+                                ? `url(${$imagePath}) lightgray 50% / cover no-repeat`
+                                : 'lightgray',
+                        }}
+                    />
+                    <div className="flex flex-col gap-[5px] py-[18px] px-0 pb-[17px] w-full">
+                        <div className="text-[#232323] text-body-03 font-semibold leading-normal text-left">
+                            {title}
+                        </div>
+                        <div className="text-neutral-600 text-caption font-medium leading-normal text-left">
+                            {date}
+                        </div>
+                    </div>
                 </>
             )}
 
             {$variant === 'serviceNotice' && (
                 <>
-                    <TitleDateWrapper $variant={$variant}>
-                        <CardTitle>{title}</CardTitle>
-                        <CardDate>{date}</CardDate>
-                    </TitleDateWrapper>
-                    <IconBase
+                    <div className="flex flex-col gap-[5px] py-[18px] px-0 pb-[17px] w-full">
+                        <div className="text-[#232323] text-body-03 font-semibold leading-normal text-left">
+                            {title}
+                        </div>
+                        <div className="text-neutral-600 text-caption font-medium leading-normal text-left">
+                            {date}
+                        </div>
+                    </div>
+                    <img
                         src={rightArrowIcon}
                         alt="right arrow"
-                        $isRotated={isRotated}
+                        className={cn(
+                            'w-[24px] h-[24px] ml-auto transition-transform duration-300 ease-in-out',
+                            isRotated ? 'rotate-90' : 'rotate-0',
+                        )}
                     />
                 </>
             )}
 
             {$variant === 'resources' && (
                 <>
-                    <TitleDateWrapper $variant={$variant}>
-                        <CardTitle>{title}</CardTitle>
-                        <CardDate>{date}</CardDate>
-                    </TitleDateWrapper>
-                    <IconBase src={downloadIcon} alt="download icon" />
+                    <div className="flex flex-col gap-[5px] py-[18px] px-0 pb-[17px] w-full">
+                        <div className="text-[#232323] text-body-03 font-semibold leading-normal text-left">
+                            {title}
+                        </div>
+                        <div className="text-neutral-600 text-caption font-medium leading-normal text-left">
+                            {date}
+                        </div>
+                    </div>
+                    <img
+                        src={downloadIcon}
+                        alt="download icon"
+                        className="w-[24px] h-[24px] ml-auto"
+                    />
                 </>
             )}
 
             {$variant === 'FAQ' && (
                 <>
-                    <TitleDateWrapper $variant={$variant}>
-                        <CardTitle>{title}</CardTitle>
-                        <TagWrapper>
+                    <div className="flex flex-col gap-[5px] py-[18px] px-0 pb-[17px] w-full">
+                        <div className="text-[#232323] text-body-03 font-semibold leading-normal text-left">
+                            {title}
+                        </div>
+                        <div className="flex flex-wrap">
                             <Tag type="동아리 및 질문">{questionType}</Tag>
-                        </TagWrapper>
-                    </TitleDateWrapper>
-                    <IconBase
+                        </div>
+                    </div>
+                    <img
                         src={rightArrowIcon}
                         alt="right arrow"
-                        $isRotated={isRotated}
+                        className={cn(
+                            'w-[24px] h-[24px] ml-auto transition-transform duration-300 ease-in-out',
+                            isRotated ? 'rotate-90' : 'rotate-0',
+                        )}
                     />
                 </>
             )}
-        </CardWrapper>
+        </button>
     );
 };
 

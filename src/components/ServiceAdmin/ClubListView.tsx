@@ -1,4 +1,3 @@
-import styled from 'styled-components';
 import Skeleton from '../Common/Loading/Skeleton';
 import ClubCard from '../Common/ClubCard';
 import { ClubRegistrationDTOList } from '@/types/club.types';
@@ -18,11 +17,11 @@ export default function ClubListView({
 }: ClublistProps) {
     if (isPending) {
         return (
-            <SkeletonList>
+            <div className="flex flex-col items-center gap-[10px] flex-1 w-[320px] pb-[45px]">
                 {Array.from({ length: 5 }).map((_, idx) => (
                     <Skeleton width={320} height={85} key={idx} />
                 ))}
-            </SkeletonList>
+            </div>
         );
     }
 
@@ -35,7 +34,7 @@ export default function ClubListView({
     }
 
     return (
-        <Container>
+        <div className="flex flex-col items-center gap-[10px] flex-1 w-[320px] pb-[45px]">
             {data.map((club) => (
                 <ClubCard
                     key={club.clubRegistrationId}
@@ -47,18 +46,6 @@ export default function ClubListView({
                     )}
                 />
             ))}
-        </Container>
+        </div>
     );
 }
-
-const Container = styled.div`
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 10px;
-    flex: 1;
-    width: 320px;
-    padding-bottom: 45px;
-`;
-
-const SkeletonList = styled(Container)``;

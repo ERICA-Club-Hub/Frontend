@@ -1,43 +1,8 @@
 import Card from '../Common/Card';
-import styled from 'styled-components';
 import { useState } from 'react';
 import Button from '../Common/Button';
 import { Link, useNavigate } from 'react-router-dom';
 import useUnionQueries from '@/hooks/queries/useUnionQueries';
-
-const Container = styled.div<{ $mode: string }>`
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: ${({ $mode }) => ($mode === 'register' ? '15px' : '19px')};
-    padding-top: 20px;
-`;
-
-const TitleWrapper = styled.div`
-    display: flex;
-    justify-content: space-between;
-    width: 320px;
-`;
-
-const Title = styled.div`
-    font-size: 16px;
-    font-weight: 600;
-    line-height: normal;
-    color: ${({ theme }) => theme.colors.mainBlack};
-`;
-
-const Body = styled.div`
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-`;
-
-const CardWrapper = styled.div`
-    cursor: pointer;
-    &:hover {
-        opacity: 0.8;
-    }
-`;
 
 export interface AnnouncementDTOList {
     announcementDTOList: AnnouncementDTO[];
@@ -78,24 +43,29 @@ function UnionNoticeList({ mode }: { mode: string }) {
     };
 
     return (
-        <Container $mode={mode}>
-            <TitleWrapper>
-                <Title>총동연 공지사항</Title>
+        <div
+            className={`flex flex-col items-center pt-5 ${mode === 'register' ? 'gap-[15px]' : 'gap-[19px]'}`}
+        >
+            <div className="flex justify-between w-[320px]">
+                <div className="text-body-01 font-semibold text-black">
+                    총동연 공지사항
+                </div>
                 {mode === 'register' && (
                     <Link to="/admin/union/notice/register">
                         <Button disabled={false}>공지사항 작성하기</Button>
                     </Link>
                 )}
-            </TitleWrapper>
-            <Body>
+            </div>
+            <div className="flex flex-col gap-2">
                 {isPending ? (
                     <div>로딩중...</div>
                 ) : isError ? (
                     <div>{isError}</div>
                 ) : announcements?.announcementDTOList?.length > 0 ? (
                     announcements.announcementDTOList.map((announcement) => (
-                        <CardWrapper
+                        <div
                             key={announcement.announcementId}
+                            className="cursor-pointer hover:opacity-80"
                             onClick={() =>
                                 handleCardClick(
                                     announcement.announcementId,
@@ -109,13 +79,13 @@ function UnionNoticeList({ mode }: { mode: string }) {
                                 title={announcement.title}
                                 date={announcement.date}
                             />
-                        </CardWrapper>
+                        </div>
                     ))
                 ) : (
                     <div>등록된 공지사항이 없습니다.</div>
                 )}
-            </Body>
-        </Container>
+            </div>
+        </div>
     );
 }
 

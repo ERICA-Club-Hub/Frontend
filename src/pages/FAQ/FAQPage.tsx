@@ -1,64 +1,5 @@
 import Card from '@/components/Common/Card';
-import styled from 'styled-components';
 import { useState } from 'react';
-
-const PageContainer = styled.div`
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 100%;
-`;
-
-const ContentWrapper = styled.div`
-    width: 320px;
-    display: flex;
-    flex-direction: column;
-`;
-
-const Title = styled.div`
-    color: ${(props) => props.theme.colors.mainBlack};
-    font-family: Pretendard;
-    font-size: 16px;
-    font-weight: 600;
-    line-height: normal;
-    margin: 20px 0px;
-`;
-
-const Body = styled.div`
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-`;
-
-const CardContainer = styled.div`
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    padding-bottom: 8px;
-`;
-
-const ContentBox = styled.div<{ $isVisible: boolean }>`
-    max-height: ${(props) => (props.$isVisible ? '200px' : '0')};
-    width: 320px;
-    flex-shrink: 0;
-    border-radius: 10px;
-    border: 1px solid ${(props) => props.theme.colors.lightGray};
-    background: ${(props) => props.theme.colors.white};
-    overflow: hidden;
-    transition: max-height 0.3s ease-in-out;
-`;
-
-const ContentText = styled.div`
-    width: 320px;
-    color: ${(props) => props.theme.colors.mainGray};
-    font-family: Pretendard;
-    font-size: 14px;
-    font-style: normal;
-    font-weight: 500;
-    line-height: 18px;
-    padding: 20px;
-    white-space: pre-line;
-`;
 
 interface NoticeItem {
     title: React.ReactNode | string;
@@ -119,12 +60,14 @@ const FAQPage = () => {
     };
 
     return (
-        <PageContainer>
-            <ContentWrapper>
-                <Title>FAQ 페이지</Title>
-                <Body>
+        <div className="flex flex-col items-center w-full">
+            <div className="w-[320px] flex flex-col">
+                <div className="text-body-01 font-semibold text-black my-5">
+                    FAQ 페이지
+                </div>
+                <div className="flex flex-col w-full">
                     {noticeItems.map((item, index) => (
-                        <CardContainer key={index}>
+                        <div key={index} className="flex flex-col w-full pb-2">
                             <Card
                                 $variant="FAQ"
                                 title={item.title}
@@ -132,14 +75,22 @@ const FAQPage = () => {
                                 isRotated={rotatedStates[index]}
                                 onClick={() => handleCardClick(index)}
                             />
-                            <ContentBox $isVisible={rotatedStates[index]}>
-                                <ContentText>{item.content}</ContentText>
-                            </ContentBox>
-                        </CardContainer>
+                            <div
+                                className={`w-[320px] flex-shrink-0 rounded-[10px] border border-neutral-300 bg-white overflow-hidden transition-[max-height] duration-300 ease-in-out ${
+                                    rotatedStates[index]
+                                        ? 'max-h-[200px]'
+                                        : 'max-h-0'
+                                }`}
+                            >
+                                <div className="w-[320px] text-body-03 font-medium text-neutral-700 leading-[18px] p-5 whitespace-pre-line">
+                                    {item.content}
+                                </div>
+                            </div>
+                        </div>
                     ))}
-                </Body>
-            </ContentWrapper>
-        </PageContainer>
+                </div>
+            </div>
+        </div>
     );
 };
 

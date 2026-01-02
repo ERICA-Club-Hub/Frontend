@@ -1,4 +1,3 @@
-import styled from 'styled-components';
 import OfficialAcountItem from '../Common/OfficialAcountItem';
 import { useClubSNS } from '@/hooks/queries/main/useClubSNS';
 import ExpandArrow from '@/assets/common/expand-arrow.svg?react';
@@ -15,20 +14,25 @@ export default function OfficialAccounts() {
     const accounts = data?.result?.officialAccounts ?? [];
 
     return (
-        <SectionContainer>
-            <SectionTitleContainer>
-                <SectionTitle>공식 계정 바로가기</SectionTitle>
-                <OfficialAccountSeeMoreContainer
+        <section className="flex flex-col">
+            <div className="mt-[30px] mb-5 flex justify-between">
+                <h3 className="font-medium text-subtitle-01">
+                    공식 계정 바로가기
+                </h3>
+                <button
                     onClick={() => {
                         navigate(PATHS.CLUB_OFFICIAL_ACOUNTS_LIST());
                         window.scrollTo(0, 0);
                     }}
+                    className="flex items-center"
                 >
-                    <OfficialAccountSeeMore>더보기</OfficialAccountSeeMore>
+                    <p className="font-normal text-body-03 text-neutral-600">
+                        더보기
+                    </p>
                     <ExpandArrow />
-                </OfficialAccountSeeMoreContainer>
-            </SectionTitleContainer>
-            <OfficialAccountsContainer>
+                </button>
+            </div>
+            <div className="w-[320px] flex justify-between">
                 {accounts.map((account) => (
                     <OfficialAcountItem
                         key={`${account.clubName}-${account.accountName}`}
@@ -40,41 +44,7 @@ export default function OfficialAccounts() {
                         }
                     />
                 ))}
-            </OfficialAccountsContainer>
-        </SectionContainer>
+            </div>
+        </section>
     );
 }
-
-const SectionContainer = styled.section`
-    display: flex;
-    flex-direction: column;
-`;
-
-const SectionTitleContainer = styled.div`
-    margin-top: 30px;
-    margin-bottom: 20px;
-    display: flex;
-    justify-content: space-between;
-`;
-
-const SectionTitle = styled.h3`
-    font-weight: 500;
-    font-size: 20px;
-`;
-
-const OfficialAccountSeeMoreContainer = styled.button`
-    display: flex;
-    align-items: center;
-`;
-
-const OfficialAccountSeeMore = styled.p`
-    font-weight: 400;
-    font-size: 14px;
-    color: #587189;
-`;
-
-const OfficialAccountsContainer = styled.div`
-    width: 320px;
-    display: flex;
-    justify-content: space-between;
-`;

@@ -1,4 +1,3 @@
-import styled from 'styled-components';
 import ClubCard from '../Common/ClubCard';
 import { PATHS } from '@/routes/paths';
 import { useRecentlyUpdatedClubs } from '@/hooks/queries/main/useRecentlyUpdatedClubs';
@@ -13,9 +12,11 @@ export default function RecentlyUpdatedClubs() {
     }
 
     return (
-        <SectionSectionContainer>
-            <SectionTitle>최근 업데이트된 동아리</SectionTitle>
-            <ClubListContainer>
+        <section className="flex flex-col">
+            <h3 className="font-medium text-subtitle-01 mt-[30px] mb-5">
+                최근 업데이트된 동아리
+            </h3>
+            <section className="flex flex-col gap-[7px]">
                 {recentlyUpdatedClubs.map((club) => (
                     <ClubCard
                         key={club.id}
@@ -27,25 +28,7 @@ export default function RecentlyUpdatedClubs() {
                         profileImageUrl={club.profileImageUrl}
                     />
                 ))}
-            </ClubListContainer>
-        </SectionSectionContainer>
+            </section>
+        </section>
     );
 }
-
-const SectionTitle = styled.h3`
-    font-weight: 500;
-    font-size: 20px;
-    margin-top: 30px;
-    margin-bottom: 20px;
-`;
-
-const SectionSectionContainer = styled.section`
-    display: flex;
-    flex-direction: column;
-`;
-
-const ClubListContainer = styled.section`
-    display: flex;
-    flex-direction: column;
-    gap: 7px;
-`;

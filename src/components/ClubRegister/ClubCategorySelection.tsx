@@ -1,9 +1,12 @@
 import useToggle from '@/hooks/actions/useToggle';
-import { InnerWrapper, Label } from '@/styles/registration-form';
-import styled from 'styled-components';
+import {
+    RegistrationInnerWrapper,
+    RegistrationLabel,
+} from '@/components/Common';
 import { Dropdown } from '../Common';
 import ExpandArrowIcon from '@/assets/common/expand-arrow.svg?react';
 import { IClubRegisterValue } from '@/types';
+import { cn } from '@/utils/cn';
 import { clubCategory } from '@/constants/navigations.constant';
 
 interface IClubCategorySelection {
@@ -16,6 +19,7 @@ function ClubCategorySelection({
     setInputValue,
 }: IClubCategorySelection) {
     const { isOpen, setIsOpen, toggle } = useToggle();
+    const hasSelectedValue = !!inputValue.category;
 
     // 카테고리 선택 시, 해당 카테고리의 데이터명(ex.ART)이 아닌 label(ex.예술)을 렌더링
     const renderCategoryTitle = () => {
@@ -26,101 +30,62 @@ function ClubCategorySelection({
     };
 
     return (
-        <InnerWrapper>
-            <Label>동아리 카테고리</Label>
+        <RegistrationInnerWrapper>
+            <RegistrationLabel>동아리 카테고리</RegistrationLabel>
             <Dropdown setIsOpen={setIsOpen}>
                 <Dropdown.Header onClick={toggle}>
-                    <DropdownHeaderWrapper $selectedValue={inputValue.category}>
-                        <h4>{renderCategoryTitle()}</h4>
-                        <IconWrapper $isOpen={isOpen}>
+                    <strong className="flex justify-between items-center w-[320px] h-[45px] px-[17px] py-[14px] rounded-[10px] text-body-03 font-normal text-neutral-500 bg-white">
+                        <h4
+                            className={cn(
+                                'text-body-03',
+                                hasSelectedValue
+                                    ? 'font-medium text-black'
+                                    : 'font-normal text-neutral-500',
+                            )}
+                        >
+                            {renderCategoryTitle()}
+                        </h4>
+                        <div
+                            className={cn(
+                                'flex justify-center items-center transition-transform duration-300 ease-in-out',
+                                isOpen ? 'rotate-90' : 'rotate-0',
+                            )}
+                        >
                             <ExpandArrowIcon />
-                        </IconWrapper>
-                    </DropdownHeaderWrapper>
+                        </div>
+                    </strong>
                 </Dropdown.Header>
                 <Dropdown.Menu isOpen={isOpen}>
-                    <DropdownItemList>
-                        {clubCategory.map((item, index) => (
-                            <DropdownItem
-                                key={`club-category-${index}`}
-                                onClick={() => {
-                                    setInputValue({
-                                        ...inputValue,
-                                        category: item.name,
-                                    });
-                                    toggle();
-                                }}
-                                $isSelected={inputValue.category === item.name}
-                            >
-                                {item.label}
-                            </DropdownItem>
-                        ))}
-                    </DropdownItemList>
+                    <ul className="absolute top-[5px] left-0 flex flex-wrap justify-center items-center p-[10px] gap-[10px] w-[320px] rounded-[10px] bg-white shadow-[0px_3px_3px_rgba(0,0,0,0.1)]">
+                        {clubCategory.map((item, index) => {
+                            const isSelected =
+                                inputValue.category === item.name;
+                            return (
+                                <li
+                                    key={`club-category-${index}`}
+                                    onClick={() => {
+                                        setInputValue({
+                                            ...inputValue,
+                                            category: item.name,
+                                        });
+                                        toggle();
+                                    }}
+                                    className={cn(
+                                        'flex justify-center items-center w-[145px] h-9 rounded-[5px] text-body-03 cursor-pointer',
+                                        isSelected
+                                            ? 'font-semibold text-white bg-primary-500'
+                                            : 'font-normal text-black bg-neutral-100',
+                                    )}
+                                >
+                                    {item.label}
+                                </li>
+                            );
+                        })}
+                    </ul>
                 </Dropdown.Menu>
             </Dropdown>
-        </InnerWrapper>
+        </RegistrationInnerWrapper>
     );
 }
 
 export { ClubCategorySelection };
-
-const DropdownHeaderWrapper = styled.strong<{ $selectedValue: string }>`
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    width: 320px;
-    height: 45px;
-    padding: 14px 17px;
-    border-radius: 10px;
-    font-size: 14px;
-    font-weight: 400;
-    color: ${({ theme }) => theme.colors.subGray};
-    background-color: ${({ theme }) => theme.colors.white};
-
-    h4 {
-        font-size: 14px;
-        font-weight: ${({ $selectedValue }) =>
-            $selectedValue ? '500' : '400'};
-        color: ${({ $selectedValue, theme }) =>
-            $selectedValue ? theme.colors.mainBlack : theme.colors.subGray};
-    }
-`;
-
-const IconWrapper = styled.div<{ $isOpen: boolean }>`
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    transform: ${({ $isOpen }) => ($isOpen ? 'rotate(90deg)' : 'rotate(0deg)')};
-    transition: transform 0.3s ease;
-`;
-
-const DropdownItemList = styled.ul`
-    position: absolute;
-    top: 5px;
-    left: 0;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    align-items: center;
-    padding: 10px;
-    gap: 10px;
-    width: 320px;
-    border-radius: 10px;
-    background-color: ${({ theme }) => theme.colors.white};
-    box-shadow: 0px 3px 3px rgba(0, 0, 0, 0.1);
-`;
-
-const DropdownItem = styled.li<{ $isSelected: boolean }>`
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 145px;
-    height: 36px;
-    border-radius: 5px;
-    font-size: 14px;
-    font-weight: ${({ $isSelected }) => ($isSelected ? '600' : '400')};
-    color: ${({ $isSelected, theme }) =>
-        $isSelected ? theme.colors.white : theme.colors.mainBlack};
-    background-color: ${({ $isSelected, theme }) =>
-        $isSelected ? theme.colors.mainBlue : theme.colors.lightGray};
-    cursor: pointer;
-`;

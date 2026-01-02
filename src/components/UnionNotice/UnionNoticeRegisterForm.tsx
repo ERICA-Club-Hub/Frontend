@@ -1,4 +1,3 @@
-import styled from 'styled-components';
 import { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { InputField } from '@/components/Common';
@@ -98,10 +97,12 @@ function UnionNoticeRegisterForm({ mode }: { mode: string }) {
 
     return (
         <>
-            <FormContainer>
+            <div className="flex flex-col justify-center items-center gap-[10px] pt-[15px]">
                 {/* 공지사항 제목 */}
-                <Wrapper>
-                    <Title>공지사항 제목을 입력해 주세요.</Title>
+                <div className="flex flex-col justify-center items-center gap-[10px] w-[320px] p-5 bg-white rounded-[10px]">
+                    <h2 className="w-full text-body-03 font-semibold text-black">
+                        공지사항 제목을 입력해 주세요.
+                    </h2>
                     <InputField
                         value={inputValue.title}
                         name="title"
@@ -117,13 +118,15 @@ function UnionNoticeRegisterForm({ mode }: { mode: string }) {
                             })
                         }
                     />
-                </Wrapper>
+                </div>
 
                 {/* 썸네일 업로드 */}
-                <Wrapper>
-                    <div className="title-wrapper">
-                        <Title>썸네일을 업로드 해주세요.</Title>
-                        <span>
+                <div className="flex flex-col justify-center items-center gap-[10px] w-[320px] p-5 bg-white rounded-[10px]">
+                    <div className="flex flex-col gap-[5px] w-full">
+                        <h2 className="w-full text-body-03 font-semibold text-black">
+                            썸네일을 업로드 해주세요.
+                        </h2>
+                        <span className="text-caption font-normal text-neutral-500">
                             SNS의 첫 페이지로 들어가는 사진을 업로드해 주세요.
                         </span>
                     </div>
@@ -135,13 +138,15 @@ function UnionNoticeRegisterForm({ mode }: { mode: string }) {
                         mode={mode}
                         isEditBtnClicked={isEditBtnClicked}
                     />
-                </Wrapper>
+                </div>
 
                 {/* SNS 링크 입력 */}
-                <Wrapper>
-                    <div className="title-wrapper">
-                        <Title>SNS 링크를 입력해 주세요.</Title>
-                        <span>
+                <div className="flex flex-col justify-center items-center gap-[10px] w-[320px] p-5 bg-white rounded-[10px]">
+                    <div className="flex flex-col gap-[5px] w-full">
+                        <h2 className="w-full text-body-03 font-semibold text-black">
+                            SNS 링크를 입력해 주세요.
+                        </h2>
+                        <span className="text-caption font-normal text-neutral-500">
                             공지사항 클릭 시, 해당 SNS 게시물로 이동합니다.
                         </span>
                     </div>
@@ -160,9 +165,9 @@ function UnionNoticeRegisterForm({ mode }: { mode: string }) {
                             })
                         }
                     />
-                </Wrapper>
+                </div>
 
-                <ButtonWrapper>
+                <div className="w-[320px] flex justify-end items-center gap-[5px]">
                     {mode === 'edit' && !isEditBtnClicked ? (
                         <>
                             <Button
@@ -195,8 +200,8 @@ function UnionNoticeRegisterForm({ mode }: { mode: string }) {
                             저장하기
                         </Button>
                     )}
-                </ButtonWrapper>
-            </FormContainer>
+                </div>
+            </div>
 
             {/* 삭제하기 Modal */}
             <ActionModal
@@ -209,51 +214,3 @@ function UnionNoticeRegisterForm({ mode }: { mode: string }) {
 }
 
 export { UnionNoticeRegisterForm };
-
-const FormContainer = styled.div`
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    gap: 10px;
-    padding-top: 15px;
-`;
-
-const Wrapper = styled.div`
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    gap: 10px;
-    width: 320px;
-    padding: 20px;
-    background-color: ${({ theme }) => theme.colors.white};
-    border-radius: 10px;
-
-    .title-wrapper {
-        display: flex;
-        flex-direction: column;
-        gap: 5px;
-        width: 100%;
-
-        span {
-            font-size: 12px;
-            font-weight: 400;
-            color: ${({ theme }) => theme.colors.subGray};
-    }
-`;
-
-const Title = styled.h2`
-    width: 100%;
-    font-size: 14px;
-    font-weight: 600;
-    color: ${({ theme }) => theme.colors.mainBlack};
-`;
-
-const ButtonWrapper = styled.div`
-    width: 320px;
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
-    gap: 5px;
-`;

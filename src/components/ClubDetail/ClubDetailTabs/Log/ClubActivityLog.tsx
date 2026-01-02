@@ -1,4 +1,3 @@
-import styled from 'styled-components';
 import { useActivityLogList } from '@/hooks/queries/club-detail/useClubLog';
 import { useClubIdByParams } from '@/hooks/useClubIdByParams';
 import { useNavigate } from 'react-router-dom';
@@ -25,72 +24,25 @@ export default function ClubActivityLog() {
         activityLogResponse?.result?.activityThumbnailDTOList || [];
 
     return activityLogList.length > 0 ? (
-        <Container>
-            <LogGrid>
+        <div className="bg-white rounded-[10px] p-5 w-[328px] mb-[7px]">
+            <div className="grid grid-cols-3 gap-[6px]">
                 {activityLogList.map((activity) => (
-                    <LogImg
+                    <img
                         onClick={() => handleClickImg(activity.activityId)}
                         key={activity.activityId}
                         src={activity.thumbnailUrl}
                         alt="activity log"
+                        className="w-[92px] h-[92px] rounded-[5px] cursor-pointer transition-transform hover:scale-105"
                     />
                 ))}
-            </LogGrid>
-        </Container>
+            </div>
+        </div>
     ) : (
-        <NullContainer>
-            <ContainerV>
-                <XSize>🅧</XSize>
+        <div className="flex flex-col justify-center text-center">
+            <div className="rounded-[10px] p-5 w-[328px] mb-[7px] flex flex-col gap-[10px]">
+                <span className="text-emoji-large">🅧</span>
                 <span>활동로그가 비었어요.</span>
-            </ContainerV>
-        </NullContainer>
+            </div>
+        </div>
     );
 }
-
-const LogGrid = styled.div`
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 6px;
-`;
-
-const Container = styled.div`
-    background-color: white;
-    border-radius: 10px;
-    padding: 20px;
-    width: 328px;
-    margin-bottom: 7px;
-`;
-
-const ContainerV = styled.div`
-    background-color: none;
-    border-radius: 10px;
-    padding: 20px;
-    width: 328px;
-    margin-bottom: 7px;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-`;
-
-const LogImg = styled.img`
-    width: 92px;
-    height: 92px;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: transform 0.2s;
-
-    &:hover {
-        transform: scale(1.05);
-    }
-`;
-
-const NullContainer = styled.div`
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    text-align: center;
-`;
-
-const XSize = styled.span`
-    font-size: 30px;
-`;

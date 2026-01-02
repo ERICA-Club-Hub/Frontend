@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import styled from 'styled-components';
 import ClubListView from '@/components/ServiceAdmin/ClubListView';
 import useServiceAdminQueries from '@/hooks/queries/useServiceAdminQueries';
 import SearchInput from '@/components/ServiceAdmin/SearchInput';
@@ -16,27 +15,16 @@ export default function ReviewRegistrationsPage() {
     );
 
     return (
-        <Container>
-            <SearchInputWrapper>
+        <div className="flex flex-col items-center pt-5">
+            <div className="mb-5">
                 <SearchInput value={searchTerm} setValue={setSearchTerm} />
-            </SearchInputWrapper>
+            </div>
 
             <ClubListView
                 isPending={isPending}
                 isError={isError}
                 data={filteredData}
             />
-        </Container>
+        </div>
     );
 }
-
-const Container = styled.div`
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding-top: 20px;
-`;
-
-const SearchInputWrapper = styled.div`
-    margin-bottom: 20px;
-`;

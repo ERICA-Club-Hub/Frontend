@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import { cn } from '@/utils/cn';
 
 interface OfficialAcountItemProps {
     clubLogoUrl?: string;
@@ -14,58 +14,29 @@ export default function OfficialAcountItem({
     onClick,
 }: OfficialAcountItemProps) {
     return (
-        <ItemContainer onClick={onClick}>
-            <ClubLogoContainr>
-                <ClubLogo src={clubLogoUrl} />
-            </ClubLogoContainr>
-            <ClubInfo>
-                <ClubName>{clubName}</ClubName>
-                <ClubSNSId>{clubSNSId}</ClubSNSId>
-            </ClubInfo>
-        </ItemContainer>
+        <div
+            onClick={onClick}
+            className={cn(
+                'w-[104px] h-[148px] rounded-[8px]',
+                'px-0 py-[18px]',
+                'flex gap-[8px] justify-center items-center flex-col',
+                'bg-neutral-00 border border-neutral-100'
+            )}
+        >
+            <div className="w-[72px] h-[72px]">
+                <img
+                    src={clubLogoUrl}
+                    className="w-full h-full rounded-full"
+                />
+            </div>
+            <div className="px-[12px] py-0 flex flex-col text-center">
+                <p className="font-medium text-caption text-neutral-900">
+                    {clubName}
+                </p>
+                <p className="font-normal text-caption text-neutral-600">
+                    {clubSNSId}
+                </p>
+            </div>
+        </div>
     );
 }
-
-const ItemContainer = styled.div`
-    width: 104px;
-    height: 148px;
-    border-radius: 8px;
-    padding: 18px 0 18px 0;
-    display: flex;
-    gap: 8px;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    background-color: #fdfdfd;
-    border: 1px solid #eceff3;
-`;
-
-const ClubLogoContainr = styled.div`
-    width: 72px;
-    height: 72px;
-`;
-
-const ClubLogo = styled.img`
-    width: 100%;
-    height: 100%;
-    border-radius: 50%;
-`;
-
-const ClubInfo = styled.div`
-    padding: 0 12px 0 12px;
-    display: flex;
-    flex-direction: column;
-    text-align: center;
-`;
-
-const ClubName = styled.p`
-    font-weight: 500;
-    font-size: 12px;
-    color: #1c232c;
-`;
-
-const ClubSNSId = styled.p`
-    font-weight: 400;
-    font-size: 12px;
-    color: #587189;
-`;

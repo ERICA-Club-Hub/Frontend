@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import { cn } from '@/utils/cn';
 
 interface NavItem {
     id: number;
@@ -17,57 +17,31 @@ export const TopNavigator = ({
     onClick,
 }: TopNavigatorProps) => {
     return (
-        <Container>
-            <NavList>
-                {navList.map((nav) => (
-                    <Nav
-                        key={`nav-list-${nav.id}`}
-                        onClick={() => onClick(nav.id)}
-                    >
-                        <Label>
-                            {nav.nav}
-                            <ActiveBar
-                                $isActive={navStatus === nav.id}
-                                $isAuth={navList[0].nav.includes('로그인')}
-                            />
-                        </Label>
-                    </Nav>
-                ))}
-            </NavList>
-        </Container>
+        <div className="w-[320px] border-b border-[#eaeaea]">
+            <ul className="flex justify-around">
+                {navList.map((nav) => {
+                    const isActive = navStatus === nav.id;
+                    const isAuth = navList[0].nav.includes('로그인');
+                    return (
+                        <li
+                            key={`nav-list-${nav.id}`}
+                            onClick={() => onClick(nav.id)}
+                            className="cursor-pointer"
+                        >
+                            <h2 className="relative h-[27px] text-body-03 font-medium text-black">
+                                {nav.nav}
+                                <div
+                                    className={cn(
+                                        'absolute bottom-0 left-1/2 -translate-x-1/2 h-[3px] bg-primary-500 transition-opacity duration-300 ease-in-out',
+                                        isAuth ? 'w-[104px]' : 'w-[64px]',
+                                        isActive ? 'opacity-100' : 'opacity-0'
+                                    )}
+                                />
+                            </h2>
+                        </li>
+                    );
+                })}
+            </ul>
+        </div>
     );
 };
-
-const Container = styled.div`
-    width: 320px;
-    border-bottom: 1px solid #eaeaea;
-`;
-
-const NavList = styled.ul`
-    display: flex;
-    justify-content: space-around;
-`;
-
-const Nav = styled.li`
-    cursor: pointer;
-`;
-
-const Label = styled.h2`
-    position: relative;
-    height: 27px;
-    font-size: 14px;
-    font-weight: 500;
-    color: ${(props) => props.theme.colors.black};
-`;
-
-const ActiveBar = styled.div<{ $isAuth: boolean; $isActive: boolean }>`
-    position: absolute;
-    bottom: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    width: ${(props) => (props.$isAuth ? '104px' : '64px')};
-    height: 3px;
-    background-color: ${(props) => props.theme.colors.mainBlue};
-    opacity: ${(props) => (props.$isActive ? 1 : 0)};
-    transition: opacity 0.3s ease-in-out;
-`;

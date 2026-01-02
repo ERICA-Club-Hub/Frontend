@@ -1,6 +1,5 @@
 import { useParams } from 'react-router-dom';
 import { useQueryClient } from '@tanstack/react-query';
-import styled from 'styled-components';
 import Button from '@/components/Common/Button';
 import ClubDetailLayout from '@/components/ServiceAdmin/ClubDetailLayout';
 import {
@@ -15,10 +14,10 @@ export default function RegistrationsDetailPage() {
 
     if (!id) {
         return (
-            <ErrorMessage>
+            <p className="flex flex-col items-center pt-5 text-center">
                 잘못된 접근입니다. <br />
                 목록 페이지에서 다시 시도해주세요.
-            </ErrorMessage>
+            </p>
         );
     }
 
@@ -33,10 +32,10 @@ export default function RegistrationsDetailPage() {
 
     if (!data) {
         return (
-            <ErrorMessage>
+            <p className="flex flex-col items-center pt-5 text-center">
                 동아리 정보를 불러오는 데 실패했습니다. <br />
                 목록 페이지에서 다시 접근해주세요
-            </ErrorMessage>
+            </p>
         );
     }
 
@@ -45,9 +44,13 @@ export default function RegistrationsDetailPage() {
             data={data}
             button={
                 <>
-                    <DeleteButton size="small" variant="outlined">
+                    <Button
+                        size="small"
+                        variant="outlined"
+                        className="text-sub-warning border-sub-warning"
+                    >
                         삭제하기
-                    </DeleteButton>
+                    </Button>
                     <Button size="small" variant="filled">
                         승인하기
                     </Button>
@@ -56,16 +59,3 @@ export default function RegistrationsDetailPage() {
         />
     );
 }
-
-const DeleteButton = styled(Button)`
-    color: ${({ theme }) => theme.colors.red};
-    border: 1px solid ${({ theme }) => theme.colors.red};
-`;
-
-const ErrorMessage = styled.p`
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding-top: 20px;
-    text-align: center;
-`;

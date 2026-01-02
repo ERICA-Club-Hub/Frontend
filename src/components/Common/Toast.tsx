@@ -1,7 +1,7 @@
 import { toastState } from '@/store/toast';
 import { useEffect, useState } from 'react';
 import { useRecoilValue } from 'recoil';
-import styled, { keyframes } from 'styled-components';
+import { cn } from '@/utils/cn';
 import Icon from '../../assets/common/warnIcon.svg';
 
 export default function Toast() {
@@ -27,63 +27,24 @@ export default function Toast() {
 
     if (!visible) {
         return null;
-    } else {
-        return (
-            <ToastContainer $animating={animating}>
-                {toast.message && <img src={Icon} />}
-                {/* 메세지랑 아이콘이랑 사라지는 타이밍이 달라서 메세지 여부에 따라서 렌더링하도록 구현하엿슴다 */}
-                {toast.message}
-            </ToastContainer>
-        );
     }
+
+    return (
+        <div
+            className={cn(
+                'flex fixed top-[45%] left-1/2 -translate-x-1/2',
+                'bg-[rgba(35,35,35,0.8)] backdrop-blur-[5px] text-white',
+                'min-w-[320px] w-max max-w-[340px]',
+                'min-h-[45px] h-fit',
+                'rounded-[10px] z-[9999]',
+                'text-body-03 font-medium leading-[1.3]',
+                'items-center justify-center gap-[7px]',
+                animating ? 'animate-toast-in' : 'animate-toast-out'
+            )}
+        >
+            {toast.message && <img src={Icon} />}
+            {/* 메세지랑 아이콘이랑 사라지는 타이밍이 달라서 메세지 여부에 따라서 렌더링하도록 구현하엿슴다 */}
+            {toast.message}
+        </div>
+    );
 }
-
-// 페이드 인 애니메이션
-const fadeIn = keyframes`
-  from {
-    opacity: 0;
-    transform: translate(-50%, 20px);
-  }
-  to {
-    opacity: 1;
-    transform: translate(-50%, 0);
-  }
-`;
-
-// 페이드 아웃 애니메이션
-const fadeOut = keyframes`
-  from {
-    opacity: 1;
-    transform: translate(-50%, 0);
-  }
-  to {
-    opacity: 0;
-    transform: translate(-50%, 20px);
-  }
-`;
-
-const ToastContainer = styled.div<{ $animating: boolean }>`
-    display: flex;
-    position: fixed;
-    top: 45%;
-    left: 50%;
-    transform: translateX(-50%);
-    background-color: rgba(35, 35, 35, 0.8);
-    backdrop-filter: blur(5px);
-    color: white;
-    min-width: 320px;
-    width: max-content;
-    max-width: 340px;
-    min-height: 45px;
-    height: fit-content;
-    border-radius: 10px;
-    z-index: 9999;
-    font-size: 14px;
-    font-weight: 500;
-    line-height: 1.3;
-    animation: ${(props) => (props.$animating ? fadeIn : fadeOut)} 0.3s
-        ease-in-out forwards;
-    align-items: center;
-    justify-content: center;
-    gap: 7px;
-`;

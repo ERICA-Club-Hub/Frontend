@@ -1,4 +1,3 @@
-import styled from 'styled-components';
 import TabContents from './TabContents';
 import ClubDetailHeader from '@/components/ClubDetail/ClubDetailHeader';
 
@@ -11,39 +10,19 @@ const ClubDetailPage = () => {
     const { activeTab, setActiveTab } = useClubDetail();
 
     return (
-        <PageContainer>
+        <div className="flex flex-col items-center pt-5">
             <ClubDetailHeader />
-            <TabContainer>
+            <div className="w-full bg-white flex justify-center h-[47px]">
                 <ClubDetailTab
                     setActiveTab={setActiveTab}
                     activeTab={activeTab}
                 />
-            </TabContainer>
-            <TabContentsContainer>
+            </div>
+            <div className="mt-[15px] mb-5">
                 <TabContents activeTab={activeTab} />
-            </TabContentsContainer>
-        </PageContainer>
+            </div>
+        </div>
     );
 };
-
-const PageContainer = styled.div`
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding-top: 20px;
-`;
-
-const TabContainer = styled.div`
-    width: 100%;
-    background: white;
-    display: flex;
-    justify-content: center;
-    height: 47px;
-`;
-
-const TabContentsContainer = styled.div`
-    margin-top: 15px;
-    margin-bottom: 20px;
-`;
 
 export { ClubDetailPage };

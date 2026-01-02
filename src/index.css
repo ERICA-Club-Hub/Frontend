@@ -1,66 +1,319 @@
 @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard-dynamic-subset.min.css');
+@import 'tailwindcss';
 
-:root {
-    background-color: #fff;
+@theme {
+    /* Font Family */
+    --font-family-sans: 'Pretendard', -apple-system, BlinkMacSystemFont,
+        system-ui, sans-serif;
+
+    /* Primary Colors */
+    --color-primary-50: #dae9fc;
+    --color-primary-100: #abcef7;
+    --color-primary-200: #7cb3f3;
+    --color-primary-300: #4497f8;
+    --color-primary-400: #1f7dea;
+    --color-primary-500: #1264c4;
+    --color-primary-600: #0e4c95;
+    --color-primary-700: #0a3467;
+    --color-primary-800: #051d38;
+    --color-primary-900: #010509;
+
+    /* Sub Colors */
+    --color-sub-green: #00bd00;
+    --color-sub-orange: #f08a00;
+    --color-sub-warning: #f32828;
+
+    /* Neutral Colors */
+    --color-neutral-00: #fdfdfd;
+    --color-neutral-50: #f9fafb;
+    --color-neutral-100: #eceff3;
+    --color-neutral-150: #eceff3; /* Stroke용 */
+    --color-neutral-200: #c7d0db;
+    --color-neutral-300: #aebccb;
+    --color-neutral-400: #8fa3b7;
+    --color-neutral-500: #708aa3;
+    --color-neutral-600: #587189;
+    --color-neutral-700: #44576a;
+    --color-neutral-800: #303d4b;
+    --color-neutral-900: #1c232c;
+
+    --color-brand: var(--color-primary-600);
+    --color-text-main: var(--color-neutral-900);
+    --color-text-sub: var(--color-neutral-600);
+    --color-text-placeholder: var(--color-neutral-400);
+    --color-text-hint: var(--color-neutral-400);
+    --color-text-error: var(--color-sub-warning);
+    --color-stroke-status: var(--color-neutral-150);
+
+    /* Background */
+    --color-background-default: #f7f7f9;
+
+    /* Badge Colors */
+    --color-badge-blue-bg: #dae9fc;
+    --color-badge-blue-text: #0e4c95;
+    --color-badge-orange-bg: #fff4e4;
+    --color-badge-green-bg: #f1f9dc;
+    --color-badge-green-text: #8bb421;
+    --color-badge-gray-bg: #f7f7f7;
+
+    /* Effects - Drop Shadows */
+    --shadow-dropdown: 0 0 120px 0 #ffffff, 0 0 10px 0 rgba(0, 0, 0, 0.12);
+    --shadow-default: 0 2px 4px 0 rgba(0, 0, 0, 0.12);
+
+    /* Typography - Font Sizes (자동으로 text-* 클래스 생성) */
+    --text-header-01: 24px;
+    --text-subtitle-01: 20px;
+    --text-subtitle-02: 18px;
+    --text-body-01: 16px;
+    --text-small: 13px;
+    --text-body-03: 14px;
+    --text-caption: 12px;
+    --text-emoji-large: 30px;
+
+    /* Typography - Line Heights (자동으로 leading-* 클래스 생성) */
+    --leading-header: 1.3;
+    --leading-body: 1.5;
+
+    /* Typography - Font Weights (자동으로 font-* 클래스 생성) */
+    --font-weight-semibold: 600;
+    --font-weight-medium: 500;
+    --font-weight-regular: 400;
+
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+        }
+        to {
+            opacity: 1;
+        }
+    }
+    @keyframes toast-fade-in {
+        from {
+            opacity: 0;
+            transform: translate(-50%, 20px);
+        }
+        to {
+            opacity: 1;
+            transform: translate(-50%, 0);
+        }
+    }
+    @keyframes toast-fade-out {
+        from {
+            opacity: 1;
+            transform: translate(-50%, 0);
+        }
+        to {
+            opacity: 0;
+            transform: translate(-50%, 20px);
+        }
+    }
+    @keyframes modal-fade-in {
+        0% {
+            transform: scale(0.9) translate(-55%, -60%);
+            opacity: 0;
+        }
+        100% {
+            transform: scale(1) translate(-50%, -50%);
+            opacity: 1;
+        }
+    }
+    @keyframes loading-bounce {
+        to {
+            transform: translateY(-10px);
+        }
+    }
+    @keyframes skeleton-loading {
+        0% {
+            background-color: var(--color-neutral-100);
+        }
+        100% {
+            background-color: var(--color-neutral-50);
+        }
+    }
+    @keyframes backgroundFade {
+        from {
+            opacity: 0.9;
+        }
+        to {
+            opacity: 1;
+        }
+    }
+    @keyframes dropdown-slide {
+        0% {
+            transform: translateY(-15px);
+        }
+        100% {
+            transform: translateY(0);
+        }
+    }
+    @keyframes modal-fade-out {
+        0% {
+            transform: scale(1) translate(-50%, -50%);
+            opacity: 1;
+        }
+        100% {
+            transform: scale(0.9) translate(-55%, -60%);
+            opacity: 0;
+        }
+    }
+    @keyframes modal-backdrop-show {
+        0% {
+            opacity: 0;
+        }
+        100% {
+            opacity: 1;
+        }
+    }
+
+    /* Animation Utilities */
+    --animate-fade-in: fadeIn 0.3s ease-in-out;
+    --animate-fade-in-slow: fadeIn 1.5s ease-in-out;
+    --animate-background-fade: backgroundFade 1s ease-in-out;
+    --animate-toast-in: toast-fade-in 0.3s ease-out forwards;
+    --animate-toast-out: toast-fade-out 0.3s ease-in forwards;
+    --animate-modal-in: modal-fade-in 0.4s ease-out;
+    --animate-modal-out: modal-fade-out 0.4s ease;
+    --animate-modal-backdrop: modal-backdrop-show 0.4s ease;
+    --animate-dropdown: dropdown-slide 0.3s ease;
+    --animate-bounce: loading-bounce 0.5s infinite alternate;
+    --animate-skeleton: skeleton-loading 1.2s infinite alternate;
+    --animate-skeleton-fast: skeleton-loading 0.8s linear infinite alternate;
 }
 
-* {
-    box-sizing: border-box;
-    margin: 0;
+@layer utilities {
+    /* --- 1. Header (24px, 600, 1.3) --- */
+    .text-h1 {
+        font-size: var(--text-header-01);
+        font-weight: var(--font-weight-semibold);
+        line-height: var(--leading-header);
+        letter-spacing: -0.02em;
+    }
 
-    font-family: Pretendard, -apple-system, BlinkMacSystemFont, system-ui,
-        Roboto, 'Helvetica Neue', 'Segoe UI', 'Apple SD Gothic Neo',
-        'Noto Sans KR', 'Malgun Gothic', 'Apple Color Emoji', 'Segoe UI Emoji',
-        'Segoe UI Symbol', sans-serif;
-    -moz-osx-font-smoothing: grayscale;
-    -webkit-font-smoothing: antialiased;
-}
+    /* --- 2. Subtitle (20px/18px, 600, 1.3) --- */
+    .text-s1 {
+        font-size: var(--text-subtitle-01);
+        font-weight: var(--font-weight-semibold);
+        line-height: var(--leading-header);
+        letter-spacing: -0.02em;
+    }
+    .text-s2 {
+        font-size: var(--text-subtitle-02);
+        font-weight: var(--font-weight-semibold);
+        line-height: var(--leading-header);
+        letter-spacing: -0.02em;
+    }
 
-html {
-    font-family: Pretendard, -apple-system, BlinkMacSystemFont, system-ui,
-        Roboto, 'Helvetica Neue', 'Segoe UI', 'Apple SD Gothic Neo',
-        'Noto Sans KR', 'Malgun Gothic', 'Apple Color Emoji', 'Segoe UI Emoji',
-        'Segoe UI Symbol', sans-serif;
-    font-size: 14px;
-}
+    /* --- 3. Body (16px, 500/600, 1.5) --- */
+    .text-b1 {
+        font-size: var(--text-body-01);
+        font-weight: var(--font-weight-medium);
+        line-height: var(--leading-body);
+        letter-spacing: -0.02em;
+    }
+    .text-b2 {
+        font-size: var(--text-body-01);
+        font-weight: var(--font-weight-semibold);
+        line-height: var(--leading-body);
+        letter-spacing: -0.02em;
+    }
 
-body {
-    font-family: Pretendard, -apple-system, BlinkMacSystemFont, system-ui,
-        Roboto, 'Helvetica Neue', 'Segoe UI', 'Apple SD Gothic Neo',
-        'Noto Sans KR', 'Malgun Gothic', 'Apple Color Emoji', 'Segoe UI Emoji',
-        'Segoe UI Symbol', sans-serif;
-    color: #232323;
-}
+    /* --- 4. Body (14px, 600/400, 1.5) --- */
+    .text-b3 {
+        font-size: var(--text-body-03);
+        font-weight: var(--font-weight-semibold);
+        line-height: var(--leading-body);
+        letter-spacing: -0.02em;
+    }
+    .text-b4 {
+        font-size: var(--text-body-03);
+        font-weight: var(--font-weight-regular);
+        line-height: var(--leading-body);
+        letter-spacing: -0.02em;
+    }
 
-h1 {
-    margin: 0;
-}
+    /* --- 5. Caption (12px, 400/500/600, 1.35) --- */
+    .text-c1 {
+        font-size: var(--text-caption);
+        font-weight: var(--font-weight-regular);
+        line-height: 1.35; /* 피그마 135% 기준 */
+        letter-spacing: -0.01em;
+    }
+    .text-c2 {
+        font-size: var(--text-caption);
+        font-weight: var(--font-weight-medium);
+        line-height: 1.35;
+        letter-spacing: -0.01em;
+    }
+    .text-c3 {
+        font-size: var(--text-caption);
+        font-weight: var(--font-weight-semibold);
+        line-height: 1.35;
+        letter-spacing: -0.01em;
+    }
 
-a {
-    color: inherit;
-    text-decoration: none;
-}
-
-button,
-input,
-select,
-textarea {
-    background-color: transparent;
-    border: 0;
-
-    &:focus {
-        outline: none;
-        box-shadow: none;
+    /* --- 6. Caption Small (10px, 500, 1.3) --- */
+    .text-c4 {
+        font-size: 10px; /* 기존 --text-small은 13px이므로 이미지 수치 우선 */
+        font-weight: var(--font-weight-medium);
+        line-height: var(--leading-header); /* 1.3 */
+        letter-spacing: -0.01em;
     }
 }
 
-a,
-button {
-    cursor: pointer;
-}
+@layer base {
+    * {
+        box-sizing: border-box;
+        margin: 0;
+        font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui,
+            sans-serif;
+        -moz-osx-font-smoothing: grayscale;
+        -webkit-font-smoothing: antialiased;
+    }
 
-ul,
-ol {
-    padding-left: 0;
-    list-style: none;
+    html {
+        font-size: 14px;
+        background-color: #fff;
+    }
+
+    body {
+        color: #232323;
+        line-height: 1.5;
+    }
+
+    button,
+    input,
+    select,
+    textarea {
+        background-color: transparent;
+        border: 0;
+        font-family: inherit;
+    }
+
+    button:focus,
+    input:focus,
+    select:focus,
+    textarea:focus {
+        outline: none;
+        box-shadow: none;
+    }
+
+    a,
+    button {
+        cursor: pointer;
+    }
+
+    a {
+        color: inherit;
+        text-decoration: none;
+    }
+
+    ul,
+    ol {
+        padding-left: 0;
+        list-style: none;
+    }
+
+    h1 {
+        margin: 0;
+    }
 }

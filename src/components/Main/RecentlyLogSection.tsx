@@ -1,13 +1,14 @@
-import styled from 'styled-components';
 import RecentlyLogItem from '../Common/RecentlyLog/RecentlyLogItem';
 import { useRecentlyLog } from '@/hooks/queries/main/useRecentlyLogs';
 
 export default function RecentlyLogSection() {
     const { recentlyLogs } = useRecentlyLog();
     return (
-        <SectionContainer>
-            <SectionTitle>최근 업로드 된 활동로그</SectionTitle>
-            <RecentlyLogContainer>
+        <section className="flex flex-col">
+            <h3 className="font-medium text-subtitle-01 mt-[30px] mb-5">
+                최근 업로드 된 활동로그
+            </h3>
+            <div className="w-[320px] h-[320px] grid grid-rows-2 grid-cols-2 gap-[10px]">
                 {recentlyLogs &&
                     recentlyLogs.map((recentlyLog) => (
                         <RecentlyLogItem
@@ -17,26 +18,7 @@ export default function RecentlyLogSection() {
                             clubName={recentlyLog.clubName}
                         />
                     ))}
-            </RecentlyLogContainer>
-        </SectionContainer>
+            </div>
+        </section>
     );
 }
-
-const SectionContainer = styled.section`
-    display: flex;
-    flex-direction: column;
-`;
-const SectionTitle = styled.h3`
-    font-weight: 500;
-    font-size: 20px;
-    margin-top: 30px;
-    margin-bottom: 20px;
-`;
-
-const RecentlyLogContainer = styled.div`
-    width: 320px;
-    height: 320px;
-    display: grid;
-    grid-template: repeat(2, 1fr) / repeat(2, 1fr);
-    gap: 10px;
-`;

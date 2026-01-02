@@ -1,6 +1,5 @@
 import { useBaseInfo } from '@/hooks/club-detail/useBaseInfo';
 import ContentBlock from '../ContentBlock';
-import styled from 'styled-components';
 
 export default function BaseInfo() {
     const { items, isLoading } = useBaseInfo();
@@ -9,52 +8,21 @@ export default function BaseInfo() {
 
     return (
         <ContentBlock title="동아리 기본 정보">
-            <ClubDetails>
+            <div className="flex flex-col gap-[11.5px]">
                 {items.map((info) => (
-                    <DetailRow key={info.key}>
-                        <IconImage src={info.iconUrl} alt={info.label} />
-                        <DetailLabel>{info.label}</DetailLabel>
-                        <DetailValue
-                            $clickable={info.clickable}
-                            onClick={
-                                info.clickable && 'onClick' in info
-                                    ? info.onClick
-                                    : undefined
-                            }
-                        >
-                            {info.value}
-                        </DetailValue>
-                    </DetailRow>
+                    <div key={info.key} className="flex items-center gap-4">
+                        <img
+                            src={info.iconUrl}
+                            alt={info.label}
+                            className="w-[15px] h-[15px]"
+                        />
+                        <span className="text-neutral-400 min-w-20">
+                            {info.label}
+                        </span>
+                        <span className="text-neutral-700">{info.value}</span>
+                    </div>
                 ))}
-            </ClubDetails>
+            </div>
         </ContentBlock>
     );
 }
-
-const ClubDetails = styled.div`
-    display: flex;
-    flex-direction: column;
-    gap: 11.5px;
-`;
-
-const IconImage = styled.img`
-    width: 15px;
-    height: 15px;
-`;
-
-const DetailRow = styled.div`
-    display: flex;
-    align-items: center;
-    gap: 16px;
-`;
-
-const DetailLabel = styled.span`
-    color: #666;
-    min-width: 80px;
-`;
-
-const DetailValue = styled.span<{ $clickable?: boolean }>`
-    color: #333;
-    cursor: ${({ $clickable }) => ($clickable ? 'pointer' : 'default')};
-    text-decoration: ${({ $clickable }) => ($clickable ? 'underline' : 'none')};
-`;

@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import styled from 'styled-components';
 import { IActivitiesLog } from '@/types';
 import ErrorIcon from '@/assets/common/error-icon.svg?react';
 import useClubAdminQueries from '@/hooks/queries/useClubAdminQueries';
@@ -14,67 +13,32 @@ function Feed() {
     const { isPending, isSuccess } = useActivitiesLogQuery(setActivitiesLog);
 
     return (
-        <Container>
+        <div className="flex justify-center items-center w-[318px]">
             {isPending ? (
-                <FeedListWrapper>
+                <div className="flex flex-wrap gap-x-[6px] gap-y-[7px] w-[318px] h-auto p-[10px] rounded-[10px] bg-white">
                     {Array.from({ length: 9 }).map((_, index) => (
                         <Skeleton key={index} width={95} height={95} />
                     ))}
-                </FeedListWrapper>
+                </div>
             ) : isSuccess && activitiesLog.length > 0 ? (
-                <FeedListWrapper>
+                <div className="flex flex-wrap gap-x-[6px] gap-y-[7px] w-[318px] h-auto p-[10px] rounded-[10px] bg-white">
                     {activitiesLog.map((activityLog) => (
                         <FeedThumbnailImage
                             key={activityLog.activityId}
                             activityLog={activityLog}
                         />
                     ))}
-                </FeedListWrapper>
+                </div>
             ) : (
-                <EmyptyWrapper>
+                <div className="flex flex-col justify-center items-center gap-[10px] w-[318px] h-[115px] rounded-[10px] bg-white">
                     <ErrorIcon width={30} height={30} />
-                    <ErrorText>활동로그가 비어있어요.</ErrorText>
-                </EmyptyWrapper>
+                    <div className="text-body-03 font-medium text-black">
+                        활동로그가 비어있어요.
+                    </div>
+                </div>
             )}
-        </Container>
+        </div>
     );
 }
 
 export { Feed };
-
-const Container = styled.div`
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 318px;
-`;
-
-const FeedListWrapper = styled.div`
-    display: flex;
-    flex-wrap: wrap;
-    column-gap: 6px;
-    row-gap: 7px;
-    width: 318px;
-    height: auto;
-    padding: 10px;
-    border-radius: 10px;
-    background-color: ${({ theme }) => theme.colors.white};
-`;
-
-const EmyptyWrapper = styled.div`
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    gap: 10px;
-    width: 318px;
-    height: 115px;
-    border-radius: 10px;
-    background-color: ${({ theme }) => theme.colors.white};
-`;
-
-const ErrorText = styled.div`
-    font-size: 14px;
-    font-weight: 500;
-    color: ${({ theme }) => theme.colors.mainBlack};
-`;
