@@ -1,5 +1,4 @@
 import { ReactNode } from 'react';
-import styled from 'styled-components';
 
 export interface DropdownMenuProps {
     children: ReactNode;
@@ -8,23 +7,11 @@ export interface DropdownMenuProps {
 
 const DropdownMenu = ({ children, isOpen }: DropdownMenuProps) => {
     if (!isOpen) return null;
-    return <Container $isOpen={isOpen}>{children}</Container>;
+    return (
+        <div className="relative bg-white z-[999] animate-dropdown">
+            {children}
+        </div>
+    );
 };
 
 export default DropdownMenu;
-
-const Container = styled.div<{ $isOpen: boolean }>`
-    position: relative;
-    background-color: ${({ theme }) => theme.colors.white};
-    transform: translateY(0);
-    z-index: 999;
-    @keyframes dropdown {
-        0% {
-            transform: translateY(-15px);
-        }
-        100% {
-            transform: translateY(0);
-        }
-    }
-    animation: dropdown 0.3s ease;
-`;

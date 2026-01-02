@@ -1,8 +1,7 @@
 import { TopNavigator } from '@/components/Common';
-import { clubDetailRegisterNavigations } from '@/constants';
 import { useState } from 'react';
-import styled from 'styled-components';
 import { Outlet, useLocation, useNavigate, useParams } from 'react-router-dom';
+import { clubDetailRegisterNavigations } from '@/constants/navigations.constant';
 
 const AdminClubDetailPage = () => {
     const { id: clubId } = useParams();
@@ -38,34 +37,17 @@ const AdminClubDetailPage = () => {
     };
 
     return (
-        <Container>
-            <TopNavigatorWrapper>
+        <div className="flex flex-col items-center">
+            <div className="flex flex-col justify-end items-center w-full h-[55px] mb-[15px] bg-white">
                 <TopNavigator
                     navStatus={navStatus}
                     navList={clubDetailRegisterNavigations}
                     onClick={(id: number) => handleNavClick(id)}
                 />
-            </TopNavigatorWrapper>
+            </div>
             <Outlet />
-        </Container>
+        </div>
     );
 };
 
 export { AdminClubDetailPage };
-
-const Container = styled.div`
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-`;
-
-const TopNavigatorWrapper = styled.div`
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-end;
-    align-items: center;
-    width: 100%;
-    height: 55px;
-    margin-bottom: 15px;
-    background-color: ${({ theme }) => theme.colors.white};
-`;

@@ -1,51 +1,29 @@
-import styled from 'styled-components';
+import { cva } from 'class-variance-authority';
+import { cn } from '@/utils/cn';
 
 interface TagProps {
     type?: '동아리 및 질문' | '모집중' | '모집마감' | '모집예정';
 }
 
-const TagWrapper = styled.div<TagProps>`
-    display: inline-flex;
-    padding: 2px 5px;
-    align-items: center;
-    gap: 3px;
-    border-radius: 5px;
-    font-size: 12px;
-    font-weight: 500;
-    line-height: normal;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    max-width: 100px;
-
-    ${({ type = 'default' }) => {
-        switch (type) {
-            case '동아리 및 질문':
-                return `
-                    background-color: #EEF4FF;
-                    color: #33639C;
-                `;
-            case '모집중':
-                return `
-                    background-color: #FFF4E4;
-                    color: #F08A00;
-                `;
-            case '모집마감':
-                return `
-                    background-color: var(--Gray-4, #F7F7F7);
-                    color: var(--Gray-1, #606060);
-                `;
-            case '모집예정':
-                return `
-                    background-color: var(--Background-4, #F1F9DC);
-                    color: var(--Sub-Color-1, #8BB421);
-                `;
-        }
-    }}
-`;
+const tagVariants = cva(
+    'inline-flex px-[5px] py-[2px] items-center gap-[3px] rounded-[5px] text-caption font-medium leading-normal whitespace-nowrap overflow-hidden text-ellipsis max-w-[100px]',
+    {
+        variants: {
+            type: {
+                '동아리 및 질문': 'bg-badge-blue-bg text-badge-blue-text',
+                모집중: 'bg-badge-orange-bg text-sub-orange',
+                모집마감: 'bg-badge-gray-bg text-neutral-700',
+                모집예정: 'bg-badge-green-bg text-badge-green-text',
+            },
+        },
+        defaultVariants: {
+            type: '동아리 및 질문',
+        },
+    },
+);
 
 const Tag = ({ type, children }: React.PropsWithChildren<TagProps>) => {
-    return <TagWrapper type={type}>{children}</TagWrapper>;
+    return <div className={cn(tagVariants({ type }))}>{children}</div>;
 };
 
 export { Tag };

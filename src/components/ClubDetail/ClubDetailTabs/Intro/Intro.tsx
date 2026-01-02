@@ -1,4 +1,3 @@
-import styled from 'styled-components';
 import ActivityGuide from './ActivityGuide';
 import AnnualSchedule from './AnnualSchedule';
 import BaseInfo from './BaseInfo';
@@ -6,17 +5,11 @@ import ClubIntroduce from './ClubIntroduce';
 
 export default function Intro() {
     return (
-        <IntroContainer>
+        <section className="flex flex-col gap-[10px]">
             <BaseInfo />
             <AnnualSchedule />
             <ClubIntroduce />
             <ActivityGuide />
-        </IntroContainer>
+        </section>
     );
 }
-
-const IntroContainer = styled.section`
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-`;

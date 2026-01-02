@@ -1,7 +1,3 @@
-import styled from 'styled-components';
-
 export default function ClubManagementPage() {
-    return <Container>ClubManagementPage</Container>;
+    return <div>ClubManagementPage</div>;
 }
-
-const Container = styled.div``;

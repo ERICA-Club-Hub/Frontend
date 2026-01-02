@@ -1,11 +1,8 @@
 import ClubDetailHeader from '@/components/ClubDetail/ClubDetailHeader';
-
 import { useNavigate } from 'react-router-dom';
-import styled from 'styled-components';
 import TabContentsSwitch from '../club-detail/TabContents';
 import arrow from '../../assets/common/Expand_right.svg';
 import { useClubDetail } from '@/hooks/club-detail/useClubDetail';
-
 import ClubDetailTab from '@/components/ClubDetail/Tab/ClubDetailTab';
 
 export default function ClubDetailPreviewPage() {
@@ -13,16 +10,17 @@ export default function ClubDetailPreviewPage() {
     const { clubId, activeTab, setActiveTab } = useClubDetail();
 
     return (
-        <PageContainer>
-            <PreviewContainer>
-                <BackButton
+        <div className="flex flex-col items-center">
+            <div>
+                <div
+                    className="flex mt-[15px] mb-[15px] self-start cursor-pointer"
                     onClick={() => {
                         navigate(`/admin/club/${clubId}/summary-info`);
                     }}
                 >
-                    <img src={arrow} />
+                    <img src={arrow} alt="back" />
                     돌아가기
-                </BackButton>
+                </div>
 
                 <ClubDetailHeader />
                 <ClubDetailTab
@@ -30,21 +28,7 @@ export default function ClubDetailPreviewPage() {
                     setActiveTab={setActiveTab}
                 />
                 <TabContentsSwitch activeTab={activeTab} />
-            </PreviewContainer>
-        </PageContainer>
+            </div>
+        </div>
     );
 }
-
-const PreviewContainer = styled.div``;
-const BackButton = styled.div`
-    display: flex;
-    margin-top: 15px;
-    margin-bottom: 15px;
-    align-self: flex-start;
-`;
-
-const PageContainer = styled.div`
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-`;

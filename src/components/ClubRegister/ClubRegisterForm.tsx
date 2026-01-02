@@ -1,11 +1,14 @@
 import { useState } from 'react';
-import styled from 'styled-components';
 import { InputField } from '@/components/Common';
 import Button from '@/components/Common/Button';
 import { TextArea } from '@/components/Common/TextArea';
 import { IClubRegisterValue } from '@/types';
 import { inputChangeHandler } from '@/utils/inputChangeHandler';
-import { GuideText, InnerWrapper, Label } from '@/styles/registration-form';
+import {
+    RegistrationGuideText,
+    RegistrationInnerWrapper,
+    RegistrationLabel,
+} from '@/components/Common';
 import useBulletPointConverter from '@/hooks/actions/useBulletPointConverter';
 import ClubImageUpload from './ClubImageUpload';
 import { ClubCategorySelection } from './ClubCategorySelection';
@@ -91,19 +94,24 @@ function ClubRegisterForm({ editMode }: { editMode: boolean }) {
 
     return (
         <>
-            <Container>
-                <TitleWrapper $editMode={editMode}>
-                    <Title>
+            <div className="w-full flex flex-col items-center box-border pt-10">
+                <div className={`flex flex-col gap-[5px] w-[320px] ${editMode ? 'mb-[30px]' : 'mb-10'}`}>
+                    <h1 className="text-body-01 font-semibold text-black">
                         {editMode
                             ? '동아리 등록 정보 수정하기'
                             : '절차에 따라 동아리를 등록해 주세요.'}
-                    </Title>
-                </TitleWrapper>
+                    </h1>
+                </div>
 
-                <FormContainer onSubmit={handleSubmit}>
+                <form
+                    onSubmit={handleSubmit}
+                    className="flex flex-col items-center gap-[30px] pb-4"
+                >
                     {/* 동아리 이름 */}
-                    <InnerWrapper>
-                        <Label htmlFor="clubName">동아리 이름</Label>
+                    <RegistrationInnerWrapper>
+                        <RegistrationLabel htmlFor="clubName">
+                            동아리 이름
+                        </RegistrationLabel>
                         <InputField
                             value={inputValue.clubName}
                             id="clubName"
@@ -119,17 +127,19 @@ function ClubRegisterForm({ editMode }: { editMode: boolean }) {
                                 })
                             }
                         />
-                    </InnerWrapper>
+                    </RegistrationInnerWrapper>
 
                     {/* 동아리 이메일 */}
-                    <InnerWrapper>
-                        <Label
+                    <RegistrationInnerWrapper>
+                        <RegistrationLabel
                             htmlFor="leaderEmail"
                             style={{ marginBottom: '5px' }}
                         >
                             동아리 이메일
-                        </Label>
-                        <GuideText>승인 결과가 이메일로 전송됩니다.</GuideText>
+                        </RegistrationLabel>
+                        <RegistrationGuideText>
+                            승인 결과가 이메일로 전송됩니다.
+                        </RegistrationGuideText>
                         <InputField
                             value={inputValue.leaderEmail}
                             id="leaderEmail"
@@ -145,7 +155,7 @@ function ClubRegisterForm({ editMode }: { editMode: boolean }) {
                                 })
                             }
                         />
-                    </InnerWrapper>
+                    </RegistrationInnerWrapper>
 
                     {/* 동아리 카테고리 */}
                     <ClubCategorySelection
@@ -161,8 +171,10 @@ function ClubRegisterForm({ editMode }: { editMode: boolean }) {
                     />
 
                     {/* 동아리 한 줄 소개 */}
-                    <InnerWrapper>
-                        <Label htmlFor="oneLiner">동아리 한 줄 소개</Label>
+                    <RegistrationInnerWrapper>
+                        <RegistrationLabel htmlFor="oneLiner">
+                            동아리 한 줄 소개
+                        </RegistrationLabel>
                         <InputField
                             value={inputValue.oneLiner}
                             id="oneLiner"
@@ -178,15 +190,15 @@ function ClubRegisterForm({ editMode }: { editMode: boolean }) {
                                 })
                             }
                         />
-                    </InnerWrapper>
+                    </RegistrationInnerWrapper>
 
                     {/* 동아리 간단 소개 */}
                     {/* 서비스 관리자가 확인하기 위한 데이터라서 수정모드에서는 불러오지 않음 */}
                     {editMode || (
-                        <InnerWrapper>
-                            <Label htmlFor="briefIntroduction">
+                        <RegistrationInnerWrapper>
+                            <RegistrationLabel htmlFor="briefIntroduction">
                                 동아리 간단 소개
-                            </Label>
+                            </RegistrationLabel>
                             <TextArea
                                 id="briefIntroduction"
                                 placeholder="동아리에 대해 간단히 소개해 주세요."
@@ -207,7 +219,7 @@ function ClubRegisterForm({ editMode }: { editMode: boolean }) {
                                     })
                                 }
                             />
-                        </InnerWrapper>
+                        </RegistrationInnerWrapper>
                     )}
 
                     <Button type="submit" size="large" disabled={!isValid}>
@@ -215,8 +227,8 @@ function ClubRegisterForm({ editMode }: { editMode: boolean }) {
                             ? '동아리 등록 정보 수정하기'
                             : '동아리 등록 요청하기'}
                     </Button>
-                </FormContainer>
-            </Container>
+                </form>
+            </div>
 
             <LoadingModal
                 isPending={
@@ -233,34 +245,3 @@ function ClubRegisterForm({ editMode }: { editMode: boolean }) {
 }
 
 export { ClubRegisterForm };
-
-const Container = styled.div`
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    box-sizing: border-box;
-    padding-top: 40px;
-`;
-
-const TitleWrapper = styled.div<{ $editMode: boolean }>`
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
-    width: 320px;
-    margin-bottom: ${({ $editMode }) => ($editMode ? '30px' : '40px')};
-`;
-
-const Title = styled.h1`
-    font-size: 16px;
-    font-weight: 600;
-    color: ${({ theme }) => theme.colors.mainBlack};
-`;
-
-const FormContainer = styled.form`
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 30px;
-    padding-bottom: 16px;
-`;

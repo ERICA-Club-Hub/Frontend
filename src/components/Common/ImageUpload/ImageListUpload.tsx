@@ -1,5 +1,5 @@
 import useActivityLogContext from '@/hooks/contexts/useActivityLogContext';
-import styled from 'styled-components';
+import { cn } from '@/utils/cn';
 
 function ImageListUpload() {
     const {
@@ -51,12 +51,19 @@ function ImageListUpload() {
     };
 
     return (
-        <ImageContainer>
-            <label htmlFor="image" className="image-preview-label">
+        <div className="w-full h-full flex">
+            <label
+                htmlFor="image"
+                className={cn(
+                    'w-full h-full rounded-[10px]',
+                    'bg-neutral-200 cursor-pointer'
+                )}
+            >
                 {Array.isArray(previewImg) && previewImg[currentIdx] ? (
-                    <ImagePreview
+                    <img
                         src={previewImg[currentIdx] as string}
                         alt="image-preview"
+                        className="w-full h-full rounded-[10px] object-cover"
                     />
                 ) : null}
             </label>
@@ -66,34 +73,10 @@ function ImageListUpload() {
                 accept=".jpg, .jpeg, .png"
                 onChange={handleImgUpload}
                 disabled={mode === 'edit' && !isEditBtnClicked}
+                className="hidden"
             />
-        </ImageContainer>
+        </div>
     );
 }
 
 export { ImageListUpload };
-
-const ImageContainer = styled.div`
-    width: 100%;
-    height: 100%;
-    display: flex;
-
-    .image-preview-label {
-        width: 100%;
-        height: 100%;
-        border-radius: 10px;
-        background-color: ${({ theme }) => theme.colors.mediumGray};
-        cursor: pointer;
-    }
-
-    input {
-        display: none;
-    }
-`;
-
-const ImagePreview = styled.img`
-    width: 100%;
-    height: 100%;
-    border-radius: 10px;
-    object-fit: cover;
-`;

@@ -1,4 +1,3 @@
-import styled from 'styled-components';
 import { ImageListUpload } from '@/components/Common/ImageUpload';
 import PlusIcon from '@/assets/common/plus-icon.svg?react';
 import ArrowIcon from '@/assets/common/Expand_right.svg?react';
@@ -47,70 +46,35 @@ export default function CarouselImage() {
     };
 
     return (
-        <ImageCarouselWrapper>
-            <PrevArrow
+        <div className="relative flex items-center gap-[10px] w-[278px] mb-[10px]">
+            <button
                 onClick={handleClickPrevArrow}
                 disabled={currentIdx === 0}
+                className="cursor-pointer p-0"
             >
                 <ArrowIcon width={24} height={24} />
-            </PrevArrow>
+            </button>
 
-            <ThumbnailImageWrapper>
+            <div className="relative w-[210px] h-[210px] cursor-pointer rounded-[5px]">
                 {/* 이미지 업로드  */}
                 <ImageListUpload />
 
                 {/* 이미지 없을 때 플러스 아이콘 */}
                 {Array.isArray(postImg) && postImg[currentIdx] ? null : (
-                    <IconWrapper>
+                    <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 cursor-pointer">
                         <PlusIcon width={24} height={24} strokeWidth={2} />
-                    </IconWrapper>
+                    </div>
                 )}
-            </ThumbnailImageWrapper>
+            </div>
 
-            <NextArrow
+            <button
                 onClick={handleClickNextArrow}
                 // 여기 eidt 모드일 때 코드 수정
                 disabled={postImg.length === 0}
+                className="cursor-pointer p-0 rotate-180"
             >
                 <ArrowIcon width={24} height={24} strokeWidth={2} />
-            </NextArrow>
-        </ImageCarouselWrapper>
+            </button>
+        </div>
     );
 }
-
-const PrevArrow = styled.button``;
-const NextArrow = styled.button``;
-
-const ImageCarouselWrapper = styled.div`
-    position: relative;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    width: 278px;
-    margin-bottom: 10px;
-
-    ${PrevArrow}, ${NextArrow} {
-        cursor: pointer;
-        padding: 0px;
-    }
-
-    ${NextArrow} {
-        transform: rotate(180deg);
-    }
-`;
-
-const ThumbnailImageWrapper = styled.div`
-    position: relative;
-    width: 210px;
-    height: 210px;
-    cursor: pointer;
-    border-radius: 5px;
-`;
-
-const IconWrapper = styled.div`
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    cursor: pointer;
-`;

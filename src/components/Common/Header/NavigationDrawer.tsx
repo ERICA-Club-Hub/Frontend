@@ -1,10 +1,10 @@
-import styled from 'styled-components';
 import { useRecoilValue } from 'recoil';
 import NavigateArrow from '@/assets/common/navigate-arrow.svg?react';
 import { isAuthenticatedSelector } from '@/store/authState';
 import { useAuthToggle } from '@/hooks/auth/useAuthToggle';
 import { NavigationLink } from '../NavigationLink';
 import { useFilteredMenus } from '@/hooks/ui/useFilteredMenus';
+import { cn } from '@/utils/cn';
 
 interface NavigationDrawerProps {
     isOpen: boolean;
@@ -29,78 +29,37 @@ export default function NavigationDrawer({
     };
 
     return (
-        <Container ref={dropdownRef} $isOpen={isOpen}>
-            <LoginButton onClick={handleToggleAuthBtn}>
-                <h2>
+        <div
+            ref={dropdownRef}
+            className={cn(
+                'absolute top-[55px] right-0 flex flex-col items-center w-full rounded-bl-[10px] rounded-br-[10px] bg-white overflow-hidden shadow-[0px_20px_25px_-5px_rgba(0,0,0,0.1)]',
+                isOpen
+                    ? 'h-auto py-[20px] pb-[30px] transition-all duration-300 ease-in-out'
+                    : 'h-0 px-[36px] py-0'
+            )}
+        >
+            <button
+                onClick={handleToggleAuthBtn}
+                className="flex items-center gap-[5px] w-[288px] mb-[30px] cursor-pointer"
+            >
+                <h2 className="text-body-01 font-semibold text-black">
                     {isAuthenticatedValue ? '어드민 로그아웃' : '어드민 로그인'}
                 </h2>
                 <NavigateArrow />
-            </LoginButton>
-            <MenuList>
+            </button>
+            <ul className="w-[288px] flex flex-col gap-[15px] cursor-pointer">
                 {filteredMenus.map((menu, index) => (
-                    <MenuItem key={`navigate-menu-${index}`} onClick={toggle}>
+                    <li
+                        key={`navigate-menu-${index}`}
+                        onClick={toggle}
+                        className="flex justify-between items-center h-[17px] cursor-pointer"
+                    >
                         <NavigationLink url={menu.url} size="small">
                             {menu.title}
                         </NavigationLink>
-                    </MenuItem>
+                    </li>
                 ))}
-            </MenuList>
-        </Container>
+            </ul>
+        </div>
     );
 }
-
-const Container = styled.div<{ $isOpen: boolean }>`
-    position: absolute;
-    top: 55px;
-    right: 0px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 100%;
-    height: ${({ $isOpen }) => ($isOpen ? 'auto' : '0')};
-    padding: ${({ $isOpen }) => ($isOpen ? '20px 0 30px 0' : '0 36px')};
-    border-bottom-left-radius: 10px;
-    border-bottom-right-radius: 10px;
-
-    background-color: ${(prop) => prop.theme.colors.white};
-    overflow: hidden;
-    transition: ${({ $isOpen }) => ($isOpen ? 'all 0.3s ease-in-out' : 'none')};
-    box-shadow: 0px 20px 25px -5px rgba(0, 0, 0, 0.1);
-`;
-
-const LoginButton = styled.button`
-    display: flex;
-    align-items: center;
-    gap: 5px;
-    width: 288px;
-    margin-bottom: 30px;
-    cursor: pointer;
-
-    h2 {
-        font-size: 16px;
-        font-weight: 600;
-        color: ${(props) => props.theme.colors.black};
-    }
-`;
-
-const MenuList = styled.ul`
-    width: 288px;
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-    cursor: pointer;
-`;
-
-const MenuItem = styled.li`
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    height: 17px;
-    cursor: pointer;
-
-    h3 {
-        font-size: 14px;
-        font-weight: 500;
-        color: ${(props) => props.theme.colors.black};
-    }
-`;

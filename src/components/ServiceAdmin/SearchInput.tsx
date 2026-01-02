@@ -1,4 +1,3 @@
-import styled from 'styled-components';
 import { InputField } from '@/components/Common';
 import SearchIcon from '@/assets/common/search.svg?react';
 
@@ -13,30 +12,15 @@ export default function SearchInput({ value, setValue }: SearchInputProps) {
     };
 
     return (
-        <InputWrapper>
-            <StyledSearchIcon />
-            <SearchInputField
+        <div className="relative">
+            <SearchIcon className="absolute left-[15px] top-1/2 -translate-y-1/2 text-neutral-600" />
+            <InputField
                 inputSize="large"
                 placeholder="동아리 검색"
                 value={value}
                 onChange={handleChange}
+                className="py-[14px] pr-[19px] pl-[40px]"
             />
-        </InputWrapper>
+        </div>
     );
 }
-
-const InputWrapper = styled.div`
-    position: relative;
-`;
-
-const StyledSearchIcon = styled(SearchIcon)`
-    position: absolute;
-    left: 15px;
-    top: 50%;
-    transform: translateY(-50%);
-    color: #989898;
-`;
-
-const SearchInputField = styled(InputField)`
-    padding: 14px 19px 14px 40px;
-`;

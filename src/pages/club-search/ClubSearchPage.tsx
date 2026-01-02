@@ -1,7 +1,6 @@
 import { InputField } from '@/components/Common';
 import SearchTab from '@/components/Search/SearchTab';
 import { useClubSearchFromUrl } from '@/hooks/queries/useClubList';
-import styled from 'styled-components';
 import ReadingGlassIcon from '@/assets/common/reading_glass.svg?react';
 import ClubCard from '@/components/Common/ClubCard';
 import ErrorIcon from '@/assets/common/error-icon.svg?react';
@@ -94,13 +93,13 @@ export default function ClubSearchPage() {
     }, [hasNextPage, isFetchingNextPage, fetchNextPage]);
 
     return (
-        <PageContainer>
-            <ContentWrapper>
-                <TabContainer>
+        <div className="min-h-screen flex flex-col">
+            <div className="flex-1 flex flex-col items-center">
+                <div className="w-screen bg-white flex justify-center h-[47px]">
                     <SearchTab />
-                </TabContainer>
-                <ClubSearchContainer>
-                    <SearchInputWrapper>
+                </div>
+                <div className="flex flex-col items-center py-5">
+                    <div className="relative inline-block w-[320px]">
                         <InputField
                             inputSize="large"
                             placeholder="원하는 동아리를 검색해 보세요."
@@ -108,12 +107,15 @@ export default function ClubSearchPage() {
                             onChange={(e) => setSearchTerm(e.target.value)}
                             onKeyDown={handleKeyDown}
                         />
-                        <SearchIcon onClick={handleSearch}>
+                        <button
+                            onClick={handleSearch}
+                            className="absolute right-[15px] top-1/2 -translate-y-1/2 p-0 cursor-pointer flex items-center justify-center"
+                        >
                             <ReadingGlassIcon />
-                        </SearchIcon>
-                    </SearchInputWrapper>
+                        </button>
+                    </div>
 
-                    <DropdownContainer>
+                    <div className="flex w-[320px] mt-[23px] mb-[10px] gap-[5px] flex-wrap relative">
                         <SortByDropdown
                             selectedValue={selectedSortBy}
                             onSelect={(value) =>
@@ -166,9 +168,9 @@ export default function ClubSearchPage() {
                                 }
                             />
                         )}
-                    </DropdownContainer>
+                    </div>
 
-                    <ClubListWrapper>
+                    <div className="flex flex-col items-center gap-2">
                         {isLoading ? (
                             <div>로딩 중...</div>
                         ) : data && allClubs.length > 0 ? (
@@ -187,96 +189,16 @@ export default function ClubSearchPage() {
                                 );
                             })
                         ) : (
-                            <NoResultContainer>
+                            <div className="w-full h-[400px] flex flex-col justify-center items-center gap-[10px]">
                                 <ErrorIcon />
-                                <h1>검색 결과가 없어요.</h1>
-                            </NoResultContainer>
+                                <h1 className="text-body-03 font-medium text-black">
+                                    검색 결과가 없어요.
+                                </h1>
+                            </div>
                         )}
-                    </ClubListWrapper>
-                </ClubSearchContainer>
-            </ContentWrapper>
-        </PageContainer>
+                    </div>
+                </div>
+            </div>
+        </div>
     );
 }
-
-const PageContainer = styled.div`
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-`;
-
-const ContentWrapper = styled.div`
-    flex: 1 0 auto;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-`;
-
-const TabContainer = styled.div`
-    width: 100vw;
-    background-color: white;
-    display: flex;
-    justify-content: center;
-    height: 47px;
-`;
-
-const ClubSearchContainer = styled.div`
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 20px 0;
-`;
-
-const SearchInputWrapper = styled.div`
-    position: relative;
-    display: inline-block;
-    width: 320px;
-`;
-
-const SearchIcon = styled.button`
-    position: absolute;
-    right: 15px;
-    top: 50%;
-    transform: translateY(-50%);
-    background: none;
-    border: none;
-    padding: 0;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-`;
-
-const DropdownContainer = styled.div`
-    display: flex;
-    width: 320px;
-    margin-top: 23px;
-    margin-bottom: 10px;
-    gap: 5px;
-    flex-wrap: wrap;
-    scrollbar-width: none;
-    position: relative;
-`;
-
-const ClubListWrapper = styled.div`
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 8px;
-`;
-
-const NoResultContainer = styled.div`
-    width: 100%;
-    height: 400px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    gap: 10px;
-
-    h1 {
-        font-size: 14px;
-        font-weight: 500;
-        color: ${(props) => props.theme.colors.mainBlack};
-    }
-`;

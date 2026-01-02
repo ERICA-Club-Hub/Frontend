@@ -1,5 +1,8 @@
-import styled from 'styled-components';
-import { InnerWrapper, Label, Content } from '@/styles/registration-form';
+import {
+    RegistrationInnerWrapper,
+    RegistrationLabel,
+    RegistrationContent,
+} from '@/components/Common';
 import { ClubRegistrationDTOList } from '@/types/club.types';
 
 interface ClubDetailLayoutProps {
@@ -20,93 +23,67 @@ export default function ClubDetailLayout({
     ];
 
     return (
-        <Container>
-            <InnerContainer>
-                <ButtonWrapper>{button}</ButtonWrapper>
+        <div className="flex flex-col items-center pb-[39px]">
+            <div className="flex flex-col items-end w-[320px] pt-5">
+                <div className="flex justify-end gap-[5px] w-full mb-5">
+                    {button}
+                </div>
 
-                <ContentWrapper>
-                    <InnerWrapper>
-                        <Label>동아리 이름</Label>
-                        <Content>{data.clubName}</Content>
-                    </InnerWrapper>
-                    <InnerWrapper>
-                        <Label>대표자 이메일</Label>
-                        <Content>{data.leaderEmail}</Content>
-                    </InnerWrapper>
+                <div className="flex flex-col items-center gap-5">
+                    <RegistrationInnerWrapper>
+                        <RegistrationLabel>동아리 이름</RegistrationLabel>
+                        <RegistrationContent>
+                            {data.clubName}
+                        </RegistrationContent>
+                    </RegistrationInnerWrapper>
+                    <RegistrationInnerWrapper>
+                        <RegistrationLabel>대표자 이메일</RegistrationLabel>
+                        <RegistrationContent>
+                            {data.leaderEmail}
+                        </RegistrationContent>
+                    </RegistrationInnerWrapper>
 
                     {/* --- 동아리 카테고리 --- */}
                     {categoryFields.map(
                         (field) =>
                             field.value && (
-                                <InnerWrapper>
-                                    <Label>{field.label}</Label>
-                                    <Content>{field.value}</Content>
-                                </InnerWrapper>
+                                <RegistrationInnerWrapper>
+                                    <RegistrationLabel>
+                                        {field.label}
+                                    </RegistrationLabel>
+                                    <RegistrationContent>
+                                        {field.value}
+                                    </RegistrationContent>
+                                </RegistrationInnerWrapper>
                             ),
                     )}
 
-                    <InnerWrapper>
-                        <Label>동아리 사진</Label>
-                        <ImageContent>
+                    <RegistrationInnerWrapper>
+                        <RegistrationLabel>동아리 사진</RegistrationLabel>
+                        <div className="flex gap-5 p-[10px]">
                             <img
                                 src="/placeholder-image.svg"
                                 alt="placeholder-logo-image"
                             />
-                            <button>클릭해서 크게 보기</button>
-                        </ImageContent>
-                    </InnerWrapper>
-                    <InnerWrapper>
-                        <Label>동아리 한 줄 소개</Label>
-                        <Content>{data.oneLiner}</Content>
-                    </InnerWrapper>
-                    <InnerWrapper>
-                        <Label>동아리 간단소개</Label>
-                        <Content>{data.briefIntroduction}</Content>
-                    </InnerWrapper>
-                </ContentWrapper>
-            </InnerContainer>
-        </Container>
+                            <button className="text-body-03 font-normal text-neutral-500">
+                                클릭해서 크게 보기
+                            </button>
+                        </div>
+                    </RegistrationInnerWrapper>
+                    <RegistrationInnerWrapper>
+                        <RegistrationLabel>동아리 한 줄 소개</RegistrationLabel>
+                        <RegistrationContent>
+                            {data.oneLiner}
+                        </RegistrationContent>
+                    </RegistrationInnerWrapper>
+                    <RegistrationInnerWrapper>
+                        <RegistrationLabel>동아리 간단소개</RegistrationLabel>
+                        <RegistrationContent>
+                            {data.briefIntroduction}
+                        </RegistrationContent>
+                    </RegistrationInnerWrapper>
+                </div>
+            </div>
+        </div>
     );
 }
-
-const Container = styled.div`
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding-bottom: 39px;
-`;
-
-const InnerContainer = styled.div`
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-    width: 320px;
-    padding-top: 20px;
-`;
-
-const ButtonWrapper = styled.div`
-    display: flex;
-    justify-content: flex-end;
-    gap: 5px;
-    width: 100%;
-    margin-bottom: 20px;
-`;
-
-const ContentWrapper = styled.div`
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 20px;
-`;
-
-const ImageContent = styled(Content)`
-    display: flex;
-    gap: 20px;
-    padding: 10px;
-
-    button {
-        font-size: 14px;
-        font-weight: 400;
-        color: ${({ theme }) => theme.colors.mainGray};
-    }
-`;

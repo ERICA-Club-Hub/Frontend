@@ -1,98 +1,8 @@
 import Card from '@/components/Common/Card';
-import styled from 'styled-components';
 import { useState, useEffect } from 'react';
 import downloadIcon from '@/assets/common/card_download.svg';
 import { apiRequest } from '@/api/apiRequest';
-
-const PageContainer = styled.div`
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 100%;
-`;
-
-const ContentWrapper = styled.div`
-    width: 320px;
-    display: flex;
-    flex-direction: column;
-`;
-
-const Title = styled.div`
-    color: #232323;
-    font-family: Pretendard;
-    font-size: 16px;
-    font-weight: 600;
-    line-height: normal;
-    margin: 20px 0px;
-`;
-
-const Body = styled.div`
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    width: 100%;
-`;
-
-const ModalOverlay = styled.div`
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(35, 35, 35, 0.4);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 1000;
-`;
-
-const ModalContent = styled.div`
-    width: 320px;
-    min-height: 64px;
-    flex-shrink: 0;
-    border-radius: 10px;
-    border: 1px solid var(--Gray-4, #f7f7f7);
-    background: #fff;
-    z-index: 1001;
-    position: relative;
-    top: -10vh;
-    padding: 20px;
-    box-sizing: border-box;
-`;
-
-const DownloadButton = styled.button<{ disabled?: boolean }>`
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    width: 100%;
-    padding: 5px 0;
-    border: none;
-    background: none;
-    cursor: ${props => props.disabled ? 'not-allowed' : 'pointer'};
-    opacity: ${props => props.disabled ? 0.7 : 1};
-`;
-
-const ModalText = styled.div`
-    display: -webkit-box;
-    width: 240px;
-    -webkit-box-orient: vertical;
-    -webkit-line-clamp: 1;
-    overflow: hidden;
-    color: #000;
-    text-overflow: ellipsis;
-    font-family: Pretendard;
-    font-size: 12px;
-    font-style: normal;
-    font-weight: 500;
-    line-height: normal;
-    text-align: left;
-`;
-
-const DownloadIcon = styled.img`
-    width: 24px;
-    height: 24px;
-    margin-left: auto;
-`;
+import { cn } from '@/utils/cn';
 
 interface Document {
     id: number;
@@ -188,49 +98,73 @@ const ResourcesPage = () => {
     };
 
     return (
-        <PageContainer>
-            <ContentWrapper>
-                <Title>자료실</Title>
-                <Body>
+        <div className="flex flex-col items-center w-full">
+            <div className="w-[320px] flex flex-col">
+                <div className="text-body-01 font-semibold text-black my-5">
+                    자료실
+                </div>
+                <div className="flex flex-col gap-2 w-full">
                     {isLoading ? (
-                    <div>로딩 중...</div>
-                ) : error ? (
-                    <div>{error}</div>
-                ) : documents.length > 0 ? (
-                    documents.map((document) => (
-                        <Card
-                            key={document.id}
-                            $variant="resources"
-                            title={document.title}
-                            date={document.date}
-                            onClick={() => handleCardClick(document.id)}
-                        />
-                    ))
-                ) : (
-                    <div>등록된 자료가 없습니다.</div>
+                        <div>로딩 중...</div>
+                    ) : error ? (
+                        <div>{error}</div>
+                    ) : documents.length > 0 ? (
+                        documents.map((document) => (
+                            <Card
+                                key={document.id}
+                                $variant="resources"
+                                title={document.title}
+                                date={document.date}
+                                onClick={() => handleCardClick(document.id)}
+                            />
+                        ))
+                    ) : (
+                        <div>등록된 자료가 없습니다.</div>
+                    )}
+                </div>
+                {isModalOpen && (
+                    <div
+                        className="fixed top-0 left-0 w-full h-full bg-[rgba(35,35,35,0.4)] flex justify-center items-center z-[1000]"
+                        onClick={() => setIsModalOpen(false)}
+                    >
+                        <div
+                            className="w-[320px] min-h-16 flex-shrink-0 rounded-[10px] border border-[#f7f7f7] bg-white z-[1001] relative -top-[10vh] p-5 box-border"
+                            onClick={(e) => e.stopPropagation()}
+                        >
+                            {selectedFiles.map((file, index) => (
+                                <button
+                                    key={index}
+                                    className={cn(
+                                        'flex items-center justify-between w-full py-[5px] px-0',
+                                        isDownloading
+                                            ? 'cursor-not-allowed opacity-70'
+                                            : 'cursor-pointer opacity-100',
+                                    )}
+                                    onClick={() =>
+                                        downloadFile(
+                                            file.downloadUrl,
+                                            file.fileName,
+                                        )
+                                    }
+                                    disabled={isDownloading}
+                                >
+                                    <div className="line-clamp-1 w-[240px] overflow-hidden text-black text-ellipsis text-caption font-medium text-left">
+                                        {isDownloading
+                                            ? '다운로드 중...'
+                                            : file.fileName}
+                                    </div>
+                                    <img
+                                        src={downloadIcon}
+                                        alt="download"
+                                        className="w-6 h-6 ml-auto"
+                                    />
+                                </button>
+                            ))}
+                        </div>
+                    </div>
                 )}
-            </Body>
-            {isModalOpen && (
-                <ModalOverlay onClick={() => setIsModalOpen(false)}>
-                    <ModalContent onClick={(e) => e.stopPropagation()}>
-                        {selectedFiles.map((file, index) => (
-                            <DownloadButton
-                                key={index}
-                                onClick={() => downloadFile(file.downloadUrl, file.fileName)}
-                                disabled={isDownloading}
-                            >
-                                <ModalText>{isDownloading ? '다운로드 중...' : file.fileName}</ModalText>
-                                <DownloadIcon
-                                    src={downloadIcon}
-                                    alt="download"
-                                />
-                            </DownloadButton>
-                        ))}
-                    </ModalContent>
-                    </ModalOverlay>
-                )}
-            </ContentWrapper>
-        </PageContainer>
+            </div>
+        </div>
     );
 };
 

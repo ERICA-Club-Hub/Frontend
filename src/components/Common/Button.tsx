@@ -1,5 +1,6 @@
-import styled, { css } from 'styled-components';
 import { ButtonHTMLAttributes, ReactNode } from 'react';
+import { cva, type VariantProps } from 'class-variance-authority';
+import { cn } from '@/utils/cn';
 
 export type ButtonSize = 'small' | 'medium' | 'large';
 
@@ -14,38 +15,26 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
     outlineColor?: string;
 }
 
-interface StyledButtonProps {
-    $size: ButtonSize;
-    $variant: VariantType;
-    $disabled: boolean;
-    $outlineColor?: string;
-}
-
-const getButtonSize = (size: ButtonSize) => {
-    switch (size) {
-        case 'small':
-            return css`
-                height: 35px;
-                width: 90px;
-                padding: 14px 14px;
-                font-size: 14px;
-            `;
-        case 'large':
-            return css`
-                height: 45px;
-                width: 320px;
-                padding: 14px 14px;
-                font-size: 14px;
-            `;
-        default:
-            return css`
-                width: 141px;
-                height: 35px;
-                padding: 14px 14px;
-                font-size: 14px;
-            `;
+const buttonVariants = cva(
+    'inline-flex items-center justify-center rounded-[10px] font-semibold cursor-pointer transition-all duration-200 ease-in-out gap-[10px] leading-[1.2] active:scale-[0.98] disabled:border-0 disabled:bg-[#989898] disabled:text-white disabled:cursor-not-allowed',
+    {
+        variants: {
+            size: {
+                small: 'h-[35px] w-[90px] px-[14px] py-[14px] text-body-03',
+                medium: 'w-[141px] h-[35px] px-[14px] py-[14px] text-body-03',
+                large: 'h-[45px] w-[320px] px-[14px] py-[14px] text-body-03',
+            },
+            variant: {
+                filled: 'bg-primary-500 text-white border-0',
+                outlined: 'bg-white text-primary-500 border border-primary-500',
+            },
+        },
+        defaultVariants: {
+            size: 'medium',
+            variant: 'filled',
+        },
     }
-};
+);
 
 /**
  *
@@ -62,58 +51,27 @@ const Button = ({
     children,
     size = 'medium',
     variant = 'filled',
-    isDisabled = () => true,
+    isDisabled = () => false,
     handleClick,
     outlineColor,
     ...props
 }: ButtonProps) => {
+    const dynamicStyles =
+        variant === 'outlined' && outlineColor
+            ? { borderColor: outlineColor, color: outlineColor }
+            : {};
+
     return (
-        <StyledButton
-            $size={size}
-            $variant={variant}
-            $disabled={isDisabled()}
+        <button
+            className={cn(buttonVariants({ size, variant }))}
             onClick={handleClick}
-            $outlineColor={outlineColor}
+            disabled={isDisabled()}
+            style={dynamicStyles}
             {...props}
         >
             {children}
-        </StyledButton>
+        </button>
     );
 };
-
-const StyledButton = styled.button<StyledButtonProps>`
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 10px;
-    font-weight: 600;
-    background-color: ${({ $variant, theme }) =>
-        $variant === 'outlined' ? theme.colors.white : theme.colors.mainBlue};
-    color: ${({ $variant, theme, $outlineColor }) =>
-        $variant === 'outlined'
-            ? $outlineColor || theme.colors.mainBlue
-            : theme.colors.white};
-    border: ${({ $variant, theme, $outlineColor }) =>
-        $variant === 'outlined'
-            ? `1px solid ${$outlineColor || theme.colors.mainBlue}`
-            : 'none'};
-    cursor: pointer;
-    transition: all 0.2s ease;
-    gap: 10px;
-    line-height: 1.2;
-
-    ${({ $size }) => getButtonSize($size)}
-
-    &:active:not(:disabled) {
-        transform: scale(0.98);
-    }
-
-    &:disabled {
-        border: none;
-        background-color: #989898;
-        color: ${({ theme }) => theme.colors.white};
-        cursor: not-allowed;
-    }
-`;
 
 export default Button;

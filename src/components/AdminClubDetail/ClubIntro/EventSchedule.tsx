@@ -1,12 +1,12 @@
 import useToggle from '@/hooks/actions/useToggle';
-import styled from 'styled-components';
 import DropdownArrow from '@/assets/common/dropdown_arrow.svg?react';
-import { months } from '@/constants/club-detail-register';
+import { months } from '@/constants/club-detail-register.constant';
 import useClubIntroContext from '@/hooks/contexts/useClubIntroContext';
 import { IEventScheduleValue } from '@/types';
 import { Dropdown, InputField } from '@/components/Common';
 import { useEffect } from 'react';
 import DeleteIcon from '@/assets/common/plus-icon.svg?react';
+import { cn } from '@/utils/cn';
 
 function EventSchedule({
     schedule,
@@ -96,33 +96,44 @@ function EventSchedule({
     };
 
     return (
-        <Container>
+        <div className="relative flex gap-[5px]">
             <Dropdown setIsOpen={setIsOpen}>
                 <Dropdown.Header onClick={toggle}>
-                    <DropdownHeaderWrapper>
-                        <h4>{`${schedule.month}월`}</h4>
-                        <IconWrapper>
+                    <div className="flex justify-center items-center w-[50px] h-[40px] rounded-[10px] bg-neutral-100">
+                        <h4 className="text-caption font-medium text-black">
+                            {`${schedule.month}월`}
+                        </h4>
+                        <div className="flex justify-center items-center">
                             <DropdownArrow />
-                        </IconWrapper>
-                    </DropdownHeaderWrapper>
+                        </div>
+                    </div>
                 </Dropdown.Header>
 
                 <Dropdown.Menu isOpen={isOpen}>
-                    <DropdownItemList>
-                        {months.map((month, index) => (
-                            <DropdownItem
-                                key={`recruit-status-${index}`}
-                                onClick={() => handleMonthValue(month)}
-                                $isSelected={schedule.month === parseInt(month)}
-                            >
-                                {month}
-                            </DropdownItem>
-                        ))}
-                    </DropdownItemList>
+                    <ul className="absolute top-[5px] left-0 flex flex-col items-center gap-[5px] w-[50px] h-[108px] px-[4px] rounded-[10px] bg-white shadow-[0px_3px_3px_rgba(0,0,0,0.15)] overflow-auto">
+                        {months.map((month, idx) => {
+                            const isSelected =
+                                schedule.month === parseInt(month);
+                            return (
+                                <li
+                                    key={`recruit-status-${idx}`}
+                                    onClick={() => handleMonthValue(month)}
+                                    className={cn(
+                                        'flex justify-center items-center w-[36px] min-h-[25px] rounded-[7px] text-caption font-medium text-black cursor-pointer',
+                                        isSelected
+                                            ? 'bg-neutral-100'
+                                            : 'bg-white',
+                                    )}
+                                >
+                                    {month}
+                                </li>
+                            );
+                        })}
+                    </ul>
                 </Dropdown.Menu>
             </Dropdown>
 
-            <InputFieldWrapper>
+            <div className="relative">
                 <InputField
                     value={schedule.content}
                     name="content"
@@ -133,90 +144,13 @@ function EventSchedule({
                     maxLength={30}
                     style={{ paddingRight: '36px' }}
                 />
-                <StyeldDeleteIcon onClick={handleDeleteSchedule} />
-            </InputFieldWrapper>
-        </Container>
+                <DeleteIcon
+                    onClick={handleDeleteSchedule}
+                    className="absolute top-[8px] right-[12px] w-[24px] h-[24px] rotate-45 cursor-pointer [&_path]:stroke-[#33363f]"
+                />
+            </div>
+        </div>
     );
 }
 
 export { EventSchedule };
-
-const Container = styled.div`
-    position: relative;
-    display: flex;
-    gap: 5px;
-`;
-
-const DropdownHeaderWrapper = styled.div`
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 50px;
-    height: 40px;
-    border-radius: 10px;
-
-    h4 {
-        font-size: 12px;
-        font-weight: 500;
-        color: ${({ theme }) => theme.colors.mainBlack};
-    }
-    background-color: ${({ theme }) => theme.colors.lightGray};
-`;
-
-const IconWrapper = styled.div`
-    display: flex;
-    justify-content: center;
-    align-items: center;
-`;
-
-const DropdownItemList = styled.ul`
-    position: absolute;
-    top: 5px;
-    left: 0;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 5px;
-
-    width: 50px;
-    height: 108px;
-    padding: 0 4px;
-    border-radius: 10px;
-    background-color: ${({ theme }) => theme.colors.white};
-    box-shadow: 0px 3px 3px rgba(0, 0, 0, 0.15);
-    overflow: auto;
-`;
-
-const DropdownItem = styled.li<{ $isSelected: boolean }>`
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 36px;
-    min-height: 25px;
-    border-radius: 7px;
-
-    font-size: 12px;
-    font-weight: 500;
-    color: ${({ theme }) => theme.colors.mainBlack};
-    background-color: ${({ $isSelected, theme }) =>
-        $isSelected ? theme.colors.lightGray : theme.colors.white};
-    cursor: pointer;
-`;
-
-const InputFieldWrapper = styled.div`
-    postion: relative;
-`;
-
-const StyeldDeleteIcon = styled(DeleteIcon)`
-    position: absolute;
-    top: 8px;
-    right: 12px;
-    cursor: pointer;
-    width: 24px;
-    height: 24px;
-    transform: rotate(45deg);
-
-    path {
-        stroke: #33363f;
-    }
-`;

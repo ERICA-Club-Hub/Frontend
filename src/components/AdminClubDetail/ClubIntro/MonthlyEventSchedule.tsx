@@ -1,5 +1,4 @@
-import { Label, SectionWrapper } from '@/styles/admin-club-detail/style';
-import styled from 'styled-components';
+import { AdminSection, AdminSectionLabel } from '@/components/Common';
 import PlusIcon from '@/assets/common/plus-icon.svg?react';
 import { EventSchedule } from './EventSchedule';
 import useClubIntroContext from '@/hooks/contexts/useClubIntroContext';
@@ -32,10 +31,12 @@ function MonthlyEventSchedule() {
     };
 
     return (
-        <Container>
-            <EventScheduleLabel>주요 활동 일정 입력</EventScheduleLabel>
+        <AdminSection className="min-h-[169px] p-5">
+            <AdminSectionLabel className="mb-5">
+                주요 활동 일정 입력
+            </AdminSectionLabel>
 
-            <EventScheduleForm>
+            <div className="flex flex-col gap-[10px]">
                 {/* 일정 컴포넌트 리스트 */}
                 {schedules.map((schedule, idx) => (
                     <EventSchedule
@@ -46,51 +47,18 @@ function MonthlyEventSchedule() {
                 ))}
 
                 {/* 일정 추가하기 버튼 */}
-                <AddScheduleButton onClick={handleAddEventSchedule}>
-                    <IconWrapper>
+                <button
+                    onClick={handleAddEventSchedule}
+                    className="flex justify-center items-center gap-[5px] w-[280px] h-[40px] rounded-[10px] text-caption font-medium text-neutral-400 bg-neutral-100"
+                >
+                    <div className="flex justify-center items-center">
                         <PlusIcon />
-                    </IconWrapper>
+                    </div>
                     일정 추가하기
-                </AddScheduleButton>
-            </EventScheduleForm>
-        </Container>
+                </button>
+            </div>
+        </AdminSection>
     );
 }
 
 export { MonthlyEventSchedule };
-
-const Container = styled(SectionWrapper)`
-    min-height: 169px;
-    padding: 20px;
-`;
-
-const EventScheduleLabel = styled(Label)`
-    margin-bottom: 20px;
-`;
-
-const EventScheduleForm = styled.div`
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-`;
-
-const AddScheduleButton = styled.button`
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 5px;
-    width: 280px;
-    height: 40px;
-    border-radius: 10px;
-
-    font-size: 12px;
-    font-weight: 500;
-    color: ${({ theme }) => theme.colors.subGray};
-    background-color: ${({ theme }) => theme.colors.lightGray};
-`;
-
-const IconWrapper = styled.div`
-    display: flex;
-    justify-content: center;
-    align-items: center;
-`;
