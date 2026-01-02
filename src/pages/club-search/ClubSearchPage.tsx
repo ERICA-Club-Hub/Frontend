@@ -184,6 +184,7 @@ export default function ClubSearchPage() {
                                         recruitmentStatus={
                                             club.recruitmentStatus
                                         }
+                                        profileImageUrl={club.profileImageUrl}
                                         to={PATHS.CLUB_DETAIL(club.id)}
                                     />
                                 );
