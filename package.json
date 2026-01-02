@@ -5,11 +5,12 @@
     "type": "module",
     "scripts": {
         "dev": "vite",
-        "build": "vite build",
+        "build": "tsx scripts/generate-sitemap.ts && vite build",
         "lint": "eslint .",
         "preview": "vite preview",
         "gen-pwa": "pwa-assets-generator --preset minimal public/logo.svg",
-        "generate-api": "swagger-typescript-api generate -p https://dev.backend.hanjari.site/v3/api-docs -o ./src/api --modular --extract-request-params"
+        "generate-api": "swagger-typescript-api generate -p https://dev.backend.hanjari.site/v3/api-docs -o ./src/api --modular --extract-request-params",
+        "generate:sitemap": "tsx scripts/generate-sitemap.ts"
     },
     "dependencies": {
         "@tanstack/react-query": "^5.62.11",
@@ -24,12 +25,13 @@
         "scheduler": "0.23.0",
         "swiper": "^12.0.3",
         "tailwind-merge": "^3.4.0",
-        "tailwindcss": "^4.0.0"
+        "tailwindcss": "^4.0.0",
+        "tsx": "^4.21.0"
     },
     "devDependencies": {
         "@eslint/js": "^9.17.0",
         "@tailwindcss/vite": "^4.1.18",
-        "@types/node": "^22.10.3",
+        "@types/node": "^22.19.3",
         "@types/react": "18.0.26",
         "@types/react-dom": "18.0.11",
         "@types/react-router-dom": "^5.3.3",

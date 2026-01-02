@@ -11,12 +11,12 @@
         "paths": {
             "@/*": ["src/*"]
         },
-        "types": ["vite-plugin-svgr/client"],
+        "types": ["vite-plugin-svgr/client", "node"],
         "declaration": false,
         "emitDeclarationOnly": false,
         "noEmit": true
     },
-    "include": ["src", "svg.d.ts"],
+    "include": ["src", "svg.d.ts", "scripts/**/*"],
     "exclude": ["src/**/*"],
     "files": [],
     "references": [
