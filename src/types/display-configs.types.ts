@@ -1,8 +1,9 @@
 import {
     CentralCategoryCode,
+    CollegeCode,
     DepartmentCode,
-} from '@/utils/search/searchKeywordMapping';
-import { CollegeCode, UnionCategoryCode } from './domain-category.types';
+    UnionCategoryCode,
+} from './domain-category.types';
 import { RecruitmentStatus } from './recruitment-status.type';
 
 /**
