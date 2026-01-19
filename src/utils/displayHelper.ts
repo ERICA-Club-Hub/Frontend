@@ -187,6 +187,23 @@ export const getDepartmentsByCollege = (
 };
 
 /**
+ *
+ * @param deptCode 학과 code
+ * @returns 해당 학과가 속한 단과대학의 emoji
+ */
+const getDepartmentEmoji = (deptCode: DepartmentCode): string => {
+    // 단과대 - 학과 매핑에서 역으로 찾기
+    for (const [collegeCode, deptCodes] of Object.entries(
+        COLLEGE_DEPARTMENT_MAPPING,
+    )) {
+        if (deptCodes.includes(deptCode)) {
+            return COLLEGE_DISPLAYS[collegeCode as CollegeCode].emoji;
+        }
+    }
+    return '📁'; // 매칭 안 되면 기본값
+};
+
+/**
  * 카테고리 코드로 이모지 가져오기 (타입 안전)
  */
 export const getCentralCategoryEmoji = (code: CentralCategoryCode): string => {
@@ -212,22 +229,49 @@ interface CategoryConfig {
     emoji: string;
 }
 
+type ClubCategoryCode =
+    | CentralCategoryCode
+    | UnionCategoryCode
+    | CollegeCode
+    | DepartmentCode;
+
 export const getCategoryConfig = (
-    category?: CentralCategoryCode | 'UNION',
+    categoryCode?: ClubCategoryCode,
 ): CategoryConfig => {
-    if (!category) {
+    if (!categoryCode) {
         return { label: '', emoji: '📁' };
     }
 
-    if (category === 'UNION') {
-        return { label: '연합동아리', emoji: getUnionCategoryEmoji() };
+    // 중앙동아리 분과 체크
+    if (categoryCode in CENTRAL_CATEGORY_DISPLAYS) {
+        const config =
+            CENTRAL_CATEGORY_DISPLAYS[categoryCode as CentralCategoryCode];
+        return { label: config.label, emoji: config.emoji };
     }
 
-    const config = CENTRAL_CATEGORY_DISPLAYS[category];
-    return {
-        label: config.label,
-        emoji: config.emoji,
-    };
+    // 연합동아리 분과 체크
+    if (categoryCode in UNION_CATEGORY_DISPLAYS) {
+        const config =
+            UNION_CATEGORY_DISPLAYS[categoryCode as UnionCategoryCode];
+        return { label: config.label, emoji: config.emoji || '🧩' };
+    }
+
+    // 단과대 체크
+    if (categoryCode in COLLEGE_DISPLAYS) {
+        const config = COLLEGE_DISPLAYS[categoryCode as CollegeCode];
+        return { label: config.label, emoji: config.emoji };
+    }
+
+    // 학과 체크
+    if (categoryCode in DEPARTMENT_DISPLAYS) {
+        const config = DEPARTMENT_DISPLAYS[categoryCode as DepartmentCode];
+        return {
+            label: config.label,
+            emoji: getDepartmentEmoji(categoryCode as DepartmentCode),
+        };
+    }
+
+    return { label: '', emoji: '📁' };
 };
 
 interface RecruitmentConfig {
@@ -242,7 +286,6 @@ interface RecruitmentConfig {
 export const getRecruitmentConfig = (
     status?: RecruitmentStatus,
 ): RecruitmentConfig => {
-    console.log(status);
     if (!status) {
         return {
             label: '상태 없음',
