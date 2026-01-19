@@ -22,6 +22,11 @@
     --color-sub-green: #00bd00;
     --color-sub-orange: #f08a00;
     --color-sub-warning: #f32828;
+    --color-sub-purple: #c500fb;
+    --color-sub-light-green: #f1f9dc;
+    --color-sub-light-orange: #fff4e4;
+    --color-sub-light-red: #fff0f2;
+    --color-sub-light-purple: #fcf1ff;
 
     /* Neutral Colors */
     --color-neutral-00: #fdfdfd;
@@ -51,10 +56,16 @@
     /* Badge Colors */
     --color-badge-blue-bg: #dae9fc;
     --color-badge-blue-text: #0e4c95;
-    --color-badge-orange-bg: #fff4e4;
-    --color-badge-green-bg: #f1f9dc;
-    --color-badge-green-text: #8bb421;
-    --color-badge-gray-bg: #f7f7f7;
+    --color-badge-orange-bg: var(--color-sub-light-orange);
+    --color-badge-orange-text: var(--color-sub-orange);
+    --color-badge-green-bg: var(--color-sub-light-green);
+    --color-badge-green-text: var(--color-sub-green);
+    --color-badge-red-bg: var(--color-sub-light-red);
+    --color-badge-red-text: var(--color-sub-warning);
+    --color-badge-purple-bg: var(--color-sub-light-purple);
+    --color-badge-purple-text: var(--color-sub-purple);
+    --color-badge-gray-bg: var(--color-neutral-100);
+    --color-badge-gray-text: var(--color-neutral-700);
 
     /* Effects - Drop Shadows */
     --shadow-dropdown: 0 0 120px 0 #ffffff, 0 0 10px 0 rgba(0, 0, 0, 0.12);
