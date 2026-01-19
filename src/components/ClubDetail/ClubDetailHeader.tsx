@@ -1,36 +1,10 @@
 import { DEFAULT_IMG } from '@/constants/default-image.constant';
 import Button from '../Common/Button';
-import { cva, type VariantProps } from 'class-variance-authority';
-import { cn } from '@/utils/cn';
 
 import { useClubDetail } from '@/hooks/club-detail/useClubDetail';
 import { useClubDetailHeader } from '@/hooks/queries/club-detail/useClubDetailHeader';
-import { getRecruitmentStatusLabel } from '@/utils/clubDetail/getRecruitmentStatus';
-import { getCentralCategoryDisplayByKoreanName } from '@/utils/search/searchKeywordMapping';
-
-const recruitStateVariants = cva(
-    'flex min-w-[42px] px-[5px] py-[2px] rounded-[5px] text-caption items-center',
-    {
-        variants: {
-            status: {
-                recruiting: 'bg-badge-orange-bg text-sub-orange',
-                scheduled: 'bg-badge-green-bg text-badge-green-text',
-                closed: 'bg-badge-gray-bg text-neutral-700',
-            },
-        },
-        defaultVariants: {
-            status: 'closed',
-        },
-    },
-);
-
-type RecruitStateVariant = VariantProps<typeof recruitStateVariants>['status'];
-
-const getRecruitStateVariant = (label: string): RecruitStateVariant => {
-    if (label === '모집 중') return 'recruiting';
-    if (label === '모집 예정') return 'scheduled';
-    return 'closed';
-};
+import ClubTypeTag from '../Common/ClubCardTags/ClubTypeTag';
+import RecruitStatusTag from '../Common/ClubCardTags/RecruitStatusTag';
 
 export default function ClubDetailHeader() {
     const { isPreview, clubId } = useClubDetail();
@@ -39,12 +13,6 @@ export default function ClubDetailHeader() {
     if (isLoading) {
         return <div>로딩 중...</div>;
     }
-
-    const recruitmentLabel = data?.recruitmentStatus
-        ? getRecruitmentStatusLabel(data.recruitmentStatus)
-        : '';
-
-    const recruitStateVariant = getRecruitStateVariant(recruitmentLabel);
 
     return (
         <div className="mt-[110px] h-[200px] w-full min-h-[104px] bg-white flex p-[17px] flex-col justify-center items-center relative">
@@ -59,26 +27,16 @@ export default function ClubDetailHeader() {
                         {data?.name}
                     </h1>
                     <div className="text-neutral-300 font-regular text-body-03">
-                        {data?.description}
+                        {data?.oneLiner}
                     </div>
                 </div>
 
                 <div className="flex gap-2 mb-5">
-                    <span className="rounded-[4px] px-[5px] py-[2px] text-caption bg-badge-blue-bg text-badge-blue-text">
-                        {data?.category?.clubCategoryName &&
-                            getCentralCategoryDisplayByKoreanName(
-                                data.category.clubCategoryName,
-                            )}
-                    </span>
-                    <span
-                        className={cn(
-                            recruitStateVariants({
-                                status: recruitStateVariant,
-                            }),
-                        )}
-                    >
-                        {recruitmentLabel}
-                    </span>
+                    {/* TODO 타입 대응 */}
+                    <ClubTypeTag clubCategory={data?.tag} />
+                    <RecruitStatusTag
+                        recruitmentStatus={data?.recruitmentStatus}
+                    />
                 </div>
             </div>
             <Button

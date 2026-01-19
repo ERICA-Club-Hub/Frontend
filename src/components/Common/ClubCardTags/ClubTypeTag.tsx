@@ -1,17 +1,20 @@
-import { getCategoryEmojiByLabel } from '@/utils/clubDetail/getCategoryEmoji';
 import ClubTag from '../ClubTag';
+import { CentralCategoryCode } from '@/types/domain-category.types';
+import { getCategoryConfig } from '@/utils/displayHelper';
 
 interface ClubTypeTagProps {
-    clubCategory?: string;
+    clubCategory?: CentralCategoryCode | 'UNION';
 }
 
 export default function ClubTypeTag({ clubCategory }: ClubTypeTagProps) {
+    const config = getCategoryConfig(clubCategory);
+
     return (
         <ClubTag
-            text={clubCategory}
-            emoji={getCategoryEmojiByLabel(clubCategory)}
-            backgroundColor="rgba(238, 244, 255, 1)"
-            textColor="rgba(51, 99, 156, 1)"
+            text={config.label}
+            emoji={config.emoji}
+            backgroundColor="bg-badge-blue-bg"
+            textColor="text-badge-blue-text"
         />
     );
 }

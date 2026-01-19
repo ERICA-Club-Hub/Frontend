@@ -216,20 +216,32 @@ export const RECRUITMENT_STATUS_DISPLAYS: Record<
     UPCOMING: {
         code: 'UPCOMING',
         label: '모집예정',
-        backgroundColor: 'var(--color-badge-green-bg)',
-        textColor: 'var(--color-badge-green-text)',
+        backgroundColor: 'bg-badge-green-bg',
+        textColor: 'text-badge-green-text',
     },
     OPEN: {
         code: 'OPEN',
         label: '모집중',
-        backgroundColor: 'var(--color-badge-orange-bg)',
-        textColor: 'var(--color-sub-orange)',
+        backgroundColor: 'bg-badge-orange-bg',
+        textColor: 'text-badge-orange-text',
     },
     CLOSED: {
         code: 'CLOSED',
         label: '모집마감',
-        backgroundColor: 'var(--color-badge-gray-bg)',
-        textColor: 'var(--color-neutral-600)',
+        backgroundColor: 'bg-badge-gray-bg',
+        textColor: 'text-badge-gray-text',
+    },
+    ALWAYS_OPEN: {
+        code: 'ALWAYS_OPEN',
+        label: '상시모집',
+        backgroundColor: 'bg-badge-purple-bg',
+        textColor: 'text-badge-purple-text',
+    },
+    ADDITIONAL: {
+        code: 'ADDITIONAL',
+        label: '추가모집',
+        backgroundColor: 'bg-badge-red-bg',
+        textColor: 'text-badge-red-text',
     },
 };
 
