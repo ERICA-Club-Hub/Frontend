@@ -1,4 +1,5 @@
 import { apiRequest } from '@/api/apiRequest';
+import { ClubSearchResponse } from '@/api/data-contracts';
 import { useInfiniteQuery } from '@tanstack/react-query';
 import { useSearchParams } from 'react-router-dom';
 
@@ -31,13 +32,6 @@ export type Club = {
     profileImageUrl: string;
     categoryName: string;
 };
-
-interface ApiClubListResponse {
-    content: Club[];
-    page: number;
-    size: number;
-    totalPages: number;
-}
 
 const buildClubApiUrl = (params: ClubSearchParams): string => {
     const { type, ...searchParams } = params;
@@ -82,7 +76,7 @@ export const useClubSearchFromUrl = () => {
             params.category,
             params.unionType,
         ],
-        queryFn: async ({ pageParam }): Promise<ApiClubListResponse> => {
+        queryFn: async ({ pageParam }): Promise<ClubSearchResponse> => {
             const urlParams = { ...params, page: pageParam };
             const url = buildClubApiUrl(urlParams);
             const response = await apiRequest({ url });
@@ -90,8 +84,11 @@ export const useClubSearchFromUrl = () => {
         },
         initialPageParam: 0,
         getNextPageParam: (lastPage) => {
-            if (lastPage.page + 1 >= lastPage.totalPages) return undefined;
-            return lastPage.page + 1;
+            const currentPage = lastPage.page ?? 0;
+            const totalPages = lastPage.totalPages ?? 0;
+
+            if (currentPage + 1 >= totalPages) return undefined;
+            return currentPage + 1;
         },
     });
 };
