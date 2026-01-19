@@ -1,0 +1,266 @@
+import {
+    CENTRAL_CATEGORY_DISPLAYS,
+    COLLEGE_DEPARTMENT_MAPPING,
+    COLLEGE_DISPLAYS,
+    DEPARTMENT_DISPLAYS,
+    RECRUITMENT_STATUS_DISPLAYS,
+    UNION_CATEGORY_DISPLAYS,
+} from '@/constants/category-config.constant';
+import {
+    CentralCategoryCode,
+    CollegeCode,
+    DepartmentCode,
+    UnionCategoryCode,
+} from '@/types/domain-category.types';
+import { RecruitmentStatus } from '@/types/recruitment-status.type';
+
+/**
+ *
+ * @param code 단과대학 서버 code
+ * @returns 한글 단과대명
+ */
+export const getCollegeLabel = (code: CollegeCode): string => {
+    return COLLEGE_DISPLAYS[code]?.label || code;
+};
+
+/**
+ *
+ * @param code 단과대학 서버 code
+ * @returns 단과대별 이모지
+ */
+export const getCollegeEmoji = (code: CollegeCode): string => {
+    return COLLEGE_DISPLAYS[code]?.emoji || '';
+};
+
+/**
+ *
+ * @param code 단과대학 서버 code
+ * @returns `${단과대학 이모지}` + `${한글 단과대명}`
+ */
+export const getCollegeDisplay = (code: CollegeCode): string => {
+    const config = COLLEGE_DISPLAYS[code];
+    return config ? `${config.emoji} ${config.label}` : code;
+};
+
+/**
+ *
+ * @param code 학과 서버 code
+ * @returns 한글 학과명
+ */
+export const getDepartmentLabel = (code: DepartmentCode): string => {
+    return DEPARTMENT_DISPLAYS[code]?.label || code;
+};
+
+/**
+ *
+ * @param code 중앙 동아리 분류 서버 code
+ * @returns 한글 중앙 동아리 분류명
+ */
+export const getCentralCategoryLabel = (code: CentralCategoryCode): string => {
+    return CENTRAL_CATEGORY_DISPLAYS[code]?.label || code;
+};
+
+/**
+ *
+ * @param status 리크루팅 상태 서버 code
+ * @returns 한글 리크루팅 상태
+ */
+export const getRecruitmentStatusLabel = (
+    status: RecruitmentStatus,
+): string => {
+    return RECRUITMENT_STATUS_DISPLAYS[status]?.label || status;
+};
+
+/**
+ *
+ * @param status 리크루팅 상태 서버 code
+ * @returns 리크루팅 상태별 배경색, 글자색
+ */
+export const getRecruitmentStatusStyle = (status: RecruitmentStatus) => {
+    const config = RECRUITMENT_STATUS_DISPLAYS[status];
+    return config
+        ? {
+              backgroundColor: config.backgroundColor,
+              textColor: config.textColor,
+          }
+        : {
+              backgroundColor: 'var(--color-badge-gray-bg)',
+              textColor: 'var(--color-neutral-600)',
+          };
+};
+
+/**
+ *
+ * @returns 단과대학 dropdown 옵션 반환
+ */
+export const getCollegeOptions = (): Array<{
+    value: CollegeCode;
+    label: string;
+}> => {
+    return Object.values(COLLEGE_DISPLAYS).map((config) => ({
+        value: config.code,
+        label: config.label,
+    }));
+};
+
+/**
+ *
+ * @param collegeCode 단과대학 code
+ * @returns 해당 단과대학의 학과 dropdown 옵션 반환
+ */
+export const getDepartmentOptions = (
+    collegeCode?: CollegeCode,
+): Array<{ value: DepartmentCode; label: string }> => {
+    if (!collegeCode) return [];
+
+    const departments = COLLEGE_DEPARTMENT_MAPPING[collegeCode] || [];
+    return departments.map((code) => ({
+        value: code,
+        label: DEPARTMENT_DISPLAYS[code].label,
+    }));
+};
+
+/**
+ *
+ * @returns 중앙동아리 dropdown 옵션 반환
+ */
+export const getCentralCategoryOptions = (): Array<{
+    value: CentralCategoryCode;
+    label: string;
+}> => {
+    return Object.values(CENTRAL_CATEGORY_DISPLAYS).map((config) => ({
+        value: config.code,
+        label: config.label,
+    }));
+};
+
+/**
+ *
+ * @returns 연합동아리 dropdown 옵션 반환
+ */
+export const getUnionCategoryOptions = (): Array<{
+    value: UnionCategoryCode;
+    label: string;
+}> => {
+    return Object.values(UNION_CATEGORY_DISPLAYS).map((config) => ({
+        value: config.code,
+        label: config.label,
+    }));
+};
+
+/**
+ *
+ * @param name 한글 단과대학명
+ * @returns 단과대학 code 반환
+ */
+export const getCollegeCodeByName = (name: string): CollegeCode | null => {
+    const entry = Object.entries(COLLEGE_DISPLAYS).find(
+        ([, config]) => config.label === name || config.label.includes(name),
+    );
+    return entry ? (entry[0] as CollegeCode) : null;
+};
+
+/**
+ *
+ * @param name 한글 학과명
+ * @returns 학과 code 반환
+ */
+export const getDepartmentCodeByName = (
+    name: string,
+): DepartmentCode | null => {
+    const entry = Object.entries(DEPARTMENT_DISPLAYS).find(
+        ([, config]) => config.label === name || config.label.includes(name),
+    );
+    return entry ? (entry[0] as DepartmentCode) : null;
+};
+
+/**
+ *
+ * @param collegeCode 단과대학 code
+ * @returns 해당 단과대학의 학과 옵션 반환
+ */
+export const getDepartmentsByCollege = (
+    collegeCode: CollegeCode,
+): Array<{ code: DepartmentCode; label: string }> => {
+    const departments = COLLEGE_DEPARTMENT_MAPPING[collegeCode] || [];
+    return departments.map((code) => DEPARTMENT_DISPLAYS[code]);
+};
+
+/**
+ * 카테고리 코드로 이모지 가져오기 (타입 안전)
+ */
+export const getCentralCategoryEmoji = (code: CentralCategoryCode): string => {
+    return CENTRAL_CATEGORY_DISPLAYS[code]?.emoji || '📁';
+};
+
+export const getUnionCategoryEmoji = (): string => {
+    return '🧩';
+};
+
+/**
+ * 카테고리 코드로 전체 디스플레이 정보 가져오기
+ */
+export const getCategoryDisplay = (code: CentralCategoryCode): string => {
+    const config = CENTRAL_CATEGORY_DISPLAYS[code];
+    return config
+        ? `${config.emoji} ${config.label}`
+        : '📁 알 수 없는 카테고리';
+};
+
+interface CategoryConfig {
+    label: string;
+    emoji: string;
+}
+
+export const getCategoryConfig = (
+    category?: CentralCategoryCode | 'UNION',
+): CategoryConfig => {
+    if (!category) {
+        return { label: '', emoji: '📁' };
+    }
+
+    if (category === 'UNION') {
+        return { label: '연합동아리', emoji: getUnionCategoryEmoji() };
+    }
+
+    const config = CENTRAL_CATEGORY_DISPLAYS[category];
+    return {
+        label: config.label,
+        emoji: config.emoji,
+    };
+};
+
+interface RecruitmentConfig {
+    label: string;
+    backgroundColor: string;
+    textColor: string;
+}
+
+/**
+ * 모집 상태 코드로 디스플레이 정보 가져오기
+ */
+export const getRecruitmentConfig = (
+    status?: RecruitmentStatus,
+): RecruitmentConfig => {
+    console.log(status);
+    if (!status) {
+        return {
+            label: '상태 없음',
+            backgroundColor: 'var(--color-badge-gray-bg)',
+            textColor: 'var(--color-neutral-600)',
+        };
+    }
+
+    const config = RECRUITMENT_STATUS_DISPLAYS[status];
+    return config
+        ? {
+              label: config.label,
+              backgroundColor: config.backgroundColor,
+              textColor: config.textColor,
+          }
+        : {
+              label: '상태 없음',
+              backgroundColor: 'var(--color-badge-gray-bg)',
+              textColor: 'var(--color-neutral-600)',
+          };
+};

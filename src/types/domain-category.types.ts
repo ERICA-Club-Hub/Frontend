@@ -1,21 +1,21 @@
-import { Category } from '@/api/data-contracts';
+import { CategoryRequest } from '@/api/data-contracts';
 
 /**
  * 학과 type
  */
-export type DepartmentCode = NonNullable<Category['department']>;
+export type DepartmentCode = NonNullable<CategoryRequest['department']>;
 /**
  * 단과대 type
  */
-export type CollegeCode = NonNullable<Category['college']>;
+export type CollegeCode = NonNullable<CategoryRequest['college']>;
 /**
  * 연합동아리 분과 type
  */
-export type UnionCategoryCode = NonNullable<Category['union']>;
+export type UnionCategoryCode = NonNullable<CategoryRequest['union']>;
 /**
  * 중앙동아리 분과 type
  */
-export type CentralCategoryCode = NonNullable<Category['central']>;
+export type CentralCategoryCode = NonNullable<CategoryRequest['central']>;
 
 /**
  * 정렬 기준 type
