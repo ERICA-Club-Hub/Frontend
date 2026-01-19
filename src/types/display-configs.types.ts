@@ -37,6 +37,7 @@ export interface DepartmentDisplayConfig {
 export interface UnionCategoryDisplayConfig {
     code: UnionCategoryCode;
     label: string;
+    emoji: string;
 }
 
 /**

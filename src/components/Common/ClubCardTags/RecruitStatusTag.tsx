@@ -2,8 +2,8 @@ import { RecruitmentStatus } from '@/types/recruitment-status.type';
 import ClubTag from '../ClubTag';
 import { getRecruitmentConfig } from '@/utils/displayHelper';
 
-interface RecruitStatusTagProps {
-    recruitmentStatus: RecruitmentStatus;
+export interface RecruitStatusTagProps {
+    recruitmentStatus: RecruitmentStatus | undefined;
 }
 
 export default function RecruitStatusTag({

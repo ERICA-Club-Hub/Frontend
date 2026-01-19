@@ -3,7 +3,9 @@ import Button from '../Common/Button';
 
 import { useClubDetail } from '@/hooks/club-detail/useClubDetail';
 import { useClubDetailHeader } from '@/hooks/queries/club-detail/useClubDetailHeader';
-import ClubTypeTag from '../Common/ClubCardTags/ClubTypeTag';
+import ClubTypeTag, {
+    ClubCategoryCode,
+} from '../Common/ClubCardTags/ClubTypeTag';
 import RecruitStatusTag from '../Common/ClubCardTags/RecruitStatusTag';
 
 export default function ClubDetailHeader() {
@@ -32,8 +34,7 @@ export default function ClubDetailHeader() {
                 </div>
 
                 <div className="flex gap-2 mb-5">
-                    {/* TODO 타입 대응 */}
-                    <ClubTypeTag clubCategory={data?.tag} />
+                    <ClubTypeTag clubCategory={data?.tag as ClubCategoryCode} />
                     <RecruitStatusTag
                         recruitmentStatus={data?.recruitmentStatus}
                     />

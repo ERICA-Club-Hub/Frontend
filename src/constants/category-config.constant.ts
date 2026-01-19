@@ -36,18 +36,19 @@ export const UNION_CATEGORY_DISPLAYS: Record<
     UnionCategoryCode,
     UnionCategoryDisplayConfig
 > = {
-    IT: { code: 'IT', label: '🧩 연합동아리' },
-    MARKETING_AD: { code: 'MARKETING_AD', label: '🧩 연합동아리' },
+    IT: { code: 'IT', label: 'IT', emoji: '🖥️' },
+    MARKETING_AD: { code: 'MARKETING_AD', label: '마케팅/광고', emoji: '🎬' },
     ECONOMY_MANAGEMENT: {
         code: 'ECONOMY_MANAGEMENT',
-        label: '🧩 연합동아리',
+        label: '경제/경영',
+        emoji: '📊',
     },
-    VOLUNTEER: { code: 'VOLUNTEER', label: '🧩 연합동아리' },
-    SPORTS: { code: 'SPORTS', label: '🧩 연합동아리' },
-    LANGUAGE: { code: 'LANGUAGE', label: '🧩 연합동아리' },
-    PRESENTATION: { code: 'PRESENTATION', label: '🧩 연합동아리' },
-    BOOK: { code: 'BOOK', label: '🧩 연합동아리' },
-    ETC: { code: 'ETC', label: '🧩 연합동아리' },
+    VOLUNTEER: { code: 'VOLUNTEER', label: '봉사', emoji: '🫶' },
+    SPORTS: { code: 'SPORTS', label: '스포츠', emoji: '👟' },
+    LANGUAGE: { code: 'LANGUAGE', label: '언어', emoji: '💬' },
+    PRESENTATION: { code: 'PRESENTATION', label: '발표', emoji: '🎤' },
+    BOOK: { code: 'BOOK', label: '독서', emoji: '📚' },
+    ETC: { code: 'ETC', label: '그외 기타', emoji: '🧩' },
 };
 
 /**
@@ -165,7 +166,10 @@ export const DEPARTMENT_DISPLAYS: Record<
         code: 'ENGLISH_STUDIES',
         label: '영미언어문학과',
     },
-    FRENCH_STUDIES: { code: 'FRENCH_STUDIES', label: '프랑스학과' },
+    FRENCH_STUDIES: {
+        code: 'FRENCH_STUDIES',
+        label: '프랑스학과',
+    },
 
     // 커뮤니케이션&컬쳐대학
     ADVERTISING: { code: 'ADVERTISING', label: '광고홍보학과' },

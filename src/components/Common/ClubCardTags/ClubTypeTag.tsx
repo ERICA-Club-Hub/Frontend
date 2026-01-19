@@ -1,9 +1,20 @@
 import ClubTag from '../ClubTag';
-import { CentralCategoryCode } from '@/types/domain-category.types';
+import type {
+    CentralCategoryCode,
+    UnionCategoryCode,
+    CollegeCode,
+    DepartmentCode,
+} from '@/types/domain-category.types';
 import { getCategoryConfig } from '@/utils/displayHelper';
 
+export type ClubCategoryCode =
+    | CentralCategoryCode
+    | UnionCategoryCode
+    | CollegeCode
+    | DepartmentCode;
+
 interface ClubTypeTagProps {
-    clubCategory?: CentralCategoryCode | 'UNION';
+    clubCategory?: ClubCategoryCode;
 }
 
 export default function ClubTypeTag({ clubCategory }: ClubTypeTagProps) {
