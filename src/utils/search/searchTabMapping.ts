@@ -1,32 +1,24 @@
-export type TabCategory =
-    | '중앙동아리'
-    | '단과대동아리'
-    | '학과동아리'
-    | '연합동아리';
+import { CLUB_TYPE_DISPLAYS } from '@/constants/dropdown-option-config.constant';
 
-export const TAB_MAPPING = [
-    { label: '중앙동아리', value: 'central' },
-    { label: '단과대동아리', value: 'college' },
-    { label: '학과동아리', value: 'department' },
-    { label: '연합동아리', value: 'union' },
-];
+type TabCategory = '중앙동아리' | '단과대동아리' | '학과동아리' | '연합동아리';
 
 export function isValidCategory(value: string | null): value is TabCategory {
-    return (
-        value === '중앙동아리' ||
-        value === '단과대동아리' ||
-        value === '학과동아리' ||
-        value === '연합동아리'
+    if (!value) return false;
+    return Object.values(CLUB_TYPE_DISPLAYS).some(
+        (config) => config.label === value,
     );
 }
 
 export const getServerTabValue = (label: TabCategory): string => {
-    return TAB_MAPPING.find((item) => item.label === label)?.value || 'central';
+    const entry = Object.values(CLUB_TYPE_DISPLAYS).find(
+        (config) => config.label === label,
+    );
+    return entry?.value || 'central';
 };
 
 export const getDisplayLabel = (serverValue: string): TabCategory => {
-    return (
-        (TAB_MAPPING.find((item) => item.value === serverValue)
-            ?.label as TabCategory) || '중앙동아리'
+    const entry = Object.values(CLUB_TYPE_DISPLAYS).find(
+        (config) => config.value === serverValue,
     );
+    return (entry?.label as TabCategory) || '중앙동아리';
 };
