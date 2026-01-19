@@ -705,7 +705,12 @@ export interface ClubResponse {
      * Recruitment status
      * @example "RECRUITING"
      */
-    recruitmentStatus?: 'UPCOMING' | 'OPEN' | 'CLOSED';
+    recruitmentStatus?:
+        | 'UPCOMING'
+        | 'OPEN'
+        | 'CLOSED'
+        | 'ALWAYS_OPEN'
+        | 'ADDITIONAL';
     /**
      * Club profile image URL
      * @example "https://.../profile.png"
@@ -751,6 +756,7 @@ export interface ClubResponse {
      * @example "CENTRAL"
      */
     clubType?: 'CENTRAL' | 'UNION' | 'COLLEGE' | 'DEPARTMENT';
+    tag?: string;
 }
 
 export interface ApiResponseClubDetailResponse {
@@ -951,7 +957,12 @@ export interface ClubOverviewResponse {
      * Recruitment status
      * @example "RECRUITING"
      */
-    recruitmentStatus?: 'UPCOMING' | 'OPEN' | 'CLOSED';
+    recruitmentStatus?:
+        | 'UPCOMING'
+        | 'OPEN'
+        | 'CLOSED'
+        | 'ALWAYS_OPEN'
+        | 'ADDITIONAL';
     /**
      * Club profile image URL
      * @example "https://.../profile.png"
@@ -1152,7 +1163,17 @@ export interface ClubSearchResult {
      * Recruitment status
      * @example "RECRUITING"
      */
-    recruitmentStatus?: 'UPCOMING' | 'OPEN' | 'CLOSED';
+    recruitmentStatus?:
+        | 'UPCOMING'
+        | 'OPEN'
+        | 'CLOSED'
+        | 'ALWAYS_OPEN'
+        | 'ADDITIONAL';
+    /**
+     * Category tag
+     * @example "Academic"
+     */
+    tag?: string;
 }
 
 export interface ApiResponseGetRegistrationsResponse {
@@ -1623,7 +1644,7 @@ export interface GetServiceAnnouncementParams {
 export interface GetClubsByConditionParams {
     keyword?: string;
     category?: 'VOLUNTEER' | 'ART' | 'SPORTS' | 'RELIGION' | 'ACADEMIC';
-    status?: 'UPCOMING' | 'OPEN' | 'CLOSED';
+    status?: 'UPCOMING' | 'OPEN' | 'CLOSED' | 'ALWAYS_OPEN' | 'ADDITIONAL';
     sortBy?: 'NAME_ASC' | 'CATEGORY_ASC' | 'RECRUITMENT_STATUS_ASC';
     /**
      * @format int32
@@ -1674,7 +1695,7 @@ export interface GetSpecificClubDraftParams {
 
 export interface GetUnionClubsByConditionParams {
     keyword?: string;
-    status?: 'UPCOMING' | 'OPEN' | 'CLOSED';
+    status?: 'UPCOMING' | 'OPEN' | 'CLOSED' | 'ALWAYS_OPEN' | 'ADDITIONAL';
     sortBy?: 'NAME_ASC' | 'CATEGORY_ASC' | 'RECRUITMENT_STATUS_ASC';
     category?:
         | 'IT'
@@ -1871,7 +1892,7 @@ export interface GetInstagramCentralParams {
 
 export interface GetCentralClubsByConditionParams {
     keyword?: string;
-    status?: 'UPCOMING' | 'OPEN' | 'CLOSED';
+    status?: 'UPCOMING' | 'OPEN' | 'CLOSED' | 'ALWAYS_OPEN' | 'ADDITIONAL';
     sortBy?: 'NAME_ASC' | 'CATEGORY_ASC' | 'RECRUITMENT_STATUS_ASC';
     college?:
         | 'GLOBAL_LAW_COMMUNICATION'
@@ -1942,7 +1963,7 @@ export interface GetCentralClubsByConditionParams {
 
 export interface GetCollageClubsByConditionParams {
     keyword?: string;
-    status?: 'UPCOMING' | 'OPEN' | 'CLOSED';
+    status?: 'UPCOMING' | 'OPEN' | 'CLOSED' | 'ALWAYS_OPEN' | 'ADDITIONAL';
     sortBy?: 'NAME_ASC' | 'CATEGORY_ASC' | 'RECRUITMENT_STATUS_ASC';
     college?:
         | 'GLOBAL_LAW_COMMUNICATION'
@@ -1969,7 +1990,7 @@ export interface GetCollageClubsByConditionParams {
 
 export interface GetCentralClubsByCondition1Params {
     keyword?: string;
-    status?: 'UPCOMING' | 'OPEN' | 'CLOSED';
+    status?: 'UPCOMING' | 'OPEN' | 'CLOSED' | 'ALWAYS_OPEN' | 'ADDITIONAL';
     sortBy?: 'NAME_ASC' | 'CATEGORY_ASC' | 'RECRUITMENT_STATUS_ASC';
     category?: 'VOLUNTEER' | 'ART' | 'SPORTS' | 'RELIGION' | 'ACADEMIC';
     /**

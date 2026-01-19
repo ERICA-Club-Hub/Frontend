@@ -226,7 +226,7 @@ export class Api<
       ...params,
     });
   /**
-   * @description ## 동아리 모집 상태를 변경합니다. ### Path Variable - **clubId**: 변경할 동아리의 ID ### Request Param - **option**: 변경할 모집 상태 (0: 모집예정, 1: 모집중, 2: 모집마감)
+   * @description ## 동아리 모집 상태를 변경합니다. ### Path Variable - **clubId**: 변경할 동아리의 ID ### Request Param - **option**: 변경할 모집 상태 (0: 모집예정, 1: 모집중, 2: 모집마감, 3: 상시모집, 4: ADDITIONAL)
    *
    * @tags Club Basic
    * @name UpdateClubRecruitmentStatus
