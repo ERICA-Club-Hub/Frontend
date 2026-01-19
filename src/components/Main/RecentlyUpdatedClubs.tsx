@@ -22,7 +22,7 @@ export default function RecentlyUpdatedClubs() {
                         key={club.id}
                         title={club.name}
                         subTitle={club.oneLiner}
-                        categoryName={club.categoryName}
+                        categoryName={club.tag}
                         recruitmentStatus={club.recruitmentStatus}
                         to={PATHS.CLUB_DETAIL(club.id)}
                         profileImageUrl={club.profileImageUrl}
