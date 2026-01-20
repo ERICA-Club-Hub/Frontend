@@ -5,7 +5,7 @@ import type {
     CollegeCode,
     DepartmentCode,
 } from '@/types/category.types';
-import { getCategoryConfig } from '@/utils/displayHelper';
+import { getCategoryConfig } from '@/utils/getCategoryConfig';
 
 export type ClubCategoryCode =
     | CentralCategoryCode
