@@ -18,7 +18,7 @@ import { RecruitmentStatus } from '@/types/recruitment-status.type';
 /**
  * 중앙 동아리 분류
  */
-export const CENTRAL_CATEGORY_DISPLAYS: Record<
+export const CENTRAL_CATEGORY: Record<
     CentralCategoryCode,
     CentralCategoryConfig
 > = {
@@ -32,10 +32,7 @@ export const CENTRAL_CATEGORY_DISPLAYS: Record<
 /**
  * 연합 동아리 분류
  */
-export const UNION_CATEGORY_DISPLAYS: Record<
-    UnionCategoryCode,
-    UnionCategoryConfig
-> = {
+export const UNION_CATEGORY: Record<UnionCategoryCode, UnionCategoryConfig> = {
     IT: { code: 'IT', label: 'IT', emoji: '🖥️' },
     MARKETING_AD: { code: 'MARKETING_AD', label: '마케팅/광고', emoji: '🎬' },
     ECONOMY_MANAGEMENT: {
@@ -54,7 +51,7 @@ export const UNION_CATEGORY_DISPLAYS: Record<
 /**
  * 단과대 분류
  */
-export const COLLEGE_DISPLAYS: Record<CollegeCode, CollegeConfig> = {
+export const COLLEGES: Record<CollegeCode, CollegeConfig> = {
     GLOBAL_LAW_COMMUNICATION: {
         code: 'GLOBAL_LAW_COMMUNICATION',
         label: '글로벌문화통상대학',
@@ -86,7 +83,7 @@ export const COLLEGE_DISPLAYS: Record<CollegeCode, CollegeConfig> = {
 /**
  * 학과명 - 코드
  */
-export const DEPARTMENT_DISPLAYS: Record<DepartmentCode, DepartmentConfig> = {
+export const DEPARTMENTS: Record<DepartmentCode, DepartmentConfig> = {
     ARCHITECTURE: { code: 'ARCHITECTURE', label: '건축학부' },
     CONSTRUCTION_ENVIRONMENT: {
         code: 'CONSTRUCTION_ENVIRONMENT',
@@ -210,7 +207,7 @@ export const DEPARTMENT_DISPLAYS: Record<DepartmentCode, DepartmentConfig> = {
     MUSIC: { code: 'MUSIC', label: '실용음악학과' },
 };
 
-export const RECRUITMENT_STATUS_DISPLAYS: Record<
+export const RECRUITMENT_STATUS: Record<
     RecruitmentStatus,
     RecruitmentStatusConfig
 > = {
@@ -246,7 +243,7 @@ export const RECRUITMENT_STATUS_DISPLAYS: Record<
     },
 };
 
-export const SORT_BY_DISPLAYS: Record<SortByCode, SortByConfig> = {
+export const SORT_BY: Record<SortByCode, SortByConfig> = {
     NAME_ASC: { code: 'NAME_ASC', label: '이름순' },
     CATEGORY_ASC: { code: 'CATEGORY_ASC', label: '카테고리순' },
     RECRUITMENT_STATUS_ASC: {
