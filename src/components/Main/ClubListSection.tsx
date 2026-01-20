@@ -16,7 +16,6 @@ export default function ClubListSection() {
     if (isLoading) {
         return <div>로딩 중...</div>;
     }
-
     return (
         <section className="flex flex-col">
             <h3 className="font-medium text-subtitle-01 mt-[30px] mb-5">
@@ -28,7 +27,7 @@ export default function ClubListSection() {
                         key={club.id}
                         title={club.name}
                         subTitle={club.oneLiner}
-                        categoryName={club.categoryName}
+                        categoryName={club.tag}
                         recruitmentStatus={club.recruitmentStatus}
                         to={PATHS.CLUB_DETAIL(club.id)}
                         profileImageUrl={club.profileImageUrl}

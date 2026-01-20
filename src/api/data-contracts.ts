@@ -65,7 +65,7 @@ export interface ApiResponseLong {
 }
 
 /** Club Category */
-export interface Category {
+export interface CategoryRequest {
     /**
      * Central club category
      * @example "ACADEMIC"
@@ -151,34 +151,24 @@ export interface Category {
 }
 
 /** DTO for basic club information request */
-export interface ClubBasicInformationRequest {
+export interface ClubBasicInformationUpdateRequest {
     /**
      * Club name
      * @example "Hanjari"
      */
     clubName: string;
     /**
-     * Leader's email
-     * @example "leader@example.com"
-     */
-    leaderEmail: string;
-    /**
      * Club type
      * @example "CENTRAL"
      */
     clubType: 'CENTRAL' | 'UNION' | 'COLLEGE' | 'DEPARTMENT';
     /** Category information */
-    category: Category;
+    category: CategoryRequest;
     /**
      * A short introduction of the club
      * @example "The best central club at Hanyang University ERICA"
      */
     oneLiner: string;
-    /**
-     * A brief introduction of the club
-     * @example "Hanjari is a central club at Hanyang University ERICA."
-     */
-    briefIntroduction: string;
 }
 
 export interface ApiResponseClubCommandResponse {
@@ -199,6 +189,13 @@ export interface ClubCommandResponse {
     clubId?: number;
 }
 
+export interface ApiResponseVoid {
+    isSuccess?: boolean;
+    code?: string;
+    message?: string;
+    result?: object;
+}
+
 export interface ApiResponseClubCodeResponse {
     isSuccess?: boolean;
     code?: string;
@@ -216,13 +213,44 @@ export interface ClubCodeResponse {
     code?: string;
 }
 
+/** DTO for basic club information request */
+export interface ClubBasicInformationRequest {
+    /**
+     * Club name
+     * @example "Hanjari"
+     */
+    clubName: string;
+    /**
+     * Leader's email
+     * @example "leader@example.com"
+     */
+    leaderEmail: string;
+    /**
+     * Club type
+     * @example "CENTRAL"
+     */
+    clubType: 'CENTRAL' | 'UNION' | 'COLLEGE' | 'DEPARTMENT';
+    /** Category information */
+    category: CategoryRequest;
+    /**
+     * A short introduction of the club
+     * @example "The best central club at Hanyang University ERICA"
+     */
+    oneLiner: string;
+    /**
+     * A brief introduction of the club
+     * @example "Hanjari is a central club at Hanyang University ERICA."
+     */
+    briefIntroduction: string;
+}
+
 /** DTO for club detail request */
 export interface ClubDetailRequest {
     /**
      * Recruitment status
-     * @example "RECRUITING"
+     * @example "OPEN"
      */
-    recruitmentStatus: 'UPCOMING' | 'OPEN' | 'CLOSED';
+    description: string;
     /**
      * Leader's name
      * @example "Gildong Hong"
@@ -234,21 +262,20 @@ export interface ClubDetailRequest {
      */
     leaderPhone: string;
     /**
-     * Club activities
-     * @example "Regular meeting every Monday"
+     * Contact email
+     * @example "hanjari@hanjari.com"
      */
-    activities: string;
+    contactEmail: string;
     /**
      * Membership fee
-     * @format int32
      * @example 10000
      */
-    membershipFee: number;
+    membershipFee: string;
     /**
      * SNS URL
      * @example "https://www.instagram.com/hanjari_"
      */
-    snsUrl?: string;
+    snsAccount?: string;
     /**
      * Application URL
      * @example "https://forms.gle/..."
@@ -260,6 +287,11 @@ export interface ClubDetailRequest {
 export interface ClubScheduleListRequest {
     /** List of club schedules */
     schedules: ClubScheduleRequest[];
+    /**
+     * Description of the schedule
+     * @example "Weekly meetings will be held every Friday at 5 PM."
+     */
+    scheduleDescription?: string;
 }
 
 /** DTO for club schedule request */
@@ -338,6 +370,7 @@ export interface ClubScheduleDraftResponse {
      * @example 10
      */
     totalElements?: number;
+    scheduleDescription?: string;
 }
 
 /** DTO for schedule draft response */
@@ -369,6 +402,11 @@ export interface ClubRecruitmentRequest {
      */
     due: string;
     /**
+     * Recruitment target
+     * @example "All students"
+     */
+    target?: string;
+    /**
      * Recruitment notice
      * @example "Interview after document submission"
      */
@@ -397,13 +435,6 @@ export interface ClubIntroductionRequest {
      * @example "Always open"
      */
     recruitment: string;
-}
-
-export interface ApiResponseVoid {
-    isSuccess?: boolean;
-    code?: string;
-    message?: string;
-    result?: object;
 }
 
 /** DTO for login request */
@@ -674,7 +705,12 @@ export interface ClubResponse {
      * Recruitment status
      * @example "RECRUITING"
      */
-    recruitmentStatus?: 'UPCOMING' | 'OPEN' | 'CLOSED';
+    recruitmentStatus?:
+        | 'UPCOMING'
+        | 'OPEN'
+        | 'CLOSED'
+        | 'ALWAYS_OPEN'
+        | 'ADDITIONAL';
     /**
      * Club profile image URL
      * @example "https://.../profile.png"
@@ -702,10 +738,9 @@ export interface ClubResponse {
     leaderPhone?: string;
     /**
      * Membership fee
-     * @format int32
      * @example 10000
      */
-    membershipFee?: number;
+    membershipFee?: string;
     /**
      * SNS URL
      * @example "https://www.instagram.com/hanjari_"
@@ -721,14 +756,26 @@ export interface ClubResponse {
      * @example "CENTRAL"
      */
     clubType?: 'CENTRAL' | 'UNION' | 'COLLEGE' | 'DEPARTMENT';
+    tag?: string;
 }
 
-export interface ApiResponseClubResponse {
+export interface ApiResponseClubDetailResponse {
     isSuccess?: boolean;
     code?: string;
     message?: string;
-    /** DTO for club response */
-    result?: ClubResponse;
+    result?: ClubDetailResponse;
+}
+
+export interface ClubDetailResponse {
+    /** @format int64 */
+    clubId?: number;
+    description?: string;
+    leaderName?: string;
+    leaderPhone?: string;
+    contactEmail?: string;
+    membershipFee?: string;
+    snsAccount?: string;
+    applicationUrl?: string;
 }
 
 export interface ApiResponseClubScheduleResponse {
@@ -749,6 +796,7 @@ export interface ClubScheduleResponse {
      * @example 10
      */
     totalElements?: number;
+    scheduleDescription?: string;
 }
 
 export interface ApiResponseClubRecruitmentResponse {
@@ -797,27 +845,94 @@ export interface CategoryResponse {
      * Club category name
      * @example "Central Club"
      */
-    clubCategoryName?: string;
+    clubCategoryName?: 'CENTRAL' | 'UNION' | 'COLLEGE' | 'DEPARTMENT';
     /**
      * Central category name
      * @example "Academic"
      */
-    centralCategoryName?: string;
+    centralCategoryName?:
+        | 'VOLUNTEER'
+        | 'ART'
+        | 'SPORTS'
+        | 'RELIGION'
+        | 'ACADEMIC';
     /**
      * Union category name
      * @example "IT"
      */
-    unionCategoryName?: string;
+    unionCategoryName?:
+        | 'IT'
+        | 'MARKETING_AD'
+        | 'ECONOMY_MANAGEMENT'
+        | 'VOLUNTEER'
+        | 'SPORTS'
+        | 'LANGUAGE'
+        | 'PRESENTATION'
+        | 'BOOK'
+        | 'ETC';
     /**
      * College name
      * @example "College of Software Convergence"
      */
-    collegeName?: string;
+    collegeName?:
+        | 'GLOBAL_LAW_COMMUNICATION'
+        | 'KYUNG_SANG'
+        | 'COMMUNICATION_CULTURE'
+        | 'ENGINEERING'
+        | 'CONVERGENCE'
+        | 'SOFTWARE'
+        | 'DESIGN'
+        | 'PHARMACY'
+        | 'SPORT_ARTS'
+        | 'LIONS_COLLEGE';
     /**
      * Department name
      * @example "Department of Computer Science and Engineering"
      */
-    departmentName?: string;
+    departmentName?:
+        | 'ARCHITECTURE'
+        | 'CONSTRUCTION_ENVIRONMENT'
+        | 'TRANSPORT_LOGISTICS'
+        | 'ELECTRICAL_ENGINEERING'
+        | 'BATTERY_MATERIAL_CHEMICAL'
+        | 'MATERIAL_CHEMICAL'
+        | 'MECHANICAL'
+        | 'INDUSTRIAL_MANAGEMENT'
+        | 'ROBOT'
+        | 'FUSION_SYSTEM'
+        | 'SMART_FUSION'
+        | 'INTELLIGENT_ROBOT'
+        | 'ENERGY_BIO'
+        | 'MARINE_FUSION'
+        | 'COMPUTER'
+        | 'ICT'
+        | 'AI'
+        | 'DATA'
+        | 'PHARMACY'
+        | 'SEMICONDUCTOR'
+        | 'BIO'
+        | 'DEFENSE_INTELLIGENCE'
+        | 'KOREAN_STUDIES'
+        | 'CHINA_STUDIES'
+        | 'JAPAN_STUDIES'
+        | 'ENGLISH_STUDIES'
+        | 'FRENCH_STUDIES'
+        | 'ADVERTISING'
+        | 'MEDIA'
+        | 'CULTURE'
+        | 'ANTHROPOLOGY'
+        | 'BUSINESS_ADMINISTRATION'
+        | 'ECONOMICS'
+        | 'ACTUARIAL_SCIENCE'
+        | 'ACCOUNTING'
+        | 'INTEGRATED_DESIGN'
+        | 'JEWELRY'
+        | 'INDUSTRIAL_DESIGN'
+        | 'COMMUNICATION_DESIGN'
+        | 'MEDIA_DESIGN'
+        | 'SPORTS_SCIENCE'
+        | 'DANCE'
+        | 'MUSIC';
 }
 
 /** DTO for club overview response */
@@ -837,12 +952,17 @@ export interface ClubOverviewResponse {
      * Club description (one-liner)
      * @example "The best central club at Hanyang University ERICA"
      */
-    description?: string;
+    oneLiner?: string;
     /**
      * Recruitment status
      * @example "RECRUITING"
      */
-    recruitmentStatus?: 'UPCOMING' | 'OPEN' | 'CLOSED';
+    recruitmentStatus?:
+        | 'UPCOMING'
+        | 'OPEN'
+        | 'CLOSED'
+        | 'ALWAYS_OPEN'
+        | 'ADDITIONAL';
     /**
      * Club profile image URL
      * @example "https://.../profile.png"
@@ -855,6 +975,11 @@ export interface ClubOverviewResponse {
     applicationUrl?: string;
     /** Club category information */
     category?: CategoryResponse;
+    /**
+     * Club category tag
+     * @example "Academic"
+     */
+    tag?: string;
 }
 
 export interface ApiResponseClubIntroductionResponse {
@@ -911,10 +1036,9 @@ export interface ClubBasicInfoResponse {
     activities?: string;
     /**
      * Membership fee
-     * @format int32
      * @example 10000
      */
-    membershipFee?: number;
+    membershipFee?: string;
     /**
      * SNS URL
      * @example "https://www.instagram.com/hanjari_"
@@ -933,20 +1057,10 @@ export interface ApiResponseClubDetailDraftResponse {
 /** DTO for club detail draft response */
 export interface ClubDetailDraftResponse {
     /**
-     * Club name
-     * @example "Hanjari"
-     */
-    name?: string;
-    /**
      * Club description (one-liner)
      * @example "The best central club at Hanyang University ERICA"
      */
     description?: string;
-    /**
-     * Recruitment status
-     * @example "RECRUITING"
-     */
-    recruitmentStatus?: 'UPCOMING' | 'OPEN' | 'CLOSED';
     /**
      * Leader's name
      * @example "Gildong Hong"
@@ -958,33 +1072,25 @@ export interface ClubDetailDraftResponse {
      */
     leaderPhone?: string;
     /**
-     * Club activities
-     * @example "Regular meeting every Monday"
+     * Contact email
+     * @example "hanjari@hanjari.com"
      */
-    activities?: string;
+    contactEmail?: string;
     /**
      * Membership fee
-     * @format int32
      * @example 10000
      */
-    membershipFee?: number;
+    membershipFee?: string;
     /**
      * SNS URL
      * @example "https://www.instagram.com/hanjari_"
      */
-    snsUrl?: string;
+    snsAccount?: string;
     /**
      * Application URL
      * @example "https://forms.gle/..."
      */
     applicationUrl?: string;
-    /**
-     * Club profile image URL
-     * @example "https://.../profile.png"
-     */
-    profileImageUrl?: string;
-    /** Club category information */
-    category?: CategoryResponse;
 }
 
 export interface ApiResponseClubSearchResponse {
@@ -1057,7 +1163,17 @@ export interface ClubSearchResult {
      * Recruitment status
      * @example "RECRUITING"
      */
-    recruitmentStatus?: 'UPCOMING' | 'OPEN' | 'CLOSED';
+    recruitmentStatus?:
+        | 'UPCOMING'
+        | 'OPEN'
+        | 'CLOSED'
+        | 'ALWAYS_OPEN'
+        | 'ADDITIONAL';
+    /**
+     * Category tag
+     * @example "Academic"
+     */
+    tag?: string;
 }
 
 export interface ApiResponseGetRegistrationsResponse {
@@ -1162,6 +1278,11 @@ export interface ClubRecruitmentDraftResponse {
      * @example "2024-03-31"
      */
     due?: string;
+    /**
+     * Recruitment target
+     * @example "Undergraduate students"
+     */
+    target?: string;
     /**
      * Recruitment notice
      * @example "Interview after document submission"
@@ -1371,6 +1492,23 @@ export interface UpdateClubInfoParams {
     clubId: number;
 }
 
+export interface UpdateClubRecruitmentStatusParams {
+    /** @format int32 */
+    option: number;
+    /** @format int64 */
+    clubId: number;
+}
+
+export interface AcceptClubUpdateParams {
+    /** @format int64 */
+    clubRegistrationId: number;
+}
+
+export interface DeleteClubUpdateParams {
+    /** @format int64 */
+    clubRegistrationId: number;
+}
+
 export interface ReissueClubCodeParams {
     /** @format int64 */
     clubId: number;
@@ -1506,7 +1644,7 @@ export interface GetServiceAnnouncementParams {
 export interface GetClubsByConditionParams {
     keyword?: string;
     category?: 'VOLUNTEER' | 'ART' | 'SPORTS' | 'RELIGION' | 'ACADEMIC';
-    status?: 'UPCOMING' | 'OPEN' | 'CLOSED';
+    status?: 'UPCOMING' | 'OPEN' | 'CLOSED' | 'ALWAYS_OPEN' | 'ADDITIONAL';
     sortBy?: 'NAME_ASC' | 'CATEGORY_ASC' | 'RECRUITMENT_STATUS_ASC';
     /**
      * @format int32
@@ -1557,7 +1695,7 @@ export interface GetSpecificClubDraftParams {
 
 export interface GetUnionClubsByConditionParams {
     keyword?: string;
-    status?: 'UPCOMING' | 'OPEN' | 'CLOSED';
+    status?: 'UPCOMING' | 'OPEN' | 'CLOSED' | 'ALWAYS_OPEN' | 'ADDITIONAL';
     sortBy?: 'NAME_ASC' | 'CATEGORY_ASC' | 'RECRUITMENT_STATUS_ASC';
     category?:
         | 'IT'
@@ -1569,6 +1707,32 @@ export interface GetUnionClubsByConditionParams {
         | 'PRESENTATION'
         | 'BOOK'
         | 'ETC';
+    /**
+     * @format int32
+     * @default 0
+     */
+    page?: number;
+    /**
+     * @format int32
+     * @default 10
+     */
+    size?: number;
+}
+
+export interface GetClubUpdateListParams {
+    /**
+     * @format int32
+     * @default 0
+     */
+    page?: number;
+    /**
+     * @format int32
+     * @default 10
+     */
+    size?: number;
+}
+
+export interface GetAllClubRegistrationsParams {
     /**
      * @format int32
      * @default 0
@@ -1728,7 +1892,7 @@ export interface GetInstagramCentralParams {
 
 export interface GetCentralClubsByConditionParams {
     keyword?: string;
-    status?: 'UPCOMING' | 'OPEN' | 'CLOSED';
+    status?: 'UPCOMING' | 'OPEN' | 'CLOSED' | 'ALWAYS_OPEN' | 'ADDITIONAL';
     sortBy?: 'NAME_ASC' | 'CATEGORY_ASC' | 'RECRUITMENT_STATUS_ASC';
     college?:
         | 'GLOBAL_LAW_COMMUNICATION'
@@ -1799,7 +1963,7 @@ export interface GetCentralClubsByConditionParams {
 
 export interface GetCollageClubsByConditionParams {
     keyword?: string;
-    status?: 'UPCOMING' | 'OPEN' | 'CLOSED';
+    status?: 'UPCOMING' | 'OPEN' | 'CLOSED' | 'ALWAYS_OPEN' | 'ADDITIONAL';
     sortBy?: 'NAME_ASC' | 'CATEGORY_ASC' | 'RECRUITMENT_STATUS_ASC';
     college?:
         | 'GLOBAL_LAW_COMMUNICATION'
@@ -1826,7 +1990,7 @@ export interface GetCollageClubsByConditionParams {
 
 export interface GetCentralClubsByCondition1Params {
     keyword?: string;
-    status?: 'UPCOMING' | 'OPEN' | 'CLOSED';
+    status?: 'UPCOMING' | 'OPEN' | 'CLOSED' | 'ALWAYS_OPEN' | 'ADDITIONAL';
     sortBy?: 'NAME_ASC' | 'CATEGORY_ASC' | 'RECRUITMENT_STATUS_ASC';
     category?: 'VOLUNTEER' | 'ART' | 'SPORTS' | 'RELIGION' | 'ACADEMIC';
     /**
@@ -1847,6 +2011,11 @@ export interface GetSpecificActivityParams {
 }
 
 export interface GetAllActivityParams {
+    /** @format int64 */
+    clubId: number;
+}
+
+export interface DeleteClubParams {
     /** @format int64 */
     clubId: number;
 }

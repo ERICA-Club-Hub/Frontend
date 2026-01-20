@@ -12,6 +12,7 @@
 
 import {
   AcceptClubRegistrationParams,
+  AcceptClubUpdateParams,
   AnnouncementRequest,
   ApiResponseActivityCommandResponse,
   ApiResponseAnnouncementCommandResponse,
@@ -20,13 +21,13 @@ import {
   ApiResponseClubCommandResponse,
   ApiResponseClubDetailDraftResponse,
   ApiResponseClubDetailListResponse,
+  ApiResponseClubDetailResponse,
   ApiResponseClubIdResponse,
   ApiResponseClubIntroductionDraftResponse,
   ApiResponseClubIntroductionResponse,
   ApiResponseClubOverviewResponse,
   ApiResponseClubRecruitmentDraftResponse,
   ApiResponseClubRecruitmentResponse,
-  ApiResponseClubResponse,
   ApiResponseClubScheduleDraftResponse,
   ApiResponseClubScheduleResponse,
   ApiResponseClubSearchResponse,
@@ -47,6 +48,7 @@ import {
   ApiResponseServiceAnnouncementSearchDTO,
   ApiResponseVoid,
   ClubBasicInformationRequest,
+  ClubBasicInformationUpdateRequest,
   ClubDetailRequest,
   ClubIntroductionRequest,
   ClubRecruitmentRequest,
@@ -56,12 +58,15 @@ import {
   CreateServiceAnnouncementRequestDTO,
   DeleteActivityParams,
   DeleteAnnouncementParams,
+  DeleteClubParams,
   DeleteClubRegistrationParams,
   DeleteClubSchedulesParams,
+  DeleteClubUpdateParams,
   DeleteDocumentParams,
   DeleteServiceAnnouncementParams,
   FeedbackRequest,
   GetAllActivityParams,
+  GetAllClubRegistrationsParams,
   GetAllServiceAnnouncementsParams,
   GetCentralClubsByCondition1Params,
   GetCentralClubsByConditionParams,
@@ -72,6 +77,7 @@ import {
   GetClubsByConditionParams,
   GetClubSchedulesDraftParams,
   GetClubSchedulesParams,
+  GetClubUpdateListParams,
   GetCollageClubsByConditionParams,
   GetDocumentFilesParams,
   GetInstagramCentralParams,
@@ -102,6 +108,7 @@ import {
   UpdateActivityRequest,
   UpdateAnnouncementParams,
   UpdateClubInfoParams,
+  UpdateClubRecruitmentStatusParams,
   UpdateDocumentParams,
   UpdateDocumentRequest,
   UpdateServiceAnnouncementParams,
@@ -192,11 +199,11 @@ export class Api<
       ...params,
     });
   /**
-   * @description ## 동아리 기본 정보를 수정합니다. ### RequestBody - **name**: 동아리명 - **leaderEmail**: 대표자 이메일(승인 관련 메일 받을 이메일) - **category**: 동아리 카테고리(SPORTS, ART) - **oneLiner**: 동아리 한줄소개 - **briefIntroduction**: 동아리 간단소개 - **clubType**: 동아리 유형(CENTRAL, UNION, COLLEGE, DEPARTMENT) + 카테고리와 관련된 디테일한 내용은 슬랙을 참고해주세요. ### Multipart/form-data - **image**: 동아리 대표 사진
+   * @description ## 동아리 기본 정보를 수정합니다. ### RequestBody - **name**: 동아리명 - **category**: 동아리 카테고리(SPORTS, ART) - **oneLiner**: 동아리 한줄소개 - **clubType**: 동아리 유형(CENTRAL, UNION, COLLEGE, DEPARTMENT) + 카테고리와 관련된 디테일한 내용은 슬랙을 참고해주세요. ### Multipart/form-data - **image**: 동아리 대표 사진
    *
    * @tags Club Basic
    * @name UpdateClubInfo
-   * @summary [동아리 기본] 동아리 기본 정보 수정
+   * @summary [동아리 기본] 동아리 기본 정보 수정 요청
    * @request POST:/api/clubs/{clubId}/update
    * @secure
    */
@@ -204,7 +211,7 @@ export class Api<
     { clubId, ...query }: UpdateClubInfoParams,
     data: {
       /** DTO for basic club information request */
-      requestBody: ClubBasicInformationRequest;
+      requestBody: ClubBasicInformationUpdateRequest;
       /** @format binary */
       image: File;
     },
@@ -216,6 +223,64 @@ export class Api<
       body: data,
       secure: true,
       type: ContentType.FormData,
+      ...params,
+    });
+  /**
+   * @description ## 동아리 모집 상태를 변경합니다. ### Path Variable - **clubId**: 변경할 동아리의 ID ### Request Param - **option**: 변경할 모집 상태 (0: 모집예정, 1: 모집중, 2: 모집마감, 3: 상시모집, 4: ADDITIONAL)
+   *
+   * @tags Club Basic
+   * @name UpdateClubRecruitmentStatus
+   * @summary [동아리 기본] 동아리 모집 상태 변경
+   * @request POST:/api/clubs/{clubId}/recruitment-status
+   * @secure
+   */
+  updateClubRecruitmentStatus = (
+    { clubId, ...query }: UpdateClubRecruitmentStatusParams,
+    params: RequestParams = {},
+  ) =>
+    this.request<ApiResponseVoid, any>({
+      path: `/api/clubs/${clubId}/recruitment-status`,
+      method: "POST",
+      query: query,
+      secure: true,
+      ...params,
+    });
+  /**
+   * @description ## 동아리 수정 요청을 수락합니다. ### PathVariable - **clubRegistrationId**: 수락하려는 clubRegistration의 ID ### Response - **수락 후 수정된 club의 id**
+   *
+   * @tags Club Basic
+   * @name AcceptClubUpdate
+   * @summary [동아리 수정] 동아리 수정 요청 수락
+   * @request POST:/api/clubs/service-admin/updates/{clubRegistrationId}
+   * @secure
+   */
+  acceptClubUpdate = (
+    { clubRegistrationId, ...query }: AcceptClubUpdateParams,
+    params: RequestParams = {},
+  ) =>
+    this.request<ApiResponseClubCommandResponse, any>({
+      path: `/api/clubs/service-admin/updates/${clubRegistrationId}`,
+      method: "POST",
+      secure: true,
+      ...params,
+    });
+  /**
+   * @description ## 동아리 수정 요청을 삭제합니다. ### PathVariable - **clubRegistrationId**: 삭제하려는 clubRegistration의 ID ### Response - 없음
+   *
+   * @tags Club Basic
+   * @name DeleteClubUpdate
+   * @summary [동아리 수정] 동아리 수정 요청 삭제
+   * @request DELETE:/api/clubs/service-admin/updates/{clubRegistrationId}
+   * @secure
+   */
+  deleteClubUpdate = (
+    { clubRegistrationId, ...query }: DeleteClubUpdateParams,
+    params: RequestParams = {},
+  ) =>
+    this.request<ApiResponseVoid, any>({
+      path: `/api/clubs/service-admin/updates/${clubRegistrationId}`,
+      method: "DELETE",
+      secure: true,
       ...params,
     });
   /**
@@ -303,7 +368,7 @@ export class Api<
       ...params,
     });
   /**
-   * @description ## 동아리 상세 정보를 입력합니다. ### Path Variable - **clubId**: 입력할 동아리의 ID ### Request Body - **recruitmentStatus**: 동아리 모집 상태 (enum, {UPCOMING, OPEN, CLOSED}) - **leaderName**: 동아리 대표자 이름 (string) - **leaderPhone**: 동아리 대표자 연락처 (string) - **activities**: 정기 모임 일정 (string) - **membershipFee**: 회비 (integer) - **snsUrl**: SNS 링크 (string) - **applicationUrl**: 동아리 지원 링크 (string)
+   * @description ## 동아리 상세 정보를 입력합니다. ### Path Variable - **clubId**: 입력할 동아리의 ID
    *
    * @tags Club Detail
    * @name PostSpecificClub
@@ -325,7 +390,7 @@ export class Api<
       ...params,
     });
   /**
-   * @description ## 동아리 월 별 일정을 입력 및 수정합니다. ### Path Variable - **clubId**: 입력할 동아리의 ID ### Request Body - **month**: 월 (integer, 1~12 사이) - **content**: 일정 내용 (string, 30자 미만) - **scheduleId**: 일정 ID (수정 시에만 필요)
+   * @description ## 동아리 월 별 일정을 입력 및 수정합니다. ### Path Variable - **clubId**: 입력할 동아리의 ID ### Request Body - **month**: 월 (integer, 1~12 사이) - **content**: 일정 내용 (string, 30자 미만) - **scheduleId**: 일정 ID (수정 시에만 필요) - **scheduleDescription** : 동아리 활동 설명
    *
    * @tags Club Intro - Schedules
    * @name PostClubSchedules
@@ -366,7 +431,7 @@ export class Api<
       ...params,
     });
   /**
-   * @description ## 동아리 월 별 일정을 임시 저장합니다. ### Path Variable - **clubId**: 입력할 동아리의 ID ### Request Body - **month**: 월 (integer, 1~12 사이) - **content**: 일정 내용 (string, 30자 미만) - **scheduleId**: 일정 ID (수정 시에만 필요)
+   * @description ## 동아리 월 별 일정을 임시 저장합니다. ### Path Variable - **clubId**: 입력할 동아리의 ID ### Request Body - **month**: 월 (integer, 1~12 사이) - **content**: 일정 내용 (string, 30자 미만) - **scheduleId**: 일정 ID (수정 시에만 필요) - **scheduleDescription** : 동아리 활동 설명
    *
    * @tags Club Intro - Schedules
    * @name PostClubSchedulesDraft
@@ -388,7 +453,7 @@ export class Api<
       ...params,
     });
   /**
-   * @description ## 동아리 모집 안내를 입력 및 수정합니다. 입력된 동아리 모집 안내가 없을 경우 새로 생성됩니다. ### Path Variable - **clubId**: 입력할 동아리의 ID ### Request Body - **due**: 동아리 모집 기간 (string, 500자 미만) - **notice**: 유의사항 (string, 500자 미만) - **etc**: 기타 동아리 모집 안내 (string, 500자 미만)
+   * @description ## 동아리 모집 안내를 입력 및 수정합니다. 입력된 동아리 모집 안내가 없을 경우 새로 생성됩니다. ### Path Variable - **clubId**: 입력할 동아리의 ID ### Request Body - **due**: 모집 기간 - **target**: 모집 대상 - **notice**: 유의사항 - **etc**: 기타사항
    *
    * @tags Club Intro - Recruitment
    * @name PostClubRecruitment
@@ -429,7 +494,7 @@ export class Api<
       ...params,
     });
   /**
-   * @description ## 동아리 모집 안내를 임시저장 합니다. ### Path Variable - **clubId**: 입력할 동아리의 ID ### Request Body - **due**: 동아리 모집 기간 (string, 500자 미만) - **notice**: 유의사항 (string, 500자 미만) - **etc**: 기타 동아리 모집 안내 (string, 500자 미만)
+   * @description ## 동아리 모집 안내를 임시저장 합니다. ### Path Variable - **clubId**: 입력할 동아리의 ID ### Request Body - **due**: 모집 기간 - **target**: 모집 대상 - **notice**: 유의사항 - **etc**: 기타사항
    *
    * @tags Club Intro - Recruitment
    * @name PostClubRecruitmentDraft
@@ -457,6 +522,7 @@ export class Api<
    * @name PostClubIntroduction
    * @summary [동아리 소개] 동아리 소개 입력 및 수정
    * @request POST:/api/clubs/club-admin/{clubId}/introduction
+   * @deprecated
    * @secure
    */
   postClubIntroduction = (
@@ -479,6 +545,7 @@ export class Api<
    * @name GetClubIntroductionDraft
    * @summary [동아리 소개] 임시 저장된 동아리 소개 조회
    * @request GET:/api/clubs/club-admin/{clubId}/introduction/draft
+   * @deprecated
    * @secure
    */
   getClubIntroductionDraft = (
@@ -498,6 +565,7 @@ export class Api<
    * @name PostClubIntroductionDraft
    * @summary [동아리 소개] 동아리 소개 임시 저장
    * @request POST:/api/clubs/club-admin/{clubId}/introduction/draft
+   * @deprecated
    * @secure
    */
   postClubIntroductionDraft = (
@@ -514,7 +582,7 @@ export class Api<
       ...params,
     });
   /**
-   * @description ## 동아리 상세 정보를 임시저장합니다. ### Path Variable - **clubId**: 입력할 동아리의 ID ### Request Body - **recruitmentStatus**: 동아리 모집 상태 (enum, {UPCOMING, OPEN, CLOSED}) - **leaderName**: 동아리 대표자 이름 (string) - **leaderPhone**: 동아리 대표자 연락처 (string) - **activities**: 정기 모임 일정 (string) - **membershipFee**: 회비 (integer) - **snsUrl**: SNS 링크 (string) - **applicationUrl**: 동아리 지원 링크 (string)
+   * @description ## 동아리 상세 정보를 임시저장합니다. ### Path Variable - **clubId**: 입력할 동아리의 ID
    *
    * @tags Club Detail
    * @name PostSpecificClubDraft
@@ -863,6 +931,7 @@ export class Api<
    * @name GetClubsByCondition
    * @summary [동아리 검색] 동아리 검색
    * @request GET:/api/clubs
+   * @deprecated
    * @secure
    */
   getClubsByCondition = (
@@ -889,7 +958,7 @@ export class Api<
     { clubId, ...query }: GetSpecificClubParams,
     params: RequestParams = {},
   ) =>
-    this.request<ApiResponseClubResponse, any>({
+    this.request<ApiResponseClubDetailResponse, any>({
       path: `/api/clubs/${clubId}`,
       method: "GET",
       secure: true,
@@ -959,6 +1028,7 @@ export class Api<
    * @name GetClubIntroduction
    * @summary [동아리 소개] 동아리 소개 조회
    * @request GET:/api/clubs/{clubId}/introduction
+   * @deprecated
    * @secure
    */
   getClubIntroduction = (
@@ -978,6 +1048,7 @@ export class Api<
    * @name GetSpecificClubBasicInfo
    * @summary [동아리 정보] 동아리 기본 정보 조회
    * @request GET:/api/clubs/{clubId}/info
+   * @deprecated
    * @secure
    */
   getSpecificClubBasicInfo = (
@@ -1030,6 +1101,26 @@ export class Api<
       ...params,
     });
   /**
+   * @description ## 동아리 수정 요청을 조회합니다.
+   *
+   * @tags Club Basic
+   * @name GetClubUpdateList
+   * @summary [동아리 수정] 동아리 수정 요청 조회
+   * @request GET:/api/clubs/service-admin/update
+   * @secure
+   */
+  getClubUpdateList = (
+    query: GetClubUpdateListParams,
+    params: RequestParams = {},
+  ) =>
+    this.request<ApiResponseClubSearchResponse, any>({
+      path: `/api/clubs/service-admin/update`,
+      method: "GET",
+      query: query,
+      secure: true,
+      ...params,
+    });
+  /**
    * @description ## 등록 요청된 동아리를 조회합니다. ### Response - clubRegistrationDTOList: 등록 요청한 동아리 리스트
    *
    * @tags Club Registration
@@ -1038,10 +1129,14 @@ export class Api<
    * @request GET:/api/clubs/service-admin/registrations
    * @secure
    */
-  getAllClubRegistrations = (params: RequestParams = {}) =>
+  getAllClubRegistrations = (
+    query: GetAllClubRegistrationsParams,
+    params: RequestParams = {},
+  ) =>
     this.request<ApiResponseGetRegistrationsResponse, any>({
       path: `/api/clubs/service-admin/registrations`,
       method: "GET",
+      query: query,
       secure: true,
       ...params,
     });
@@ -1331,6 +1426,25 @@ export class Api<
     this.request<ApiResponseRecentActivityLogResponse, any>({
       path: `/api/activities/club/recent`,
       method: "GET",
+      secure: true,
+      ...params,
+    });
+  /**
+   * @description ## 동아리를 삭제합니다. ### PathVariable - **clubId**: 삭제하려는 club의 ID ### Response - 없음
+   *
+   * @tags Club Registration
+   * @name DeleteClub
+   * @summary [동아리 삭제] 동아리 삭제
+   * @request DELETE:/api/clubs/service-admin/{clubId}
+   * @secure
+   */
+  deleteClub = (
+    { clubId, ...query }: DeleteClubParams,
+    params: RequestParams = {},
+  ) =>
+    this.request<ApiResponseVoid, any>({
+      path: `/api/clubs/service-admin/${clubId}`,
+      method: "DELETE",
       secure: true,
       ...params,
     });

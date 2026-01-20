@@ -1,16 +1,11 @@
 import { useSearchParams } from 'react-router-dom';
 import Tab from '../Common/Tab';
 import {
-    getDisplayLabel,
+    getClubCategoryLabel,
     getServerTabValue,
     isValidCategory,
+    TabCategory,
 } from '@/utils/search/searchTabMapping';
-
-export type TabCategory =
-    | '중앙동아리'
-    | '단과대동아리'
-    | '학과동아리'
-    | '연합동아리';
 
 const TAB_TYPE_PARAM = 'type';
 
@@ -20,7 +15,7 @@ export default function SearchTab() {
     const typeParam = searchParams.get(TAB_TYPE_PARAM);
 
     const activeCategory: TabCategory = typeParam
-        ? getDisplayLabel(typeParam)
+        ? getClubCategoryLabel(typeParam)
         : '중앙동아리';
 
     const handleTabChange = (category: string) => {

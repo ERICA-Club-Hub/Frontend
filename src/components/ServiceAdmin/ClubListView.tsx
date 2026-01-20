@@ -32,7 +32,6 @@ export default function ClubListView({
     if (!data || data.length === 0) {
         return <div>검색 결과가 없습니다.</div>;
     }
-
     return (
         <div className="flex flex-col items-center gap-[10px] flex-1 w-[320px] pb-[45px]">
             {data.map((club) => (

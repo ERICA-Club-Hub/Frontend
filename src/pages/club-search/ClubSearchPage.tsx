@@ -175,12 +175,13 @@ export default function ClubSearchPage() {
                             <div>로딩 중...</div>
                         ) : data && allClubs.length > 0 ? (
                             allClubs.map((club) => {
+                                if (!club) return null;
                                 return (
                                     <ClubCard
                                         key={club.id}
                                         title={club.name}
                                         subTitle={club.oneLiner}
-                                        categoryName={club.categoryName}
+                                        categoryName={club.tag}
                                         recruitmentStatus={
                                             club.recruitmentStatus
                                         }

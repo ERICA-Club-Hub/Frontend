@@ -1,6 +1,7 @@
 import { Link, LinkProps } from 'react-router-dom';
 import { cn } from '@/utils/cn';
-import ClubTypeTag from './ClubCardTags/ClubTypeTag';
+import ClubTypeTag, { ClubCategoryCode } from './ClubCardTags/ClubTypeTag';
+import { RecruitmentStatus } from '@/types/recruitment-status.type';
 import RecruitStatusTag from './ClubCardTags/RecruitStatusTag';
 
 interface ClubCardProps extends LinkProps {
@@ -46,10 +47,15 @@ export default function ClubCard({
             <div className="flex flex-col w-[204px] h-[65px] justify-start items-start">
                 <div className="flex gap-[6px] mb-[7px]">
                     <div className="flex gap-[6px]">
-                        <ClubTypeTag clubCategory={categoryName} />
+                        {/* API 응답 형태가 string으로 되어있어서 as로 대체 */}
+                        <ClubTypeTag
+                            clubCategory={categoryName as ClubCategoryCode}
+                        />
                         {recruitmentStatus && (
                             <RecruitStatusTag
-                                recruitmentStatus={recruitmentStatus}
+                                recruitmentStatus={
+                                    recruitmentStatus as RecruitmentStatus
+                                }
                             />
                         )}
                     </div>

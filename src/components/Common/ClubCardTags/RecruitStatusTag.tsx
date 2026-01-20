@@ -1,15 +1,16 @@
-import { getRecruitmentStatusInfo } from '@/utils/clubDetail/getRecruitmentStatus';
+import { RecruitmentStatus } from '@/types/recruitment-status.type';
 import ClubTag from '../ClubTag';
+import { getRecruitmentConfig } from '@/utils/getRecruitmentConfig';
 
-interface RecruitStatusTagProps {
-    recruitmentStatus: string;
+export interface RecruitStatusTagProps {
+    recruitmentStatus: RecruitmentStatus | undefined;
 }
 
 export default function RecruitStatusTag({
     recruitmentStatus,
 }: RecruitStatusTagProps) {
     const { label, backgroundColor, textColor } =
-        getRecruitmentStatusInfo(recruitmentStatus);
+        getRecruitmentConfig(recruitmentStatus);
 
     return (
         <ClubTag
