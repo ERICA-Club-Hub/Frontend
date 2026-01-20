@@ -1,18 +1,18 @@
 import {
-    CentralCategoryDisplayConfig,
-    CollegeDisplayConfig,
-    DepartmentDisplayConfig,
-    RecruitmentStatusDisplayConfig,
-    SortByDisplayConfig,
-    UnionCategoryDisplayConfig,
-} from '@/types/display-configs.types';
-import {
     CentralCategoryCode,
     CollegeCode,
     DepartmentCode,
     SortByCode,
     UnionCategoryCode,
 } from '@/types/category.types';
+import {
+    CentralCategoryConfig,
+    CollegeConfig,
+    DepartmentConfig,
+    RecruitmentStatusConfig,
+    SortByConfig,
+    UnionCategoryConfig,
+} from '@/types/configs.types';
 import { RecruitmentStatus } from '@/types/recruitment-status.type';
 
 /**
@@ -20,7 +20,7 @@ import { RecruitmentStatus } from '@/types/recruitment-status.type';
  */
 export const CENTRAL_CATEGORY_DISPLAYS: Record<
     CentralCategoryCode,
-    CentralCategoryDisplayConfig
+    CentralCategoryConfig
 > = {
     VOLUNTEER: { code: 'VOLUNTEER', label: '봉사분과', emoji: '💌' },
     ART: { code: 'ART', label: '예술분과', emoji: '🎨' },
@@ -34,7 +34,7 @@ export const CENTRAL_CATEGORY_DISPLAYS: Record<
  */
 export const UNION_CATEGORY_DISPLAYS: Record<
     UnionCategoryCode,
-    UnionCategoryDisplayConfig
+    UnionCategoryConfig
 > = {
     IT: { code: 'IT', label: 'IT', emoji: '🖥️' },
     MARKETING_AD: { code: 'MARKETING_AD', label: '마케팅/광고', emoji: '🎬' },
@@ -54,7 +54,7 @@ export const UNION_CATEGORY_DISPLAYS: Record<
 /**
  * 단과대 분류
  */
-export const COLLEGE_DISPLAYS: Record<CollegeCode, CollegeDisplayConfig> = {
+export const COLLEGE_DISPLAYS: Record<CollegeCode, CollegeConfig> = {
     GLOBAL_LAW_COMMUNICATION: {
         code: 'GLOBAL_LAW_COMMUNICATION',
         label: '글로벌문화통상대학',
@@ -86,10 +86,7 @@ export const COLLEGE_DISPLAYS: Record<CollegeCode, CollegeDisplayConfig> = {
 /**
  * 학과명 - 코드
  */
-export const DEPARTMENT_DISPLAYS: Record<
-    DepartmentCode,
-    DepartmentDisplayConfig
-> = {
+export const DEPARTMENT_DISPLAYS: Record<DepartmentCode, DepartmentConfig> = {
     ARCHITECTURE: { code: 'ARCHITECTURE', label: '건축학부' },
     CONSTRUCTION_ENVIRONMENT: {
         code: 'CONSTRUCTION_ENVIRONMENT',
@@ -215,7 +212,7 @@ export const DEPARTMENT_DISPLAYS: Record<
 
 export const RECRUITMENT_STATUS_DISPLAYS: Record<
     RecruitmentStatus,
-    RecruitmentStatusDisplayConfig
+    RecruitmentStatusConfig
 > = {
     UPCOMING: {
         code: 'UPCOMING',
@@ -249,7 +246,7 @@ export const RECRUITMENT_STATUS_DISPLAYS: Record<
     },
 };
 
-export const SORT_BY_DISPLAYS: Record<SortByCode, SortByDisplayConfig> = {
+export const SORT_BY_DISPLAYS: Record<SortByCode, SortByConfig> = {
     NAME_ASC: { code: 'NAME_ASC', label: '이름순' },
     CATEGORY_ASC: { code: 'CATEGORY_ASC', label: '카테고리순' },
     RECRUITMENT_STATUS_ASC: {
