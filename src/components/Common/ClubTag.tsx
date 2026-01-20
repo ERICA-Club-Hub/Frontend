@@ -17,14 +17,13 @@ export default function ClubTag({
         <div
             className={cn(
                 backgroundColor,
-                textColor,
                 'px-[5px] py-[2px] flex gap-[3px]',
                 'font-medium text-caption leading-[100%]',
                 'rounded-[5px] h-[18px] items-center',
             )}
         >
             {emoji && <span className="m-0 flex-shrink-0">{emoji}</span>}
-            <span className="m-0">{text}</span>
+            <span className={cn(textColor, 'm-0')}>{text}</span>
         </div>
     );
 }

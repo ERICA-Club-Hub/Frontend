@@ -84,8 +84,8 @@ export const getRecruitmentStatusStyle = (status: RecruitmentStatus) => {
               textColor: config.textColor,
           }
         : {
-              backgroundColor: 'var(--color-badge-gray-bg)',
-              textColor: 'var(--color-neutral-600)',
+              backgroundColor: 'bg-badge-gray-bg',
+              textColor: 'text-badge-gray-text',
           };
 };
 
@@ -289,8 +289,8 @@ export const getRecruitmentConfig = (
     if (!status) {
         return {
             label: '상태 없음',
-            backgroundColor: 'var(--color-badge-gray-bg)',
-            textColor: 'var(--color-neutral-600)',
+            backgroundColor: 'bg-badge-gray-bg',
+            textColor: 'text-badge-gray-text',
         };
     }
 
@@ -303,7 +303,7 @@ export const getRecruitmentConfig = (
           }
         : {
               label: '상태 없음',
-              backgroundColor: 'var(--color-badge-gray-bg)',
-              textColor: 'var(--color-neutral-600)',
+              backgroundColor: 'bg-badge-gray-bg',
+              textColor: 'text-badge-gray-text',
           };
 };
