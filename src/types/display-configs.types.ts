@@ -3,7 +3,7 @@ import {
     CollegeCode,
     DepartmentCode,
     UnionCategoryCode,
-} from './domain-category.types';
+} from './category.types';
 import { RecruitmentStatus } from './recruitment-status.type';
 
 /**

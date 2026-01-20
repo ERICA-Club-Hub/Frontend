@@ -10,7 +10,7 @@ import {
     CollegeCode,
     DepartmentCode,
     UnionCategoryCode,
-} from '@/types/domain-category.types';
+} from '@/types/category.types';
 
 export interface CategoryOption {
     value: CentralCategoryCode | UnionCategoryCode;

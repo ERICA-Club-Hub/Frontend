@@ -4,7 +4,7 @@ import type {
     UnionCategoryCode,
     CollegeCode,
     DepartmentCode,
-} from '@/types/domain-category.types';
+} from '@/types/category.types';
 import { getCategoryConfig } from '@/utils/displayHelper';
 
 export type ClubCategoryCode =

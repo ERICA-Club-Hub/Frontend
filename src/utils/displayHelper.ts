@@ -11,7 +11,7 @@ import {
     CollegeCode,
     DepartmentCode,
     UnionCategoryCode,
-} from '@/types/domain-category.types';
+} from '@/types/category.types';
 import { RecruitmentStatus } from '@/types/recruitment-status.type';
 
 /**
