@@ -36,11 +36,6 @@ interface IRecruitNoticeValue {
     etc: string;
 }
 
-interface IUnionNoticeValue {
-    title: string;
-    url: string;
-}
-
 interface IActivityLogValue {
     content: string;
     date: string;
@@ -52,6 +47,5 @@ export type {
     IClubIntroValue,
     IEventScheduleValue,
     IRecruitNoticeValue,
-    IUnionNoticeValue,
     IActivityLogValue,
 };

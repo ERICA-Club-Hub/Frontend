@@ -160,37 +160,6 @@ export default function AppRoutes() {
                         element={<ClubManagementPage />}
                     />
                 </Route>
-
-                {/* 총동연 공지사항 페이지 */}
-                {/* <Route path="/union/notice" element={<UnionNoticePage />} /> */}
-
-                {/* 총동연 어드민 홈*/}
-                {/* <Route path="/admin/union" element={<AdminUnionPage />} /> */}
-
-                {/* 총동연 어드민 공지 */}
-                {/* <Route
-                            path="/admin/union/notice"
-                            element={<AdminUnionNoticePage />}
-                        /> */}
-
-                {/* 총동연 어드민 공지 등록 */}
-                {/* <Route
-                            path="/admin/union/notice/register"
-                            element={<AdminUnionNoticeRegisterPage />}
-                        /> */}
-
-                {/* 총동연 어드민 공지 수정 및 삭제 */}
-                {/* <Route
-                            path="/admin/union/notice/:id/register"
-                            element={<AdminUnionNoticeEditPage />}
-                        /> */}
-
-                {/* 총동연 자료 등록  */}
-                {/* <Route
-                            path="/admin/union/resources"
-                            element={<AdminResourcesRegisterPage mode="manage" />}
-                        />
-                    </Route> */}
             </Route>
 
             {/* 404 Not Found Page */}
