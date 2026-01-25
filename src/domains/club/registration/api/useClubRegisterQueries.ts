@@ -1,5 +1,5 @@
 import { apiRequest } from '@/api/apiRequest';
-import { queryClient } from '@/config/queryClient';
+import { queryClient } from '@/api/queryClient';
 import { IClubRegisterValue } from '@/types';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { useEffect } from 'react';

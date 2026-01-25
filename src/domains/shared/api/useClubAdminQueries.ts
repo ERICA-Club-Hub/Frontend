@@ -1,5 +1,5 @@
 import { apiRequest } from '@/api/apiRequest';
-import { queryClient } from '@/config/queryClient';
+import { queryClient } from '@/api/queryClient';
 import { clubIdSelector } from '@/domains/auth/model/clubInfoState';
 import {
     ClubIdType,

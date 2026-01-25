@@ -1,7 +1,7 @@
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { useEffect } from 'react';
 import { apiRequest } from '@/api/apiRequest';
-import { queryClient } from '@/config/queryClient';
+import { queryClient } from '@/api/queryClient';
 import { APIResponse, ClubIdType } from '@/types';
 import { PendingRegistrationResponse } from '@/types/club.types';
 
