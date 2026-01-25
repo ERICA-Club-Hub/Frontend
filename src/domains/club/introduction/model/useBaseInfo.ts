@@ -1,5 +1,8 @@
-import { useClubInfo, useIsPreview } from '../queries/club-detail/useClubIntro';
-import { formatBaseInfo } from '@/utils/clubDetail/getBaseInfoFormat';
+import {
+    useClubInfo,
+    useIsPreview,
+} from '@/hooks/queries/club-detail/useClubIntro';
+import { formatBaseInfo } from '@/domains/club/introduction/lib/getBaseInfoFormat';
 
 export const useBaseInfo = () => {
     const { id, isPreview } = useIsPreview();

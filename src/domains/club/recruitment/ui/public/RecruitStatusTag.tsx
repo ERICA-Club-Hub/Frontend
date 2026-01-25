@@ -1,6 +1,6 @@
 import { RecruitmentStatus } from '@/types/recruitment-status.type';
-import ClubTag from './ClubTag';
-import { getRecruitmentConfig } from '@/utils/getRecruitmentConfig';
+import { getRecruitmentConfig } from '@/domains/club/recruitment/lib/getRecruitmentConfig';
+import ClubTag from '@/domains/shared/components/tag/ClubTag';
 
 export interface RecruitStatusTagProps {
     recruitmentStatus: RecruitmentStatus | undefined;

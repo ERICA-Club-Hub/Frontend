@@ -6,7 +6,7 @@ import { useClubDetailHeader } from '@/hooks/queries/club-detail/useClubDetailHe
 import ClubTypeTag, {
     ClubCategoryCode,
 } from '@/domains/shared/components/tag/ClubTypeTag';
-import RecruitStatusTag from '@/domains/shared/components/tag/RecruitStatusTag';
+import RecruitStatusTag from '@/domains/club/recruitment/ui/public/RecruitStatusTag';
 
 export default function ClubDetailHeader() {
     const { isPreview, clubId } = useClubDetail();

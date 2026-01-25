@@ -1,5 +1,5 @@
-import { useBaseInfo } from '@/hooks/club-detail/useBaseInfo';
-import ContentBlock from '../ContentBlock';
+import { useBaseInfo } from '@/domains/club/introduction/model/useBaseInfo';
+import ContentBlock from '@/components/ClubDetail/ClubDetailTabs/ContentBlock';
 
 export default function BaseInfo() {
     const { items, isLoading } = useBaseInfo();

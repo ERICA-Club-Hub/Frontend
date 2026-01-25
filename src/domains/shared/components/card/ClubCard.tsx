@@ -1,8 +1,8 @@
 import { Link, LinkProps } from 'react-router-dom';
 import { cn } from '@/utils/cn';
 import { RecruitmentStatus } from '@/types/recruitment-status.type';
-import RecruitStatusTag from '../tag/RecruitStatusTag';
 import ClubTypeTag, { ClubCategoryCode } from '../tag/ClubTypeTag';
+import RecruitStatusTag from '@/domains/club/recruitment/ui/public/RecruitStatusTag';
 
 interface ClubCardProps extends LinkProps {
     title?: string; // 동아리 이름
