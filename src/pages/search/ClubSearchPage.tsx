@@ -1,8 +1,8 @@
 import { InputField } from '@/components/Common';
-import SearchTab from '@/components/Search/SearchTab';
-import { useClubSearchFromUrl } from '@/hooks/queries/useClubList';
+import SearchTab from '@/domains/search/ui/SearchTab';
+import { useClubSearchFromUrl } from '@/domains/search/api/useClubList';
 import ReadingGlassIcon from '@/assets/common/reading_glass.svg?react';
-import ClubCard from '@/components/Common/ClubCard';
+import ClubCard from '@/domains/shared/components/ClubCard/ClubCard';
 import ErrorIcon from '@/assets/common/error-icon.svg?react';
 import { useSearchParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
@@ -13,7 +13,7 @@ import {
     SortByDropdown,
     StatusDropdown,
     UnionCategoryDropdown,
-} from '@/components/Search/SearchOptions/ClubSearchOptions';
+} from '@/domains/search/ui/ClubSearchOptions';
 import { PATHS } from '@/routes/paths';
 
 export default function ClubSearchPage() {

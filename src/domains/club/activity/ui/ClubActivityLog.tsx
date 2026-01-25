@@ -1,5 +1,5 @@
 import { useActivityLogList } from '@/domains/club/activity/api/useClubLog';
-import { useClubIdByParams } from '@/hooks/useClubIdByParams';
+import { useClubIdByParams } from '@/domains/club/activity/model/useClubIdByParams';
 import { useNavigate } from 'react-router-dom';
 import { PATHS } from '@/routes/paths';
 

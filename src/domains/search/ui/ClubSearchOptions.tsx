@@ -3,7 +3,7 @@ import {
     getCollegeOptionsNameOnly,
     getDepartmentOptionsNameOnly,
     getUnionCategoryOptionsNameOnly,
-} from '@/utils/search/searchKeywordMapping';
+} from '@/domains/search/lib/searchKeywordMapping';
 import ClubListDropdown from './ClubListDropdown';
 
 interface DropdownProps {

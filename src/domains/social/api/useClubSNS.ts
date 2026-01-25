@@ -1,7 +1,7 @@
 import { apiRequest } from '@/api/apiRequest';
 import { ApiResponseGetInstagrams } from '@/api/data-contracts';
 import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
-import { ClubType } from '../../../hooks/queries/useClubList';
+import { ClubType } from '../../search/api/useClubList';
 
 export const useClubSNS = () => {
     const { data, isLoading, isError } = useQuery({

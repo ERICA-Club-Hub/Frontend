@@ -1,11 +1,11 @@
 import { useSearchParams } from 'react-router-dom';
-import Tab from '../Common/Tab';
+import Tab from '@/components/Common/Tab';
 import {
     getClubCategoryLabel,
     getServerTabValue,
     isValidCategory,
     TabCategory,
-} from '@/utils/search/searchTabMapping';
+} from '@/domains/search/lib/searchTabMapping';
 
 const TAB_TYPE_PARAM = 'type';
 
