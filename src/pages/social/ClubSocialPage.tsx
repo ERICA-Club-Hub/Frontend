@@ -1,4 +1,4 @@
-import OfficialAcountItem from '@/components/Common/OfficialAcountItem';
+import ClubSocialItem from '@/domains/social/ui/ClubSocialItem';
 import SearchTab from '@/components/Search/SearchTab';
 import { useSearchParams } from 'react-router-dom';
 import {
@@ -7,7 +7,7 @@ import {
     DepartmentDropdown,
     UnionCategoryDropdown,
 } from '@/components/Search/SearchOptions/ClubSearchOptions';
-import { useClubSNSByType } from '@/hooks/queries/main/useClubSNS';
+import { useClubSNSByType } from '@/domains/social/api/useClubSNS';
 import { useEffect } from 'react';
 import { ClubType } from '@/hooks/queries/useClubList';
 
@@ -18,7 +18,7 @@ const VALID_TABS: Record<string, ClubType> = {
     department: 'department',
 };
 
-export default function OfficialAccountsPage() {
+export default function ClubSocialPage() {
     const [searchParams, setSearchParams] = useSearchParams();
 
     const tabParam = searchParams.get('type') || 'central';
@@ -121,7 +121,7 @@ export default function OfficialAccountsPage() {
                 <div className="grid grid-cols-3 gap-x-[10px] gap-y-2 py-2 pb-5">
                     {accounts.length > 0 &&
                         accounts.map((account, index) => (
-                            <OfficialAcountItem
+                            <ClubSocialItem
                                 key={`${account.clubName}-${account.accountName}-${index}`}
                                 clubName={account.clubName ?? ''}
                                 clubLogoUrl={account.profileImage}

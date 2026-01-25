@@ -2,7 +2,7 @@ import { Footer } from '@/components/Common/Footer';
 import Survey from '@/components/Main/Survey';
 import CategoryCollectSection from '@/components/Main/CategoryCollectSection';
 import RecentlyUpdatedClubs from '@/components/Main/RecentlyUpdatedClubs';
-import OfficialAccounts from '@/components/Main/OfficialAccounts';
+import ClubSocialPreview from '@/domains/social/ui/ClubSocialPreview';
 
 export default function MainPage() {
     return (
@@ -11,7 +11,7 @@ export default function MainPage() {
                 <CategoryCollectSection />
                 <Survey />
                 <RecentlyUpdatedClubs />
-                <OfficialAccounts />
+                <ClubSocialPreview />
             </div>
             <Footer />
         </div>

@@ -20,7 +20,6 @@ import ClubSearchPage from '@/pages/club-search/ClubSearchPage';
 import MainPage from '@/pages/main/MainPage';
 import ClubManagementPage from '@/pages/admin/service/club-management/ClubManagementPage';
 import RegistrationsDetailPage from '@/pages/admin/service/registrations/RegistrationsDetailPage';
-import OfficialAccountsPage from '@/pages/official-accounts/OfficialAccountsPage';
 import { PATHS } from './paths';
 import { AdminLoginPage } from '@/pages/admin/auth/AdminLoginPage';
 import RegistrationEditPage from '@/pages/admin/club/registration/RegistrationEditPage';
@@ -28,6 +27,7 @@ import RegistrationCompletionPage from '@/pages/club/registration/RegistrationCo
 import RegistrationsListPage from '@/pages/admin/service/registrations/RegistrationsListPage';
 import RegistrationPage from '@/pages/club/registration/RegistrationPage';
 import NoticePage from '@/pages/notice/NoticePage';
+import ClubSocialPage from '@/pages/social/ClubSocialPage';
 
 export default function AppRoutes() {
     return (
@@ -74,10 +74,8 @@ export default function AppRoutes() {
                 />
             </Route>
 
-            <Route
-                path="official-accounts"
-                element={<OfficialAccountsPage />}
-            />
+            {/* --- 동아리 소셜(인스타) 페이지 --- */}
+            <Route path={PATHS.CLUB_SOCIAL} element={<ClubSocialPage />} />
 
             {/* --- 어드민 --- */}
             <Route path="/admin" element={<AuthGuard />}>

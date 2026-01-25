@@ -1,10 +1,10 @@
-import OfficialAcountItem from '../Common/OfficialAcountItem';
-import { useClubSNS } from '@/hooks/queries/main/useClubSNS';
+import ClubSocialItem from '@/domains/social/ui/ClubSocialItem';
+import { useClubSNS } from '@/domains/social/api/useClubSNS';
 import ExpandArrow from '@/assets/common/expand-arrow.svg?react';
 import { useNavigate } from 'react-router-dom';
 import { PATHS } from '@/routes/paths';
 
-export default function OfficialAccounts() {
+export default function ClubSocialPreview() {
     const { data, isLoading, isError } = useClubSNS();
     const navigate = useNavigate();
 
@@ -21,7 +21,7 @@ export default function OfficialAccounts() {
                 </h3>
                 <button
                     onClick={() => {
-                        navigate(PATHS.CLUB_OFFICIAL_ACOUNTS_LIST());
+                        navigate(PATHS.CLUB_SOCIAL);
                         window.scrollTo(0, 0);
                     }}
                     className="flex items-center"
@@ -34,7 +34,7 @@ export default function OfficialAccounts() {
             </div>
             <div className="w-[320px] flex justify-between">
                 {accounts.map((account) => (
-                    <OfficialAcountItem
+                    <ClubSocialItem
                         key={`${account.clubName}-${account.accountName}`}
                         clubName={account.clubName ?? ''}
                         clubLogoUrl={account.profileImage}
