@@ -6,7 +6,7 @@ import {
     AdminButtonGroup,
     AdminSection,
     AdminSectionLabel,
-} from '@/domains/shared/components/AdminSection';
+} from '@/domains/shared/components/layout/AdminSection';
 import { inputChangeHandler } from '@/utils/inputChangeHandler';
 import { IRecruitNoticeValue } from '@/types';
 import useBulletPointConverter from '@/hooks/actions/useBulletPointConverter';

@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { apiRequest } from '@/api/apiRequest';
-import AccordionItemCard from '@/domains/shared/components/AccordionItemCard';
+import AccordionItemCard from '@/domains/shared/components/card/AccordionItemCard';
 
 interface NoticeItem {
     id: number;

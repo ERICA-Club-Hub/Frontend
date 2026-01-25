@@ -1,6 +1,6 @@
 import { cva } from 'class-variance-authority';
 import { cn } from '@/utils/cn';
-import { Tag } from '../../../components/Common/Tag';
+import { Tag } from '../../../../components/Common/Tag';
 import downloadIcon from '@/assets/common/card_download.svg';
 import rightArrowIcon from '@/assets/common/card_right_arrow.svg';
 

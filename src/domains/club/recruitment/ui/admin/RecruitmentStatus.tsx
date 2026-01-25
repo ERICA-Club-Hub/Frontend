@@ -7,7 +7,7 @@ import { cn } from '@/utils/cn';
 import {
     AdminSection,
     AdminSectionLabel,
-} from '@/domains/shared/components/AdminSection';
+} from '@/domains/shared/components/layout/AdminSection';
 
 interface IRecruitmentStatus {
     inputValue: ISummaryInfoValue;

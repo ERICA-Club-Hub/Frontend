@@ -8,7 +8,7 @@ import { inputChangeHandler } from '@/utils/inputChangeHandler';
 import {
     AdminSection,
     AdminSectionLabel,
-} from '@/domains/shared/components/AdminSection';
+} from '@/domains/shared/components/layout/AdminSection';
 
 export default function ClubDescription() {
     const { inputValue, setInputValue } = useClubIntroContext();

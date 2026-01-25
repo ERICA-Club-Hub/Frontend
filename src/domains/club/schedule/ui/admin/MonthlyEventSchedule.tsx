@@ -1,7 +1,7 @@
 import {
     AdminSection,
     AdminSectionLabel,
-} from '@/domains/shared/components/AdminSection';
+} from '@/domains/shared/components/layout/AdminSection';
 import PlusIcon from '@/assets/common/plus-icon.svg?react';
 import useClubIntroContext from '@/domains/shared/contexts/useClubIntroContext';
 import useClubAdminQueries from '@/domains/shared/api/useClubAdminQueries';

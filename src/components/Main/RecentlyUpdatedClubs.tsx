@@ -1,4 +1,4 @@
-import ClubCard from '../../domains/shared/components/ClubCard/ClubCard';
+import ClubCard from '../../domains/shared/components/card/ClubCard';
 import { PATHS } from '@/routes/paths';
 import { useRecentlyUpdatedClubs } from '@/hooks/queries/main/useRecentlyUpdatedClubs';
 

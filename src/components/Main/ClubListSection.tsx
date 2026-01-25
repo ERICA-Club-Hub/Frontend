@@ -1,5 +1,5 @@
 import Button from '../Common/Button';
-import ClubCard from '../../domains/shared/components/ClubCard/ClubCard';
+import ClubCard from '../../domains/shared/components/card/ClubCard';
 import { usePopularClub } from '@/hooks/queries/main/usePopularClub';
 import { PATHS } from '@/routes/paths';
 

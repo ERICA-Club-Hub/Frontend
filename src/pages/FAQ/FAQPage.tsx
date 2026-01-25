@@ -1,4 +1,4 @@
-import AccordionItemCard from '@/domains/shared/components/AccordionItemCard';
+import AccordionItemCard from '@/domains/shared/components/card/AccordionItemCard';
 import { useState } from 'react';
 
 interface NoticeItem {
