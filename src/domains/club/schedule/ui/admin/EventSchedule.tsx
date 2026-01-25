@@ -1,14 +1,14 @@
 import useToggle from '@/hooks/actions/useToggle';
 import DropdownArrow from '@/assets/common/dropdown_arrow.svg?react';
-import { months } from '@/constants/club-detail-register.constant';
-import useClubIntroContext from '@/hooks/contexts/useClubIntroContext';
-import { IEventScheduleValue } from '@/types';
+import { months } from '@/domains/shared/constants/club-detail-register.constant';
+import useClubIntroContext from '@/domains/shared/contexts/useClubIntroContext';
 import { Dropdown, InputField } from '@/components/Common';
 import { useEffect } from 'react';
 import DeleteIcon from '@/assets/common/plus-icon.svg?react';
 import { cn } from '@/utils/cn';
+import { IEventScheduleValue } from '@/types';
 
-function EventSchedule({
+export default function EventSchedule({
     schedule,
     index,
 }: {
@@ -152,5 +152,3 @@ function EventSchedule({
         </div>
     );
 }
-
-export { EventSchedule };

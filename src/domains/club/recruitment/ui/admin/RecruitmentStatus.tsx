@@ -2,7 +2,7 @@ import { Dropdown } from '@/components/Common';
 import DropdownArrow from '@/assets/common/dropdown_arrow.svg?react';
 import { AdminSection, AdminSectionLabel } from '@/components/Common';
 import useToggle from '@/hooks/actions/useToggle';
-import { recruitStatus } from '@/constants/club-detail-register.constant';
+import { recruitStatus } from '@/domains/shared/constants/club-detail-register.constant';
 import { ISummaryInfoValue } from '@/types';
 import { cn } from '@/utils/cn';
 
@@ -40,7 +40,7 @@ function RecruitmentStatus({ inputValue, setInputValue }: IRecruitmentStatus) {
                                 'text-body-03',
                                 hasSelectedValue
                                     ? 'font-medium text-black'
-                                    : 'font-normal text-neutral-400'
+                                    : 'font-normal text-neutral-400',
                             )}
                         >
                             {inputValue.recruitmentStatus === 'UPCOMING'
@@ -54,7 +54,7 @@ function RecruitmentStatus({ inputValue, setInputValue }: IRecruitmentStatus) {
                         <div
                             className={cn(
                                 'transition-transform duration-[400ms] ease-in-out',
-                                isOpen ? 'rotate-180' : 'rotate-0'
+                                isOpen ? 'rotate-180' : 'rotate-0',
                             )}
                         >
                             <DropdownArrow />
@@ -69,12 +69,14 @@ function RecruitmentStatus({ inputValue, setInputValue }: IRecruitmentStatus) {
                             return (
                                 <li
                                     key={`recruit-status-${index}`}
-                                    onClick={() => handleRecruitmentStatus(item)}
+                                    onClick={() =>
+                                        handleRecruitmentStatus(item)
+                                    }
                                     className={cn(
                                         'flex justify-center items-center w-[260px] h-[36px] rounded-[5px] text-body-03 cursor-pointer',
                                         isSelected
                                             ? 'text-white bg-primary-500'
-                                            : 'text-black bg-neutral-100'
+                                            : 'text-black bg-neutral-100',
                                     )}
                                 >
                                     {item.label}

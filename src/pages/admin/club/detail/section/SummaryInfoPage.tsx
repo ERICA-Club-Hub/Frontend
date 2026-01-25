@@ -1,6 +1,6 @@
 import { InputField } from '@/components/Common';
 import { useState } from 'react';
-import { summaryInfoList } from '@/constants/club-detail-register.constant';
+import { summaryInfoList } from '@/domains/shared/constants/club-detail-register.constant';
 import Button from '@/components/Common/Button';
 import {
     AdminSection,
@@ -9,10 +9,9 @@ import {
 } from '@/components/Common';
 import { inputChangeHandler } from '@/utils/inputChangeHandler';
 import { ISummaryInfoValue } from '@/types';
-import { RecruitmentStatus } from '@/components/AdminClubDetail';
-import useClubAdminQueries from '@/hooks/queries/useClubAdminQueries';
+import useClubAdminQueries from '@/domains/shared/api/useClubAdminQueries';
 import LoadingModal from '@/components/Common/Loading/LoadingModal';
-import { cn } from '@/utils/cn';
+import { RecruitmentStatus } from '@/domains/club/recruitment/ui/admin/RecruitmentStatus';
 
 function SummaryInfoPage() {
     const [inputValue, setInputValue] = useState<ISummaryInfoValue>({

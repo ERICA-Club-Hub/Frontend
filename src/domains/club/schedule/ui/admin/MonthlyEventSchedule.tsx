@@ -1,11 +1,11 @@
 import { AdminSection, AdminSectionLabel } from '@/components/Common';
 import PlusIcon from '@/assets/common/plus-icon.svg?react';
-import { EventSchedule } from './EventSchedule';
-import useClubIntroContext from '@/hooks/contexts/useClubIntroContext';
-import useClubAdminQueries from '@/hooks/queries/useClubAdminQueries';
+import useClubIntroContext from '@/domains/shared/contexts/useClubIntroContext';
+import useClubAdminQueries from '@/domains/shared/api/useClubAdminQueries';
 import { useEffect } from 'react';
 import axios from 'axios';
 import { useErrorHandler } from '@/hooks/handler/useErrorHandler';
+import EventSchedule from './EventSchedule';
 
 function MonthlyEventSchedule() {
     const { schedules, setSchedules } = useClubIntroContext();

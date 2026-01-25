@@ -1,13 +1,13 @@
 import { TextArea } from '@/components/Common/TextArea';
-import { clubIntroList } from '@/constants/club-detail-register.constant';
+import { clubIntroList } from '@/domains/shared/constants/club-detail-register.constant';
 import useBulletPointConverter from '@/hooks/actions/useBulletPointConverter';
-import useClubIntroContext from '@/hooks/contexts/useClubIntroContext';
-import useClubAdminQueries from '@/hooks/queries/useClubAdminQueries';
+import useClubIntroContext from '@/domains/shared/contexts/useClubIntroContext';
+import useClubAdminQueries from '@/domains/shared/api/useClubAdminQueries';
 import { AdminSection, AdminSectionLabel } from '@/components/Common';
 import { IClubIntroValue } from '@/types';
 import { inputChangeHandler } from '@/utils/inputChangeHandler';
 
-function ClubDescription() {
+export default function ClubDescription() {
     const { inputValue, setInputValue } = useClubIntroContext();
 
     // 데이터 fetch
@@ -22,7 +22,10 @@ function ClubDescription() {
 
             <div className="flex flex-col gap-5">
                 {clubIntroList.map((clubIntro, index) => (
-                    <div key={`club-intro-${index}`} className="flex flex-col gap-[10px]">
+                    <div
+                        key={`club-intro-${index}`}
+                        className="flex flex-col gap-[10px]"
+                    >
                         <AdminSectionLabel>{clubIntro.label}</AdminSectionLabel>
                         <TextArea
                             size="large"
@@ -56,5 +59,3 @@ function ClubDescription() {
         </AdminSection>
     );
 }
-
-export { ClubDescription };

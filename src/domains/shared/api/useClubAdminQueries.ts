@@ -3,7 +3,6 @@ import { queryClient } from '@/config/queryClient';
 import { clubIdSelector } from '@/domains/auth/model/clubInfoState';
 import {
     ClubIdType,
-    IActivitiesLog,
     IActivityLogValue,
     IClubIntroValue,
     IEventScheduleValue,
@@ -15,9 +14,11 @@ import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
 import { IActivityImageDTO } from '@/types/activity-log.types';
-import { useErrorHandler } from '../handler/useErrorHandler';
+import { useErrorHandler } from '@/hooks/handler/useErrorHandler';
 import converURLtoFile from '@/utils/convertURLtoFile';
+import { IActivitiesLog } from '@/types/club-detail.types';
 
+// TODO: 도메인 별 각 함수 파일로 분리하기
 function useClubAdminQueries() {
     const navigate = useNavigate();
     const clubId = useRecoilValue(clubIdSelector);
