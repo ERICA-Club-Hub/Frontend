@@ -1,5 +1,5 @@
 import { RecruitmentStatus } from '@/types/recruitment-status.type';
-import ClubTag from '../ClubTag';
+import ClubTag from './ClubTag';
 import { getRecruitmentConfig } from '@/utils/getRecruitmentConfig';
 
 export interface RecruitStatusTagProps {

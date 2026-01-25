@@ -1,8 +1,8 @@
 import { Link, LinkProps } from 'react-router-dom';
 import { cn } from '@/utils/cn';
-import ClubTypeTag, { ClubCategoryCode } from './ClubCardTags/ClubTypeTag';
 import { RecruitmentStatus } from '@/types/recruitment-status.type';
-import RecruitStatusTag from './ClubCardTags/RecruitStatusTag';
+import RecruitStatusTag from '../Tag/RecruitStatusTag';
+import ClubTypeTag, { ClubCategoryCode } from '../Tag/ClubTypeTag';
 
 interface ClubCardProps extends LinkProps {
     title?: string; // 동아리 이름
@@ -14,6 +14,7 @@ interface ClubCardProps extends LinkProps {
     profileImageUrl?: string;
 }
 
+// TODO: 어떤 페이지에서 사용되는지 JSDoc 주석 추가 필요
 export default function ClubCard({
     title,
     subTitle,

@@ -1,4 +1,4 @@
-import ClubTag from '../ClubTag';
+import ClubTag from './ClubTag';
 import type {
     CentralCategoryCode,
     UnionCategoryCode,
