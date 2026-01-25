@@ -6,11 +6,11 @@ import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
 import { clubIdSelector } from '@/store/clubInfoState';
-import { useErrorHandler } from '../handler/useErrorHandler';
 import { MAX_FILE_SIZE } from '@/constants/max-file-size.constant';
 import { calculateFormDataSize } from '@/utils/calculateFileSize';
-import { useToast } from '../actions/useToast';
 import convertURLtoFile from '@/utils/convertURLtoFile';
+import { useToast } from '@/hooks/actions/useToast';
+import { useErrorHandler } from '@/hooks/handler/useErrorHandler';
 
 function useClubRegisterQueries() {
     const clubId = useRecoilValue(clubIdSelector);
@@ -77,7 +77,7 @@ function useClubRegisterQueries() {
         } = useMutation({
             mutationFn: async (formData: FormData) => {
                 return await apiRequest({
-                    url: `/api/clubs/registrations`,
+                    url: `/registrations`,
                     method: 'POST',
                     data: formData,
                     headers: {

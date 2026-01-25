@@ -1,5 +1,5 @@
-import Skeleton from '../Common/Loading/Skeleton';
-import ClubCard from '../Common/ClubCard';
+import Skeleton from '@/components/Common/Loading/Skeleton';
+import ClubCard from '@/components/Common/ClubCard';
 import { ClubRegistrationDTOList } from '@/types/club.types';
 import { PATHS } from '@/routes/paths';
 

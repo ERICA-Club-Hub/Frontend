@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import Button from '@/components/Common/Button';
 
-export default function CompleteClubRegisterPage() {
+export default function RegistrationCompletionPage() {
     return (
         <>
             <div className="flex flex-col items-center h-[calc(100vh-55px)] pt-[240px]">

@@ -4,6 +4,7 @@ import { InputField } from '@/components/Common';
 import Button from '@/components/Common/Button';
 import useAdminLogin from '@/hooks/auth/useAdminLogin';
 import { cn } from '@/utils/cn';
+import { PATHS } from '@/routes/paths';
 
 const AdminLoginPage = () => {
     const [code, setCode] = useState<string>('');
@@ -43,14 +44,14 @@ const AdminLoginPage = () => {
                     <p
                         className={cn(
                             'absolute top-[112px] left-[15px] text-body-03 font-medium text-sub-warning transition-opacity duration-500 ease-in-out',
-                            isValidate ? 'opacity-0' : 'opacity-100'
+                            isValidate ? 'opacity-0' : 'opacity-100',
                         )}
                     >
                         코드가 일치하지 않아요
                     </p>
                 </form>
 
-                <Link to="/admin/club/register">
+                <Link to={PATHS.CLUB_REGISTRATION}>
                     <button className="text-body-03 font-normal text-neutral-400 underline cursor-pointer">
                         동아리 등록하기
                     </button>

@@ -12,9 +12,9 @@ import {
 import useBulletPointConverter from '@/hooks/actions/useBulletPointConverter';
 import ClubImageUpload from './ClubImageUpload';
 import { ClubCategorySelection } from './ClubCategorySelection';
-import useClubRegisterQueries from '@/hooks/queries/useClubRegisterQueries';
 import { setDefaultImg } from '@/utils/setDefaultImg';
-import LoadingModal from '../Common/Loading/LoadingModal';
+import LoadingModal from '@/components/Common/Loading/LoadingModal';
+import useClubRegisterQueries from '../api/useClubRegisterQueries';
 
 function ClubRegisterForm({ editMode }: { editMode: boolean }) {
     const [inputValue, setInputValue] = useState<IClubRegisterValue>({
@@ -95,7 +95,11 @@ function ClubRegisterForm({ editMode }: { editMode: boolean }) {
     return (
         <>
             <div className="w-full flex flex-col items-center box-border pt-10">
-                <div className={`flex flex-col gap-[5px] w-[320px] ${editMode ? 'mb-[30px]' : 'mb-10'}`}>
+                <div
+                    className={`flex flex-col gap-[5px] w-[320px] ${
+                        editMode ? 'mb-[30px]' : 'mb-10'
+                    }`}
+                >
                     <h1 className="text-body-01 font-semibold text-black">
                         {editMode
                             ? '동아리 등록 정보 수정하기'

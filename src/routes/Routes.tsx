@@ -3,12 +3,9 @@ import {
     AdminActivitiesFeedPage,
     AdminClubDetailPage,
     AdminClubPage,
-    AdminLoginPage,
     ClubDetailPage,
     ClubIntroPage,
-    ClubRegisterPage,
     EditAdminActivityLogPage,
-    EditClubRegisterPage,
     ErrorPage,
     FAQPage,
     RecruitNoticePage,
@@ -20,17 +17,21 @@ import {
 import { RedirectIfAuthenticated } from './RedirectIfAuthenticated';
 import { AuthGuard } from './AuthGuard';
 import ClubAdminGurad from './ClubAdminGurad';
-import CompleteClubRegisterPage from '@/pages/admin/auth/register/CompleteClubRegisterPage';
 import ServiceAdminGuard from './ServiceAdminGuard';
 import ServiceAdminPage from '@/pages/admin/service/dashboard/ServiceAdminPage';
 import ClubDetailPreviewPage from '@/pages/club-detail-preview/ClubDetailPreviewPage';
 import ClubSearchPage from '@/pages/club-search/ClubSearchPage';
 import MainPage from '@/pages/main/MainPage';
-import ReviewRegistrationsPage from '@/pages/admin/service/registrations/ReviewRegistrationsPage';
 import ClubManagementPage from '@/pages/admin/service/club-management/ClubManagementPage';
 import RegistrationsDetailPage from '@/pages/admin/service/registrations/RegistrationsDetailPage';
 import ClubActivityLogDetailPage from '@/pages/club-detail/ClubActivityLogDetailPage';
 import OfficialAccountsPage from '@/pages/official-accounts/OfficialAccountsPage';
+import { PATHS } from './paths';
+import { AdminLoginPage } from '@/pages/admin/auth/login/AdminLoginPage';
+import RegistrationEditPage from '@/pages/admin/club/registration/RegistrationEditPage';
+import RegistrationCompletionPage from '@/pages/club/registration/RegistrationCompletionPage';
+import RegistrationsListPage from '@/pages/admin/service/registrations/RegistrationsListPage';
+import RegistrationPage from '@/pages/club/registration/RegistrationPage';
 
 export default function AppRoutes() {
     return (
@@ -72,14 +73,14 @@ export default function AppRoutes() {
             </Route>
 
             {/* --- 동아리 등록 --- */}
-            <Route path="/admin/club/register">
+            <Route path={PATHS.CLUB_REGISTRATION}>
                 {/* 동아리 등록 페이지 */}
-                <Route index element={<ClubRegisterPage />} />
+                <Route index element={<RegistrationPage />} />
 
                 {/* 동아리 등록 성공 페이지 */}
                 <Route
-                    path="/admin/club/register/complete"
-                    element={<CompleteClubRegisterPage />}
+                    path={PATHS.CLUB_REGISTRATION_COMPLETED}
+                    element={<RegistrationCompletionPage />}
                 />
             </Route>
 
@@ -134,8 +135,8 @@ export default function AppRoutes() {
 
                     {/* 동아리 등록 정보 수정 페이지 */}
                     <Route
-                        path="/admin/club/:id/register/edit"
-                        element={<EditClubRegisterPage />}
+                        path={PATHS.CLUB_ADMIN_REGISTRATION_EDIT}
+                        element={<RegistrationEditPage />}
                     />
                 </Route>
 
@@ -144,10 +145,10 @@ export default function AppRoutes() {
                     {/* 서비스 어드민 대시보드 */}
                     <Route index element={<ServiceAdminPage />} />
 
-                    {/* 신규 동아리 등록 신청 확인 */}
+                    {/* 신규 동아리 등록 신청 관리 */}
                     <Route
-                        path="/admin/service/registrations"
-                        element={<ReviewRegistrationsPage />}
+                        path={PATHS.SERVICE_ADMIN_REGISTRATIONS_MANAGE}
+                        element={<RegistrationsListPage />}
                     />
                     <Route
                         path="/admin/service/registrations/:id"

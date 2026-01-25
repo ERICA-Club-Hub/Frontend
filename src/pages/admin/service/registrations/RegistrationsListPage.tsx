@@ -1,10 +1,10 @@
 import { useState } from 'react';
-import ClubListView from '@/components/ServiceAdmin/ClubListView';
+import ClubListView from '@/domains/club/registration/ui/ClubListView';
 import useServiceAdminQueries from '@/hooks/queries/useServiceAdminQueries';
-import SearchInput from '@/components/ServiceAdmin/SearchInput';
+import SearchInput from '@/domains/club/registration/ui/SearchInput';
 
 // 동아리 등록 요청 검토 페이지
-export default function ReviewRegistrationsPage() {
+export default function RegistrationsListPage() {
     const { useClubRegistrationRequestQuery } = useServiceAdminQueries();
     const { isPending, data, isError } = useClubRegistrationRequestQuery();
 

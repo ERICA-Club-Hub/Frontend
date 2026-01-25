@@ -1,4 +1,4 @@
-import { ReactNode } from 'react';
+import { ComponentProps, ReactNode } from 'react';
 import { cn } from '@/utils/cn';
 
 interface RegistrationGuideTextProps {
@@ -14,7 +14,7 @@ export const RegistrationGuideText = ({
         <p
             className={cn(
                 'w-full text-caption font-normal text-neutral-400',
-                className
+                className,
             )}
         >
             {children}
@@ -38,7 +38,7 @@ export const RegistrationInnerWrapper = ({
     );
 };
 
-interface RegistrationLabelProps {
+interface RegistrationLabelProps extends ComponentProps<'label'> {
     children: ReactNode;
     className?: string;
 }
@@ -51,7 +51,7 @@ export const RegistrationLabel = ({
         <label
             className={cn(
                 'w-full pl-[7px] mb-[10px] text-body-01 font-semibold text-black',
-                className
+                className,
             )}
         >
             {children}
@@ -72,7 +72,7 @@ export const RegistrationContent = ({
         <div
             className={cn(
                 'w-[320px] min-w-[47px] h-fit px-[15px] py-[15px] rounded-[10px] text-body-03 font-medium text-black bg-white',
-                className
+                className,
             )}
         >
             {children}

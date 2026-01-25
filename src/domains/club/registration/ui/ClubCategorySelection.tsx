@@ -3,11 +3,11 @@ import {
     RegistrationInnerWrapper,
     RegistrationLabel,
 } from '@/components/Common';
-import { Dropdown } from '../Common';
 import ExpandArrowIcon from '@/assets/common/expand-arrow.svg?react';
 import { IClubRegisterValue } from '@/types';
 import { cn } from '@/utils/cn';
 import { clubCategory } from '@/constants/navigations.constant';
+import { Dropdown } from '@/components/Common/Dropdown/Dropdown';
 
 interface IClubCategorySelection {
     inputValue: IClubRegisterValue;
