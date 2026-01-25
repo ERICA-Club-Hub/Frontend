@@ -1,5 +1,5 @@
 import { ClubRegisterForm } from '@/domains/club/registration/ui/ClubRegisterForm';
-import useEditMode from '@/hooks/auth/useEditMode';
+import useEditMode from '@/domains/club/registration/model/useEditMode';
 
 export default function RegistrationPage() {
     // 동아리 로그인 되어 있다면 수정모드
