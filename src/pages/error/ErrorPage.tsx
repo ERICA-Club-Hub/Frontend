@@ -1,6 +1,6 @@
 import ErrorIcon from '@/assets/common/error-icon.svg?react';
 
-const ErrorPage = () => {
+export default function ErrorPage() {
     return (
         <div className="w-full h-[calc(100vh-55px)] flex flex-col justify-center items-center gap-[10px]">
             <ErrorIcon />
@@ -12,6 +12,4 @@ const ErrorPage = () => {
             </p>
         </div>
     );
-};
-
-export { ErrorPage };
+}

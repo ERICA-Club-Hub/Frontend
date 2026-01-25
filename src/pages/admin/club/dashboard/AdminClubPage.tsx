@@ -6,7 +6,7 @@ import {
     clubNameSelector,
 } from '@/domains/auth/model/clubInfoState';
 
-const AdminClubPage = () => {
+export default function AdminClubPage() {
     const clubId = useRecoilValue(clubIdSelector);
     const clubName = useRecoilValue(clubNameSelector);
     const menus = clubId !== null ? getClubAdminMenus(clubId) : [];
@@ -32,6 +32,4 @@ const AdminClubPage = () => {
             </div>
         </div>
     );
-};
-
-export { AdminClubPage };
+}

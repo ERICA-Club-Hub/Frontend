@@ -1,7 +1,7 @@
 import ClubDetailHeader from '@/components/ClubDetail/ClubDetailHeader';
 import { useNavigate } from 'react-router-dom';
-import TabContentsSwitch from '../club-detail/TabContents';
-import arrow from '../../assets/common/Expand_right.svg';
+import TabContentsSwitch from '../detail/TabContents';
+import arrow from '@/assets/common/Expand_right.svg';
 import { useClubDetail } from '@/hooks/club-detail/useClubDetail';
 import ClubDetailTab from '@/components/ClubDetail/Tab/ClubDetailTab';
 

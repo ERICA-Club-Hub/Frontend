@@ -8,7 +8,7 @@ import { MonthlyEventSchedule } from '@/domains/club/schedule/ui/admin/MonthlyEv
 import ClubDescription from '@/domains/club/recruitment/ui/admin/ClubDescription';
 import { AdminButtonGroup } from '@/domains/shared/components/AdminSection';
 
-function ClubIntroPage() {
+export default function ClubIntroPage() {
     // 서버에서 받아와서 렌더링 시에 필요한 상태
     const [schedules, setSchedules] = useState<IEventScheduleValue[]>([
         { month: 1, content: '' },
@@ -113,5 +113,3 @@ function ClubIntroPage() {
         </>
     );
 }
-
-export { ClubIntroPage };

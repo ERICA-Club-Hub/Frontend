@@ -1,20 +1,11 @@
 import { Route, Routes } from 'react-router-dom';
-import {
-    AdminClubDetailPage,
-    AdminClubPage,
-    ClubDetailPage,
-    ClubIntroPage,
-    ErrorPage,
-    RecruitNoticePage,
-    SummaryInfoPage,
-} from '@/pages';
 import { RedirectIfAuthenticated } from './RedirectIfAuthenticated';
 import { AuthGuard } from './AuthGuard';
 import ClubAdminGurad from './ClubAdminGurad';
 import ServiceAdminGuard from './ServiceAdminGuard';
 import ServiceAdminPage from '@/pages/admin/service/dashboard/ServiceAdminPage';
-import ClubDetailPreviewPage from '@/pages/club-detail-preview/ClubDetailPreviewPage';
-import ClubSearchPage from '@/pages/club-search/ClubSearchPage';
+import ClubDetailPreviewPage from '@/pages/club/preview/ClubDetailPreviewPage';
+import ClubSearchPage from '@/pages/search/ClubSearchPage';
 import MainPage from '@/pages/main/MainPage';
 import ClubManagementPage from '@/pages/admin/service/club-management/ClubManagementPage';
 import RegistrationsDetailPage from '@/pages/admin/service/registrations/RegistrationsDetailPage';
@@ -26,7 +17,14 @@ import RegistrationsListPage from '@/pages/admin/service/registrations/Registrat
 import RegistrationPage from '@/pages/club/registration/RegistrationPage';
 import NoticePage from '@/pages/notice/NoticePage';
 import ClubSocialPage from '@/pages/social/ClubSocialPage';
-import FAQPage from '@/pages/FAQ/FAQPage';
+import FAQPage from '@/pages/faq/FAQPage';
+import { ClubDetailPage } from '@/pages/club/detail/ClubDetailPage';
+import AdminClubPage from '@/pages/admin/club/dashboard/AdminClubPage';
+import AdminClubDetailPage from '@/pages/admin/club/detail/AdminClubDetailPage';
+import SummaryInfoPage from '@/pages/admin/club/detail/section/SummaryInfoPage';
+import ClubIntroPage from '@/pages/admin/club/detail/section/ClubIntroPage';
+import RecruitNoticePage from '@/pages/admin/club/detail/section/RecruitNoticePage';
+import ErrorPage from '@/pages/error/ErrorPage';
 
 export default function AppRoutes() {
     return (

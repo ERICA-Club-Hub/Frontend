@@ -13,7 +13,7 @@ import useBulletPointConverter from '@/hooks/actions/useBulletPointConverter';
 import useClubAdminQueries from '@/domains/shared/api/useClubAdminQueries';
 import LoadingModal from '@/components/Common/Loading/LoadingModal';
 
-function RecruitNoticePage() {
+export default function RecruitNoticePage() {
     const [inputValue, setInputValue] = useState<IRecruitNoticeValue>({
         due: '',
         notice: '',
@@ -123,5 +123,3 @@ function RecruitNoticePage() {
         </>
     );
 }
-
-export { RecruitNoticePage };

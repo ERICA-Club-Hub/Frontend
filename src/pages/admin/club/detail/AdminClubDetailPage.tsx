@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { Outlet, useLocation, useNavigate, useParams } from 'react-router-dom';
 import { clubDetailRegisterNavigations } from '@/constants/navigations.constant';
 
-const AdminClubDetailPage = () => {
+export default function AdminClubDetailPage() {
     const { id: clubId } = useParams();
     const location = useLocation();
     const navigate = useNavigate();
@@ -48,6 +48,6 @@ const AdminClubDetailPage = () => {
             <Outlet />
         </div>
     );
-};
+}
 
 export { AdminClubDetailPage };

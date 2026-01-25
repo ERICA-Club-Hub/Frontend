@@ -13,7 +13,7 @@ import useClubAdminQueries from '@/domains/shared/api/useClubAdminQueries';
 import LoadingModal from '@/components/Common/Loading/LoadingModal';
 import { RecruitmentStatus } from '@/domains/club/recruitment/ui/admin/RecruitmentStatus';
 
-function SummaryInfoPage() {
+export default function SummaryInfoPage() {
     const [inputValue, setInputValue] = useState<ISummaryInfoValue>({
         recruitmentStatus: '',
         leaderName: '',
@@ -168,5 +168,3 @@ function SummaryInfoPage() {
         </>
     );
 }
-
-export { SummaryInfoPage };
