@@ -1,6 +1,9 @@
 import { useRecoilValue } from 'recoil';
 import { useEffect, useState } from 'react';
-import { adminTypeSelector, isAuthenticatedSelector } from '@/store/authState';
+import {
+    adminTypeSelector,
+    isAuthenticatedSelector,
+} from '@/domains/auth/model/authState';
 
 export default function useEditMode() {
     const isAuthenticated = useRecoilValue(isAuthenticatedSelector);

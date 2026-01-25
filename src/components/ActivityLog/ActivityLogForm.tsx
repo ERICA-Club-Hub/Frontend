@@ -9,7 +9,7 @@ import useToggle from '@/hooks/actions/useToggle';
 import ActionModal from '../Common/Modal/ActionModal';
 import useAdminClubQueries from '@/hooks/queries/useClubAdminQueries';
 import { useRecoilValue } from 'recoil';
-import { clubIdSelector } from '@/store/clubInfoState';
+import { clubIdSelector } from '@/domains/auth/model/clubInfoState';
 import useBulletPointConverter from '@/hooks/actions/useBulletPointConverter';
 import { dateFormatHandler, handleDateChange } from '@/utils/dateFormatHandler';
 import CarouselImage from './CarouselImage';

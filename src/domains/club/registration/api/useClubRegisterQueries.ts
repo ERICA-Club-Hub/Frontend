@@ -5,7 +5,7 @@ import { useMutation, useQuery } from '@tanstack/react-query';
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
-import { clubIdSelector } from '@/store/clubInfoState';
+import { clubIdSelector } from '@/domains/auth/model/clubInfoState';
 import { MAX_FILE_SIZE } from '@/constants/max-file-size.constant';
 import { calculateFormDataSize } from '@/utils/calculateFileSize';
 import convertURLtoFile from '@/utils/convertURLtoFile';

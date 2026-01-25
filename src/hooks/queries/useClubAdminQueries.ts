@@ -1,6 +1,6 @@
 import { apiRequest } from '@/api/apiRequest';
 import { queryClient } from '@/config/queryClient';
-import { clubIdSelector } from '@/store/clubInfoState';
+import { clubIdSelector } from '@/domains/auth/model/clubInfoState';
 import {
     ClubIdType,
     IActivitiesLog,

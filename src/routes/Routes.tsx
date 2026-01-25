@@ -27,7 +27,7 @@ import RegistrationsDetailPage from '@/pages/admin/service/registrations/Registr
 import ClubActivityLogDetailPage from '@/pages/club-detail/ClubActivityLogDetailPage';
 import OfficialAccountsPage from '@/pages/official-accounts/OfficialAccountsPage';
 import { PATHS } from './paths';
-import { AdminLoginPage } from '@/pages/admin/auth/login/AdminLoginPage';
+import { AdminLoginPage } from '@/pages/admin/auth/AdminLoginPage';
 import RegistrationEditPage from '@/pages/admin/club/registration/RegistrationEditPage';
 import RegistrationCompletionPage from '@/pages/club/registration/RegistrationCompletionPage';
 import RegistrationsListPage from '@/pages/admin/service/registrations/RegistrationsListPage';

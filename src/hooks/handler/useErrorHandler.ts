@@ -1,6 +1,6 @@
 import axios, { AxiosError } from 'axios';
 import { useToast } from '../actions/useToast';
-import { useTokenExpired } from '../auth/useTokenExpired';
+import { useTokenExpired } from '../../domains/auth/model/useTokenExpired';
 
 const useErrorHandler = () => {
     const { showToast } = useToast();

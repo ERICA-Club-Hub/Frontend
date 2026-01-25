@@ -1,7 +1,10 @@
 import { useRecoilValue } from 'recoil';
 import { NavigationLink } from '@/components/Common';
 import { getClubAdminMenus } from '@/routes/paths';
-import { clubIdSelector, clubNameSelector } from '@/store/clubInfoState';
+import {
+    clubIdSelector,
+    clubNameSelector,
+} from '@/domains/auth/model/clubInfoState';
 
 const AdminClubPage = () => {
     const clubId = useRecoilValue(clubIdSelector);

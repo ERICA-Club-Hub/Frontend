@@ -1,7 +1,7 @@
 import { useToast } from '@/hooks/actions/useToast';
 import { useSetRecoilState } from 'recoil';
-import { adminType, isAuthenticated } from '@/store/authState';
-import { clubId } from '@/store/clubInfoState';
+import { adminType, isAuthenticated } from '@/domains/auth/model/authState';
+import { clubId } from '@/domains/auth/model/clubInfoState';
 import { useNavigate } from 'react-router-dom';
 import { removeAccessToken } from '@/utils/tokenHandler';
 

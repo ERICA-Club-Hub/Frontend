@@ -1,7 +1,7 @@
 import { useRecoilValue } from 'recoil';
 import NavigateArrow from '@/assets/common/navigate-arrow.svg?react';
-import { isAuthenticatedSelector } from '@/store/authState';
-import { useAuthToggle } from '@/hooks/auth/useAuthToggle';
+import { isAuthenticatedSelector } from '@/domains/auth/model/authState';
+import { useAuthToggle } from '@/domains/auth/model/useAuthToggle';
 import { NavigationLink } from '../NavigationLink';
 import { useFilteredMenus } from '@/hooks/ui/useFilteredMenus';
 import { cn } from '@/utils/cn';
@@ -35,7 +35,7 @@ export default function NavigationDrawer({
                 'absolute top-[55px] right-0 flex flex-col items-center w-full rounded-bl-[10px] rounded-br-[10px] bg-white overflow-hidden shadow-[0px_20px_25px_-5px_rgba(0,0,0,0.1)]',
                 isOpen
                     ? 'h-auto py-[20px] pb-[30px] transition-all duration-300 ease-in-out'
-                    : 'h-0 px-[36px] py-0'
+                    : 'h-0 px-[36px] py-0',
             )}
         >
             <button

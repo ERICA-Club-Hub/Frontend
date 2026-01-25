@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { InputField } from '@/components/Common';
 import Button from '@/components/Common/Button';
-import useAdminLogin from '@/hooks/auth/useAdminLogin';
+import useAdminLogin from '@/domains/auth/model/useAdminLogin';
 import { cn } from '@/utils/cn';
 import { PATHS } from '@/routes/paths';
 

@@ -1,6 +1,9 @@
 import { useRecoilValue } from 'recoil';
-import { adminTypeSelector, isAuthenticatedSelector } from '@/store/authState';
-import { clubIdSelector } from '@/store/clubInfoState';
+import {
+    adminTypeSelector,
+    isAuthenticatedSelector,
+} from '@/domains/auth/model/authState';
+import { clubIdSelector } from '@/domains/auth/model/clubInfoState';
 import { ADMIN_TYPE } from '@/types/admin.types';
 import { adminMenus, baseMenus, PATHS } from '@/routes/paths';
 import { DrawerMenuType } from '@/types/routes.types';

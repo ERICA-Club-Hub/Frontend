@@ -1,4 +1,4 @@
-import { cva, type VariantProps } from 'class-variance-authority';
+import { cva } from 'class-variance-authority';
 import { cn } from '@/utils/cn';
 
 type Size = 'small' | 'medium' | 'large';
@@ -33,7 +33,7 @@ const inputVariants = cva(
             backgroundColor: 'white',
             isError: false,
         },
-    }
+    },
 );
 
 /**
@@ -57,7 +57,7 @@ const InputField = ({
         <input
             className={cn(
                 inputVariants({ inputSize, backgroundColor, isError }),
-                'placeholder:text-body-03 placeholder:font-medium placeholder:text-neutral-400'
+                'placeholder:text-body-03 placeholder:font-medium placeholder:text-neutral-400',
             )}
             {...props}
         />
