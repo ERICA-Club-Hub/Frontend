@@ -1,4 +1,4 @@
-import Card from '@/components/Common/Card';
+import AccordionItemCard from '@/domains/shared/components/AccordionItemCard';
 import { useState } from 'react';
 
 interface NoticeItem {
@@ -68,7 +68,7 @@ const FAQPage = () => {
                 <div className="flex flex-col w-full">
                     {noticeItems.map((item, index) => (
                         <div key={index} className="flex flex-col w-full pb-2">
-                            <Card
+                            <AccordionItemCard
                                 $variant="FAQ"
                                 title={item.title}
                                 questionType={item.questionType}

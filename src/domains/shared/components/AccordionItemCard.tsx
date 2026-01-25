@@ -1,8 +1,8 @@
 import { cva } from 'class-variance-authority';
 import { cn } from '@/utils/cn';
-import { Tag } from './Tag';
-import downloadIcon from '../../assets/common/card_download.svg';
-import rightArrowIcon from '../../assets/common/card_right_arrow.svg';
+import { Tag } from '../../../components/Common/Tag';
+import downloadIcon from '@/assets/common/card_download.svg';
+import rightArrowIcon from '@/assets/common/card_right_arrow.svg';
 
 interface CardProps {
     $variant?: 'unionNotice' | 'serviceNotice' | 'resources' | 'FAQ';
@@ -31,7 +31,9 @@ const cardVariants = cva(
     },
 );
 
-const Card = ({
+// TODO: headless ui로 대체 가능성 검토
+// 현재 FAQ, 공지사항, 자료실 페이지 에서 사용 중
+const AccordionItemCard = ({
     $variant = 'unionNotice',
     $imagePath,
     title,
@@ -130,4 +132,4 @@ const Card = ({
     );
 };
 
-export default Card;
+export default AccordionItemCard;

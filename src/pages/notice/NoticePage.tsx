@@ -1,6 +1,6 @@
-import Card from '@/components/Common/Card';
 import { useState, useEffect } from 'react';
 import { apiRequest } from '@/api/apiRequest';
+import AccordionItemCard from '@/domains/shared/components/AccordionItemCard';
 
 interface NoticeItem {
     id: number;
@@ -9,7 +9,8 @@ interface NoticeItem {
     createdAt: string;
 }
 
-const ServiceNoticePage = () => {
+// TODO: 각종 상태 개선 필요
+export default function NoticePage() {
     const [rotatedStates, setRotatedStates] = useState<{
         [key: number]: boolean;
     }>({}); // 회전 상태
@@ -99,7 +100,7 @@ const ServiceNoticePage = () => {
                                     key={index}
                                     className="flex flex-col w-full pb-2"
                                 >
-                                    <Card
+                                    <AccordionItemCard
                                         $variant="serviceNotice"
                                         title={item.title}
                                         date={item.createdAt}
@@ -131,6 +132,4 @@ const ServiceNoticePage = () => {
             </div>
         </div>
     );
-};
-
-export { ServiceNoticePage };
+}

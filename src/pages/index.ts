@@ -14,7 +14,6 @@ export * from './admin/union/resources/AdminResourcesRegisterPage';
 export * from './club-detail/ClubDetailPage';
 export * from './main/MainPage';
 export * from './FAQ/FAQPage';
-export * from './notice/ServiceNoticePage';
 export * from './resources/ResourcesPage';
 
 export * from './splash/SplashScreen';

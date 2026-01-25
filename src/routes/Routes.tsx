@@ -8,7 +8,6 @@ import {
     FAQPage,
     RecruitNoticePage,
     ResourcesPage,
-    ServiceNoticePage,
     SummaryInfoPage,
 } from '@/pages';
 import { RedirectIfAuthenticated } from './RedirectIfAuthenticated';
@@ -28,6 +27,7 @@ import RegistrationEditPage from '@/pages/admin/club/registration/RegistrationEd
 import RegistrationCompletionPage from '@/pages/club/registration/RegistrationCompletionPage';
 import RegistrationsListPage from '@/pages/admin/service/registrations/RegistrationsListPage';
 import RegistrationPage from '@/pages/club/registration/RegistrationPage';
+import NoticePage from '@/pages/notice/NoticePage';
 
 export default function AppRoutes() {
     return (
@@ -42,7 +42,7 @@ export default function AppRoutes() {
             <Route path="/club/search" element={<ClubSearchPage />} />
 
             {/* 서비스 공지사항 페이지 */}
-            <Route path="/notice" element={<ServiceNoticePage />} />
+            <Route path={PATHS.NOTICE} element={<NoticePage />} />
 
             {/* 자료실 페이지 */}
             <Route path="/resources" element={<ResourcesPage />} />

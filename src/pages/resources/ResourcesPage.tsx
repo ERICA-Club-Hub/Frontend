@@ -1,8 +1,8 @@
-import Card from '@/components/Common/Card';
 import { useState, useEffect } from 'react';
 import downloadIcon from '@/assets/common/card_download.svg';
 import { apiRequest } from '@/api/apiRequest';
 import { cn } from '@/utils/cn';
+import AccordionItemCard from '@/domains/shared/components/AccordionItemCard';
 
 interface Document {
     id: number;
@@ -28,25 +28,25 @@ const ResourcesPage = () => {
             setIsDownloading(true);
             // fetch를 사용하여 파일 데이터를 가져옵니다
             const response = await fetch(url);
-            
+
             // 응답이 성공적이지 않으면 에러를 던집니다
             if (!response.ok) {
                 throw new Error('파일 다운로드에 실패했습니다');
             }
-            
+
             // 응답으로부터 Blob 객체를 생성합니다
             const blob = await response.blob();
-            
+
             // Blob URL을 생성합니다
             const blobUrl = window.URL.createObjectURL(blob);
-            
+
             // 다운로드 링크를 생성하고 클릭합니다
             const link = document.createElement('a');
             link.href = blobUrl;
             link.download = fileName;
             document.body.appendChild(link);
             link.click();
-            
+
             // 사용 후 리소스를 정리합니다
             window.URL.revokeObjectURL(blobUrl);
             document.body.removeChild(link);
@@ -110,7 +110,7 @@ const ResourcesPage = () => {
                         <div>{error}</div>
                     ) : documents.length > 0 ? (
                         documents.map((document) => (
-                            <Card
+                            <AccordionItemCard
                                 key={document.id}
                                 $variant="resources"
                                 title={document.title}
