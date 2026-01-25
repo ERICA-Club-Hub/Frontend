@@ -1,5 +1,4 @@
-import { ADMIN_TYPE } from '@/types/admin.types';
-import { DrawerMenuType } from '@/types/routes.types';
+import { ADMIN_TYPE, AdminType } from '@/types/admin.types';
 
 export const PATHS = {
     /* 동아리 상세 페이지 */
@@ -68,6 +67,12 @@ export const PATHS = {
     ADMIN_CLUB_REGISTER_EDIT: (clubId: number) =>
         `/admin/club/${clubId}/register/edit`,
 };
+
+export interface DrawerMenuType {
+    title: string;
+    adminType: AdminType;
+    url: string;
+}
 
 // --- Drawer 메뉴 리스트 ---
 /* 기본 메뉴 리스트 */

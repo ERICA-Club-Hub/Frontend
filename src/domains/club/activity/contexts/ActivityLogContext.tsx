@@ -1,5 +1,5 @@
 import { createContext, ReactNode } from 'react';
-import { IActivityLogContext } from '@/types/activity-log.types';
+import { IActivityLogContext } from '@/domains/club/activity/activity-log.types';
 
 interface IActivityLogValue {
     children: ReactNode;

@@ -1,4 +1,4 @@
-import { uploadImageWithPreview } from '@/utils';
+import { uploadImageWithPreview } from '@/utils/uploadImageWithPreview';
 
 interface IClubImageUpload {
     setPostImg: React.Dispatch<React.SetStateAction<File | File[] | null>>;

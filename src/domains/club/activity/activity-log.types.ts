@@ -3,11 +3,6 @@ interface IActivityImageDTO {
     imageUrl: string;
 }
 
-type IupdateImageOrderIdxList = {
-    currentIdx: number;
-    image: File;
-};
-
 interface IActivityLogContext {
     postImg: File[];
     setPostImg: React.Dispatch<React.SetStateAction<File[]>>;
@@ -19,8 +14,4 @@ interface IActivityLogContext {
     isEditBtnClicked: boolean;
 }
 
-export type {
-    IActivityImageDTO,
-    IupdateImageOrderIdxList,
-    IActivityLogContext,
-};
+export type { IActivityImageDTO, IActivityLogContext };

@@ -2,7 +2,7 @@ import { useMutation, useQuery } from '@tanstack/react-query';
 import { useEffect } from 'react';
 import { apiRequest } from '@/api/apiRequest';
 import { queryClient } from '@/api/queryClient';
-import { APIResponse, ClubIdType } from '@/types';
+import { APIResponse } from '@/types';
 import { PendingRegistrationResponse } from '@/types/club.types';
 
 // 등록 요청 동아리 조회
@@ -35,7 +35,7 @@ const useClubRegistrationRequestQuery = () => {
 // 동아리 등록 요청 수락
 const useClubRegistrationRequestMutation = () =>
     useMutation({
-        mutationFn: async (clubRegistrationId: ClubIdType) => {
+        mutationFn: async (clubRegistrationId: number | null) => {
             return await apiRequest({
                 url: `/api/clubs/service-admin/registrations/${clubRegistrationId}`,
                 method: 'POST',

@@ -2,7 +2,6 @@ import { apiRequest } from '@/api/apiRequest';
 import { queryClient } from '@/api/queryClient';
 import { clubIdSelector } from '@/domains/auth/model/clubInfoState';
 import {
-    ClubIdType,
     IActivityLogValue,
     IClubIntroValue,
     IEventScheduleValue,
@@ -13,7 +12,7 @@ import { useMutation, useQuery } from '@tanstack/react-query';
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
-import { IActivityImageDTO } from '@/types/activity-log.types';
+import { IActivityImageDTO } from '@/domains/club/activity/activity-log.types';
 import { useErrorHandler } from '@/hooks/handler/useErrorHandler';
 import converURLtoFile from '@/utils/convertURLtoFile';
 import { IActivitiesLog } from '@/types/club-detail.types';
@@ -384,7 +383,7 @@ function useClubAdminQueries() {
     };
 
     // 활동로그 생성
-    const useCreateActivityLogMutation = (clubId: ClubIdType) => {
+    const useCreateActivityLogMutation = (clubId: number | null) => {
         const { mutate, isPending, isSuccess } = useMutation({
             mutationFn: async (formData: FormData) => {
                 return await apiRequest({
@@ -412,7 +411,7 @@ function useClubAdminQueries() {
     };
 
     // 활동로그 수정
-    const useUpdateActivityLogMutation = (activityId: ClubIdType) => {
+    const useUpdateActivityLogMutation = (activityId: number | null) => {
         const { mutate, isPending, isSuccess } = useMutation({
             mutationFn: async (formData: FormData) => {
                 return await apiRequest({
@@ -439,7 +438,7 @@ function useClubAdminQueries() {
     };
 
     // 활동로그 삭제
-    const useDeleteActivityLogMutation = (activityId: ClubIdType) => {
+    const useDeleteActivityLogMutation = (activityId: number | null) => {
         const { mutate, isPending, isSuccess, isError } = useMutation({
             mutationFn: async () => {
                 return await apiRequest({

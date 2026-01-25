@@ -1,5 +1,5 @@
-import { uploadImageWithPreview } from '@/utils';
 import { cn } from '@/utils/cn';
+import { uploadImageWithPreview } from '@/utils/uploadImageWithPreview';
 
 interface IImageUpload {
     setPostImg: React.Dispatch<React.SetStateAction<File | File[] | null>>;
@@ -30,7 +30,7 @@ function ImageUpload({
                 htmlFor="image"
                 className={cn(
                     'w-full h-full rounded-[10px]',
-                    'bg-neutral-200 cursor-pointer'
+                    'bg-neutral-200 cursor-pointer',
                 )}
             >
                 {previewImg && (
