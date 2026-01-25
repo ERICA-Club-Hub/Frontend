@@ -8,7 +8,7 @@ import {
     RegistrationGuideText,
     RegistrationInnerWrapper,
     RegistrationLabel,
-} from '@/components/Common';
+} from './RegistrationForm';
 import useBulletPointConverter from '@/hooks/actions/useBulletPointConverter';
 import ClubImageUpload from './ClubImageUpload';
 import { ClubCategorySelection } from './ClubCategorySelection';
