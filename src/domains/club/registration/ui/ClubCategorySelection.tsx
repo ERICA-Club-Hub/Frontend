@@ -2,7 +2,7 @@ import useToggle from '@/hooks/actions/useToggle';
 import {
     RegistrationInnerWrapper,
     RegistrationLabel,
-} from '@/components/Common';
+} from '@/domains/club/registration/ui/RegistrationForm';
 import ExpandArrowIcon from '@/assets/common/expand-arrow.svg?react';
 import { IClubRegisterValue } from '@/types';
 import { cn } from '@/utils/cn';

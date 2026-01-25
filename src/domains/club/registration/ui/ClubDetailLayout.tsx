@@ -2,7 +2,7 @@ import {
     RegistrationInnerWrapper,
     RegistrationLabel,
     RegistrationContent,
-} from '@/components/Common';
+} from '@/domains/club/registration/ui/RegistrationForm';
 import { ClubRegistrationDTOList } from '@/types/club.types';
 
 interface ClubDetailLayoutProps {
