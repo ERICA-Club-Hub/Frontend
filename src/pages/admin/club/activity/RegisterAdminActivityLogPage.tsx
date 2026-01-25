@@ -1,4 +1,4 @@
-import { ActivityLogForm } from '@/components/ActivityLog';
+import { ActivityLogForm } from '@/domains/club/activity/ui/ActivityLogForm';
 
 function RegisterAdminActivityLogPage() {
     return <ActivityLogForm mode="register" />;

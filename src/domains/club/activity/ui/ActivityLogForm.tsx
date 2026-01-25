@@ -2,11 +2,8 @@ import { useLocation } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { IActivityLogValue } from '@/types';
 import { inputChangeHandler } from '@/utils/inputChangeHandler';
-import { TextArea } from '../Common/TextArea';
 import { AdminButtonWrapper } from '@/components/Common';
-import Button from '../Common/Button';
 import useToggle from '@/hooks/actions/useToggle';
-import ActionModal from '../Common/Modal/ActionModal';
 import useAdminClubQueries from '@/hooks/queries/useClubAdminQueries';
 import { useRecoilValue } from 'recoil';
 import { clubIdSelector } from '@/domains/auth/model/clubInfoState';
@@ -14,9 +11,12 @@ import useBulletPointConverter from '@/hooks/actions/useBulletPointConverter';
 import { dateFormatHandler, handleDateChange } from '@/utils/dateFormatHandler';
 import CarouselImage from './CarouselImage';
 import { ActivityLogProvider } from '@/contexts/ActivityLogContext';
-import LoadingModal from '../Common/Loading/LoadingModal';
 import axios from 'axios';
 import { useErrorHandler } from '@/hooks/handler/useErrorHandler';
+import { TextArea } from '@/components/Common/TextArea';
+import Button from '@/components/Common/Button';
+import LoadingModal from '@/components/Common/Loading/LoadingModal';
+import ActionModal from '@/components/Common/Modal/ActionModal';
 
 function ActivityLogForm({ mode }: { mode: string }) {
     const location = useLocation();

@@ -1,4 +1,4 @@
-import { useActivityLogList } from '@/hooks/queries/club-detail/useClubLog';
+import { useActivityLogList } from '@/domains/club/activity/api/useClubLog';
 import { useClubIdByParams } from '@/hooks/useClubIdByParams';
 import { useNavigate } from 'react-router-dom';
 import { PATHS } from '@/routes/paths';

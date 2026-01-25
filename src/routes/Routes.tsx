@@ -1,15 +1,12 @@
 import { Route, Routes } from 'react-router-dom';
 import {
-    AdminActivitiesFeedPage,
     AdminClubDetailPage,
     AdminClubPage,
     ClubDetailPage,
     ClubIntroPage,
-    EditAdminActivityLogPage,
     ErrorPage,
     FAQPage,
     RecruitNoticePage,
-    RegisterAdminActivityLogPage,
     ResourcesPage,
     ServiceNoticePage,
     SummaryInfoPage,
@@ -24,7 +21,6 @@ import ClubSearchPage from '@/pages/club-search/ClubSearchPage';
 import MainPage from '@/pages/main/MainPage';
 import ClubManagementPage from '@/pages/admin/service/club-management/ClubManagementPage';
 import RegistrationsDetailPage from '@/pages/admin/service/registrations/RegistrationsDetailPage';
-import ClubActivityLogDetailPage from '@/pages/club-detail/ClubActivityLogDetailPage';
 import OfficialAccountsPage from '@/pages/official-accounts/OfficialAccountsPage';
 import { PATHS } from './paths';
 import { AdminLoginPage } from '@/pages/admin/auth/AdminLoginPage';
@@ -41,12 +37,6 @@ export default function AppRoutes() {
 
             {/* 동아리 상세 페이지 */}
             <Route path="/club/:id" element={<ClubDetailPage />} />
-
-            {/* 동아리 활동 로그 상세 페이지 */}
-            <Route
-                path="/club/:id/:activityId"
-                element={<ClubActivityLogDetailPage />}
-            />
 
             {/* 동아리 검색 페이지 */}
             <Route path="/club/search" element={<ClubSearchPage />} />
@@ -96,22 +86,6 @@ export default function AppRoutes() {
                 <Route path="/admin/club/:id" element={<ClubAdminGurad />}>
                     {/* 동아리 어드민 홈*/}
                     <Route index element={<AdminClubPage />} />
-
-                    {/* 동아리 활동 로그 피드 페이지 */}
-                    <Route
-                        path="/admin/club/:id/activities/feed"
-                        element={<AdminActivitiesFeedPage />}
-                    />
-                    {/* 동아리 활동 로그 등록 페이지 */}
-                    <Route
-                        path="/admin/club/:id/activities/register"
-                        element={<RegisterAdminActivityLogPage />}
-                    />
-                    {/* 동아리 활동 로그 등록 페이지 */}
-                    <Route
-                        path="/admin/club/:id/activities/edit"
-                        element={<EditAdminActivityLogPage />}
-                    />
 
                     {/* 동아리 상세 페이지  */}
                     <Route

@@ -2,8 +2,8 @@ import { useState } from 'react';
 import { IActivitiesLog } from '@/types';
 import ErrorIcon from '@/assets/common/error-icon.svg?react';
 import useClubAdminQueries from '@/hooks/queries/useClubAdminQueries';
-import Skeleton from '../Common/Loading/Skeleton';
 import { FeedThumbnailImage } from './FeedThumbnailImage';
+import Skeleton from '@/components/Common/Loading/Skeleton';
 
 function Feed() {
     const [activitiesLog, setActivitiesLog] = useState<IActivitiesLog[]>([]);

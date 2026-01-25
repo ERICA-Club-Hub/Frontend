@@ -1,6 +1,6 @@
 import { DEFAULT_IMG } from '@/constants/default-image.constant';
-import { useActivityIdByParams } from '@/hooks/useActivityIdByParams';
-import { useActivityLogDetail } from '@/hooks/queries/club-detail/useClubLog';
+import { useActivityIdByParams } from '@/domains/club/activity/api/useActivityIdByParams';
+import { useActivityLogDetail } from '@/domains/club/activity/api/useClubLog';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Pagination, Navigation } from 'swiper/modules';
 import 'swiper/css';

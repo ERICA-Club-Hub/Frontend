@@ -1,5 +1,5 @@
 import Intro from '@/components/ClubDetail/ClubDetailTabs/Intro/Intro';
-import ClubActivityLog from '@/components/ClubDetail/ClubDetailTabs/Log/ClubActivityLog';
+import ClubActivityLog from '@/domains/club/activity/ui/ClubActivityLog';
 import Recruit from '@/components/ClubDetail/ClubDetailTabs/Recruit/Recruit';
 
 interface TabContentsProps {
