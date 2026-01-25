@@ -1,7 +1,7 @@
-import { ClubIntroContext } from '@/contexts/ClubIntroContext';
+import { ClubIntroContext } from '@/domains/shared/contexts/ClubIntroContext';
 import { useContext } from 'react';
 
-export default function useActivityLogContext() {
+export default function useClubIntroContext() {
     const context = useContext(ClubIntroContext);
 
     if (!context) {

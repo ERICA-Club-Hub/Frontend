@@ -1,4 +1,4 @@
-import useActivityLogContext from '@/hooks/contexts/useActivityLogContext';
+import useActivityLogContext from '@/domains/club/activity/contexts/useActivityLogContext';
 import { cn } from '@/utils/cn';
 
 function ImageListUpload() {
@@ -56,7 +56,7 @@ function ImageListUpload() {
                 htmlFor="image"
                 className={cn(
                     'w-full h-full rounded-[10px]',
-                    'bg-neutral-200 cursor-pointer'
+                    'bg-neutral-200 cursor-pointer',
                 )}
             >
                 {Array.isArray(previewImg) && previewImg[currentIdx] ? (

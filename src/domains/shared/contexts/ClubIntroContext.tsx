@@ -1,5 +1,8 @@
+import {
+    IClubDescription,
+    IMonthlyEventSchedule,
+} from '@/types/club-detail.types';
 import { createContext, ReactNode } from 'react';
-import { IClubDescription, IMonthlyEventSchedule } from '@/types';
 
 interface IClubIntroProviderValue {
     children: ReactNode;
