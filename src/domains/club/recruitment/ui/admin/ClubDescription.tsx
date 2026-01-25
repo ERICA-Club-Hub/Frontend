@@ -3,9 +3,12 @@ import { clubIntroList } from '@/domains/shared/constants/club-detail-register.c
 import useBulletPointConverter from '@/hooks/actions/useBulletPointConverter';
 import useClubIntroContext from '@/domains/shared/contexts/useClubIntroContext';
 import useClubAdminQueries from '@/domains/shared/api/useClubAdminQueries';
-import { AdminSection, AdminSectionLabel } from '@/components/Common';
 import { IClubIntroValue } from '@/types';
 import { inputChangeHandler } from '@/utils/inputChangeHandler';
+import {
+    AdminSection,
+    AdminSectionLabel,
+} from '@/domains/shared/components/AdminSection';
 
 export default function ClubDescription() {
     const { inputValue, setInputValue } = useClubIntroContext();

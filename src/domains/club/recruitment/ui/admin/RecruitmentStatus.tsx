@@ -1,10 +1,13 @@
 import { Dropdown } from '@/components/Common';
 import DropdownArrow from '@/assets/common/dropdown_arrow.svg?react';
-import { AdminSection, AdminSectionLabel } from '@/components/Common';
 import useToggle from '@/hooks/actions/useToggle';
 import { recruitStatus } from '@/domains/shared/constants/club-detail-register.constant';
 import { ISummaryInfoValue } from '@/types';
 import { cn } from '@/utils/cn';
+import {
+    AdminSection,
+    AdminSectionLabel,
+} from '@/domains/shared/components/AdminSection';
 
 interface IRecruitmentStatus {
     inputValue: ISummaryInfoValue;

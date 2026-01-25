@@ -6,7 +6,7 @@ import {
     AdminSection,
     AdminSectionLabel,
     AdminButtonGroup,
-} from '@/components/Common';
+} from '@/domains/shared/components/AdminSection';
 import { inputChangeHandler } from '@/utils/inputChangeHandler';
 import { ISummaryInfoValue } from '@/types';
 import useClubAdminQueries from '@/domains/shared/api/useClubAdminQueries';

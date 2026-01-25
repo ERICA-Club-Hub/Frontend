@@ -2,7 +2,6 @@ import { useLocation } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { IActivityLogValue } from '@/types';
 import { inputChangeHandler } from '@/utils/inputChangeHandler';
-import { AdminButtonWrapper } from '@/components/Common';
 import useToggle from '@/hooks/actions/useToggle';
 import useAdminClubQueries from '@/domains/shared/api/useClubAdminQueries';
 import { useRecoilValue } from 'recoil';
@@ -173,7 +172,7 @@ function ActivityLogForm({ mode }: { mode: string }) {
                             }
                         />
                     </div>
-                    <AdminButtonWrapper>
+                    <div className="w-[320px] flex justify-end items-center gap-[5px]">
                         {mode === 'edit' && !isEditBtnClicked ? (
                             <>
                                 <Button
@@ -206,7 +205,7 @@ function ActivityLogForm({ mode }: { mode: string }) {
                                 저장하기
                             </Button>
                         )}
-                    </AdminButtonWrapper>
+                    </div>
                 </div>
             </ActivityLogProvider>
 

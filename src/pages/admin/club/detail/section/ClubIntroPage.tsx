@@ -1,4 +1,3 @@
-import { AdminButtonGroup } from '@/components/Common';
 import { useState } from 'react';
 import Button from '@/components/Common/Button';
 import { IClubIntroValue, IEventScheduleValue } from '@/types';
@@ -7,6 +6,7 @@ import useClubAdminQueries from '@/domains/shared/api/useClubAdminQueries';
 import LoadingModal from '@/components/Common/Loading/LoadingModal';
 import { MonthlyEventSchedule } from '@/domains/club/schedule/ui/admin/MonthlyEventSchedule';
 import ClubDescription from '@/domains/club/recruitment/ui/admin/ClubDescription';
+import { AdminButtonGroup } from '@/domains/shared/components/AdminSection';
 
 function ClubIntroPage() {
     // 서버에서 받아와서 렌더링 시에 필요한 상태

@@ -5,5 +5,3 @@ export * from './Button';
 export * from './InputField';
 export * from './NavigationLink';
 export * from './Dropdown/Dropdown';
-export * from './AdminSection';
-export * from './AdminButtonWrapper';
