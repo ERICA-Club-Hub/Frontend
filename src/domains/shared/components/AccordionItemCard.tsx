@@ -32,7 +32,7 @@ const cardVariants = cva(
 );
 
 // TODO: headless ui로 대체 가능성 검토
-// 현재 FAQ, 공지사항, 자료실 페이지 에서 사용 중
+// 현재 FAQ, 공지사항 페이지 에서 사용 중
 const AccordionItemCard = ({
     $variant = 'unionNotice',
     $imagePath,

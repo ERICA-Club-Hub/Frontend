@@ -7,7 +7,7 @@ interface NoticeItem {
     content: React.ReactNode | string;
 }
 
-const FAQPage = () => {
+export default function FAQPage() {
     const [rotatedStates, setRotatedStates] = useState<{
         [key: number]: boolean;
     }>({});
@@ -92,6 +92,4 @@ const FAQPage = () => {
             </div>
         </div>
     );
-};
-
-export { FAQPage };
+}

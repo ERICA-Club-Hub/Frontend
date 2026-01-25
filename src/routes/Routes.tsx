@@ -5,9 +5,7 @@ import {
     ClubDetailPage,
     ClubIntroPage,
     ErrorPage,
-    FAQPage,
     RecruitNoticePage,
-    ResourcesPage,
     SummaryInfoPage,
 } from '@/pages';
 import { RedirectIfAuthenticated } from './RedirectIfAuthenticated';
@@ -28,6 +26,7 @@ import RegistrationsListPage from '@/pages/admin/service/registrations/Registrat
 import RegistrationPage from '@/pages/club/registration/RegistrationPage';
 import NoticePage from '@/pages/notice/NoticePage';
 import ClubSocialPage from '@/pages/social/ClubSocialPage';
+import FAQPage from '@/pages/FAQ/FAQPage';
 
 export default function AppRoutes() {
     return (
@@ -44,11 +43,8 @@ export default function AppRoutes() {
             {/* 서비스 공지사항 페이지 */}
             <Route path={PATHS.NOTICE} element={<NoticePage />} />
 
-            {/* 자료실 페이지 */}
-            <Route path="/resources" element={<ResourcesPage />} />
-
             {/* 자주 묻는 질문 페이지 */}
-            <Route path="/faq" element={<FAQPage />} />
+            <Route path={PATHS.FAQ} element={<FAQPage />} />
 
             {/* 동아리 등록 및 수정의 미리보기 페이지 */}
             <Route

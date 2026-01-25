@@ -8,13 +8,8 @@ export * from './admin/club/activity/AdminActivitiesFeedPage';
 export * from './admin/club/activity/RegisterAdminActivityLogPage';
 export * from './admin/club/activity/EditAdminActivityLogPage';
 
-// 총동연 어드민
-export * from './admin/union/resources/AdminResourcesRegisterPage';
-
 export * from './club-detail/ClubDetailPage';
 export * from './main/MainPage';
-export * from './FAQ/FAQPage';
-export * from './resources/ResourcesPage';
 
 export * from './splash/SplashScreen';
 export * from './error/ErrorPage';
