@@ -1,5 +1,5 @@
 import { ReactNode } from 'react';
-import { AppHeader } from './Header/AppHeader';
+import { AppHeader } from '../Header/AppHeader';
 
 function RootLayout({ children }: { children: ReactNode }) {
     return (

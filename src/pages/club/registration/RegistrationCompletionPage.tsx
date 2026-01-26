@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import Button from '@/components/Common/Button';
+import Button from '@/components/Button/Button';
 
 export default function RegistrationCompletionPage() {
     return (

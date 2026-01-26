@@ -1,6 +1,6 @@
 import { cn } from '@/utils/cn';
 import Modal from './Modal';
-import Button from '../Button';
+import Button from '../Button/Button';
 import { IActionModal } from '@/types/modal.types';
 
 export default function ActionModal({ isOpen, toggle, action }: IActionModal) {
@@ -10,7 +10,7 @@ export default function ActionModal({ isOpen, toggle, action }: IActionModal) {
                 className={cn(
                     'flex flex-col items-center gap-[15px]',
                     'w-[205px] h-[99px] pt-[25px]',
-                    'rounded-[10px] bg-white'
+                    'rounded-[10px] bg-white',
                 )}
             >
                 <h2 className="text-caption font-medium text-black">

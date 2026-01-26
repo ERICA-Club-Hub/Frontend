@@ -1,4 +1,4 @@
-import { InputField } from '@/components/Common';
+import { InputField } from '@/components/InputField/InputField';
 import SearchTab from '@/domains/search/ui/SearchTab';
 import { useClubSearchFromUrl } from '@/domains/search/api/useClubList';
 import ReadingGlassIcon from '@/assets/common/reading_glass.svg?react';

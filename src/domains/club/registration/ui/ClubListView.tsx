@@ -1,4 +1,4 @@
-import Skeleton from '@/components/Common/Loading/Skeleton';
+import Skeleton from '@/components/Loading/Skeleton';
 import ClubCard from '@/domains/shared/components/card/ClubCard';
 import { ClubRegistrationDTOList } from '@/types/club.types';
 import { PATHS } from '@/routes/paths';

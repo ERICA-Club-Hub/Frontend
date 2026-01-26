@@ -1,5 +1,5 @@
 import { useSearchParams } from 'react-router-dom';
-import Tab from '@/components/Common/Tab';
+import Tab from '@/components/Tabs/Tab';
 import {
     getClubCategoryLabel,
     getServerTabValue,

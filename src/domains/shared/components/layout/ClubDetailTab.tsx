@@ -1,4 +1,4 @@
-import Tab from '@/components/Common/Tab';
+import Tab from '@/components/Tabs/Tab';
 import { useClubDetail } from '@/domains/club/profile/model/useClubDetail';
 
 interface TabProps {

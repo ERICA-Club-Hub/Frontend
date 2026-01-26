@@ -1,4 +1,4 @@
-import { TextArea } from '@/components/Common/TextArea';
+import { TextArea } from '@/components/InputField/TextArea';
 import { clubIntroList } from '@/domains/shared/constants/club-detail-register.constant';
 import useBulletPointConverter from '@/hooks/actions/useBulletPointConverter';
 import useClubIntroContext from '@/domains/shared/contexts/useClubIntroContext';

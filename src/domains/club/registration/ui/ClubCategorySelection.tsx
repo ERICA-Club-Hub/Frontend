@@ -7,7 +7,7 @@ import ExpandArrowIcon from '@/assets/common/expand-arrow.svg?react';
 import { IClubRegisterValue } from '@/types';
 import { cn } from '@/utils/cn';
 import { clubCategory } from '@/constants/navigations.constant';
-import { Dropdown } from '@/components/Common/Dropdown/Dropdown';
+import { Dropdown } from '@/components/Dropdown/Dropdown';
 
 interface IClubCategorySelection {
     inputValue: IClubRegisterValue;

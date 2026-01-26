@@ -1,4 +1,4 @@
-import { Footer } from '@/components/Common/Footer';
+import { Footer } from '@/components/Footer/Footer';
 import Feedback from '@/domains/feedback/ui/Feedback';
 import CategoryCollectSection from '@/domains/club/category/ui/CategoryCollectSection';
 import RecentlyUpdatedClubs from '@/domains/club/recent/ui/RecentlyUpdatedClubs';

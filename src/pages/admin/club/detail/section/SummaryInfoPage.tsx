@@ -1,7 +1,7 @@
-import { InputField } from '@/components/Common';
+import { InputField } from '@/components/InputField/InputField';
 import { useState } from 'react';
 import { summaryInfoList } from '@/domains/shared/constants/club-detail-register.constant';
-import Button from '@/components/Common/Button';
+import Button from '@/components/Button/Button';
 import {
     AdminSection,
     AdminSectionLabel,
@@ -10,7 +10,7 @@ import {
 import { inputChangeHandler } from '@/utils/inputChangeHandler';
 import { ISummaryInfoValue } from '@/types';
 import useClubAdminQueries from '@/domains/shared/api/useClubAdminQueries';
-import LoadingModal from '@/components/Common/Loading/LoadingModal';
+import LoadingModal from '@/components/Loading/LoadingModal';
 import { RecruitmentStatus } from '@/domains/club/recruitment/ui/admin/RecruitmentStatus';
 
 export default function SummaryInfoPage() {

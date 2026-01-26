@@ -12,10 +12,10 @@ import CarouselImage from './CarouselImage';
 import { ActivityLogProvider } from '@/domains/club/activity/contexts/ActivityLogContext';
 import axios from 'axios';
 import { useErrorHandler } from '@/hooks/handler/useErrorHandler';
-import { TextArea } from '@/components/Common/TextArea';
-import Button from '@/components/Common/Button';
-import LoadingModal from '@/components/Common/Loading/LoadingModal';
-import ActionModal from '@/components/Common/Modal/ActionModal';
+import { TextArea } from '@/components/InputField/TextArea';
+import Button from '@/components/Button/Button';
+import LoadingModal from '@/components/Loading/LoadingModal';
+import ActionModal from '@/components/Modal/ActionModal';
 
 function ActivityLogForm({ mode }: { mode: string }) {
     const location = useLocation();

@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { InputField } from '@/components/Common';
-import Button from '@/components/Common/Button';
+import { InputField } from '@/components/InputField/InputField';
+import Button from '@/components/Button/Button';
 import useAdminLogin from '@/domains/auth/model/useAdminLogin';
 import { cn } from '@/utils/cn';
 import { PATHS } from '@/routes/paths';

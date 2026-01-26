@@ -1,7 +1,7 @@
 import { useState } from 'react';
-import { InputField } from '@/components/Common';
-import Button from '@/components/Common/Button';
-import { TextArea } from '@/components/Common/TextArea';
+import { InputField } from '@/components/InputField/InputField';
+import Button from '@/components/Button/Button';
+import { TextArea } from '@/components/InputField/TextArea';
 import { IClubRegisterValue } from '@/types';
 import { inputChangeHandler } from '@/utils/inputChangeHandler';
 import {
@@ -13,7 +13,7 @@ import useBulletPointConverter from '@/hooks/actions/useBulletPointConverter';
 import ClubImageUpload from './ClubImageUpload';
 import { ClubCategorySelection } from './ClubCategorySelection';
 import { setDefaultImg } from '@/utils/setDefaultImg';
-import LoadingModal from '@/components/Common/Loading/LoadingModal';
+import LoadingModal from '@/components/Loading/LoadingModal';
 import useClubRegisterQueries from '../api/useClubRegisterQueries';
 
 function ClubRegisterForm({ editMode }: { editMode: boolean }) {

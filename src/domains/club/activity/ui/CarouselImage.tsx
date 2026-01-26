@@ -1,4 +1,4 @@
-import { ImageListUpload } from '@/components/Common/ImageUpload';
+import { ImageListUpload } from '@/components/ImageUpload';
 import PlusIcon from '@/assets/common/plus-icon.svg?react';
 import ArrowIcon from '@/assets/common/Expand_right.svg?react';
 import useActivityLogContext from '@/domains/club/activity/contexts/useActivityLogContext';

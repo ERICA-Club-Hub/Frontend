@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import Button from '@/components/Common/Button';
-import { TextArea } from '@/components/Common/TextArea';
+import Button from '@/components/Button/Button';
+import { TextArea } from '@/components/InputField/TextArea';
 import { recruitNoticeList } from '@/domains/shared/constants/club-detail-register.constant';
 import {
     AdminButtonGroup,
@@ -11,7 +11,7 @@ import { inputChangeHandler } from '@/utils/inputChangeHandler';
 import { IRecruitNoticeValue } from '@/types';
 import useBulletPointConverter from '@/hooks/actions/useBulletPointConverter';
 import useClubAdminQueries from '@/domains/shared/api/useClubAdminQueries';
-import LoadingModal from '@/components/Common/Loading/LoadingModal';
+import LoadingModal from '@/components/Loading/LoadingModal';
 
 export default function RecruitNoticePage() {
     const [inputValue, setInputValue] = useState<IRecruitNoticeValue>({

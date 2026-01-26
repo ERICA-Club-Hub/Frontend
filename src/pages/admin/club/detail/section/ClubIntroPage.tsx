@@ -1,9 +1,9 @@
 import { useState } from 'react';
-import Button from '@/components/Common/Button';
+import Button from '@/components/Button/Button';
 import { IClubIntroValue, IEventScheduleValue } from '@/types';
 import { ClubIntroProvider } from '@/domains/shared/contexts/ClubIntroContext';
 import useClubAdminQueries from '@/domains/shared/api/useClubAdminQueries';
-import LoadingModal from '@/components/Common/Loading/LoadingModal';
+import LoadingModal from '@/components/Loading/LoadingModal';
 import { MonthlyEventSchedule } from '@/domains/club/schedule/ui/admin/MonthlyEventSchedule';
 import ClubDescription from '@/domains/club/recruitment/ui/admin/ClubDescription';
 import { AdminButtonGroup } from '@/domains/shared/components/layout/AdminSection';

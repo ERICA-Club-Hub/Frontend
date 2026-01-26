@@ -1,7 +1,7 @@
 import { IModal } from '@/types/modal.types';
 import { FormEvent, useState } from 'react';
 import { cn } from '@/utils/cn';
-import Modal from '@/components/Common/Modal/Modal';
+import Modal from '@/components/Modal/Modal';
 
 type FeedbackModalProps = IModal & {
     title?: string;

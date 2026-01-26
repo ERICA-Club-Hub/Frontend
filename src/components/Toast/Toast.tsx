@@ -2,7 +2,7 @@ import { toastState } from '@/store/toast';
 import { useEffect, useState } from 'react';
 import { useRecoilValue } from 'recoil';
 import { cn } from '@/utils/cn';
-import Icon from '../../assets/common/warnIcon.svg';
+import Icon from '@/assets/common/warnIcon.svg';
 
 export default function Toast() {
     const toast = useRecoilValue(toastState);
@@ -39,7 +39,7 @@ export default function Toast() {
                 'rounded-[10px] z-[9999]',
                 'text-body-03 font-medium leading-[1.3]',
                 'items-center justify-center gap-[7px]',
-                animating ? 'animate-toast-in' : 'animate-toast-out'
+                animating ? 'animate-toast-in' : 'animate-toast-out',
             )}
         >
             {toast.message && <img src={Icon} />}

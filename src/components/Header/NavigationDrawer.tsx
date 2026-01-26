@@ -2,7 +2,7 @@ import { useRecoilValue } from 'recoil';
 import NavigateArrow from '@/assets/common/navigate-arrow.svg?react';
 import { isAuthenticatedSelector } from '@/domains/auth/model/authState';
 import { useAuthToggle } from '@/domains/auth/model/useAuthToggle';
-import { NavigationLink } from '../NavigationLink';
+import { NavigationLink } from '../Link/NavigationLink';
 import { useFilteredMenus } from '@/hooks/ui/useFilteredMenus';
 import { cn } from '@/utils/cn';
 

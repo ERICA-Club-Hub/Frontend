@@ -1,4 +1,4 @@
-import Button from '@/components/Common/Button';
+import Button from '@/components/Button/Button';
 import { useRecoilValue } from 'recoil';
 import { clubIdSelector } from '@/domains/auth/model/clubInfoState';
 import { Link } from 'react-router-dom';

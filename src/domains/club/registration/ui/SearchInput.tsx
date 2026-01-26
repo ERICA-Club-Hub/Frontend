@@ -1,4 +1,4 @@
-import { InputField } from '@/components/Common';
+import { InputField } from '@/components/InputField/InputField';
 import SearchIcon from '@/assets/common/search.svg?react';
 
 interface SearchInputProps {

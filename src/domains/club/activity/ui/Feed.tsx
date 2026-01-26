@@ -2,7 +2,7 @@ import { useState } from 'react';
 import ErrorIcon from '@/assets/common/error-icon.svg?react';
 import useClubAdminQueries from '@/domains/shared/api/useClubAdminQueries';
 import { FeedThumbnailImage } from './FeedThumbnailImage';
-import Skeleton from '@/components/Common/Loading/Skeleton';
+import Skeleton from '@/components/Loading/Skeleton';
 import { IActivitiesLog } from '@/types/club-detail.types';
 
 function Feed() {

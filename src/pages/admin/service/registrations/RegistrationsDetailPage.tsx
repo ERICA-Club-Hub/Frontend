@@ -1,6 +1,6 @@
 import { useParams } from 'react-router-dom';
 import { useQueryClient } from '@tanstack/react-query';
-import Button from '@/components/Common/Button';
+import Button from '@/components/Button/Button';
 import ClubDetailLayout from '@/domains/club/registration/ui/ClubDetailLayout';
 import {
     ClubRegistrationDTOList,
