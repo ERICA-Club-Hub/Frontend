@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { useSetRecoilState } from 'recoil';
 import { apiRequest } from '@/api/apiRequest';
-import { adminType, isAuthenticated } from '@/domains/auth/model/authState';
-import { clubId, clubName } from '@/domains/auth/model/clubInfoState';
+import { adminType, isAuthenticated } from '@/domains/auth/model/auth.atom';
+import { clubId, clubName } from '@/domains/auth/model/clubInfo.atom';
 
 const useAdminLogin = () => {
     const [isValidate, setIsValidate] = useState<boolean>(true);

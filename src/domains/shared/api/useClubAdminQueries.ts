@@ -1,6 +1,6 @@
 import { apiRequest } from '@/api/apiRequest';
 import { queryClient } from '@/api/queryClient';
-import { clubIdSelector } from '@/domains/auth/model/clubInfoState';
+import { clubIdSelector } from '@/domains/auth/model/clubInfo.atom';
 import {
     IActivityLogValue,
     IClubIntroValue,

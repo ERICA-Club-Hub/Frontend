@@ -3,7 +3,7 @@ import { getClubAdminMenus } from '@/routes/paths';
 import {
     clubIdSelector,
     clubNameSelector,
-} from '@/domains/auth/model/clubInfoState';
+} from '@/domains/auth/model/clubInfo.atom';
 import { NavigationLink } from '@/components/Link/NavigationLink';
 
 export default function AdminClubPage() {

@@ -3,8 +3,8 @@ import {
     adminType,
     isAuthenticated,
     isAuthenticatedSelector,
-} from '@/domains/auth/model/authState';
-import { clubId } from '@/domains/auth/model/clubInfoState';
+} from '@/domains/auth/model/auth.atom';
+import { clubId } from '@/domains/auth/model/clubInfo.atom';
 import { removeAccessToken } from '@/utils/tokenHandler';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';

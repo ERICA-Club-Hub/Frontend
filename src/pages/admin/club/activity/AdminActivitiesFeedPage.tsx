@@ -1,6 +1,6 @@
 import Button from '@/components/Button/Button';
 import { useRecoilValue } from 'recoil';
-import { clubIdSelector } from '@/domains/auth/model/clubInfoState';
+import { clubIdSelector } from '@/domains/auth/model/clubInfo.atom';
 import { Link } from 'react-router-dom';
 import { Feed } from '@/domains/club/activity/ui/Feed';
 

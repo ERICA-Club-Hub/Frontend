@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import {
     adminTypeSelector,
     isAuthenticatedSelector,
-} from '@/domains/auth/model/authState';
+} from '@/domains/auth/model/auth.atom';
 
 export default function useEditMode() {
     const isAuthenticated = useRecoilValue(isAuthenticatedSelector);

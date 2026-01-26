@@ -5,7 +5,7 @@ import { inputChangeHandler } from '@/utils/inputChangeHandler';
 import useToggle from '@/hooks/useToggle';
 import useAdminClubQueries from '@/domains/shared/api/useClubAdminQueries';
 import { useRecoilValue } from 'recoil';
-import { clubIdSelector } from '@/domains/auth/model/clubInfoState';
+import { clubIdSelector } from '@/domains/auth/model/clubInfo.atom';
 import useBulletPointConverter from '@/hooks/useBulletPointConverter';
 import { dateFormatHandler, handleDateChange } from '@/utils/dateFormatHandler';
 import CarouselImage from './CarouselImage';
