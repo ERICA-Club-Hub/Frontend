@@ -1,6 +1,9 @@
 import { useState } from 'react';
 import Button from '@/components/Button/Button';
-import { IClubIntroValue, IEventScheduleValue } from '@/types';
+import {
+    IClubIntroValue,
+    IEventScheduleValue,
+} from '@/types/input-value.types';
 import { ClubIntroProvider } from '@/domains/shared/contexts/ClubIntroContext';
 import useClubAdminQueries from '@/domains/shared/api/useClubAdminQueries';
 import LoadingModal from '@/components/Loading/LoadingModal';

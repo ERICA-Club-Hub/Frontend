@@ -2,7 +2,6 @@ import { useState } from 'react';
 import { InputField } from '@/components/InputField/InputField';
 import Button from '@/components/Button/Button';
 import { TextArea } from '@/components/InputField/TextArea';
-import { IClubRegisterValue } from '@/types';
 import { inputChangeHandler } from '@/utils/inputChangeHandler';
 import {
     RegistrationGuideText,
@@ -15,6 +14,7 @@ import { ClubCategorySelection } from './ClubCategorySelection';
 import { setDefaultImg } from '@/utils/setDefaultImg';
 import LoadingModal from '@/components/Loading/LoadingModal';
 import useClubRegisterQueries from '../api/useClubRegisterQueries';
+import { IClubRegisterValue } from '@/types/input-value.types';
 
 function ClubRegisterForm({ editMode }: { editMode: boolean }) {
     const [inputValue, setInputValue] = useState<IClubRegisterValue>({

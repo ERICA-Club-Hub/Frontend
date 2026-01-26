@@ -8,7 +8,7 @@ import {
     AdminButtonGroup,
 } from '@/domains/shared/components/layout/AdminSection';
 import { inputChangeHandler } from '@/utils/inputChangeHandler';
-import { ISummaryInfoValue } from '@/types';
+import { ISummaryInfoValue } from '@/types/input-value.types';
 import useClubAdminQueries from '@/domains/shared/api/useClubAdminQueries';
 import LoadingModal from '@/components/Loading/LoadingModal';
 import { RecruitmentStatus } from '@/domains/club/recruitment/ui/admin/RecruitmentStatus';

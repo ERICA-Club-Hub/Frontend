@@ -3,7 +3,7 @@ import { clubIntroList } from '@/domains/shared/constants/club-detail-register.c
 import useBulletPointConverter from '@/hooks/useBulletPointConverter';
 import useClubIntroContext from '@/domains/shared/contexts/useClubIntroContext';
 import useClubAdminQueries from '@/domains/shared/api/useClubAdminQueries';
-import { IClubIntroValue } from '@/types';
+import { IClubIntroValue } from '@/types/input-value.types';
 import { inputChangeHandler } from '@/utils/inputChangeHandler';
 import {
     AdminSection,

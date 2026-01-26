@@ -8,7 +8,7 @@ import {
     AdminSectionLabel,
 } from '@/domains/shared/components/layout/AdminSection';
 import { inputChangeHandler } from '@/utils/inputChangeHandler';
-import { IRecruitNoticeValue } from '@/types';
+import { IRecruitNoticeValue } from '@/types/input-value.types';
 import useBulletPointConverter from '@/hooks/useBulletPointConverter';
 import useClubAdminQueries from '@/domains/shared/api/useClubAdminQueries';
 import LoadingModal from '@/components/Loading/LoadingModal';

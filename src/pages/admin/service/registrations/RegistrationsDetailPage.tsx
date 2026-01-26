@@ -6,7 +6,7 @@ import {
     ClubRegistrationDTOList,
     PendingRegistrationResponse,
 } from '@/domains/club/registration/types/registration.types';
-import { APIResponse } from '@/types';
+import { APIResponse } from '@/types/api.types';
 
 export default function RegistrationsDetailPage() {
     const { id } = useParams();

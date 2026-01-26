@@ -4,10 +4,10 @@ import {
     RegistrationLabel,
 } from '@/domains/club/registration/ui/RegistrationForm';
 import ExpandArrowIcon from '@/assets/common/expand-arrow.svg?react';
-import { IClubRegisterValue } from '@/types';
 import { cn } from '@/utils/cn';
 import { clubCategory } from '@/constants/navigations.constant';
 import { Dropdown } from '@/components/Dropdown/Dropdown';
+import { IClubRegisterValue } from '@/types/input-value.types';
 
 interface IClubCategorySelection {
     inputValue: IClubRegisterValue;

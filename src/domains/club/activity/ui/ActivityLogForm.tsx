@@ -1,6 +1,6 @@
 import { useLocation } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import { IActivityLogValue } from '@/types';
+import { IActivityLogValue } from '@/types/input-value.types';
 import { inputChangeHandler } from '@/utils/inputChangeHandler';
 import useToggle from '@/hooks/useToggle';
 import useAdminClubQueries from '@/domains/shared/api/useClubAdminQueries';

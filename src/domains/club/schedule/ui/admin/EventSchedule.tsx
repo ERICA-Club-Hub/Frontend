@@ -7,7 +7,7 @@ import { InputField } from '@/components/InputField/InputField';
 import { useEffect } from 'react';
 import DeleteIcon from '@/assets/common/plus-icon.svg?react';
 import { cn } from '@/utils/cn';
-import { IEventScheduleValue } from '@/types';
+import { IEventScheduleValue } from '@/types/input-value.types';
 
 export default function EventSchedule({
     schedule,

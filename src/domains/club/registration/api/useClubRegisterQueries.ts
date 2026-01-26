@@ -1,6 +1,5 @@
 import { apiRequest } from '@/api/apiRequest';
 import { queryClient } from '@/api/queryClient';
-import { IClubRegisterValue } from '@/types';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -11,6 +10,7 @@ import { calculateFormDataSize } from '@/utils/calculateFileSize';
 import convertURLtoFile from '@/utils/convertURLtoFile';
 import { useToast } from '@/components/Toast/useToast';
 import { useErrorHandler } from '@/hooks/useErrorHandler';
+import { IClubRegisterValue } from '@/types/input-value.types';
 
 function useClubRegisterQueries() {
     const clubId = useRecoilValue(clubIdSelector);

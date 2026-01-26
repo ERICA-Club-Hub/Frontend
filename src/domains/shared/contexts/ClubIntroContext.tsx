@@ -1,4 +1,7 @@
-import { IClubIntroValue, IEventScheduleValue } from '@/types';
+import {
+    IClubIntroValue,
+    IEventScheduleValue,
+} from '@/types/input-value.types';
 import { createContext, ReactNode } from 'react';
 
 // 월별 일정 입력 컴포넌트 props 타입

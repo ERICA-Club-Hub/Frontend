@@ -7,7 +7,7 @@ import {
     IEventScheduleValue,
     IRecruitNoticeValue,
     ISummaryInfoValue,
-} from '@/types';
+} from '@/types/input-value.types';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
