@@ -1,4 +1,4 @@
-import { toastState } from '@/store/toast';
+import { toastState } from '@/components/Toast/toast';
 import { useEffect, useState } from 'react';
 import { useRecoilValue } from 'recoil';
 import { cn } from '@/utils/cn';

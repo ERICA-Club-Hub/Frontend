@@ -12,10 +12,12 @@ import { useMutation, useQuery } from '@tanstack/react-query';
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
-import { IActivityImageDTO } from '@/domains/club/activity/activity-log.types';
+import {
+    IActivitiesLog,
+    IActivityImageDTO,
+} from '@/domains/club/activity/activity-log.types';
 import { useErrorHandler } from '@/hooks/handler/useErrorHandler';
 import converURLtoFile from '@/utils/convertURLtoFile';
-import { IActivitiesLog } from '@/types/club-detail.types';
 
 // TODO: 도메인 별 각 함수 파일로 분리하기
 function useClubAdminQueries() {

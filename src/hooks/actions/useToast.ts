@@ -1,4 +1,4 @@
-import { toastState } from '@/store/toast';
+import { toastState } from '@/components/Toast/toast';
 import { useRecoilState } from 'recoil';
 
 export const useToast = () => {

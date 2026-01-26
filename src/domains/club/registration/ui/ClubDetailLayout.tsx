@@ -3,7 +3,7 @@ import {
     RegistrationLabel,
     RegistrationContent,
 } from '@/domains/club/registration/ui/RegistrationForm';
-import { ClubRegistrationDTOList } from '@/types/club.types';
+import { ClubRegistrationDTOList } from '@/domains/club/registration/types/registration.types';
 
 interface ClubDetailLayoutProps {
     button: React.ReactNode; // CTA 버튼 렌더링

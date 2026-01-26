@@ -1,6 +1,6 @@
 import Skeleton from '@/components/Loading/Skeleton';
 import ClubCard from '@/domains/shared/components/card/ClubCard';
-import { ClubRegistrationDTOList } from '@/types/club.types';
+import { ClubRegistrationDTOList } from '@/domains/club/registration/types/registration.types';
 import { PATHS } from '@/routes/paths';
 
 interface ClublistProps {

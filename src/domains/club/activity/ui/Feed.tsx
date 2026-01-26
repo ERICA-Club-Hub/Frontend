@@ -3,7 +3,7 @@ import ErrorIcon from '@/assets/common/error-icon.svg?react';
 import useClubAdminQueries from '@/domains/shared/api/useClubAdminQueries';
 import { FeedThumbnailImage } from './FeedThumbnailImage';
 import Skeleton from '@/components/Loading/Skeleton';
-import { IActivitiesLog } from '@/types/club-detail.types';
+import { IActivitiesLog } from '../activity-log.types';
 
 function Feed() {
     const [activitiesLog, setActivitiesLog] = useState<IActivitiesLog[]>([]);

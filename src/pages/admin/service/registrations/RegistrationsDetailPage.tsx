@@ -5,7 +5,7 @@ import ClubDetailLayout from '@/domains/club/registration/ui/ClubDetailLayout';
 import {
     ClubRegistrationDTOList,
     PendingRegistrationResponse,
-} from '@/types/club.types';
+} from '@/domains/club/registration/types/registration.types';
 import { APIResponse } from '@/types';
 
 export default function RegistrationsDetailPage() {

@@ -14,4 +14,9 @@ interface IActivityLogContext {
     isEditBtnClicked: boolean;
 }
 
-export type { IActivityImageDTO, IActivityLogContext };
+interface IActivitiesLog {
+    activityId: number;
+    thumbnailUrl: string;
+}
+
+export type { IActivityImageDTO, IActivityLogContext, IActivitiesLog };

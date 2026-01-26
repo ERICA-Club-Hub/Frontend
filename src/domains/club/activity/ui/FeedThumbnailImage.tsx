@@ -1,5 +1,5 @@
-import { IActivitiesLog } from '@/types';
 import { useNavigate } from 'react-router-dom';
+import { IActivitiesLog } from '../activity-log.types';
 
 function FeedThumbnailImage({ activityLog }: { activityLog: IActivitiesLog }) {
     const navigate = useNavigate();

@@ -3,7 +3,7 @@ import { useEffect } from 'react';
 import { apiRequest } from '@/api/apiRequest';
 import { queryClient } from '@/api/queryClient';
 import { APIResponse } from '@/types';
-import { PendingRegistrationResponse } from '@/types/club.types';
+import { PendingRegistrationResponse } from '@/domains/club/registration/types/registration.types';
 
 // 등록 요청 동아리 조회
 const useClubRegistrationRequestQuery = () => {
