@@ -1,6 +1,6 @@
 import { ReactNode, useRef } from 'react';
 import DropdownHeader from './Header';
-import { useClickOutside } from '@/hooks/actions/useClickOutside';
+import { useClickOutside } from '@/hooks/useClickOutside';
 import DropdownMenu from './Menu';
 
 interface DropdownProps {

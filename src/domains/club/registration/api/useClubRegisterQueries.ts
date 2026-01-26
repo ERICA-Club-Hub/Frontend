@@ -9,8 +9,8 @@ import { clubIdSelector } from '@/domains/auth/model/clubInfoState';
 import { MAX_FILE_SIZE } from '@/constants/max-file-size.constant';
 import { calculateFormDataSize } from '@/utils/calculateFileSize';
 import convertURLtoFile from '@/utils/convertURLtoFile';
-import { useToast } from '@/hooks/actions/useToast';
-import { useErrorHandler } from '@/hooks/handler/useErrorHandler';
+import { useToast } from '@/components/Toast/useToast';
+import { useErrorHandler } from '@/hooks/useErrorHandler';
 
 function useClubRegisterQueries() {
     const clubId = useRecoilValue(clubIdSelector);

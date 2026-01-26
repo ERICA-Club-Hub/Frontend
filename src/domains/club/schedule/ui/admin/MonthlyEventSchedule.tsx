@@ -7,7 +7,7 @@ import useClubIntroContext from '@/domains/shared/contexts/useClubIntroContext';
 import useClubAdminQueries from '@/domains/shared/api/useClubAdminQueries';
 import { useEffect } from 'react';
 import axios from 'axios';
-import { useErrorHandler } from '@/hooks/handler/useErrorHandler';
+import { useErrorHandler } from '@/hooks/useErrorHandler';
 import EventSchedule from './EventSchedule';
 
 function MonthlyEventSchedule() {

@@ -1,4 +1,4 @@
-import useToggle from '@/hooks/actions/useToggle';
+import useToggle from '@/hooks/useToggle';
 import DropdownArrow from '@/assets/common/dropdown_arrow.svg?react';
 import { months } from '@/domains/shared/constants/club-detail-register.constant';
 import useClubIntroContext from '@/domains/shared/contexts/useClubIntroContext';

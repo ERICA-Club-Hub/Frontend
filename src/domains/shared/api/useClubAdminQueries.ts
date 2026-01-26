@@ -16,7 +16,7 @@ import {
     IActivitiesLog,
     IActivityImageDTO,
 } from '@/domains/club/activity/activity-log.types';
-import { useErrorHandler } from '@/hooks/handler/useErrorHandler';
+import { useErrorHandler } from '@/hooks/useErrorHandler';
 import converURLtoFile from '@/utils/convertURLtoFile';
 
 // TODO: 도메인 별 각 함수 파일로 분리하기

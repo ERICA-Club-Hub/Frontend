@@ -1,6 +1,6 @@
 import { TextArea } from '@/components/InputField/TextArea';
 import { clubIntroList } from '@/domains/shared/constants/club-detail-register.constant';
-import useBulletPointConverter from '@/hooks/actions/useBulletPointConverter';
+import useBulletPointConverter from '@/hooks/useBulletPointConverter';
 import useClubIntroContext from '@/domains/shared/contexts/useClubIntroContext';
 import useClubAdminQueries from '@/domains/shared/api/useClubAdminQueries';
 import { IClubIntroValue } from '@/types';

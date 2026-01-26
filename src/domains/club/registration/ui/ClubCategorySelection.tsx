@@ -1,4 +1,4 @@
-import useToggle from '@/hooks/actions/useToggle';
+import useToggle from '@/hooks/useToggle';
 import {
     RegistrationInnerWrapper,
     RegistrationLabel,

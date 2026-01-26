@@ -1,8 +1,8 @@
-import { toastState } from '@/components/Toast/toast';
 import { useEffect, useState } from 'react';
 import { useRecoilValue } from 'recoil';
 import { cn } from '@/utils/cn';
 import Icon from '@/assets/common/warnIcon.svg';
+import { toastState } from './toast.atom';
 
 export default function Toast() {
     const toast = useRecoilValue(toastState);

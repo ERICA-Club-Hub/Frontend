@@ -2,7 +2,7 @@ import Modal from '../Modal/Modal';
 import { cn } from '@/utils/cn';
 import { useEffect } from 'react';
 import { ILoadingModal } from '@/types/modal.types';
-import useToggle from '@/hooks/actions/useToggle';
+import useToggle from '@/hooks/useToggle';
 
 export default function LoadingModal({ isPending, isSuccess }: ILoadingModal) {
     const { toggle } = useToggle();
@@ -19,7 +19,7 @@ export default function LoadingModal({ isPending, isSuccess }: ILoadingModal) {
                 className={cn(
                     'flex flex-col items-center',
                     'w-[250px] h-[126px] pt-[20px]',
-                    'rounded-[10px] gap-[5px] bg-white'
+                    'rounded-[10px] gap-[5px] bg-white',
                 )}
             >
                 <h2 className="text-body-01 font-semibold text-[#232323]">
@@ -35,7 +35,7 @@ export default function LoadingModal({ isPending, isSuccess }: ILoadingModal) {
                             key={index}
                             className={cn(
                                 'w-[10px] h-[10px] rounded-full bg-primary-500',
-                                'animate-bounce'
+                                'animate-bounce',
                             )}
                             style={{
                                 animationDelay: `${index * 0.1}s`,

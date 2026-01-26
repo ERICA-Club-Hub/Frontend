@@ -1,4 +1,4 @@
-import { useToast } from '@/hooks/actions/useToast';
+import { useToast } from '@/components/Toast/useToast';
 import { useSetRecoilState } from 'recoil';
 import { adminType, isAuthenticated } from '@/domains/auth/model/authState';
 import { clubId } from '@/domains/auth/model/clubInfoState';

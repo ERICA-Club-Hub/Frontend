@@ -1,6 +1,6 @@
 import { Dropdown } from '@/components/Dropdown/Dropdown';
 import DropdownArrow from '@/assets/common/dropdown_arrow.svg?react';
-import useToggle from '@/hooks/actions/useToggle';
+import useToggle from '@/hooks/useToggle';
 import { recruitStatus } from '@/domains/shared/constants/club-detail-register.constant';
 import { ISummaryInfoValue } from '@/types';
 import { cn } from '@/utils/cn';

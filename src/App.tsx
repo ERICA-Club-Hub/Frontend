@@ -1,6 +1,6 @@
 import { BrowserRouter } from 'react-router-dom';
 import AppRoutes from './routes/Routes';
-import { useSplash } from './hooks/actions/useSplash';
+import { useSplash } from './hooks/useSplash';
 import SplashScreen from './pages/splash/SplashScreen';
 import { RootLayout } from './components/Layout/RootLayout';
 

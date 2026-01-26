@@ -9,7 +9,7 @@ import {
 } from '@/domains/shared/components/layout/AdminSection';
 import { inputChangeHandler } from '@/utils/inputChangeHandler';
 import { IRecruitNoticeValue } from '@/types';
-import useBulletPointConverter from '@/hooks/actions/useBulletPointConverter';
+import useBulletPointConverter from '@/hooks/useBulletPointConverter';
 import useClubAdminQueries from '@/domains/shared/api/useClubAdminQueries';
 import LoadingModal from '@/components/Loading/LoadingModal';
 

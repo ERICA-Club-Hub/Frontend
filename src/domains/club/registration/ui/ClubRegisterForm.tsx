@@ -9,7 +9,7 @@ import {
     RegistrationInnerWrapper,
     RegistrationLabel,
 } from './RegistrationForm';
-import useBulletPointConverter from '@/hooks/actions/useBulletPointConverter';
+import useBulletPointConverter from '@/hooks/useBulletPointConverter';
 import ClubImageUpload from './ClubImageUpload';
 import { ClubCategorySelection } from './ClubCategorySelection';
 import { setDefaultImg } from '@/utils/setDefaultImg';
