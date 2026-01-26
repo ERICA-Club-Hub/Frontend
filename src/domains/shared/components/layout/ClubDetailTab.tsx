@@ -1,5 +1,5 @@
 import Tab from '@/components/Common/Tab';
-import { useClubDetail } from '@/hooks/club-detail/useClubDetail';
+import { useClubDetail } from '@/domains/club/profile/model/useClubDetail';
 
 interface TabProps {
     setActiveTab: (activeTab: string) => void;

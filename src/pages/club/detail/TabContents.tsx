@@ -1,6 +1,6 @@
-import Intro from '@/components/ClubDetail/ClubDetailTabs/Intro/Intro';
+import Intro from '@/domains/shared/components/layout/Intro';
 import ClubActivityLog from '@/domains/club/activity/ui/ClubActivityLog';
-import Recruit from '@/components/ClubDetail/ClubDetailTabs/Recruit/Recruit';
+import Recruit from '@/domains/club/recruitment/ui/public/Recruit';
 
 interface TabContentsProps {
     activeTab: string;

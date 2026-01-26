@@ -3,7 +3,7 @@ import {
     FALLBACK_MESSAGES,
     SNS_CONFIG,
 } from '@/constants/base-info.constant';
-import { ApiClubInfoResponse } from '@/hooks/queries/club-detail/useClubIntro';
+import { ApiClubInfoResponse } from '@/domains/club/introduction/api/useClubIntro';
 
 export type BaseInfoItem = {
     key: string;

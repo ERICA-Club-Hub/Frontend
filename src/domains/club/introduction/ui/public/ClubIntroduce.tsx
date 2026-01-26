@@ -1,8 +1,8 @@
 import {
     useClubIntroduction,
     useIsPreview,
-} from '@/hooks/queries/club-detail/useClubIntro';
-import ContentBlock from '../ContentBlock';
+} from '@/domains/club/introduction/api/useClubIntro';
+import ContentBlock from '@/domains/shared/components/card/ContentBlock';
 
 export default function ClubIntroduce() {
     const { id, isPreview } = useIsPreview();

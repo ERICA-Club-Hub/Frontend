@@ -1,5 +1,5 @@
 import { useBaseInfo } from '@/domains/club/introduction/model/useBaseInfo';
-import ContentBlock from '@/components/ClubDetail/ClubDetailTabs/ContentBlock';
+import ContentBlock from '@/domains/shared/components/card/ContentBlock';
 
 export default function BaseInfo() {
     const { items, isLoading } = useBaseInfo();

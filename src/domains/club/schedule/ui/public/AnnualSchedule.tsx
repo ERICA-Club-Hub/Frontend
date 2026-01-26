@@ -1,8 +1,8 @@
-import ContentBlock from '../ContentBlock';
+import ContentBlock from '../../../../shared/components/card/ContentBlock';
 import {
     useClubSchedules,
     useIsPreview,
-} from '@/hooks/queries/club-detail/useClubIntro';
+} from '@/domains/club/introduction/api/useClubIntro';
 
 export default function AnnualSchedule() {
     const { id, isPreview } = useIsPreview();

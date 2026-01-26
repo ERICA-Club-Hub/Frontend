@@ -1,8 +1,8 @@
 import { DEFAULT_IMG } from '@/constants/default-image.constant';
-import Button from '../Common/Button';
+import Button from '@/components/Common/Button';
 
-import { useClubDetail } from '@/hooks/club-detail/useClubDetail';
-import { useClubDetailHeader } from '@/hooks/queries/club-detail/useClubDetailHeader';
+import { useClubDetail } from '@/domains/club/profile/model/useClubDetail';
+import { useClubDetailHeader } from '@/domains/club/profile/api/useClubDetailHeader';
 import ClubTypeTag, {
     ClubCategoryCode,
 } from '@/domains/shared/components/tag/ClubTypeTag';

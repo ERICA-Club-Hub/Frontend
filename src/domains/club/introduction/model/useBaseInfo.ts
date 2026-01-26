@@ -1,7 +1,7 @@
 import {
     useClubInfo,
     useIsPreview,
-} from '@/hooks/queries/club-detail/useClubIntro';
+} from '@/domains/club/introduction/api/useClubIntro';
 import { formatBaseInfo } from '@/domains/club/introduction/lib/getBaseInfoFormat';
 
 export const useBaseInfo = () => {

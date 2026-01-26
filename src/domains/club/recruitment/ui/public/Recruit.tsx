@@ -1,6 +1,6 @@
-import ContentBlock from '../ContentBlock';
-import { useClubDetail } from '@/hooks/club-detail/useClubDetail';
-import { useClubRecruit } from '@/hooks/queries/club-detail/useClubRecruit';
+import ContentBlock from '../../../../shared/components/card/ContentBlock';
+import { useClubDetail } from '@/domains/club/profile/model/useClubDetail';
+import { useClubRecruit } from '@/domains/club/recruitment/api/useClubRecruit';
 
 export default function Recruit() {
     const { clubId, isPreview } = useClubDetail();

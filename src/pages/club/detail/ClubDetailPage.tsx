@@ -1,8 +1,8 @@
 import TabContents from './TabContents';
-import ClubDetailHeader from '@/components/ClubDetail/ClubDetailHeader';
+import ClubDetailHeader from '@/domains/club/profile/ui/ClubDetailHeader';
 
-import { useClubDetail } from '@/hooks/club-detail/useClubDetail';
-import ClubDetailTab from '@/components/ClubDetail/Tab/ClubDetailTab';
+import { useClubDetail } from '@/domains/club/profile/model/useClubDetail';
+import ClubDetailTab from '@/domains/shared/components/layout/ClubDetailTab';
 
 export type activeTab = 'intro' | 'recruit' | 'log';
 

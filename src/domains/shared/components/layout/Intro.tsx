@@ -1,7 +1,7 @@
-import ActivityGuide from './ActivityGuide';
-import AnnualSchedule from './AnnualSchedule';
+import ActivityGuide from '@/domains/club/introduction/ui/public/ActivityGuide';
+import AnnualSchedule from '@/domains/club/schedule/ui/public/AnnualSchedule';
 import BaseInfo from '@/domains/club/introduction/ui/public/BaseInfo';
-import ClubIntroduce from './ClubIntroduce';
+import ClubIntroduce from '@/domains/club/introduction/ui/public/ClubIntroduce';
 
 export default function Intro() {
     return (

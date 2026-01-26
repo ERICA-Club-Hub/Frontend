@@ -1,8 +1,8 @@
-import ContentBlock from '../ContentBlock';
+import ContentBlock from '@/domains/shared/components/card/ContentBlock';
 import {
     useClubIntroduction,
     useIsPreview,
-} from '@/hooks/queries/club-detail/useClubIntro';
+} from '@/domains/club/introduction/api/useClubIntro';
 
 export default function ActivityGuide() {
     const { id, isPreview } = useIsPreview();
