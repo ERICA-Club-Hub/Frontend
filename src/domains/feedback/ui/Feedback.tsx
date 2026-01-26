@@ -1,11 +1,11 @@
 import SurveyBox from '@/assets/common/surveyBox.svg?react';
 import SurveyCardArrow from '@/assets/common/surveyCard_arrow.svg?react';
-import FeedbackModal from '@/components/Common/Modal/FeedbackModal';
+import FeedbackModal from '@/domains/feedback/ui/FeedbackModal';
 import { useState } from 'react';
 import { useMutation } from '@tanstack/react-query';
 import { apiRequest } from '@/api/apiRequest';
 
-export default function Survey() {
+export default function Feedback() {
     const [isSurveyModalOpen, setIsSurveyModalOpen] = useState<boolean>(false);
     const toggleSurveyModal = () => {
         setIsSurveyModalOpen((prev) => !prev);

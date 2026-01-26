@@ -1,7 +1,7 @@
 import { IModal } from '@/types/modal.types';
 import { FormEvent, useState } from 'react';
 import { cn } from '@/utils/cn';
-import Modal from './Modal';
+import Modal from '@/components/Common/Modal/Modal';
 
 type FeedbackModalProps = IModal & {
     title?: string;
@@ -11,7 +11,7 @@ type FeedbackModalProps = IModal & {
     placeholder?: string;
 };
 
-export default function MainModal({
+export default function FeedbackModal({
     title,
     subtitle,
     type,
@@ -40,7 +40,7 @@ export default function MainModal({
                     'w-[320px] h-[236px] p-[15px]',
                     'flex flex-col items-center',
                     'rounded-[10px] bg-[#fafafa]',
-                    'shadow-[0px_5px_15px_0px_rgba(0,0,0,0.35)]'
+                    'shadow-[0px_5px_15px_0px_rgba(0,0,0,0.35)]',
                 )}
             >
                 {title && (
@@ -69,7 +69,7 @@ export default function MainModal({
                                 'text-[#232323] text-body-03 font-medium',
                                 'mb-[10px]',
                                 'focus:outline-none',
-                                'placeholder:text-[#989898]'
+                                'placeholder:text-[#989898]',
                             )}
                         />
                         <button
@@ -86,7 +86,7 @@ export default function MainModal({
                                 'cursor-pointer text-white',
                                 feedbackText
                                     ? 'bg-primary-500'
-                                    : 'bg-neutral-400'
+                                    : 'bg-neutral-400',
                             )}
                         >
                             {feedbackText ? '완료' : '취소'}
