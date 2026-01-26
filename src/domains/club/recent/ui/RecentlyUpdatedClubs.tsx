@@ -1,6 +1,6 @@
-import ClubCard from '../../domains/shared/components/card/ClubCard';
 import { PATHS } from '@/routes/paths';
-import { useRecentlyUpdatedClubs } from '@/hooks/queries/main/useRecentlyUpdatedClubs';
+import { useRecentlyUpdatedClubs } from '@/domains/club/recent/api/useRecentlyUpdatedClubs';
+import ClubCard from '@/domains/shared/components/card/ClubCard';
 
 export default function RecentlyUpdatedClubs() {
     const { data, isLoading } = useRecentlyUpdatedClubs();

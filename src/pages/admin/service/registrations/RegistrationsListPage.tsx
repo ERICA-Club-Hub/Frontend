@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import ClubListView from '@/domains/club/registration/ui/ClubListView';
-import useServiceAdminQueries from '@/hooks/queries/useServiceAdminQueries';
+import useServiceAdminQueries from '@/domains/club/registration/api/useServiceAdminQueries';
 import SearchInput from '@/domains/club/registration/ui/SearchInput';
 
 // 동아리 등록 요청 검토 페이지

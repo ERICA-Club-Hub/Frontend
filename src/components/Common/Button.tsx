@@ -1,5 +1,5 @@
 import { ButtonHTMLAttributes, ReactNode } from 'react';
-import { cva, type VariantProps } from 'class-variance-authority';
+import { cva } from 'class-variance-authority';
 import { cn } from '@/utils/cn';
 
 export type ButtonSize = 'small' | 'medium' | 'large';
@@ -33,7 +33,7 @@ const buttonVariants = cva(
             size: 'medium',
             variant: 'filled',
         },
-    }
+    },
 );
 
 /**

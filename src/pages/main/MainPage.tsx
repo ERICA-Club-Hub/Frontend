@@ -1,7 +1,7 @@
 import { Footer } from '@/components/Common/Footer';
 import Feedback from '@/domains/feedback/ui/Feedback';
-import CategoryCollectSection from '@/components/Main/CategoryCollectSection';
-import RecentlyUpdatedClubs from '@/components/Main/RecentlyUpdatedClubs';
+import CategoryCollectSection from '@/domains/club/category/ui/CategoryCollectSection';
+import RecentlyUpdatedClubs from '@/domains/club/recent/ui/RecentlyUpdatedClubs';
 import ClubSocialPreview from '@/domains/social/ui/ClubSocialPreview';
 
 export default function MainPage() {

@@ -3,7 +3,7 @@ import CollegeMark from '@/assets/common/college-mark.svg?react';
 import DepartmentMark from '@/assets/common/department-mark.svg?react';
 import UnionMark from '@/assets/common/union-mark.svg?react';
 import { useNavigate } from 'react-router-dom';
-import CategoryCollect from '../Common/CategoryCollect';
+import CategoryCollect from './CategoryCollect';
 
 export default function CategoryCollectSection() {
     const navigator = useNavigate();
