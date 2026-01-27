@@ -26,7 +26,7 @@ export const PATHS = {
     CLUB_REGISTRATION: '/club/registration',
     CLUB_REGISTRATION_COMPLETED: '/club/registration/completed',
 
-    // TODO: 어드민 어순 변경 e.g. ADMINE_SERVICE -> SERVICE_ADMIN
+    // TODO: 어드민 어순 변경 e.g. ADMIN_SERVICE -> SERVICE_ADMIN
     // --- 서비스 어드민 ---
     /* 대시보드 */
     ADMIN_SERVICE: '/admin/service',
@@ -47,7 +47,7 @@ export const PATHS = {
     /* 자주 묻는 질문 */
     ADMIN_SERVICE_FAQ: '/admin/service/faq',
 
-    // TODO: 어드민 어순 변경 e.g. ADMINE_SERVICE -> SERVICE_ADMIN
+    // TODO: 어드민 어순 변경 e.g. ADMIN_CLUB -> CLUB_ADMIN
     // --- 동아리 어드민 ---
     /* 동아리 등록 정보 수정 */
     CLUB_ADMIN_REGISTRATION_EDIT: `/admin/club/:id/registration/edit`,

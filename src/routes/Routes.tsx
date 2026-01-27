@@ -18,7 +18,7 @@ import RegistrationPage from '@/pages/club/registration/RegistrationPage';
 import NoticePage from '@/pages/notice/NoticePage';
 import ClubSocialPage from '@/pages/social/ClubSocialPage';
 import FAQPage from '@/pages/faq/FAQPage';
-import { ClubDetailPage } from '@/pages/club/detail/ClubDetailPage';
+import ClubDetailPage from '@/pages/club/detail/ClubDetailPage';
 import AdminClubPage from '@/pages/admin/club/dashboard/AdminClubPage';
 import AdminClubDetailPage from '@/pages/admin/club/detail/AdminClubDetailPage';
 import SummaryInfoPage from '@/pages/admin/club/detail/section/SummaryInfoPage';

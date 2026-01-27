@@ -49,5 +49,3 @@ export default function AdminClubDetailPage() {
         </div>
     );
 }
-
-export { AdminClubDetailPage };

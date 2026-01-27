@@ -1,12 +1,11 @@
 import TabContents from './TabContents';
 import ClubDetailHeader from '@/domains/club/profile/ui/ClubDetailHeader';
-
 import { useClubDetail } from '@/domains/club/profile/model/useClubDetail';
 import ClubDetailTab from '@/domains/shared/components/layout/ClubDetailTab';
 
 export type activeTab = 'intro' | 'recruit' | 'log';
 
-const ClubDetailPage = () => {
+export default function ClubDetailPage() {
     const { activeTab, setActiveTab } = useClubDetail();
 
     return (
@@ -23,6 +22,4 @@ const ClubDetailPage = () => {
             </div>
         </div>
     );
-};
-
-export { ClubDetailPage };
+}
