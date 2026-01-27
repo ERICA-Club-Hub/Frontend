@@ -12,7 +12,7 @@ interface IImageUpload {
     isImgList?: boolean;
 }
 
-function ImageUpload({
+export default function ImageUpload({
     setPostImg,
     previewImg,
     setPreviewImg,
@@ -52,5 +52,3 @@ function ImageUpload({
         </div>
     );
 }
-
-export { ImageUpload };

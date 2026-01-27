@@ -1,7 +1,7 @@
-import { ImageListUpload } from '@/components/ImageUpload';
 import PlusIcon from '@/assets/common/plus-icon.svg?react';
 import ArrowIcon from '@/assets/common/Expand_right.svg?react';
 import useActivityLogContext from '@/domains/club/activity/contexts/useActivityLogContext';
+import ImageListUpload from '@/components/ImageUpload/ImageListUpload';
 
 export default function CarouselImage() {
     const {

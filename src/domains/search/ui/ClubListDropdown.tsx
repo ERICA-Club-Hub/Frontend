@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import ArrowIcon from '@/assets/common/expand-bottom.svg?react';
 import { cn } from '@/utils/cn';
-import { Dropdown } from '@/components/Dropdown/Dropdown';
+import Dropdown from '@/components/Dropdown/Dropdown';
 
 interface Option {
     value: string;

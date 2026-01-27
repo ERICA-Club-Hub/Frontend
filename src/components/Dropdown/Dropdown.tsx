@@ -8,7 +8,7 @@ interface DropdownProps {
     setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const Dropdown = ({ children, setIsOpen }: DropdownProps) => {
+export default function Dropdown({ children, setIsOpen }: DropdownProps) {
     const dropdownRef = useRef<HTMLDivElement>(null);
 
     useClickOutside(dropdownRef, setIsOpen);
@@ -18,9 +18,7 @@ const Dropdown = ({ children, setIsOpen }: DropdownProps) => {
             {children}
         </div>
     );
-};
+}
 
 Dropdown.Header = DropdownHeader;
 Dropdown.Menu = DropdownMenu;
-
-export { Dropdown };

@@ -1,4 +1,4 @@
-import { Dropdown } from '@/components/Dropdown/Dropdown';
+import Dropdown from '@/components/Dropdown/Dropdown';
 import DropdownArrow from '@/assets/common/dropdown_arrow.svg?react';
 import useToggle from '@/hooks/useToggle';
 import { recruitStatus } from '@/domains/shared/constants/club-detail-register.constant';

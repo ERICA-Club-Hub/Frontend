@@ -1,7 +1,7 @@
 import useActivityLogContext from '@/domains/club/activity/contexts/useActivityLogContext';
 import { cn } from '@/utils/cn';
 
-function ImageListUpload() {
+export default function ImageListUpload() {
     const {
         postImg,
         setPostImg,
@@ -78,5 +78,3 @@ function ImageListUpload() {
         </div>
     );
 }
-
-export { ImageListUpload };
