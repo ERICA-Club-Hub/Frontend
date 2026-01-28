@@ -1,9 +1,12 @@
 import { useRecoilValue } from 'recoil';
-import { NavigationLink } from '@/components/Common';
 import { getClubAdminMenus } from '@/routes/paths';
-import { clubIdSelector, clubNameSelector } from '@/store/clubInfoState';
+import {
+    clubIdSelector,
+    clubNameSelector,
+} from '@/domains/auth/model/clubInfo.atom';
+import { NavigationLink } from '@/components/Link/NavigationLink';
 
-const AdminClubPage = () => {
+export default function AdminClubPage() {
     const clubId = useRecoilValue(clubIdSelector);
     const clubName = useRecoilValue(clubNameSelector);
     const menus = clubId !== null ? getClubAdminMenus(clubId) : [];
@@ -29,6 +32,4 @@ const AdminClubPage = () => {
             </div>
         </div>
     );
-};
-
-export { AdminClubPage };
+}

@@ -1,8 +1,8 @@
-import Button from '@/components/Common/Button';
+import Button from '@/components/Button/Button';
 import { useRecoilValue } from 'recoil';
-import { clubIdSelector } from '@/store/clubInfoState';
+import { clubIdSelector } from '@/domains/auth/model/clubInfo.atom';
 import { Link } from 'react-router-dom';
-import { Feed } from '@/components/ActivityLog';
+import { Feed } from '@/domains/club/activity/ui/Feed';
 
 function AdminActivitiesFeedPage() {
     const clubId = useRecoilValue(clubIdSelector);

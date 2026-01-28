@@ -1,12 +1,12 @@
 import { useParams } from 'react-router-dom';
 import { useQueryClient } from '@tanstack/react-query';
-import Button from '@/components/Common/Button';
-import ClubDetailLayout from '@/components/ServiceAdmin/ClubDetailLayout';
+import Button from '@/components/Button/Button';
+import ClubDetailLayout from '@/domains/club/registration/ui/ClubDetailLayout';
 import {
     ClubRegistrationDTOList,
     PendingRegistrationResponse,
-} from '@/types/club.types';
-import { APIResponse } from '@/types';
+} from '@/domains/club/registration/types/registration.types';
+import { APIResponse } from '@/types/api.types';
 
 export default function RegistrationsDetailPage() {
     const { id } = useParams();

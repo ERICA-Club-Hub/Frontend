@@ -1,4 +1,4 @@
-import { NavigationLink } from '@/components/Common';
+import { NavigationLink } from '@/components/Link/NavigationLink';
 import { serviceAdminMenus } from '@/routes/paths';
 
 export default function ServiceAdminPage() {

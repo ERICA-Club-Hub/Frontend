@@ -1,0 +1,176 @@
+import { apiRequest } from '@/api/apiRequest';
+import { queryClient } from '@/api/queryClient';
+import { useMutation, useQuery } from '@tanstack/react-query';
+import { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useRecoilValue } from 'recoil';
+import { clubIdSelector } from '@/domains/auth/model/clubInfo.atom';
+import { MAX_FILE_SIZE } from '@/constants/max-file-size.constant';
+import { calculateFormDataSize } from '@/utils/calculateFileSize';
+import convertURLtoFile from '@/utils/convertURLtoFile';
+import { useToast } from '@/components/Toast/useToast';
+import { useErrorHandler } from '@/hooks/useErrorHandler';
+import { IClubRegisterValue } from '@/types/input-value.types';
+
+function useClubRegisterQueries() {
+    const clubId = useRecoilValue(clubIdSelector);
+    const navigate = useNavigate();
+    const { handleError } = useErrorHandler();
+    const { showToast } = useToast();
+
+    // 동아리 등록 정보 불러오기
+    const useRegisterInfoQuery = ({
+        setInputValue,
+        setPreviewImg,
+        setPostImg,
+    }: {
+        setInputValue: React.Dispatch<React.SetStateAction<IClubRegisterValue>>;
+        setPreviewImg: React.Dispatch<
+            React.SetStateAction<string | ArrayBuffer | null>
+        >;
+        setPostImg: React.Dispatch<React.SetStateAction<File | File[] | null>>;
+    }) => {
+        const { isSuccess, data, isError } = useQuery({
+            queryKey: [clubId, 'registerInfo'],
+            queryFn: async () => {
+                return await apiRequest({
+                    url: `/api/clubs/${clubId}`,
+                    method: 'GET',
+                });
+            },
+            staleTime: 5 * 60 * 1000,
+        });
+
+        useEffect(() => {
+            if (isSuccess && data) {
+                setInputValue({
+                    clubName: data.result.name,
+                    leaderEmail: data.result.leaderEmail,
+                    category: data.result.category,
+                    oneLiner: data.result.description,
+                });
+
+                setPreviewImg(data.result.profileImageUrl);
+
+                if (data.result.profileImageUrl) {
+                    convertURLtoFile(data.result.profileImageUrl).then(
+                        (imageFile) => {
+                            setPostImg(imageFile!);
+                        },
+                    );
+                }
+            }
+
+            if (isError) {
+                console.error('동아리 등록 정보 불러오기 실패');
+            }
+        }, [isSuccess, data]);
+    };
+
+    // 동아리 등록
+    const useClubRegisterMutation = () => {
+        const {
+            isSuccess,
+            isError,
+            isPending,
+            mutate: originalMutate,
+        } = useMutation({
+            mutationFn: async (formData: FormData) => {
+                return await apiRequest({
+                    url: `/registrations`,
+                    method: 'POST',
+                    data: formData,
+                    headers: {
+                        'Content-Type': 'multipart/form-data',
+                    },
+                    requireToken: true,
+                });
+            },
+            onSuccess: () => {
+                navigate('/admin/club/register/complete', {
+                    replace: true,
+                });
+            },
+            onError: (error) => {
+                handleError(error);
+            },
+        });
+
+        const mutate = (formData: FormData) => {
+            const totalSize = calculateFormDataSize(formData);
+
+            if (totalSize > MAX_FILE_SIZE) {
+                showToast(
+                    `파일 크기가 너무 큽니다. 최대 ${
+                        0.5
+                        // MAX_FILE_SIZE / 1024 / 1024
+                    }MB까지 가능합니다.`,
+                );
+                return;
+            }
+
+            originalMutate(formData);
+        };
+
+        return { isSuccess, isError, isPending, mutate };
+    };
+
+    // 동아리 등록 정보 수정
+    const useEditClubRegisterMutation = () => {
+        const {
+            isSuccess,
+            isError,
+            isPending,
+            mutate: originalMutate,
+        } = useMutation({
+            mutationFn: async (formData: FormData) => {
+                return await apiRequest({
+                    url: `/api/clubs/${clubId}/update`,
+                    method: 'POST',
+                    data: formData,
+                    headers: {
+                        'Content-Type': 'multipart/-data',
+                    },
+                    requireToken: true,
+                });
+            },
+            onSuccess: () => {
+                queryClient.invalidateQueries({
+                    queryKey: [clubId, 'registerInfo'],
+                });
+                navigate(`/admin/club/${clubId}`, {
+                    replace: true,
+                });
+            },
+            onError: (error) => {
+                handleError(error);
+            },
+        });
+
+        const mutate = (formData: FormData) => {
+            const totalSize = calculateFormDataSize(formData);
+
+            if (totalSize > MAX_FILE_SIZE) {
+                showToast(
+                    `파일 크기가 너무 큽니다. 최대 ${
+                        0.5
+                        // MAX_FILE_SIZE / 1024 / 1024
+                    }MB까지 가능합니다.`,
+                );
+                return;
+            }
+
+            originalMutate(formData);
+        };
+
+        return { isSuccess, isError, isPending, mutate };
+    };
+
+    return {
+        useRegisterInfoQuery,
+        useClubRegisterMutation,
+        useEditClubRegisterMutation,
+    };
+}
+
+export default useClubRegisterQueries;

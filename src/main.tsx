@@ -4,8 +4,8 @@ import './index.css';
 import App from './App.tsx';
 import { RecoilRoot } from 'recoil';
 import { QueryClientProvider } from '@tanstack/react-query';
-import { queryClient } from './config/queryClient.ts';
-import Toast from './components/Common/Toast.tsx';
+import { queryClient } from './api/queryClient.ts';
+import Toast from './components/Toast/Toast.tsx';
 
 createRoot(document.getElementById('root')!).render(
     <StrictMode>

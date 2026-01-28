@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { getAccessToken, setAccessToken } from '../utils/tokenHandler';
 import { axiosInstance } from './axiosInstance';
-import { RequestConfig } from '@/types';
+import { RequestConfig } from '@/types/api.types';
 
 /**
  * API 호출할 때 최종적으로 사용할 함수

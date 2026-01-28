@@ -1,20 +1,19 @@
-import { InputField } from '@/components/Common';
+import { InputField } from '@/components/InputField/InputField';
 import { useState } from 'react';
-import { summaryInfoList } from '@/constants/club-detail-register.constant';
-import Button from '@/components/Common/Button';
+import { summaryInfoList } from '@/domains/shared/constants/club-detail-register.constant';
+import Button from '@/components/Button/Button';
 import {
     AdminSection,
     AdminSectionLabel,
     AdminButtonGroup,
-} from '@/components/Common';
+} from '@/domains/shared/components/layout/AdminSection';
 import { inputChangeHandler } from '@/utils/inputChangeHandler';
-import { ISummaryInfoValue } from '@/types';
-import { RecruitmentStatus } from '@/components/AdminClubDetail';
-import useClubAdminQueries from '@/hooks/queries/useClubAdminQueries';
-import LoadingModal from '@/components/Common/Loading/LoadingModal';
-import { cn } from '@/utils/cn';
+import { ISummaryInfoValue } from '@/types/input-value.types';
+import useClubAdminQueries from '@/domains/shared/api/useClubAdminQueries';
+import LoadingModal from '@/components/Loading/LoadingModal';
+import { RecruitmentStatus } from '@/domains/club/recruitment/ui/admin/RecruitmentStatus';
 
-function SummaryInfoPage() {
+export default function SummaryInfoPage() {
     const [inputValue, setInputValue] = useState<ISummaryInfoValue>({
         recruitmentStatus: '',
         leaderName: '',
@@ -169,5 +168,3 @@ function SummaryInfoPage() {
         </>
     );
 }
-
-export { SummaryInfoPage };

@@ -1,19 +1,19 @@
 import { useState } from 'react';
-import Button from '@/components/Common/Button';
-import { TextArea } from '@/components/Common/TextArea';
-import { recruitNoticeList } from '@/constants/club-detail-register.constant';
+import Button from '@/components/Button/Button';
+import { TextArea } from '@/components/InputField/TextArea';
+import { recruitNoticeList } from '@/domains/shared/constants/club-detail-register.constant';
 import {
     AdminButtonGroup,
     AdminSection,
     AdminSectionLabel,
-} from '@/components/Common';
+} from '@/domains/shared/components/layout/AdminSection';
 import { inputChangeHandler } from '@/utils/inputChangeHandler';
-import { IRecruitNoticeValue } from '@/types';
-import useBulletPointConverter from '@/hooks/actions/useBulletPointConverter';
-import useClubAdminQueries from '@/hooks/queries/useClubAdminQueries';
-import LoadingModal from '@/components/Common/Loading/LoadingModal';
+import { IRecruitNoticeValue } from '@/types/input-value.types';
+import useBulletPointConverter from '@/hooks/useBulletPointConverter';
+import useClubAdminQueries from '@/domains/shared/api/useClubAdminQueries';
+import LoadingModal from '@/components/Loading/LoadingModal';
 
-function RecruitNoticePage() {
+export default function RecruitNoticePage() {
     const [inputValue, setInputValue] = useState<IRecruitNoticeValue>({
         due: '',
         notice: '',
@@ -50,7 +50,10 @@ function RecruitNoticePage() {
 
                     <div className="flex flex-col gap-5">
                         {recruitNoticeList.map((recruitNotice, index) => (
-                            <div key={`club-intro-${index}`} className="flex flex-col gap-[10px]">
+                            <div
+                                key={`club-intro-${index}`}
+                                className="flex flex-col gap-[10px]"
+                            >
                                 <AdminSectionLabel>
                                     {recruitNotice.label}
                                 </AdminSectionLabel>
@@ -120,5 +123,3 @@ function RecruitNoticePage() {
         </>
     );
 }
-
-export { RecruitNoticePage };

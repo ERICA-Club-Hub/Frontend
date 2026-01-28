@@ -1,5 +1,4 @@
-import { ADMIN_TYPE } from '@/types/admin.types';
-import { DrawerMenuType } from '@/types/routes.types';
+import { ADMIN_TYPE, AdminType } from '@/types/admin.types';
 
 export const PATHS = {
     /* 동아리 상세 페이지 */
@@ -11,7 +10,8 @@ export const PATHS = {
         activityId?: number | string,
     ) => `/club/${clubId}/${activityId}`,
 
-    CLUB_OFFICIAL_ACOUNTS_LIST: () => `/official-accounts`,
+    /* 동아리 소셜(인스타) 페이지 */
+    CLUB_SOCIAL: '/club/social',
 
     /* 자료실 */
     RESOURCES: '/resources',
@@ -22,13 +22,17 @@ export const PATHS = {
     /* 자주 묻는 질문 */
     FAQ: '/faq',
 
-    // --- 어드민 대시보드 페이지 ---
-    ADMIN_SERVICE: '/admin/service',
-    ADMIN_CLUB: (clubId: number) => `/admin/club/${clubId}`,
+    // --- 동아리 등록 ---
+    CLUB_REGISTRATION: '/club/registration',
+    CLUB_REGISTRATION_COMPLETED: '/club/registration/completed',
 
-    // --- 서비스 어드민 대시보드 ---
-    /* (신규) 동아리 등록 신청 관리 */
-    ADMIN_SERVICE_REVIEW_REGISTRATIONS: '/admin/service/registrations',
+    // TODO: 어드민 어순 변경 e.g. ADMIN_SERVICE -> SERVICE_ADMIN
+    // --- 서비스 어드민 ---
+    /* 대시보드 */
+    ADMIN_SERVICE: '/admin/service',
+
+    /* 신규 동아리 등록 신청 관리 */
+    SERVICE_ADMIN_REGISTRATIONS_MANAGE: '/admin/service/registrations',
 
     /* 동아리 관리 */
     ADMIN_SERVICE_CLUB_MANAGE: '/admin/service/club-management',
@@ -43,7 +47,14 @@ export const PATHS = {
     /* 자주 묻는 질문 */
     ADMIN_SERVICE_FAQ: '/admin/service/faq',
 
-    // --- 동아리 어드민 대시보드 ---
+    // TODO: 어드민 어순 변경 e.g. ADMIN_CLUB -> CLUB_ADMIN
+    // --- 동아리 어드민 ---
+    /* 동아리 등록 정보 수정 */
+    CLUB_ADMIN_REGISTRATION_EDIT: `/admin/club/:id/registration/edit`,
+
+    /* 대시보드 */
+    ADMIN_CLUB: (clubId: number) => `/admin/club/${clubId}`,
+
     /* 동아리 상세페이지 설정 */
     ADMIN_CLUB_SUMMARY_INFO: (clubId: number) =>
         `/admin/club/${clubId}/summary-info`,
@@ -56,6 +67,12 @@ export const PATHS = {
     ADMIN_CLUB_REGISTER_EDIT: (clubId: number) =>
         `/admin/club/${clubId}/register/edit`,
 };
+
+export interface DrawerMenuType {
+    title: string;
+    adminType: AdminType;
+    url: string;
+}
 
 // --- Drawer 메뉴 리스트 ---
 /* 기본 메뉴 리스트 */
@@ -101,7 +118,7 @@ export const adminMenus: DrawerMenuType[] = [
 export const serviceAdminMenus = [
     {
         label: '신규 동아리 등록 신청 확인하기',
-        url: PATHS.ADMIN_SERVICE_REVIEW_REGISTRATIONS,
+        url: PATHS.SERVICE_ADMIN_REGISTRATIONS_MANAGE,
     },
     {
         label: '동아리 관리하기',
