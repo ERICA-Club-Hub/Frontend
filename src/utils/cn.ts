@@ -1,5 +1,29 @@
 import { type ClassValue, clsx } from 'clsx';
-import { twMerge } from 'tailwind-merge';
+import { extendTailwindMerge } from 'tailwind-merge';
+
+const customTwMerge = extendTailwindMerge({
+    extend: {
+        classGroups: {
+            'font-size': [
+                {
+                    text: [
+                        'h1',
+                        's1',
+                        's2',
+                        'b1',
+                        'b2',
+                        'b3',
+                        'b4',
+                        'c1',
+                        'c2',
+                        'c3',
+                        'c4',
+                    ],
+                },
+            ],
+        },
+    },
+});
 
 /**
  * Tailwind CSS 클래스를 병합하는 유틸리티 함수
@@ -11,5 +35,5 @@ import { twMerge } from 'tailwind-merge';
  * cn('text-red-500', condition && 'text-blue-500') // => 조건부 클래스 적용
  */
 export function cn(...inputs: ClassValue[]) {
-    return twMerge(clsx(inputs));
+    return customTwMerge(clsx(inputs));
 }
