@@ -48,7 +48,6 @@ export default function ClubDetailHeader() {
                     }
                 }}
                 size="lg"
-                disabled
             >
                 {data?.recruitmentStatus !== 'OPEN'
                     ? '모집이 마감되었어요.'
