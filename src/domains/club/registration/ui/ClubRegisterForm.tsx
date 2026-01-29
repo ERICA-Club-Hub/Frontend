@@ -226,7 +226,7 @@ function ClubRegisterForm({ editMode }: { editMode: boolean }) {
                         </RegistrationInnerWrapper>
                     )}
 
-                    <Button type="submit" size="large" disabled={!isValid}>
+                    <Button type="submit" size="lg" disabled={!isValid}>
                         {editMode
                             ? '동아리 등록 정보 수정하기'
                             : '동아리 등록 요청하기'}

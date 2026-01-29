@@ -149,13 +149,12 @@ export default function SummaryInfoPage() {
                 <AdminButtonGroup>
                     {/* <Button
                         type="button"
-                        size="small"
-                        variant="outlined"
-                        isDisabled={() => false}
+                        size="sm"
+                        variant="neutral"
                     >
                         미리보기
                     </Button> */}
-                    <Button type="submit" size="small" disabled={!isValid}>
+                    <Button type="submit" size="sm" disabled={!isValid}>
                         저장하기
                     </Button>
                 </AdminButtonGroup>

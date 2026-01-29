@@ -45,13 +45,12 @@ export default function RegistrationsDetailPage() {
             button={
                 <>
                     <Button
-                        size="small"
-                        variant="outlined"
-                        className="text-sub-warning border-sub-warning"
+                        size="sm"
+                        variant="negative"
                     >
                         삭제하기
                     </Button>
-                    <Button size="small" variant="filled">
+                    <Button size="sm" variant="primary">
                         승인하기
                     </Button>
                 </>

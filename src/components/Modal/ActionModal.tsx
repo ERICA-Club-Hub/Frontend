@@ -19,17 +19,16 @@ export default function ActionModal({ isOpen, toggle, action }: IActionModal) {
                 <div className="flex gap-[5px]">
                     <Button
                         type="button"
-                        size="small"
-                        variant="outlined"
+                        size="xs"
+                        variant="neutral"
                         onClick={toggle}
                     >
                         아니요
                     </Button>
                     <Button
                         type="button"
-                        size="small"
-                        variant="outlined"
-                        outlineColor="#DC5151"
+                        size="xs"
+                        variant="negative"
                         onClick={action}
                     >
                         삭제
