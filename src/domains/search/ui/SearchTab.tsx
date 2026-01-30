@@ -30,7 +30,7 @@ export default function SearchTab() {
     };
 
     return (
-        <Tab backgroundColor="white" width="360px">
+        <Tab count={4} backgroundColor="white">
             <Tab.Item
                 tabKey="중앙동아리"
                 activeTab={activeCategory}
