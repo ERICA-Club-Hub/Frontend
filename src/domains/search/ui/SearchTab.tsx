@@ -1,11 +1,6 @@
 import { useSearchParams } from 'react-router-dom';
 import Tab from '@/components/Tabs/Tab';
-import {
-    getClubCategoryLabel,
-    getServerTabValue,
-    isValidCategory,
-    TabCategory,
-} from '@/domains/search/lib/searchTabMapping';
+import { CLUB_TYPE_DISPLAYS } from '@/constants/dropdown-option-config.constant';
 
 const TAB_TYPE_PARAM = 'type';
 
@@ -14,49 +9,30 @@ export default function SearchTab() {
 
     const typeParam = searchParams.get(TAB_TYPE_PARAM);
 
-    const activeCategory: TabCategory = typeParam
-        ? getClubCategoryLabel(typeParam)
-        : '중앙동아리';
+    const handleTabChange = (tabKey: string) => {
+        const newParams = new URLSearchParams();
+        newParams.set(TAB_TYPE_PARAM, tabKey);
 
-    const handleTabChange = (category: string) => {
-        if (isValidCategory(category)) {
-            const serverValue = getServerTabValue(category);
-
-            const newParams = new URLSearchParams();
-            newParams.set(TAB_TYPE_PARAM, serverValue);
-
-            setSearchParams(newParams);
-        }
+        setSearchParams(newParams);
     };
 
     return (
-        <Tab count={4} backgroundColor="white">
-            <Tab.Item
-                tabKey="중앙동아리"
-                activeTab={activeCategory}
-                onTabChange={handleTabChange}
-            >
+        <Tab
+            count={4}
+            backgroundColor="white"
+            value={typeParam ? typeParam : ''}
+            onChange={handleTabChange}
+        >
+            <Tab.Item tabKey={CLUB_TYPE_DISPLAYS.CENTRAL.value}>
                 중앙동아리
             </Tab.Item>
-            <Tab.Item
-                tabKey="단과대동아리"
-                activeTab={activeCategory}
-                onTabChange={handleTabChange}
-            >
+            <Tab.Item tabKey={CLUB_TYPE_DISPLAYS.COLLEGE.value}>
                 단과대동아리
             </Tab.Item>
-            <Tab.Item
-                tabKey="학과동아리"
-                activeTab={activeCategory}
-                onTabChange={handleTabChange}
-            >
+            <Tab.Item tabKey={CLUB_TYPE_DISPLAYS.DEPARTMENT.value}>
                 학과동아리
             </Tab.Item>
-            <Tab.Item
-                tabKey="연합동아리"
-                activeTab={activeCategory}
-                onTabChange={handleTabChange}
-            >
+            <Tab.Item tabKey={CLUB_TYPE_DISPLAYS.UNION.value}>
                 연합동아리
             </Tab.Item>
         </Tab>
