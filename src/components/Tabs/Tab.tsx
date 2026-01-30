@@ -1,9 +1,10 @@
 import { cva, type VariantProps } from 'class-variance-authority';
 import { cn } from '@/utils/cn';
+import { TabContext, useTabContext } from './TabContext';
 
 /**
  * Tab 컴포넌트의 variants 정의
- * - count: 탭 개수에 따라 레이아웃 변경 (3개: gap-[60px], 4개: justify-between)
+ * - count: 탭 개수에 따라 레이아웃 변경 (3개: gap-[60px], 4개: gap-[22.67px] justify-center)
  */
 const tabContainerVariants = cva(
     'border-b-2 border-neutral-100 flex items-center pt-3 px-5 w-full',
@@ -56,10 +57,6 @@ interface TabItemProps {
     disabled?: boolean;
     /** 추가 CSS 클래스 */
     className?: string;
-    /** 현재 활성화된 탭 */
-    activeTab: string;
-    /** 탭 변경 핸들러 */
-    onTabChange: (tabKey: string) => void;
 }
 
 /**
@@ -72,6 +69,10 @@ interface TabContainerProps extends VariantProps<typeof tabContainerVariants> {
     className?: string;
     /** 배경색 (기본: transparent) */
     backgroundColor?: string;
+    /**  현재 활성 탭 값 */
+    value: string;
+    /**  변경 핸들러 */
+    onChange: (value: string) => void;
 }
 
 /**
@@ -82,21 +83,18 @@ const TabItem = ({
     children,
     disabled = false,
     className,
-    activeTab,
-    onTabChange,
 }: TabItemProps) => {
-    const isActive = activeTab === tabKey;
+    const { value, onChange } = useTabContext();
+    const isActive = value === tabKey;
 
     const handleClick = () => {
-        if (!disabled) {
-            onTabChange(tabKey);
-        }
+        if (!disabled && onChange) onChange(tabKey);
     };
 
     const handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
-        if ((e.key === 'Enter' || e.key === ' ') && !disabled) {
+        if ((e.key === 'Enter' || e.key === ' ') && !disabled && onChange) {
             e.preventDefault();
-            onTabChange(tabKey);
+            onChange(tabKey);
         }
     };
 
@@ -116,7 +114,7 @@ const TabItem = ({
         >
             <span className={tabTextVariants({ isActive })}>{children}</span>
             {isActive && (
-                <div className="absolute -bottom-[2px] left-0 right-0 h-[2px] bg-primary-600 z-10" />
+                <div className="absolute -bottom-0.5 left-0 right-0 h-0.5 bg-primary-600 z-10" />
             )}
         </div>
     );
@@ -162,15 +160,19 @@ const TabContainer = ({
     count,
     className,
     backgroundColor = 'transparent',
+    value,
+    onChange,
 }: TabContainerProps) => {
     return (
-        <div
-            role="tablist"
-            className={cn(tabContainerVariants({ count }), className)}
-            style={{ backgroundColor }}
-        >
-            {children}
-        </div>
+        <TabContext.Provider value={{ value, onChange }}>
+            <div
+                role="tablist"
+                className={cn(tabContainerVariants({ count }), className)}
+                style={{ backgroundColor }}
+            >
+                {children}
+            </div>
+        </TabContext.Provider>
     );
 };
 
