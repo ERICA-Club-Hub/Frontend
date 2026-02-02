@@ -10,7 +10,7 @@ import {
 } from './RegistrationForm';
 import useBulletPointConverter from '@/hooks/useBulletPointConverter';
 import ClubImageUpload from './ClubImageUpload';
-import { ClubCategorySelection } from './ClubCategorySelection';
+import SelectDropdown from './SelectDropdown';
 import { setDefaultImg } from '@/utils/setDefaultImg';
 import LoadingModal from '@/components/Loading/LoadingModal';
 import useClubRegisterQueries from '../api/useClubRegisterQueries';
@@ -162,9 +162,10 @@ function ClubRegisterForm({ editMode }: { editMode: boolean }) {
                     </RegistrationInnerWrapper>
 
                     {/* 동아리 카테고리 */}
-                    <ClubCategorySelection
+                    <SelectDropdown
                         inputValue={inputValue}
                         setInputValue={setInputValue}
+                        placeholder="카테고리 선택"
                     />
 
                     {/* 동아리 사진 업로드 */}

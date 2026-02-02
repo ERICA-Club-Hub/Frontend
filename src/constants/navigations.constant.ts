@@ -5,12 +5,13 @@ const clubDetailRegisterNavigations = [
 ];
 
 const clubCategory = [
-    { label: '봉사분과', name: 'VOLUNTEER' },
-    { label: '예술분과', name: 'ART' },
-    { label: '종교분과', name: 'RELIGION' },
-    { label: '체육분과', name: 'SPORTS' },
-    { label: '학술교양분과', name: 'ACADEMIC' },
-    { label: '연합동아리', name: 'UNION' },
+    { label: '봉사분과', value: 'VOLUNTEER' },
+    { label: '예술분과', value: 'ART' },
+    { label: '종교분과', value: 'RELIGION' },
+    { label: '체육분과', value: 'SPORTS' },
+    { label: '학술교양분과', value: 'ACADEMIC' },
+    { label: '연합동아리', value: 'UNION' },
+    { label: '커뮤니케이션 & 컬처대학', value: 'UNION' },
 ];
 
 export { clubDetailRegisterNavigations, clubCategory };
