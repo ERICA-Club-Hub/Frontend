@@ -177,19 +177,16 @@ function ActivityLogForm({ mode }: { mode: string }) {
                             <>
                                 <Button
                                     type="button"
-                                    size="small"
-                                    variant="outlined"
-                                    outlineColor="#DC5151"
-                                    disabled={false}
+                                    size="sm"
+                                    variant="negative"
                                     onClick={toggle}
                                 >
                                     삭제하기
                                 </Button>
                                 <Button
                                     type="button"
-                                    size="small"
-                                    variant="outlined"
-                                    // disabled={!isValid}
+                                    size="sm"
+                                    variant="neutral"
                                     onClick={() => setIsEditBtnClicked(true)}
                                 >
                                     수정하기
@@ -198,7 +195,7 @@ function ActivityLogForm({ mode }: { mode: string }) {
                         ) : (
                             <Button
                                 type="button"
-                                size="small"
+                                size="sm"
                                 disabled={!isValid}
                                 onClick={handleSaveActivityLog}
                             >

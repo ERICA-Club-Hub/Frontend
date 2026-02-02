@@ -13,7 +13,7 @@ export default function RegistrationCompletionPage() {
                     알려드릴게요.
                 </div>
                 <Link to="/">
-                    <Button size="large">홈으로 돌아가기</Button>
+                    <Button size="lg">홈으로 돌아가기</Button>
                 </Link>
             </div>
         </>

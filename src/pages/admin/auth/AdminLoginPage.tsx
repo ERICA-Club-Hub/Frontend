@@ -38,7 +38,7 @@ const AdminLoginPage = () => {
                         backgroundColor="white"
                         isError={!isValidate}
                     />
-                    <Button type="submit" size="large" isDisabled={() => false}>
+                    <Button type="submit" size="lg">
                         어드민 로그인하기
                     </Button>
                     <p

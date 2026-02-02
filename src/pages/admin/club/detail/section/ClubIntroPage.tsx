@@ -82,9 +82,8 @@ export default function ClubIntroPage() {
                         {/* <Button
                             name="preview"
                             type="button"
-                            size="small"
-                            variant="outlined"
-                            isDisabled={() => false}
+                            size="sm"
+                            variant="neutral"
                             onClick={handleSubmit}
                         >
                             미리보기
@@ -92,8 +91,7 @@ export default function ClubIntroPage() {
                         <Button
                             name="save"
                             type="button"
-                            size="small"
-                            isDisabled={() => false}
+                            size="sm"
                             onClick={handleSubmit}
                         >
                             저장하기

@@ -3,10 +3,11 @@ import Button from '@/components/Button/Button';
 
 import { useClubDetail } from '@/domains/club/profile/model/useClubDetail';
 import { useClubDetailHeader } from '@/domains/club/profile/api/useClubDetailHeader';
+
+import RecruitStatusTag from '@/domains/club/recruitment/ui/public/RecruitStatusTag';
 import ClubTypeTag, {
     ClubCategoryCode,
 } from '@/domains/shared/components/tag/ClubTypeTag';
-import RecruitStatusTag from '@/domains/club/recruitment/ui/public/RecruitStatusTag';
 
 export default function ClubDetailHeader() {
     const { isPreview, clubId } = useClubDetail();
@@ -46,7 +47,7 @@ export default function ClubDetailHeader() {
                         window.open(data.applicationUrl, '_blank');
                     }
                 }}
-                size="large"
+                size="lg"
             >
                 {data?.recruitmentStatus !== 'OPEN'
                     ? '모집이 마감되었어요.'
