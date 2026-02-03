@@ -11,7 +11,6 @@ import { inputChangeHandler } from '@/utils/inputChangeHandler';
 import { ISummaryInfoValue } from '@/types/input-value.types';
 import useClubAdminQueries from '@/domains/shared/api/useClubAdminQueries';
 import LoadingModal from '@/components/Loading/LoadingModal';
-import { RecruitmentStatus } from '@/domains/club/recruitment/ui/admin/RecruitmentStatus';
 
 export default function SummaryInfoPage() {
     const [inputValue, setInputValue] = useState<ISummaryInfoValue>({
@@ -46,12 +45,6 @@ export default function SummaryInfoPage() {
     return (
         <>
             <form onSubmit={handleSubmit} className="flex flex-col gap-[10px]">
-                {/* 동아리 모집 여부 */}
-                <RecruitmentStatus
-                    inputValue={inputValue}
-                    setInputValue={setInputValue}
-                />
-
                 {/* 동아리 요약 정보 */}
                 <AdminSection className="h-[472px]">
                     <h2 className="w-full mb-5 text-subtitle-02 font-semibold text-black">
