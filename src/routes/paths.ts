@@ -1,6 +1,9 @@
 import { ADMIN_TYPE, AdminType } from '@/types/admin.types';
 
 export const PATHS = {
+    /*메인 페이지 */
+    HOME: '/',
+
     /* 동아리 상세 페이지 */
     CLUB_DETAIL: (clubId?: number) => `/club/${clubId}`,
 
@@ -12,9 +15,6 @@ export const PATHS = {
 
     /* 동아리 소셜(인스타) 페이지 */
     CLUB_SOCIAL: '/club/social',
-
-    /* 자료실 */
-    RESOURCES: '/resources',
 
     /* 서비스 공지사항 */
     NOTICE: '/notice',
@@ -68,42 +68,37 @@ export const PATHS = {
         `/admin/club/${clubId}/register/edit`,
 };
 
-export interface DrawerMenuType {
-    title: string;
+export interface HeaderMenuType {
+    label: string;
     adminType: AdminType;
-    url: string;
+    url?: string;
 }
 
 // --- Drawer 메뉴 리스트 ---
 /* 기본 메뉴 리스트 */
-export const baseMenus: DrawerMenuType[] = [
+export const baseMenus: HeaderMenuType[] = [
     {
-        title: '자료실',
-        adminType: null,
-        url: PATHS.RESOURCES,
-    },
-    {
-        title: '서비스 공지사항',
+        label: '공지사항',
         adminType: null,
         url: PATHS.NOTICE,
     },
     {
-        title: '자주 묻는 질문',
+        label: '자주 묻는 질문',
         adminType: null,
         url: PATHS.FAQ,
     },
 ];
 /* 어드민 타입에 따른 메뉴 리스트 */
-export const adminMenus: DrawerMenuType[] = [
+export const adminMenus: HeaderMenuType[] = [
     {
         // --- 서비스 어드민 ---
-        title: '어드민 페이지',
+        label: '어드민 페이지',
         adminType: ADMIN_TYPE.SERVICE,
         url: PATHS.ADMIN_SERVICE,
     },
     {
         // --- 동아리 어드민 ---
-        title: '어드민 페이지',
+        label: '어드민 페이지',
         adminType: ADMIN_TYPE.CLUB,
 
         /* clubId는 PATHS에서 직접 동적 라우팅으로 처리
