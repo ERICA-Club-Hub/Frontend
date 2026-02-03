@@ -1,8 +1,8 @@
 import { ComponentProps, useEffect, useRef, useState } from 'react';
 import type {
     DropdownItemProps,
+    DropdownTriggerProps,
     DropdownValueProps,
-    Headless,
 } from './dropdown.types';
 import {
     DropdownContext,
@@ -12,6 +12,11 @@ import {
 } from './dropdown.context';
 import { cn } from '@/utils/cn';
 
+/**
+ * 드롭다운 컴포넌트 생성 함수
+ * @template T - 드롭다운 아이템 타입  e.g. { label: string; value: string }
+ * @returns - 드롭다운 컴포넌트 객체
+ */
 const createDropdown = <T,>() => {
     /**
      * Context Provider & 컨테이너 역할 담당
@@ -89,7 +94,8 @@ const createDropdown = <T,>() => {
         children,
         onClick,
         ...props
-    }: ComponentProps<'button'>) {
+    }: DropdownTriggerProps) {
+        const { isOpen } = useDropdown();
         const { toggle } = useSetDropdown();
 
         const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -98,8 +104,10 @@ const createDropdown = <T,>() => {
         };
 
         return (
-            <button onClick={handleClick} {...props}>
-                {children}
+            <button type="button" onClick={handleClick} {...props}>
+                {typeof children === 'function'
+                    ? children({ isOpen })
+                    : children}
             </button>
         );
     }
@@ -109,19 +117,22 @@ const createDropdown = <T,>() => {
      * @param children - UI를 렌더링하는 함수. 인자로 선택된 아이템(selectedItem)을 담은 객체를 받음
      * @returns - `({ selectedItem }) => JSX.Element` 형태여야 하며, `selectedItem`을 통해 현재 선택된 아이템에 접근 가능
      */
-    function DropdownValue({ children }: Headless<DropdownValueProps<T>>) {
+    function DropdownValue({ children }: DropdownValueProps<T>) {
         const { items, selectedIndex } = useDropdown<T>();
         const selectedItem = items[selectedIndex];
 
         return (
             <>
-                {children({
-                    selectedItem,
-                })}
+                {typeof children === 'function'
+                    ? children({ selectedItem })
+                    : children}
             </>
         );
     }
 
+    /**
+     * 드롭다운 아이템 리스트 컴포넌트
+     */
     function DropdownList({
         children,
         className,
@@ -138,6 +149,10 @@ const createDropdown = <T,>() => {
         );
     }
 
+    /**
+     * 드롭다운 아이템 컴포넌트
+     * @param index - 아이템 인덱스
+     */
     function DropdownItem({
         index,
         children,
