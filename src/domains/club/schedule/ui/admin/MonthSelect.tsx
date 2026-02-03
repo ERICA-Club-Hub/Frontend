@@ -32,7 +32,7 @@ export default function MonthSelect({
             >
                 <Dropdown.Value>
                     {({ selectedItem }) => (
-                        <span className={cn('w-[24px] text-b4')}>
+                        <span className={cn('min-w-[26px] text-b4')}>
                             {selectedItem ? selectedItem.label : '월'}
                         </span>
                     )}
