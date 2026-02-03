@@ -46,8 +46,8 @@ export default function FilterDropdown({
             </Dropdown.Trigger>
             <Dropdown.List
                 className={cn(
-                    'top-[28px] left-0 flex flex-col gap-1 min-w-full w-max h-[153px] py-[8px] px-[10px] rounded-[12px]',
-                    'divide-y divide-neutral-100 bg-neutral-00 shadow-dropdown animate-dropdown',
+                    'top-[28px] left-0 flex flex-col gap-1 min-w-full w-max py-[8px] px-[10px] rounded-[12px]',
+                    'divide-y divide-neutral-100 bg-neutral-00 shadow-dropdown',
                 )}
             >
                 {options.map((option, idx) => (

@@ -85,7 +85,7 @@ export default function SelectDropdown({
                 </Dropdown.Trigger>
                 <Dropdown.List
                     className={cn(
-                        'top-[50px] left-0 flex justify-center items-center flex-wrap gap-x-[8px] gap-y-[10px] min-w-full p-[12px] px-[8px] rounded-[8px] bg-neutral-00 animate-dropdown',
+                        'top-[50px] left-0 flex justify-center items-center flex-wrap gap-x-[8px] gap-y-[10px] min-w-full p-[12px] px-[8px] rounded-[8px] bg-neutral-00',
                     )}
                 >
                     {clubCategory.map((item, idx) => (

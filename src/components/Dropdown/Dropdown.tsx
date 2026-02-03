@@ -139,11 +139,37 @@ const createDropdown = <T,>() => {
         ...props
     }: ComponentProps<'ul'>) {
         const { isOpen } = useDropdown<T>();
-        if (!isOpen) return null;
+        const [shouldRender, setShouldRender] = useState<boolean>(isOpen);
+
+        useEffect(() => {
+            if (isOpen) {
+                // 열려있을 때
+                setShouldRender(true);
+            } else if (shouldRender) {
+                // 닫혀있는데(isOpen: false), 아직 화면에 남아있을 때(shouldRender: true)
+                // 애니메이션을 실행하고 250ms 후에 언마운트
+                const timer = setTimeout(() => {
+                    setShouldRender(false);
+                }, 250);
+
+                return () => clearTimeout(timer);
+            }
+        }, [isOpen, shouldRender]);
+
+        const handleAnimationEnd = () => {
+            if (!isOpen) setShouldRender(false);
+        };
+
+        if (!shouldRender) return null;
 
         return (
             <ul
-                className={cn('absolute z-10 overflow-y-auto', className)}
+                className={cn(
+                    'absolute z-10 overflow-y-auto origin-top',
+                    isOpen ? 'animate-slide-up-in' : 'animate-slide-up-out',
+                    className,
+                )}
+                onAnimationEnd={handleAnimationEnd}
                 {...props}
             >
                 {children}

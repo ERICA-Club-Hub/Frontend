@@ -157,6 +157,26 @@
             transform: translateY(0);
         }
     }
+    @keyframes dropdown-slide-up-in {
+        0% {
+            opacity: 0;
+            transform: scaleY(0.8);
+        }
+        100% {
+            opacity: 1;
+            transform: scaleY(1);
+        }
+    }
+    @keyframes dropdown-slide-up-out {
+        0% {
+            opacity: 1;
+            transform: scaleY(1);
+        }
+        100% {
+            opacity: 0;
+            transform: scaleY(0.8);
+        }
+    }
     @keyframes modal-fade-out {
         0% {
             transform: scale(1) translate(-50%, -50%);
@@ -186,6 +206,10 @@
     --animate-modal-out: modal-fade-out 0.4s ease;
     --animate-modal-backdrop: modal-backdrop-show 0.4s ease;
     --animate-dropdown: dropdown-slide 0.3s ease;
+    --animate-slide-up-in: dropdown-slide-up-in 0.2s
+        cubic-bezier(0.23, 1, 0.32, 1) forwards;
+    --animate-slide-up-out: dropdown-slide-up-out 0.25s
+        cubic-bezier(0.755, 0.05, 0.855, 0.06) forwards;
     --animate-bounce: loading-bounce 0.5s infinite alternate;
     --animate-skeleton: skeleton-loading 1.2s infinite alternate;
     --animate-skeleton-fast: skeleton-loading 0.8s linear infinite alternate;
