@@ -29,7 +29,7 @@ function MonthlyEventSchedule() {
     const handleAddEventSchedule = () => {
         setSchedules([
             ...schedules,
-            { month: 1, content: '', isNewSchedule: true },
+            { month: null, content: '', isNewSchedule: true },
         ]);
     };
 

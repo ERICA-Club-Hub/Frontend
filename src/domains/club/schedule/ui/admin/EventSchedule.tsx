@@ -1,13 +1,9 @@
-import useToggle from '@/hooks/useToggle';
-import DropdownArrow from '@/assets/common/dropdown_arrow.svg?react';
-import { months } from '@/domains/shared/constants/club-detail-register.constant';
 import useClubIntroContext from '@/domains/shared/contexts/useClubIntroContext';
-import Dropdown from '@/components/Dropdown/Dropdown';
 import { InputField } from '@/components/InputField/InputField';
 import { useEffect } from 'react';
 import DeleteIcon from '@/assets/common/plus-icon.svg?react';
-import { cn } from '@/utils/cn';
 import { IEventScheduleValue } from '@/types/input-value.types';
+import MonthSelect from './MonthSelect';
 
 export default function EventSchedule({
     schedule,
@@ -16,7 +12,6 @@ export default function EventSchedule({
     schedule: IEventScheduleValue;
     index: number;
 }) {
-    const { isOpen, setIsOpen, toggle } = useToggle();
     const {
         schedules,
         setSchedules,
@@ -26,11 +21,9 @@ export default function EventSchedule({
     } = useClubIntroContext();
 
     // 월 선택
-    const handleMonthValue = (month: string) => {
-        const monthValue = parseInt(month); // number 타입으로 변환 ('10월' -> 10)
-
+    const handleMonthValue = (monthValue: number) => {
         setSchedules((prevSchedules) => {
-            let updatedSchedules = [...prevSchedules];
+            const updatedSchedules = [...prevSchedules];
             updatedSchedules[index] = {
                 ...prevSchedules[index],
                 month: monthValue,
@@ -38,15 +31,13 @@ export default function EventSchedule({
 
             return updatedSchedules;
         });
-
-        toggle();
     };
 
     // 일정 내용 입력
     const handleInputValue = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
         setSchedules((prevSchedules) => {
-            let updatedSchedules = [...prevSchedules];
+            const updatedSchedules = [...prevSchedules];
             updatedSchedules[index] = {
                 ...prevSchedules[index],
                 [name]: value,
@@ -78,13 +69,13 @@ export default function EventSchedule({
 
             return [...newSchedules, ...updatedSchedules];
         });
-    }, [schedules]);
+    }, [schedules, setPostSchedules]);
 
     // 일정 삭제
     const handleDeleteSchedule = () => {
         // 우선 보여지는 화면에서 삭제 (API 요청은 id 리스트로 모아서 저장하기 트리거 시 보냄)
         setSchedules((prevSchedules) => {
-            let updatedSchedules = [...prevSchedules];
+            const updatedSchedules = [...prevSchedules];
             updatedSchedules.splice(index, 1);
 
             return updatedSchedules;
@@ -98,41 +89,10 @@ export default function EventSchedule({
 
     return (
         <div className="relative flex gap-[5px]">
-            <Dropdown setIsOpen={setIsOpen}>
-                <Dropdown.Header onClick={toggle}>
-                    <div className="flex justify-center items-center w-[50px] h-[40px] rounded-[10px] bg-neutral-100">
-                        <h4 className="text-caption font-medium text-black">
-                            {`${schedule.month}월`}
-                        </h4>
-                        <div className="flex justify-center items-center">
-                            <DropdownArrow />
-                        </div>
-                    </div>
-                </Dropdown.Header>
-
-                <Dropdown.Menu isOpen={isOpen}>
-                    <ul className="absolute top-[5px] left-0 flex flex-col items-center gap-[5px] w-[50px] h-[108px] px-[4px] rounded-[10px] bg-white shadow-[0px_3px_3px_rgba(0,0,0,0.15)] overflow-auto">
-                        {months.map((month, idx) => {
-                            const isSelected =
-                                schedule.month === parseInt(month);
-                            return (
-                                <li
-                                    key={`recruit-status-${idx}`}
-                                    onClick={() => handleMonthValue(month)}
-                                    className={cn(
-                                        'flex justify-center items-center w-[36px] min-h-[25px] rounded-[7px] text-caption font-medium text-black cursor-pointer',
-                                        isSelected
-                                            ? 'bg-neutral-100'
-                                            : 'bg-white',
-                                    )}
-                                >
-                                    {month}
-                                </li>
-                            );
-                        })}
-                    </ul>
-                </Dropdown.Menu>
-            </Dropdown>
+            <MonthSelect
+                handleMonthValue={handleMonthValue}
+                selectedValue={schedules[index].month}
+            />
 
             <div className="relative">
                 <InputField
