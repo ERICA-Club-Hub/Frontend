@@ -99,6 +99,7 @@ export default function SelectDropdown({
                                 });
                             }}
                             className={cn('flex flex-1 basis-[45%] min-w-fit')}
+                            delay={300}
                         >
                             {({ isSelected }) => (
                                 <Button

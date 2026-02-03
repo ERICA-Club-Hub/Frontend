@@ -154,12 +154,14 @@ const createDropdown = <T,>() => {
     /**
      * 드롭다운 아이템 컴포넌트
      * @param index - 아이템 인덱스
+     * @param delay - 아이템 클릭 후 드롭다운이 닫히기까지의 지연 시간 (밀리초 단위)
      */
     function DropdownItem({
         index,
         children,
         className,
         onClick,
+        delay,
         ...props
     }: DropdownItemProps) {
         const { selectedIndex } = useDropdown<T>();
@@ -170,8 +172,15 @@ const createDropdown = <T,>() => {
         const handleClick = (e: React.MouseEvent<HTMLLIElement>) => {
             e.stopPropagation();
             setSelectedIndex(index);
-            toggle(false);
             onClick?.(e);
+
+            if (delay) {
+                setTimeout(() => {
+                    toggle(false);
+                }, delay);
+                return;
+            }
+            toggle(false);
         };
 
         return (

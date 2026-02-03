@@ -28,4 +28,5 @@ export type DropdownValueProps<T> = {
 export type DropdownItemProps = {
     index: number;
     children: RenderProp<DropdownItemState>;
+    delay?: number;
 } & Omit<ComponentProps<'li'>, 'children'>;
