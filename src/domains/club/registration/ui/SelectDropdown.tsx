@@ -22,7 +22,8 @@ interface SelectDropdownProps {
     placeholder: string;
 }
 
-// TODO: 다양한 카테고리에서 재사용 가능하도록 일반화 필요 -> domains/shared에서 관리?
+// TODO: 다양한 카테고리에서 재사용 가능하도록 일반화 필요 -> domains/shared에서 관리? (폼 리팩토링 시 함께 진행)
+// 이미 선택한 카테고리가 있을 때 받아와서 표시해주는 기능도 추가 필요
 export default function SelectDropdown({
     inputValue,
     setInputValue,
@@ -49,7 +50,7 @@ export default function SelectDropdown({
                         'transition-all duration-300 ease-in-out',
                         hasSelectedValue
                             ? 'border-neutral-150 bg-neutral-00'
-                            : 'border-transparent bg-neutral-100 focus:bg-neutral-00 ',
+                            : 'border-transparent bg-neutral-100 focus:bg-neutral-00',
                     )}
                 >
                     {({ isOpen }) => (

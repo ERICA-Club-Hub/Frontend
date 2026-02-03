@@ -139,11 +139,13 @@ const createDropdown = <T,>() => {
         ...props
     }: ComponentProps<'ul'>) {
         const { isOpen } = useDropdown<T>();
-
         if (!isOpen) return null;
 
         return (
-            <ul className={cn('absolute z-10', className)} {...props}>
+            <ul
+                className={cn('absolute z-10 overflow-y-auto', className)}
+                {...props}
+            >
                 {children}
             </ul>
         );
