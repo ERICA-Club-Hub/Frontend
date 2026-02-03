@@ -39,14 +39,10 @@ export default function FilterDropdown({
             >
                 <Dropdown.Value>
                     {({ selectedItem }) => (
-                        <>
-                            <span>
-                                {selectedItem ? selectedItem.label : title}
-                            </span>
-                            <ArrowIcon />
-                        </>
+                        <span>{selectedItem ? selectedItem.label : title}</span>
                     )}
                 </Dropdown.Value>
+                <ArrowIcon />
             </Dropdown.Trigger>
             <Dropdown.List
                 className={cn(
