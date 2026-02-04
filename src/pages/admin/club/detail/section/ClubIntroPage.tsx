@@ -14,7 +14,7 @@ import { AdminButtonGroup } from '@/domains/shared/components/layout/AdminSectio
 export default function ClubIntroPage() {
     // 서버에서 받아와서 렌더링 시에 필요한 상태
     const [schedules, setSchedules] = useState<IEventScheduleValue[]>([
-        { month: 1, content: '' },
+        { month: null, content: '' },
     ]);
     // 일정 생성 및 수정 시 API 호출 시 보낼 데이터 별도로 관리
     const [postSchedules, setPostSchedules] = useState<IEventScheduleValue[]>(

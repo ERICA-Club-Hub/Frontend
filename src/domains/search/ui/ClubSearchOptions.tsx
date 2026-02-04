@@ -4,7 +4,7 @@ import {
     getDepartmentOptionsNameOnly,
     getUnionCategoryOptionsNameOnly,
 } from '@/domains/search/lib/searchKeywordMapping';
-import ClubListDropdown from './ClubListDropdown';
+import FilterDropdown from './FilterDropdown';
 
 interface DropdownProps {
     selectedValue?: string | null;
@@ -18,7 +18,7 @@ export function SortByDropdown({ selectedValue, onSelect }: DropdownProps) {
         { value: 'RECRUITMENT_STATUS_ASC', label: '모집기준으로 정렬' },
     ];
     return (
-        <ClubListDropdown
+        <FilterDropdown
             title="정렬"
             options={options}
             selectedValue={selectedValue}
@@ -35,7 +35,7 @@ export function StatusDropdown({ selectedValue, onSelect }: DropdownProps) {
     ];
 
     return (
-        <ClubListDropdown
+        <FilterDropdown
             title="모집 상태"
             selectedValue={selectedValue}
             options={options}
@@ -46,7 +46,7 @@ export function StatusDropdown({ selectedValue, onSelect }: DropdownProps) {
 
 export function CollegeDropdown({ selectedValue, onSelect }: DropdownProps) {
     return (
-        <ClubListDropdown
+        <FilterDropdown
             title="단과대"
             selectedValue={selectedValue}
             options={getCollegeOptionsNameOnly()}
@@ -65,7 +65,7 @@ export function DepartmentDropdown({
     college,
 }: DepartmentDropdownProps) {
     return (
-        <ClubListDropdown
+        <FilterDropdown
             title="학과"
             selectedValue={selectedValue}
             options={getDepartmentOptionsNameOnly(college)}
@@ -79,7 +79,7 @@ export function UnionCategoryDropdown({
     onSelect,
 }: DropdownProps) {
     return (
-        <ClubListDropdown
+        <FilterDropdown
             title="분야"
             selectedValue={selectedValue}
             options={getUnionCategoryOptionsNameOnly()}
@@ -93,7 +93,7 @@ export function CentralCategoryDropdown({
     onSelect,
 }: DropdownProps) {
     return (
-        <ClubListDropdown
+        <FilterDropdown
             title="분과"
             selectedValue={selectedValue}
             options={getCentralCategoryOptionsNameOnly()}

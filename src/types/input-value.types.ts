@@ -26,7 +26,7 @@ interface IEventScheduleValue {
     id?: number;
     scheduleId?: number | null;
     isNewSchedule?: boolean;
-    month: number;
+    month: number | null;
     content: string;
 }
 

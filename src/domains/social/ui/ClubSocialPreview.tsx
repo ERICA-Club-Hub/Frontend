@@ -29,7 +29,7 @@ export default function ClubSocialPreview() {
                     <p className="font-normal text-body-03 text-neutral-600">
                         더보기
                     </p>
-                    <ExpandArrow />
+                    <ExpandArrow width="16" height="16" stroke="#587189" />
                 </button>
             </div>
             <div className="w-[320px] flex justify-between">

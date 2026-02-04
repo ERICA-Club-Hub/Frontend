@@ -1,24 +1,224 @@
-import { ReactNode, useRef } from 'react';
-import DropdownHeader from './Header';
-import { useClickOutside } from '@/hooks/useClickOutside';
-import DropdownMenu from './Menu';
+import { ComponentProps, useEffect, useRef, useState } from 'react';
+import type {
+    DropdownItemProps,
+    DropdownTriggerProps,
+    DropdownValueProps,
+} from './dropdown.types';
+import { DropdownContext, useDropdown } from './dropdown.context';
+import { cn } from '@/utils/cn';
 
-interface DropdownProps {
-    children: ReactNode;
-    setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
-}
+/**
+ * 드롭다운 컴포넌트 생성 함수
+ * @template T - 드롭다운 아이템 타입  e.g. { label: string; value: string }
+ * @returns - 드롭다운 컴포넌트 객체
+ */
+const createDropdown = <T,>() => {
+    /**
+     * Context Provider & 컨테이너 역할 담당
+     * @param itemOptions - 드롭다운 아이템 리스트
+     * @param children - 자식 컴포넌트
+     */
+    function DropdownContainer({
+        itemOptions,
+        children,
+        className,
+        ...props
+    }: {
+        itemOptions: T[];
+        children: React.ReactNode;
+        className?: string;
+    } & ComponentProps<'div'>) {
+        const [items, setItems] = useState<T[]>(itemOptions);
+        const [isOpen, setIsOpen] = useState<boolean>(false);
+        const [selectedIndex, setSelectedIndex] = useState<number>(-1);
 
-export default function Dropdown({ children, setIsOpen }: DropdownProps) {
-    const dropdownRef = useRef<HTMLDivElement>(null);
+        const containerRef = useRef<HTMLDivElement>(null);
 
-    useClickOutside(dropdownRef, setIsOpen);
+        const toggle = (force?: boolean) => {
+            setIsOpen((prev) => (typeof force === 'boolean' ? force : !prev));
+        };
 
-    return (
-        <div ref={dropdownRef} className="relative">
-            {children}
-        </div>
-    );
-}
+        useEffect(() => {
+            const handleClickOutside = (event: MouseEvent) => {
+                // 열려있고, 클릭된 타겟이 컨테이너 내부에 포함되지 않을 때만 닫기
+                if (
+                    isOpen &&
+                    containerRef.current &&
+                    !containerRef.current.contains(event.target as Node)
+                ) {
+                    toggle(false);
+                }
+            };
 
-Dropdown.Header = DropdownHeader;
-Dropdown.Menu = DropdownMenu;
+            if (isOpen) {
+                window.addEventListener('mousedown', handleClickOutside);
+            }
+            return () => {
+                window.removeEventListener('mousedown', handleClickOutside);
+            };
+        }, [isOpen]);
+
+        return (
+            <DropdownContext.Provider
+                value={{
+                    items,
+                    isOpen,
+                    selectedIndex,
+                    setItems,
+                    setSelectedIndex,
+                    toggle,
+                }}
+            >
+                <div
+                    ref={containerRef}
+                    className={cn('relative inline-block', className)}
+                    {...props}
+                >
+                    {children}
+                </div>
+            </DropdownContext.Provider>
+        );
+    }
+
+    function DropdownTrigger({
+        children,
+        onClick,
+        ...props
+    }: DropdownTriggerProps) {
+        const { isOpen, toggle } = useDropdown();
+
+        const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+            toggle();
+            onClick?.(e);
+        };
+
+        return (
+            <button type="button" onClick={handleClick} {...props}>
+                {typeof children === 'function'
+                    ? children({ isOpen })
+                    : children}
+            </button>
+        );
+    }
+
+    /**
+     * 드롭다운 선택된 값 표시 컴포넌트
+     * @param children - UI를 렌더링하는 함수. 인자로 선택된 아이템(selectedItem)을 담은 객체를 받음
+     * @returns - `({ selectedItem }) => JSX.Element` 형태여야 하며, `selectedItem`을 통해 현재 선택된 아이템에 접근 가능
+     */
+    function DropdownValue({ children }: DropdownValueProps<T>) {
+        const { items, selectedIndex } = useDropdown<T>();
+        const selectedItem = items[selectedIndex];
+
+        return (
+            <>
+                {typeof children === 'function'
+                    ? children({ selectedItem })
+                    : children}
+            </>
+        );
+    }
+
+    /**
+     * 드롭다운 아이템 리스트 컴포넌트
+     */
+    function DropdownList({
+        children,
+        className,
+        ...props
+    }: ComponentProps<'ul'>) {
+        const { isOpen } = useDropdown<T>();
+        const [shouldRender, setShouldRender] = useState<boolean>(isOpen);
+
+        useEffect(() => {
+            if (isOpen) {
+                // 열려있을 때
+                setShouldRender(true);
+            } else if (shouldRender) {
+                // 닫혀있는데(isOpen: false), 아직 화면에 남아있을 때(shouldRender: true)
+                // 애니메이션을 실행하고 250ms 후에 언마운트
+                const timer = setTimeout(() => {
+                    setShouldRender(false);
+                }, 250);
+
+                return () => clearTimeout(timer);
+            }
+        }, [isOpen, shouldRender]);
+
+        const handleAnimationEnd = () => {
+            if (!isOpen) setShouldRender(false);
+        };
+
+        if (!shouldRender) return null;
+
+        return (
+            <ul
+                className={cn(
+                    'absolute z-10 overflow-y-auto origin-top',
+                    isOpen ? 'animate-slide-up-in' : 'animate-slide-up-out',
+                    className,
+                )}
+                onAnimationEnd={handleAnimationEnd}
+                {...props}
+            >
+                {children}
+            </ul>
+        );
+    }
+
+    /**
+     * 드롭다운 아이템 컴포넌트
+     * @param index - 아이템 인덱스
+     * @param delay - 아이템 클릭 후 드롭다운이 닫히기까지의 지연 시간 (밀리초 단위)
+     */
+    function DropdownItem({
+        index,
+        children,
+        className,
+        onClick,
+        delay,
+        ...props
+    }: DropdownItemProps) {
+        const { selectedIndex, setSelectedIndex, toggle } = useDropdown<T>();
+
+        const isSelected = selectedIndex === index;
+
+        const handleClick = (e: React.MouseEvent<HTMLLIElement>) => {
+            e.stopPropagation();
+            setSelectedIndex(index);
+            onClick?.(e);
+
+            if (delay) {
+                setTimeout(() => {
+                    toggle(false);
+                }, delay);
+                return;
+            }
+            toggle(false);
+        };
+
+        return (
+            <li
+                onClick={handleClick}
+                className={cn('cursor-pointer', className)}
+                {...props}
+            >
+                {typeof children === 'function'
+                    ? children({ isSelected })
+                    : children}
+            </li>
+        );
+    }
+
+    const Dropdown = {
+        Container: DropdownContainer,
+        Trigger: DropdownTrigger,
+        Value: DropdownValue,
+        List: DropdownList,
+        Item: DropdownItem,
+    };
+
+    return Dropdown;
+};
+
+export default createDropdown;
