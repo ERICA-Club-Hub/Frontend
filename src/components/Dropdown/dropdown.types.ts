@@ -4,8 +4,6 @@ export type DropdownContextValue<T> = {
     items: T[];
     selectedIndex: number;
     isOpen: boolean;
-};
-export type DropdownDispatchContextValue<T> = {
     setItems: Dispatch<SetStateAction<T[]>>;
     setSelectedIndex: Dispatch<SetStateAction<number>>;
     toggle: (force?: boolean) => void;

@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import ArrowIcon from '@/assets/common/expand-bottom.svg?react';
 import { cn } from '@/utils/cn';
 import createDropdown from '@/components/Dropdown/Dropdown';
-import { useSetDropdown } from '@/components/Dropdown/dropdown.context';
+import { useDropdown } from '@/components/Dropdown/dropdown.context';
 
 interface Option {
     value: string;
@@ -91,7 +91,7 @@ function SyncSelection({
     options: Option[];
     selectedValue?: string | null;
 }) {
-    const { setSelectedIndex } = useSetDropdown();
+    const { setSelectedIndex } = useDropdown();
 
     useEffect(() => {
         if (!selectedValue) {

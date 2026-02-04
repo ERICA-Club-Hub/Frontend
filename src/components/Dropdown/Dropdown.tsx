@@ -4,12 +4,7 @@ import type {
     DropdownTriggerProps,
     DropdownValueProps,
 } from './dropdown.types';
-import {
-    DropdownContext,
-    DropdownDispatchContext,
-    useDropdown,
-    useSetDropdown,
-} from './dropdown.context';
+import { DropdownContext, useDropdown } from './dropdown.context';
 import { cn } from '@/utils/cn';
 
 /**
@@ -69,23 +64,18 @@ const createDropdown = <T,>() => {
                     items,
                     isOpen,
                     selectedIndex,
+                    setItems,
+                    setSelectedIndex,
+                    toggle,
                 }}
             >
-                <DropdownDispatchContext.Provider
-                    value={{
-                        setItems,
-                        setSelectedIndex,
-                        toggle,
-                    }}
+                <div
+                    ref={containerRef}
+                    className={cn('relative inline-block', className)}
+                    {...props}
                 >
-                    <div
-                        ref={containerRef}
-                        className={cn('relative inline-block', className)}
-                        {...props}
-                    >
-                        {children}
-                    </div>
-                </DropdownDispatchContext.Provider>
+                    {children}
+                </div>
             </DropdownContext.Provider>
         );
     }
@@ -95,8 +85,7 @@ const createDropdown = <T,>() => {
         onClick,
         ...props
     }: DropdownTriggerProps) {
-        const { isOpen } = useDropdown();
-        const { toggle } = useSetDropdown();
+        const { isOpen, toggle } = useDropdown();
 
         const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
             toggle();
@@ -190,8 +179,7 @@ const createDropdown = <T,>() => {
         delay,
         ...props
     }: DropdownItemProps) {
-        const { selectedIndex } = useDropdown<T>();
-        const { setSelectedIndex, toggle } = useSetDropdown<T>();
+        const { selectedIndex, setSelectedIndex, toggle } = useDropdown<T>();
 
         const isSelected = selectedIndex === index;
 
