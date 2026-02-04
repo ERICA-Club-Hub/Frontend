@@ -6,8 +6,9 @@ import { cn } from '@/utils/cn';
 import createDropdown from '../Dropdown/Dropdown';
 import HeaderMenuIcon from '@/assets/common/header-menu.svg?react';
 import ClosedBtn from '@/assets/common/close.svg?react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { useMemo } from 'react';
+import { PATHS } from '@/routes/paths';
 
 interface DropdownItemType {
     label: string;
@@ -18,6 +19,7 @@ interface DropdownItemType {
 const Dropdown = createDropdown<DropdownItemType>();
 
 export default function HeaderDropdownMenu() {
+    const location = useLocation();
     const isAuthenticatedValue = useRecoilValue(isAuthenticatedSelector); // 로그인 여부
     const { toggleAuthentication } = useAuthToggle(); // 로그인 & 로그아웃 로직
     const filteredMenus = useFilteredMenus(); // 어드민 유형에 따라 필터링된 메뉴
@@ -31,6 +33,7 @@ export default function HeaderDropdownMenu() {
         const authMenu = {
             label: isAuthenticatedValue ? '어드민 로그아웃' : '어드민 로그인',
             onClick: toggleAuthentication,
+            url: isAuthenticatedValue ? undefined : PATHS.ADMIN_LOGIN,
         };
 
         return [...menus, authMenu];
@@ -50,47 +53,45 @@ export default function HeaderDropdownMenu() {
                     'divide-y divide-neutral-100 bg-neutral-00 shadow-dropdown',
                 )}
             >
-                {allMenuItems.map((item, idx) => (
-                    <Dropdown.Item
-                        key={item.label}
-                        index={idx}
-                        onClick={item?.onClick}
-                        className={cn(
-                            'flex justify-center pb-[4px] last:pb-0 cursor-pointer',
-                        )}
-                    >
-                        {({ isSelected }) => {
-                            const Component: React.ElementType = item.url
-                                ? Link
-                                : 'button';
+                {allMenuItems.map((item, idx) => {
+                    const isActive = item.url === location.pathname;
 
-                            const props = item.url
-                                ? { to: item.url }
-                                : {
-                                      type: 'button' as const,
-                                  };
+                    const Component: React.ElementType = item.url
+                        ? Link
+                        : 'button';
+                    const props = item.url
+                        ? { to: item.url }
+                        : {
+                              type: 'button' as const,
+                          };
 
-                            return (
-                                <Component
+                    return (
+                        <Dropdown.Item
+                            key={item.label}
+                            index={idx}
+                            onClick={item?.onClick}
+                            className={cn(
+                                'flex justify-center pb-[4px] last:pb-0 cursor-pointer',
+                            )}
+                        >
+                            <Component
+                                className={cn(
+                                    'flex justify-center items-center w-full h-full min-h-[36px] py-[6px] px-[8px] cursor-pointer',
+                                    isActive && 'bg-neutral-100 rounded-[8px]',
+                                )}
+                                {...props}
+                            >
+                                <span
                                     className={cn(
-                                        'flex justify-center items-center w-full h-full min-h-[36px] py-[6px] px-[8px] cursor-pointer',
-                                        isSelected &&
-                                            'bg-neutral-100 rounded-[8px]',
+                                        isActive ? 'text-b2' : 'text-b1',
                                     )}
-                                    {...props}
                                 >
-                                    <span
-                                        className={cn(
-                                            isSelected ? 'text-b2' : 'text-b1',
-                                        )}
-                                    >
-                                        {item.label}
-                                    </span>
-                                </Component>
-                            );
-                        }}
-                    </Dropdown.Item>
-                ))}
+                                    {item.label}
+                                </span>
+                            </Component>
+                        </Dropdown.Item>
+                    );
+                })}
             </Dropdown.List>
         </Dropdown.Container>
     );
