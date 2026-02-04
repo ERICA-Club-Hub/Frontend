@@ -26,6 +26,9 @@ export const PATHS = {
     CLUB_REGISTRATION: '/club/registration',
     CLUB_REGISTRATION_COMPLETED: '/club/registration/completed',
 
+    // --- 어드민 로그인 ---
+    ADMIN_LOGIN: '/admin/login',
+
     // TODO: 어드민 어순 변경 e.g. ADMIN_SERVICE -> SERVICE_ADMIN
     // --- 서비스 어드민 ---
     /* 대시보드 */

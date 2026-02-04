@@ -5,6 +5,7 @@ import {
     isAuthenticatedSelector,
 } from '@/domains/auth/model/auth.atom';
 import { clubId } from '@/domains/auth/model/clubInfo.atom';
+import { PATHS } from '@/routes/paths';
 import { removeAccessToken } from '@/utils/tokenHandler';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
@@ -36,13 +37,13 @@ const useAuthToggle = () => {
             setAuthenticated(false);
             setAdminType(null);
             setClubId(null);
-            navigate('/admin/login');
+            navigate(PATHS.ADMIN_LOGIN);
         }
     };
 
     // 로그인
     const handleLogin = () => {
-        navigate('/admin/login');
+        navigate(PATHS.ADMIN_LOGIN);
     };
 
     const toggleAuthentication = () => {
