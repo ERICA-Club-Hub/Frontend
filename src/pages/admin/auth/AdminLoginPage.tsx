@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { InputField } from '@/components/InputField/InputField';
+import InputField from '@/components/InputField/InputField';
 import Button from '@/components/Button/Button';
 import useAdminLogin from '@/domains/auth/model/useAdminLogin';
 import { cn } from '@/utils/cn';
@@ -31,11 +31,10 @@ const AdminLoginPage = () => {
                     className="relative flex flex-col gap-[11px] mb-[78px]"
                 >
                     <InputField
+                        size="lg"
                         value={code}
                         onChange={handleChange}
                         placeholder="부여받은 동아리 코드를 입력해 주세요."
-                        inputSize="large"
-                        backgroundColor="white"
                         isError={!isValidate}
                     />
                     <Button type="submit" size="lg">

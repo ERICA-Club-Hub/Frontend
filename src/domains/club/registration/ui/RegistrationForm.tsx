@@ -1,27 +1,6 @@
 import { ComponentProps, ReactNode } from 'react';
 import { cn } from '@/utils/cn';
 
-interface RegistrationGuideTextProps {
-    children: ReactNode;
-    className?: string;
-}
-
-export const RegistrationGuideText = ({
-    children,
-    className,
-}: RegistrationGuideTextProps) => {
-    return (
-        <p
-            className={cn(
-                'w-full text-caption font-normal text-neutral-400',
-                className,
-            )}
-        >
-            {children}
-        </p>
-    );
-};
-
 interface RegistrationInnerWrapperProps {
     children: ReactNode;
     className?: string;

@@ -1,9 +1,9 @@
 import useClubIntroContext from '@/domains/shared/contexts/useClubIntroContext';
-import { InputField } from '@/components/InputField/InputField';
+import InputField from '@/components/InputField/InputField';
 import { useEffect } from 'react';
-import DeleteIcon from '@/assets/common/plus-icon.svg?react';
 import { IEventScheduleValue } from '@/types/input-value.types';
 import MonthSelect from './MonthSelect';
+import DeleteIcon from '@/assets/trash.svg?react';
 
 export default function EventSchedule({
     schedule,
@@ -96,18 +96,14 @@ export default function EventSchedule({
 
             <div className="relative">
                 <InputField
+                    inputType="date"
                     value={schedule.content}
                     name="content"
                     onChange={handleInputValue}
-                    inputSize="small"
-                    backgroundColor="gray"
                     placeholder="일정을 입력해 주세요."
                     maxLength={30}
-                    style={{ paddingRight: '36px' }}
-                />
-                <DeleteIcon
-                    onClick={handleDeleteSchedule}
-                    className="absolute top-[8px] right-[12px] w-[24px] h-[24px] rotate-45 cursor-pointer [&_path]:stroke-[#33363f]"
+                    rightIcon={<DeleteIcon />}
+                    iconClickHandler={handleDeleteSchedule}
                 />
             </div>
         </div>

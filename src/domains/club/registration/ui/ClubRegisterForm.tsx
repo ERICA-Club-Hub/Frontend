@@ -1,10 +1,9 @@
 import { useState } from 'react';
-import { InputField } from '@/components/InputField/InputField';
+import InputField from '@/components/InputField/InputField';
 import Button from '@/components/Button/Button';
 import { TextArea } from '@/components/InputField/TextArea';
 import { inputChangeHandler } from '@/utils/inputChangeHandler';
 import {
-    RegistrationGuideText,
     RegistrationInnerWrapper,
     RegistrationLabel,
 } from './RegistrationForm';
@@ -117,11 +116,11 @@ function ClubRegisterForm({ editMode }: { editMode: boolean }) {
                             동아리 이름
                         </RegistrationLabel>
                         <InputField
+                            size="lg"
                             value={inputValue.clubName}
                             id="clubName"
                             type="text"
                             placeholder="동아리 이름을 정확하게 입력해 주세요."
-                            inputSize="large"
                             name="clubName"
                             maxLength={30}
                             onChange={(e) =>
@@ -141,17 +140,19 @@ function ClubRegisterForm({ editMode }: { editMode: boolean }) {
                         >
                             동아리 이메일
                         </RegistrationLabel>
-                        <RegistrationGuideText>
-                            승인 결과가 이메일로 전송됩니다.
-                        </RegistrationGuideText>
+
                         <InputField
+                            size="lg"
                             value={inputValue.leaderEmail}
                             id="leaderEmail"
                             type="text"
                             placeholder="이메일을 정확하게 입력해 주세요."
-                            inputSize="large"
+                            hintText="승인 결과가 이메일로 전송됩니다."
                             name="leaderEmail"
                             maxLength={30}
+                            // TODO: isError 추후 이메일 유효성 검사 로직 추가 예정
+                            isError={false}
+                            errorMessage="올바른 이메일 형식이 아니에요."
                             onChange={(e) =>
                                 inputChangeHandler<IClubRegisterValue>({
                                     e,
@@ -181,11 +182,11 @@ function ClubRegisterForm({ editMode }: { editMode: boolean }) {
                             동아리 한 줄 소개
                         </RegistrationLabel>
                         <InputField
+                            size="lg"
                             value={inputValue.oneLiner}
                             id="oneLiner"
                             type="text"
                             placeholder="동아리를 한 줄로 소개해 주세요."
-                            inputSize="large"
                             name="oneLiner"
                             maxLength={30}
                             onChange={(e) =>

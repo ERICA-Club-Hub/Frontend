@@ -1,7 +1,6 @@
-import { InputField } from '@/components/InputField/InputField';
+import InputField from '@/components/InputField/InputField';
 import SearchTab from '@/domains/search/ui/SearchTab';
 import { useClubSearchFromUrl } from '@/domains/search/api/useClubList';
-import ReadingGlassIcon from '@/assets/common/reading_glass.svg?react';
 import ClubCard from '@/domains/shared/components/card/ClubCard';
 import ErrorIcon from '@/assets/common/error-icon.svg?react';
 import { useSearchParams } from 'react-router-dom';
@@ -15,6 +14,7 @@ import {
     UnionCategoryDropdown,
 } from '@/domains/search/ui/ClubSearchOptions';
 import { PATHS } from '@/routes/paths';
+import SearchIcon from '@/assets/search.svg?react';
 
 export default function ClubSearchPage() {
     const [searchTerm, setSearchTerm] = useState<string>('');
@@ -101,18 +101,14 @@ export default function ClubSearchPage() {
                 <div className="flex flex-col items-center py-5">
                     <div className="relative inline-block w-[320px]">
                         <InputField
-                            inputSize="large"
+                            inputType="search"
                             placeholder="원하는 동아리를 검색해 보세요."
                             value={searchTerm}
                             onChange={(e) => setSearchTerm(e.target.value)}
                             onKeyDown={handleKeyDown}
+                            className="w-[320px] h-[48px]"
+                            leftIcon={<SearchIcon />}
                         />
-                        <button
-                            onClick={handleSearch}
-                            className="absolute right-[15px] top-1/2 -translate-y-1/2 p-0 cursor-pointer flex items-center justify-center"
-                        >
-                            <ReadingGlassIcon />
-                        </button>
                     </div>
 
                     <div className="flex w-[320px] mt-[23px] mb-[10px] gap-[5px] flex-wrap relative">
