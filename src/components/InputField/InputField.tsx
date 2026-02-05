@@ -10,7 +10,7 @@ interface InputFieldProps extends Omit<ComponentProps<'input'>, 'size'> {
     hintText?: string;
     leftIcon?: React.ReactNode;
     rightIcon?: React.ReactNode;
-    iconClickHandler?: () => void;
+    onIconClick?: () => void;
     className?: string;
 }
 
@@ -23,7 +23,7 @@ interface InputFieldProps extends Omit<ComponentProps<'input'>, 'size'> {
  * @param {string} hintText - 힌트 텍스트 (인풋 필드 하단에 표시)
  * @param {React.ReactNode} leftIcon - 왼쪽 아이콘 (e.g. 검색 아이콘)
  * @param {React.ReactNode} rightIcon - 오른쪽 아이콘 (e.g. 삭제 아이콘)
- * @param {() => void} iconClickHandler - 아이콘 클릭 핸들러
+ * @param {() => void} onIconClick - 아이콘 클릭 핸들러 (우측 삭제 아이콘에만 적용)
  * @param {string} className - 추가적인 CSS 클래스 이름
  *
  */
@@ -37,33 +37,44 @@ const InputField = forwardRef<HTMLInputElement, InputFieldProps>(
             hintText,
             leftIcon,
             rightIcon,
-            iconClickHandler,
+            onIconClick,
             className,
             ...props
         },
         ref,
     ) => {
         return (
-            <div className={cn('relative flex flex-col gap-[6px]')}>
-                {leftIcon && (
-                    <button
-                        type="button"
-                        className={cn(
-                            'absolute top-1/2 left-[20px] -translate-y-1/2',
-                        )}
-                    >
-                        {leftIcon}
-                    </button>
-                )}
-
-                <input
-                    ref={ref}
-                    className={cn(
-                        inputVariants({ size, inputType, isError }),
-                        className,
+            <div className={cn('flex flex-col gap-[6px]')}>
+                <div className="relative">
+                    {leftIcon && (
+                        <div
+                            className={cn(
+                                'absolute top-1/2 left-[20px] -translate-y-1/2',
+                            )}
+                        >
+                            {leftIcon}
+                        </div>
                     )}
-                    {...props}
-                />
+                    <input
+                        ref={ref}
+                        className={cn(
+                            inputVariants({ size, inputType, isError }),
+                            className,
+                        )}
+                        {...props}
+                    />
+                    {rightIcon && (
+                        <button
+                            type="button"
+                            className={cn(
+                                'absolute top-1/2 right-[12px] -translate-y-1/2',
+                            )}
+                            onClick={onIconClick}
+                        >
+                            {rightIcon}
+                        </button>
+                    )}
+                </div>
 
                 {isError && errorMessage && (
                     <p className={cn('text-c1 text-text-error')}>
@@ -73,25 +84,13 @@ const InputField = forwardRef<HTMLInputElement, InputFieldProps>(
                 {!isError && hintText && (
                     <p className={cn('text-c1 text-text-hint')}>{hintText}</p>
                 )}
-
-                {rightIcon && (
-                    <button
-                        type="button"
-                        className={cn(
-                            'absolute top-1/2 right-[12px] -translate-y-1/2',
-                        )}
-                        onClick={iconClickHandler}
-                    >
-                        {rightIcon}
-                    </button>
-                )}
             </div>
         );
     },
 );
 
 const inputVariants = cva(
-    'w-full p-[12px] rounded-[8px] border-[0.6px] border-solid border-neutral-100 text-b4 text-text-main bg-neutral-100 transition-all duration-300 ease-in ' +
+    'rounded-[8px] border-[0.6px] border-solid border-neutral-100 text-b4 text-text-main bg-neutral-100 transition-all duration-300 ease-in ' +
         'placeholder:text-b4 placeholder:text-neutral-400 outline-none focus:bg-neutral-00 focus:border-[0.6px] focus:border-solid focus:border-neutral-150 ' +
         '[&:not(:placeholder-shown)]:bg-neutral-00 [&:not(:placeholder-shown)]:border-neutral-150',
     {
@@ -101,8 +100,8 @@ const inputVariants = cva(
                 lg: 'w-[320px] h-[45px]',
             },
             inputType: {
-                default: '',
-                search: 'pl-[54px] border-none bg-neutral-00 focus:border-none',
+                default: 'p-[12px] ',
+                search: 'p-[12px] pl-[54px] border-none bg-neutral-00 focus:border-none',
                 date: 'w-[252px] h-[46px] py-[12.5px] pr-[44px] pl-[12px]',
             },
             isError: {

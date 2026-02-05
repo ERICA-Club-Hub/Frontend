@@ -1,5 +1,4 @@
 import InputField from '@/components/InputField/InputField';
-import SearchIcon from '@/assets/search.svg?react';
 
 interface SearchInputProps {
     value: string; // 검색어 상태
@@ -13,7 +12,6 @@ export default function SearchInput({ value, setValue }: SearchInputProps) {
 
     return (
         <div className="relative">
-            <SearchIcon className="absolute left-[15px] top-1/2 -translate-y-1/2 text-neutral-600" />
             <InputField
                 inputType="search"
                 placeholder="동아리 검색"
