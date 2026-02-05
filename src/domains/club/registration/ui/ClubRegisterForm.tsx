@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import InputField from '@/components/InputField/InputField';
 import Button from '@/components/Button/Button';
-import { TextArea } from '@/components/InputField/TextArea';
+import TextArea from '@/components/InputField/TextArea';
 import { inputChangeHandler } from '@/utils/inputChangeHandler';
 import {
     RegistrationInnerWrapper,
@@ -208,7 +208,6 @@ function ClubRegisterForm({ editMode }: { editMode: boolean }) {
                             <TextArea
                                 id="briefIntroduction"
                                 placeholder="동아리에 대해 간단히 소개해 주세요."
-                                size="medium"
                                 name="briefIntroduction"
                                 maxLength={100}
                                 value={inputValue.briefIntroduction}

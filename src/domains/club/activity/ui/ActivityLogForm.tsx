@@ -12,7 +12,7 @@ import CarouselImage from './CarouselImage';
 import { ActivityLogProvider } from '@/domains/club/activity/contexts/ActivityLogContext';
 import axios from 'axios';
 import { useErrorHandler } from '@/hooks/useErrorHandler';
-import { TextArea } from '@/components/InputField/TextArea';
+import TextArea from '@/components/InputField/TextArea';
 import Button from '@/components/Button/Button';
 import LoadingModal from '@/components/Loading/LoadingModal';
 import ActionModal from '@/components/Modal/ActionModal';
@@ -151,8 +151,6 @@ function ActivityLogForm({ mode }: { mode: string }) {
 
                         {/* 내용 입력 폼 */}
                         <TextArea
-                            size="small"
-                            backgroundColor="gray"
                             maxLength={100}
                             placeholder="사진에 대한 설명을 입력해 주세요."
                             name="content"

@@ -1,4 +1,4 @@
-import { TextArea } from '@/components/InputField/TextArea';
+import TextArea from '@/components/InputField/TextArea';
 import { clubIntroList } from '@/domains/shared/constants/club-detail-register.constant';
 import useBulletPointConverter from '@/hooks/useBulletPointConverter';
 import useClubIntroContext from '@/domains/shared/contexts/useClubIntroContext';
@@ -31,8 +31,6 @@ export default function ClubDescription() {
                     >
                         <AdminSectionLabel>{clubIntro.label}</AdminSectionLabel>
                         <TextArea
-                            size="large"
-                            backgroundColor="gray"
                             maxLength={
                                 clubIntro.name === 'activity' ? 1000 : 500
                             }

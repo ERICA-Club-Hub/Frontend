@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import Button from '@/components/Button/Button';
-import { TextArea } from '@/components/InputField/TextArea';
+import TextArea from '@/components/InputField/TextArea';
 import { recruitNoticeList } from '@/domains/shared/constants/club-detail-register.constant';
 import {
     AdminButtonGroup,
@@ -58,8 +58,6 @@ export default function RecruitNoticePage() {
                                     {recruitNotice.label}
                                 </AdminSectionLabel>
                                 <TextArea
-                                    size="large"
-                                    backgroundColor="gray"
                                     placeholder={
                                         isPending
                                             ? ''
