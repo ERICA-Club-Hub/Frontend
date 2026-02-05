@@ -10,10 +10,23 @@ interface InputFieldProps extends Omit<ComponentProps<'input'>, 'size'> {
     hintText?: string;
     leftIcon?: React.ReactNode;
     rightIcon?: React.ReactNode;
-    className?: string;
     iconClickHandler?: () => void;
+    className?: string;
 }
 
+/**
+ * 다양한 크기와 유형을 지원하는 스타일된 입력 필드를 렌더링
+ * @param {'md' | 'lg'} size - 입력 필드의 크기
+ * @param {'default' | 'search' | 'date'} inputType - 입력 필드의 유형
+ * @param {boolean} isError - 오류 상태 여부
+ * @param {string} errorMessage - 오류 메시지
+ * @param {string} hintText - 힌트 텍스트 (인풋 필드 하단에 표시)
+ * @param {React.ReactNode} leftIcon - 왼쪽 아이콘 (e.g. 검색 아이콘)
+ * @param {React.ReactNode} rightIcon - 오른쪽 아이콘 (e.g. 삭제 아이콘)
+ * @param {() => void} iconClickHandler - 아이콘 클릭 핸들러
+ * @param {string} className - 추가적인 CSS 클래스 이름
+ *
+ */
 const InputField = forwardRef<HTMLInputElement, InputFieldProps>(
     (
         {
@@ -24,8 +37,8 @@ const InputField = forwardRef<HTMLInputElement, InputFieldProps>(
             hintText,
             leftIcon,
             rightIcon,
-            className,
             iconClickHandler,
+            className,
             ...props
         },
         ref,
@@ -78,7 +91,7 @@ const InputField = forwardRef<HTMLInputElement, InputFieldProps>(
 );
 
 const inputVariants = cva(
-    'w-full p-[12px] rounded-[8px] border-[0.6px] border-solid border-neutral-100 text-b4 text-text-main bg-neutral-100 transition-all duration-300 ease-in-out ' +
+    'w-full p-[12px] rounded-[8px] border-[0.6px] border-solid border-neutral-100 text-b4 text-text-main bg-neutral-100 transition-all duration-300 ease-in ' +
         'placeholder:text-b4 placeholder:text-neutral-400 outline-none focus:bg-neutral-00 focus:border-[0.6px] focus:border-solid focus:border-neutral-150 ' +
         '[&:not(:placeholder-shown)]:bg-neutral-00 [&:not(:placeholder-shown)]:border-neutral-150',
     {
