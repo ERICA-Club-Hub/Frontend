@@ -2,21 +2,18 @@ import { IModal } from '@/types/modal.types';
 import { FormEvent, useState } from 'react';
 import { cn } from '@/utils/cn';
 import Modal from '@/components/Modal/Modal';
+import TextArea from '@/components/InputField/TextArea';
 
 type FeedbackModalProps = IModal & {
     title?: string;
-    subtitle?: string;
     type?: 'feedback';
     onSubmit?: (text: string) => void;
-    placeholder?: string;
 };
 
 export default function FeedbackModal({
     title,
-    subtitle,
     type,
     onSubmit,
-    placeholder = '의견을 자유롭게 작성해 주세요.',
     ...modalProps
 }: FeedbackModalProps) {
     const [feedbackText, setFeedbackText] = useState('');
@@ -37,40 +34,25 @@ export default function FeedbackModal({
         <Modal {...modalProps}>
             <div
                 className={cn(
-                    'w-[320px] h-[236px] p-[15px]',
-                    'flex flex-col items-center',
-                    'rounded-[10px] bg-[#fafafa]',
-                    'shadow-[0px_5px_15px_0px_rgba(0,0,0,0.35)]',
+                    'flex flex-col items-center gap-[12px] w-[320px] min-h-[178px] py-[24px] px-[20px] rounded-[12px] bg-neutral-50 shadow-default',
                 )}
             >
                 {title && (
-                    <h2 className="w-full text-[#232323] text-center text-body-01 font-medium mb-[10px]">
+                    <h2 className="w-full text-text-main text-center text-b2 font-medium">
                         {title}
                     </h2>
                 )}
-                {subtitle && (
-                    <p className="w-full text-[#989898] text-center text-caption font-medium mb-[15px]">
-                        {subtitle}
-                    </p>
-                )}
+
                 {type === 'feedback' ? (
                     <form
                         onSubmit={handleSubmit}
-                        className="w-full flex flex-col flex-1"
+                        className="w-full flex flex-col items-center gap-[12px]"
                     >
-                        <textarea
+                        <TextArea
                             value={feedbackText}
                             onChange={(e) => setFeedbackText(e.target.value)}
-                            placeholder={placeholder}
-                            className={cn(
-                                'h-[98px] px-[20px] py-[15px]',
-                                'rounded-[10px] bg-[#eaeaea]',
-                                'border-0 resize-none',
-                                'text-[#232323] text-body-03 font-medium',
-                                'mb-[10px]',
-                                'focus:outline-none',
-                                'placeholder:text-[#989898]',
-                            )}
+                            placeholder="오류, 건의사항, 칭찬 등 모두 환영입니다. :)"
+                            className={cn('w-full min-h-[45px]')}
                         />
                         <button
                             type={feedbackText ? 'submit' : 'button'}
@@ -80,13 +62,10 @@ export default function FeedbackModal({
                                     : () => modalProps.toggle()
                             }
                             className={cn(
-                                'h-[35px] w-full',
-                                'border-0 rounded-[8px]',
-                                'text-body-03 font-semibold',
-                                'cursor-pointer text-white',
+                                'w-full h-[37px] rounded-[8px] text-b3 cursor-pointer transition-all duration-200 ease-in',
                                 feedbackText
-                                    ? 'bg-primary-500'
-                                    : 'bg-neutral-400',
+                                    ? 'bg-brand text-neutral-50'
+                                    : 'bg-neutral-200 text-neutral-600',
                             )}
                         >
                             {feedbackText ? '완료' : '취소'}

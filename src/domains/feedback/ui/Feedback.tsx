@@ -40,7 +40,6 @@ export default function Feedback() {
                 isOpen={isSurveyModalOpen}
                 toggle={toggleSurveyModal}
                 title="이용경험을 공유해 주세요."
-                subtitle="오류, 건의사항, 칭찬 등 모두 환영입니다 :)"
                 type="feedback"
                 onSubmit={(content: string) =>
                     submitFeedBackMutation.mutate(content)
