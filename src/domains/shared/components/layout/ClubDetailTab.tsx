@@ -9,27 +9,15 @@ interface TabProps {
 export default function ClubDetailTab({ setActiveTab, activeTab }: TabProps) {
     const { isPreview } = useClubDetail();
     return (
-        <Tab backgroundColor="white">
-            <Tab.Item
-                tabKey="intro"
-                activeTab={activeTab}
-                onTabChange={setActiveTab}
-            >
-                동아리 소개
-            </Tab.Item>
-            <Tab.Item
-                tabKey="recruit"
-                activeTab={activeTab}
-                onTabChange={setActiveTab}
-            >
-                모집안내
-            </Tab.Item>
-            <Tab.Item
-                tabKey="log"
-                activeTab={activeTab}
-                onTabChange={setActiveTab}
-                disabled={isPreview}
-            >
+        <Tab
+            count={3}
+            backgroundColor="white"
+            value={activeTab}
+            onChange={setActiveTab}
+        >
+            <Tab.Item tabKey="intro">동아리 소개</Tab.Item>
+            <Tab.Item tabKey="recruit">모집안내</Tab.Item>
+            <Tab.Item tabKey="log" disabled={isPreview}>
                 활동로그
             </Tab.Item>
         </Tab>
