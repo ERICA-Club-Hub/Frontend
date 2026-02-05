@@ -91,21 +91,13 @@ const TabItem = ({
         if (!disabled && onChange) onChange(tabKey);
     };
 
-    const handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
-        if ((e.key === 'Enter' || e.key === ' ') && !disabled && onChange) {
-            e.preventDefault();
-            onChange(tabKey);
-        }
-    };
-
     return (
-        <div
+        <button
             role="tab"
             aria-selected={isActive}
             aria-disabled={disabled}
-            tabIndex={disabled ? -1 : 0}
+            disabled={disabled}
             onClick={handleClick}
-            onKeyDown={handleKeyDown}
             className={cn(
                 tabItemVariants({ isActive }),
                 disabled && 'cursor-not-allowed opacity-50',
@@ -116,7 +108,7 @@ const TabItem = ({
             {isActive && (
                 <div className="absolute -bottom-0.5 left-0 right-0 h-0.5 bg-primary-600 z-10" />
             )}
-        </div>
+        </button>
     );
 };
 
