@@ -1,4 +1,4 @@
-import { InputField } from '@/components/InputField/InputField';
+import InputField from '@/components/InputField/InputField';
 import { useState } from 'react';
 import { summaryInfoList } from '@/domains/shared/constants/club-detail-register.constant';
 import Button from '@/components/Button/Button';
@@ -92,8 +92,7 @@ export default function SummaryInfoPage() {
                                             : 'text'
                                     }
                                     name={summaryInfo.name}
-                                    inputSize={'medium'}
-                                    backgroundColor={'gray'}
+                                    size="lg"
                                     placeholder={
                                         isPending ? '' : summaryInfo.placeholder
                                     }
@@ -123,8 +122,7 @@ export default function SummaryInfoPage() {
                     <InputField
                         value={inputValue.applicationUrl}
                         name="applicationUrl"
-                        inputSize={'medium'}
-                        backgroundColor={'gray'}
+                        size="lg"
                         placeholder={
                             isPending
                                 ? ''
