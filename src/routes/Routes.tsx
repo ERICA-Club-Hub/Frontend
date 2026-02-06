@@ -17,7 +17,6 @@ import RegistrationsListPage from '@/pages/admin/service/registrations/Registrat
 import RegistrationPage from '@/pages/club/registration/RegistrationPage';
 import NoticePage from '@/pages/notice/NoticePage';
 import ClubSocialPage from '@/pages/social/ClubSocialPage';
-import FAQPage from '@/pages/faq/FAQPage';
 import ClubDetailPage from '@/pages/club/detail/ClubDetailPage';
 import AdminClubPage from '@/pages/admin/club/dashboard/AdminClubPage';
 import AdminClubDetailPage from '@/pages/admin/club/detail/AdminClubDetailPage';
@@ -42,7 +41,7 @@ export default function AppRoutes() {
             <Route path={PATHS.NOTICE} element={<NoticePage />} />
 
             {/* 자주 묻는 질문 페이지 */}
-            <Route path={PATHS.FAQ} element={<FAQPage />} />
+            {/* <Route path={PATHS.FAQ} element={<FAQPage />} /> */}
 
             {/* 동아리 등록 및 수정의 미리보기 페이지 */}
             <Route
