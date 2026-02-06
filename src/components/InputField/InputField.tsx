@@ -105,7 +105,7 @@ const inputVariants = cva(
                 date: 'w-[252px] h-[46px] py-[12.5px] pr-[44px] pl-[12px]',
             },
             isError: {
-                true: 'border-text-error focus:border-text-error',
+                true: 'border-text-error focus:border-text-error [&:not(:placeholder-shown)]:border-sub-warning',
                 false: '',
             },
         },

@@ -15,15 +15,17 @@ export default function FormItem({
     children,
 }: PropsWithChildren<FormItemProps>) {
     return (
-        <div className="flex flex-col gap-[10px]">
+        <div className="flex flex-col gap-[10px] w-full py-[8px]">
             <div className="flex flex-col gap-[4px]">
                 <div>
-                    <label htmlFor={id} className="tex-b3">
+                    <label htmlFor={id} className="text-b3">
                         {label}
                     </label>
                     {required && <span className="text-sub-warning"> *</span>}
                 </div>
-                {hintText && <p>{hintText}</p>}
+                {hintText && (
+                    <p className="text-c1 text-neutral-400">{hintText}</p>
+                )}
             </div>
 
             {children}
