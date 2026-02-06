@@ -33,6 +33,7 @@ export default function CategorySelectDropdown({
         const config = CATEGORY_CONFIG[clubType];
         return (
             <FormItem
+                key={config.name}
                 label={PROFILE_FIELD_CONFIG.category.label}
                 hintText={PROFILE_FIELD_CONFIG.category.hintText}
                 id={config.name}
@@ -58,6 +59,7 @@ export default function CategorySelectDropdown({
     if (clubType === 'COLLEGE' || clubType === 'DEPARTMENT') {
         return (
             <FormItem
+                key={clubType}
                 label={PROFILE_FIELD_CONFIG.category.label}
                 hintText={PROFILE_FIELD_CONFIG.category.hintText}
                 id="category.college"
@@ -72,7 +74,9 @@ export default function CategorySelectDropdown({
                             onChange={(val) => {
                                 onChange(val);
                                 if (clubType === 'DEPARTMENT')
-                                    setValue('category.department', null);
+                                    setValue('category.department', null, {
+                                        shouldValidate: true,
+                                    });
                             }}
                             items={getCollegeOptionsNameOnly()}
                             id="category.college"
@@ -84,6 +88,7 @@ export default function CategorySelectDropdown({
                 {/* 학과 소속 동아리 */}
                 {clubType === 'DEPARTMENT' && college && (
                     <Controller
+                        key={college}
                         control={control}
                         name="category.department"
                         render={({ field: { value, onChange } }) => (
