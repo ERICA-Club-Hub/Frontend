@@ -1,10 +1,16 @@
 import {
     CentralCategoryCode,
+    ClubType,
     CollegeCode,
     DepartmentCode,
     UnionCategoryCode,
 } from './category.types';
 import { RecruitmentStatus } from './recruitment-status.type';
+
+export interface ClubTypeConfig {
+    code: ClubType;
+    label: string;
+}
 
 /**
  * 단과대 라벨과 이모지
