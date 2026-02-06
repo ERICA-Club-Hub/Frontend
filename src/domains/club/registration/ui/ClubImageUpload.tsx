@@ -6,12 +6,14 @@ interface IClubImageUpload {
     setPreviewImg: React.Dispatch<
         React.SetStateAction<string | ArrayBuffer | null>
     >;
+    placeholder: string;
 }
 
 export default function ClubImageUpload({
     setPostImg,
     previewImg,
     setPreviewImg,
+    placeholder,
 }: IClubImageUpload) {
     const handleImgUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
         uploadImageWithPreview(e, setPostImg, setPreviewImg);
@@ -54,15 +56,9 @@ export default function ClubImageUpload({
                     />
                 </div>
 
-                <div className="flex flex-col gap-[7px]">
-                    <p className="text-body-03 font-normal text-neutral-500">
-                        동아리 대표 사진을 <br />
-                        업로드해 주세요.
-                    </p>
-                    <span className="text-caption font-normal text-neutral-500 underline">
-                        500kb까지 업로드 가능합니다.
-                    </span>
-                </div>
+                <span className="text-caption font-normal text-neutral-500 underline">
+                    {placeholder}
+                </span>
             </div>
         </div>
     );
