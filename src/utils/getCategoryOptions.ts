@@ -13,8 +13,12 @@ import {
     UnionCategoryCode,
 } from '@/types/category.types';
 
-export interface CategoryOption {
-    value: CentralCategoryCode | UnionCategoryCode;
+export interface CategoryOptions {
+    value:
+        | CentralCategoryCode
+        | UnionCategoryCode
+        | CollegeCode
+        | DepartmentCode;
     label: string;
 }
 
