@@ -3,7 +3,7 @@ import ClubDetailHeader from '@/domains/club/profile/ui/ClubDetailHeader';
 import { useClubDetail } from '@/domains/club/profile/model/useClubDetail';
 import ClubDetailTab from '@/domains/shared/components/layout/ClubDetailTab';
 
-export type activeTab = 'intro' | 'recruit' | 'log';
+export type activeTab = 'intro' | 'schedule' | 'recruit-info';
 
 export default function ClubDetailPage() {
     const { activeTab, setActiveTab } = useClubDetail();
@@ -11,13 +11,13 @@ export default function ClubDetailPage() {
     return (
         <div className="flex flex-col items-center pt-5">
             <ClubDetailHeader />
-            <div className="w-full bg-white flex justify-center h-[47px]">
+            <div className="w-full bg-white flex justify-center h-11.75">
                 <ClubDetailTab
                     setActiveTab={setActiveTab}
                     activeTab={activeTab}
                 />
             </div>
-            <div className="mt-[15px] mb-5">
+            <div className="mt-3.75 mb-5">
                 <TabContents activeTab={activeTab} />
             </div>
         </div>

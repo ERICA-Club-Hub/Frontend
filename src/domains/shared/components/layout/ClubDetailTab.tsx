@@ -1,5 +1,4 @@
 import Tab from '@/components/Tabs/Tab';
-import { useClubDetail } from '@/domains/club/profile/model/useClubDetail';
 
 interface TabProps {
     setActiveTab: (activeTab: string) => void;
@@ -7,7 +6,6 @@ interface TabProps {
 }
 
 export default function ClubDetailTab({ setActiveTab, activeTab }: TabProps) {
-    const { isPreview } = useClubDetail();
     return (
         <Tab
             count={3}
@@ -16,10 +14,8 @@ export default function ClubDetailTab({ setActiveTab, activeTab }: TabProps) {
             onChange={setActiveTab}
         >
             <Tab.Item tabKey="intro">동아리 소개</Tab.Item>
-            <Tab.Item tabKey="recruit">모집안내</Tab.Item>
-            <Tab.Item tabKey="log" disabled={isPreview}>
-                활동로그
-            </Tab.Item>
+            <Tab.Item tabKey="schedule">연간일정</Tab.Item>
+            <Tab.Item tabKey="recruit-info">모집정보</Tab.Item>
         </Tab>
     );
 }
