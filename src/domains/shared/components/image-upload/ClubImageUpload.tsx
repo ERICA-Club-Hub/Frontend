@@ -21,14 +21,6 @@ export default function ClubImageUpload({
 
     return (
         <div className="flex flex-col">
-            <div className="pl-[7px] flex gap-[5px] w-full mb-[10px]">
-                <label className="text-body-01 font-semibold text-black">
-                    동아리 사진 업로드
-                </label>
-                <span className="text-body-03 font-normal text-neutral-500">
-                    (선택)
-                </span>
-            </div>
             <div className="w-[320px] h-[100px] bg-white flex items-center gap-5 rounded-[10px] p-[10px]">
                 <div>
                     <label
