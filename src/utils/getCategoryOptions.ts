@@ -1,5 +1,6 @@
 import {
     CENTRAL_CATEGORY,
+    CLUB_TYPES,
     COLLEGE_DEPARTMENT_MAPPING,
     COLLEGES,
     DEPARTMENTS,
@@ -17,15 +18,15 @@ export interface CategoryOption {
     label: string;
 }
 
-export interface DepartmentInfo {
-    code: DepartmentCode;
-    name: string;
-}
-
-export interface CollegeInfo {
-    code: CollegeCode;
-    name: string;
-}
+/**
+ * ClubType 드롭다운용 옵션 생성
+ */
+export const getClubTypeOptions = () => {
+    return Object.values(CLUB_TYPES).map((config) => ({
+        value: config.code,
+        label: config.label,
+    }));
+};
 
 // 드롭다운용 옵션 생성 (이모지 제외)
 export const getCollegeOptionsNameOnly = (): {
