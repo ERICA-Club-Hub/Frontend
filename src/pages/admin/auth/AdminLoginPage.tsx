@@ -8,10 +8,11 @@ import { PATHS } from '@/routes/paths';
 
 const AdminLoginPage = () => {
     const [code, setCode] = useState<string>('');
-    const { isValidate, handleLogin } = useAdminLogin();
+    const { isValidate, setIsValidate, handleLogin } = useAdminLogin();
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setCode(e.target.value);
+        setIsValidate(true);
     };
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -40,7 +41,7 @@ const AdminLoginPage = () => {
                     <Button type="submit" size="lg">
                         어드민 로그인하기
                     </Button>
-                    {!code && (
+                    {!isValidate && (
                         <p
                             className={cn(
                                 'absolute top-[112px] left-[15px] text-body-03 font-medium text-sub-warning transition-opacity duration-500 ease-in-out',
