@@ -32,7 +32,7 @@ export default function Toast() {
     return (
         <div
             className={cn(
-                'flex fixed top-[45%] left-1/2 -translate-x-1/2',
+                'flex fixed bottom-[50%] left-1/2 ',
                 'bg-[rgba(35,35,35,0.8)] backdrop-blur-[5px] text-white',
                 'min-w-[320px] w-max max-w-[340px]',
                 'min-h-[45px] h-fit',
@@ -44,7 +44,7 @@ export default function Toast() {
         >
             {toast.message && <img src={Icon} />}
             {/* 메세지랑 아이콘이랑 사라지는 타이밍이 달라서 메세지 여부에 따라서 렌더링하도록 구현하엿슴다 */}
-            {toast.message}
+            <p className="text-b4 text-neutral-150">{toast.message}</p>
         </div>
     );
 }
