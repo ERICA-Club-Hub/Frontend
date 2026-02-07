@@ -8,7 +8,6 @@ export const validateClubCategoryRequirement = (
     if (data.clubType === 'CENTRAL' && !data.category.central) {
         ctx.addIssue({
             code: 'custom',
-            message: '중앙동아리 분과를 선택해주세요.',
             path: ['category', 'central'],
         });
     }
@@ -16,7 +15,6 @@ export const validateClubCategoryRequirement = (
     if (data.clubType === 'UNION' && !data.category.union) {
         ctx.addIssue({
             code: 'custom',
-            message: '연합동아리 분과를 선택해주세요.',
             path: ['category', 'union'],
         });
     }
@@ -27,7 +25,6 @@ export const validateClubCategoryRequirement = (
     ) {
         ctx.addIssue({
             code: 'custom',
-            message: '단과대를 선택해주세요.',
             path: ['category', 'college'],
         });
     }
@@ -39,7 +36,6 @@ export const validateClubCategoryRequirement = (
     ) {
         ctx.addIssue({
             code: 'custom',
-            message: '학과를 선택해주세요.',
             path: ['category', 'department'],
         });
     }

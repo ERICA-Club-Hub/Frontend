@@ -37,7 +37,7 @@ const profileSchema = baseSchema.superRefine(validateClubCategoryRequirement);
 const registrationSchema = baseSchema
     .extend({
         leaderEmail: z.email(), // 유저명 + @ + 도메인 + . + 최상위도메인
-        briefIntroduction: z.string().optional(),
+        briefIntroduction: z.string().min(1),
     })
     .superRefine(validateClubCategoryRequirement);
 
