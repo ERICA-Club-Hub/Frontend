@@ -26,7 +26,7 @@ export const PROFILE_FIELD_CONFIG = {
     },
     image: {
         label: '동아리 대표 사진',
-        placeholder: '동아리 대표 사진 업로드 \n(최대 500KB)',
+        placeholder: '동아리 대표 사진 업로드',
     },
     oneLiner: {
         label: '동아리 한 줄 소개',
