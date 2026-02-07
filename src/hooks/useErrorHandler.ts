@@ -6,7 +6,10 @@ const useErrorHandler = () => {
     const { showToast } = useToast();
     const { handleTokenExpired } = useTokenExpired();
 
-    const handleError = (error: AxiosError, action?: () => void) => {
+    const handleError = (
+        error: Error | AxiosError | unknown,
+        action?: () => void,
+    ) => {
         if (axios.isAxiosError(error)) {
             const status = error.response?.status;
 
