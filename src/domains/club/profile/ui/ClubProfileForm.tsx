@@ -75,11 +75,11 @@ export default function ClubProfileForm({
     const onSubmit: SubmitHandler<FormValues> = (data) => {
         const payload = { data, postImg };
 
-        // 수정모드일 때
+        // 수정모드
         if (editMode) {
             // TODO: api 호출 추가
-        } else if (!editMode) {
-            // 등록모드일 때
+        } else {
+            // 등록모드
             registerClub(payload);
         }
     };

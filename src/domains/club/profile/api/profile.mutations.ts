@@ -47,7 +47,10 @@ export const useClubRegisterMutation = () => {
             });
         },
         onError: (error) => {
-            if (error.message === 'FILE_SIZE_EXCEEDED') {
+            if (
+                error instanceof Error &&
+                error.message === 'FILE_SIZE_EXCEEDED'
+            ) {
                 showToast(`용량을 초과하는 사진이에요.`);
             } else {
                 handleError(error);

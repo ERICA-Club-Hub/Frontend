@@ -1,4 +1,4 @@
-import z from 'zod';
+import { z } from 'zod';
 import { FormValues } from './profile.schema';
 import { CLUB_TYPE } from '@/constants/category-config.constant';
 

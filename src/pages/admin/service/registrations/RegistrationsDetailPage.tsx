@@ -37,5 +37,6 @@ export default function RegistrationsDetailPage() {
         );
     }
 
-    return <div>수정 필요</div>;
+    //TODO: 수정 필요
+    return null;
 }
