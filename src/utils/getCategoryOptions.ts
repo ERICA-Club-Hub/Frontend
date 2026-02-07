@@ -1,6 +1,6 @@
 import {
     CENTRAL_CATEGORY,
-    CLUB_TYPES,
+    CLUB_TYPES_CONFIG,
     COLLEGE_DEPARTMENT_MAPPING,
     COLLEGES,
     DEPARTMENTS,
@@ -26,7 +26,7 @@ export interface CategoryOptions {
  * ClubType 드롭다운용 옵션 생성
  */
 export const getClubTypeOptions = () => {
-    return Object.values(CLUB_TYPES).map((config) => ({
+    return Object.values(CLUB_TYPES_CONFIG).map((config) => ({
         value: config.code,
         label: config.label,
     }));

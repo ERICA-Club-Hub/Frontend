@@ -17,11 +17,21 @@ import {
 } from '@/types/configs.types';
 import { RecruitmentStatus } from '@/types/recruitment-status.type';
 
-export const CLUB_TYPES: Record<ClubType, ClubTypeConfig> = {
-    CENTRAL: { code: 'CENTRAL', label: '중앙 동아리' },
-    UNION: { code: 'UNION', label: '연합 동아리' },
-    COLLEGE: { code: 'COLLEGE', label: '단과대 소속 동아리' },
-    DEPARTMENT: { code: 'DEPARTMENT', label: '학과 소속 동아리' },
+/**
+ * 동아리 분류
+ */
+export const CLUB_TYPE: { [K in ClubType]: K } = {
+    CENTRAL: 'CENTRAL',
+    UNION: 'UNION',
+    COLLEGE: 'COLLEGE',
+    DEPARTMENT: 'DEPARTMENT',
+} as const;
+
+export const CLUB_TYPES_CONFIG: Record<ClubType, ClubTypeConfig> = {
+    CENTRAL: { code: CLUB_TYPE.CENTRAL, label: '중앙 동아리' },
+    UNION: { code: CLUB_TYPE.UNION, label: '연합 동아리' },
+    COLLEGE: { code: CLUB_TYPE.COLLEGE, label: '단과대 소속 동아리' },
+    DEPARTMENT: { code: CLUB_TYPE.DEPARTMENT, label: '학과 소속 동아리' },
 };
 
 /**

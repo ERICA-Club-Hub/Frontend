@@ -15,6 +15,7 @@ import {
     getCollegeOptionsNameOnly,
     getDepartmentOptionsNameOnly,
 } from '@/utils/getCategoryOptions';
+import { CLUB_TYPE } from '@/constants/category-config.constant';
 
 interface CategorySelectDropdownProps {
     control: Control<FormValues>;
@@ -29,7 +30,7 @@ export default function CategorySelectDropdown({
     const college = useWatch({ name: 'category.college', control });
 
     // TODO: 매직 스트링 상수화
-    if (clubType === 'CENTRAL' || clubType === 'UNION') {
+    if (clubType === CLUB_TYPE.CENTRAL || clubType === CLUB_TYPE.UNION) {
         const config = CATEGORY_CONFIG[clubType];
         return (
             <FormItem
@@ -56,7 +57,7 @@ export default function CategorySelectDropdown({
         );
     }
 
-    if (clubType === 'COLLEGE' || clubType === 'DEPARTMENT') {
+    if (clubType === CLUB_TYPE.COLLEGE || clubType === CLUB_TYPE.DEPARTMENT) {
         return (
             <FormItem
                 key={clubType}
@@ -73,7 +74,7 @@ export default function CategorySelectDropdown({
                             value={value || ''}
                             onChange={(val) => {
                                 onChange(val);
-                                if (clubType === 'DEPARTMENT')
+                                if (clubType === CLUB_TYPE.DEPARTMENT)
                                     setValue('category.department', null, {
                                         shouldValidate: true,
                                     });
@@ -86,7 +87,7 @@ export default function CategorySelectDropdown({
                 />
 
                 {/* 학과 소속 동아리 */}
-                {clubType === 'DEPARTMENT' && college && (
+                {clubType === CLUB_TYPE.DEPARTMENT && college && (
                     <Controller
                         key={college}
                         control={control}

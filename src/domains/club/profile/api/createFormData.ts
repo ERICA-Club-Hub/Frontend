@@ -1,3 +1,4 @@
+import { CLUB_TYPE } from '@/constants/category-config.constant';
 import { FormValues } from '../model/profile.schema';
 
 /**
@@ -15,14 +16,19 @@ export const createFormData = (
     const requestBody = {
         ...data,
         category: {
-            central: data.clubType === 'CENTRAL' ? data.category.central : null,
-            union: data.clubType === 'UNION' ? data.category.union : null,
+            central:
+                data.clubType === CLUB_TYPE.CENTRAL
+                    ? data.category.central
+                    : null,
+            union:
+                data.clubType === CLUB_TYPE.UNION ? data.category.union : null,
             college:
-                data.clubType === 'COLLEGE' || data.clubType === 'DEPARTMENT'
+                data.clubType === CLUB_TYPE.COLLEGE ||
+                data.clubType === CLUB_TYPE.DEPARTMENT
                     ? data.category.college
                     : null,
             department:
-                data.clubType === 'DEPARTMENT'
+                data.clubType === CLUB_TYPE.DEPARTMENT
                     ? data.category.department
                     : null,
         },
