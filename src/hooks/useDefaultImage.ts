@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 
-export const setDefaultImg = ({
+const useDefaultImage = ({
     postImg,
     setPostImg,
 }: {
@@ -19,5 +19,7 @@ export const setDefaultImg = ({
                     setPostImg(file);
                 });
         }
-    }, [postImg]);
+    }, [postImg, setPostImg]);
 };
+
+export default useDefaultImage;
