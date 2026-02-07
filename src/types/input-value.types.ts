@@ -1,11 +1,3 @@
-interface IClubRegisterValue {
-    clubName: string;
-    leaderEmail: string;
-    category: string;
-    oneLiner: string;
-    briefIntroduction?: string | undefined;
-}
-
 interface ISummaryInfoValue {
     recruitmentStatus: string;
     leaderName: string;
@@ -42,7 +34,6 @@ interface IActivityLogValue {
 }
 
 export type {
-    IClubRegisterValue,
     ISummaryInfoValue,
     IClubIntroValue,
     IEventScheduleValue,

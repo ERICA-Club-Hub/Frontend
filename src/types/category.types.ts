@@ -1,4 +1,14 @@
-import { CategoryRequest } from '@/api/data-contracts';
+import {
+    CategoryRequest,
+    ClubBasicInformationUpdateRequest,
+} from '@/api/data-contracts';
+
+/**
+ * 동아리 분류 type
+ */
+export type ClubType = NonNullable<
+    ClubBasicInformationUpdateRequest['clubType']
+>;
 
 /**
  * 학과 type

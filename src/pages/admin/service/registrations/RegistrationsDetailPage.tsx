@@ -1,7 +1,5 @@
 import { useParams } from 'react-router-dom';
 import { useQueryClient } from '@tanstack/react-query';
-import Button from '@/components/Button/Button';
-import ClubDetailLayout from '@/domains/club/registration/ui/ClubDetailLayout';
 import {
     ClubRegistrationDTOList,
     PendingRegistrationResponse,
@@ -39,22 +37,6 @@ export default function RegistrationsDetailPage() {
         );
     }
 
-    return (
-        <ClubDetailLayout
-            data={data}
-            button={
-                <>
-                    <Button
-                        size="sm"
-                        variant="negative"
-                    >
-                        삭제하기
-                    </Button>
-                    <Button size="sm" variant="primary">
-                        승인하기
-                    </Button>
-                </>
-            }
-        />
-    );
+    //TODO: 수정 필요
+    return null;
 }

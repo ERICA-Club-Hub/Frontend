@@ -1,5 +1,6 @@
 import {
     CentralCategoryCode,
+    ClubType,
     CollegeCode,
     DepartmentCode,
     SortByCode,
@@ -7,6 +8,7 @@ import {
 } from '@/types/category.types';
 import {
     CentralCategoryConfig,
+    ClubTypeConfig,
     CollegeConfig,
     DepartmentConfig,
     RecruitmentStatusConfig,
@@ -14,6 +16,23 @@ import {
     UnionCategoryConfig,
 } from '@/types/configs.types';
 import { RecruitmentStatus } from '@/types/recruitment-status.type';
+
+/**
+ * 동아리 분류
+ */
+export const CLUB_TYPE: { [K in ClubType]: K } = {
+    CENTRAL: 'CENTRAL',
+    UNION: 'UNION',
+    COLLEGE: 'COLLEGE',
+    DEPARTMENT: 'DEPARTMENT',
+} as const;
+
+export const CLUB_TYPES_CONFIG: Record<ClubType, ClubTypeConfig> = {
+    CENTRAL: { code: CLUB_TYPE.CENTRAL, label: '중앙 동아리' },
+    UNION: { code: CLUB_TYPE.UNION, label: '연합 동아리' },
+    COLLEGE: { code: CLUB_TYPE.COLLEGE, label: '단과대 소속 동아리' },
+    DEPARTMENT: { code: CLUB_TYPE.DEPARTMENT, label: '학과 소속 동아리' },
+};
 
 /**
  * 중앙 동아리 분류
