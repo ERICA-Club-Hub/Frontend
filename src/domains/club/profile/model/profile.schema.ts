@@ -6,6 +6,7 @@ import {
     UnionCategoryCode,
 } from '@/types/category.types';
 import { z } from 'zod';
+import { validateClubCategoryRequirement } from './validateFormRequirement';
 
 const categorySchema = z.object({
     central: z
@@ -23,7 +24,7 @@ const categorySchema = z.object({
         .optional() as z.ZodType<DepartmentCode | null>,
 });
 
-const profileSchema = z.object({
+const baseSchema = z.object({
     clubName: z.string().min(1),
     clubType: z.string().min(1) as z.ZodType<ClubType>,
     category: categorySchema,
@@ -31,10 +32,14 @@ const profileSchema = z.object({
     oneLiner: z.string().min(1).max(18),
 });
 
-const registrationSchema = profileSchema.extend({
-    leaderEmail: z.email(), // 유저명 + @ + 도메인 + . + 최상위도메인
-    briefIntroduction: z.string().optional(),
-});
+const profileSchema = baseSchema.superRefine(validateClubCategoryRequirement);
+
+const registrationSchema = baseSchema
+    .extend({
+        leaderEmail: z.email(), // 유저명 + @ + 도메인 + . + 최상위도메인
+        briefIntroduction: z.string().optional(),
+    })
+    .superRefine(validateClubCategoryRequirement);
 
 type RegistrationSchema = z.infer<typeof registrationSchema>;
 type ProfileSchema = z.infer<typeof profileSchema>;
