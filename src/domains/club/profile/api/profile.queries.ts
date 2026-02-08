@@ -13,7 +13,7 @@ export const useClubOverviewQuery = ({
     isPreview: boolean;
 }) => {
     return useQuery({
-        queryKey: ['clubs', 'profile', clubId],
+        queryKey: ['clubs', 'profile', clubId, { isPreview }],
         queryFn: async (): Promise<ClubOverviewResponse> => {
             const requestUrl = isPreview
                 ? `/api/clubs/club-admin/${clubId}/draft`
