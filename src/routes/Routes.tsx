@@ -19,7 +19,7 @@ import NoticePage from '@/pages/notice/NoticePage';
 import ClubSocialPage from '@/pages/social/ClubSocialPage';
 import FAQPage from '@/pages/faq/FAQPage';
 import ClubDetailPage from '@/pages/club/detail/ClubDetailPage';
-import AdminClubPage from '@/pages/admin/club/dashboard/AdminClubPage';
+import ClubAdminDashboardPage from '@/pages/admin/club/dashboard/ClubAdminDashboardPage';
 import AdminClubDetailPage from '@/pages/admin/club/detail/AdminClubDetailPage';
 import SummaryInfoPage from '@/pages/admin/club/detail/section/SummaryInfoPage';
 import ClubIntroPage from '@/pages/admin/club/detail/section/ClubIntroPage';
@@ -77,7 +77,7 @@ export default function AppRoutes() {
                 {/* 서비스 관리자, 동아리 대표 접근 가능 */}
                 <Route path="/admin/club/:id" element={<ClubAdminGurad />}>
                     {/* 동아리 어드민 홈*/}
-                    <Route index element={<AdminClubPage />} />
+                    <Route index element={<ClubAdminDashboardPage />} />
 
                     {/* 동아리 상세 페이지  */}
                     <Route

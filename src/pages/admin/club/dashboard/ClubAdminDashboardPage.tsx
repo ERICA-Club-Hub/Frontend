@@ -6,7 +6,7 @@ import {
 } from '@/domains/auth/model/clubInfo.atom';
 import { NavigationLink } from '@/components/Link/NavigationLink';
 
-export default function AdminClubPage() {
+export default function ClubAdminDashboardPage() {
     const clubId = useRecoilValue(clubIdSelector);
     const clubName = useRecoilValue(clubNameSelector);
     const menus = clubId !== null ? getClubAdminMenus(clubId) : [];

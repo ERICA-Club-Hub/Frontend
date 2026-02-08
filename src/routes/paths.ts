@@ -56,7 +56,7 @@ export const PATHS = {
     CLUB_ADMIN_REGISTRATION_EDIT: `/admin/club/:id/registration/edit`,
 
     /* 대시보드 */
-    ADMIN_CLUB: (clubId: number) => `/admin/club/${clubId}`,
+    CLUB_ADMIN_DASHBOARD: (clubId: number) => `/admin/club/${clubId}`,
 
     /* 동아리 상세페이지 설정 */
     ADMIN_CLUB_SUMMARY_INFO: (clubId: number) =>
@@ -107,7 +107,7 @@ export const adminMenus: HeaderMenuType[] = [
         /* clubId는 PATHS에서 직접 동적 라우팅으로 처리
          * 0은 더미 데이터
          */
-        url: PATHS.ADMIN_CLUB(0),
+        url: PATHS.CLUB_ADMIN_DASHBOARD(0),
     },
 ];
 

@@ -25,7 +25,7 @@ export const useFilteredMenus = () => {
 
             // 동아리 어드민이면, 동아리 id를 붙여 동적 라우팅
             if (adminMenu.adminType === ADMIN_TYPE.CLUB && clubId) {
-                adminMenu.url = PATHS.ADMIN_CLUB(clubId);
+                adminMenu.url = PATHS.CLUB_ADMIN_DASHBOARD(clubId);
             }
 
             menus = [...menus, adminMenu];
