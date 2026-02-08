@@ -4,6 +4,7 @@ import {
     COLLEGE_DEPARTMENT_MAPPING,
     COLLEGES,
     DEPARTMENTS,
+    RECRUITMENT_STATUS,
     UNION_CATEGORY,
 } from '@/constants/category-config.constant';
 import {
@@ -12,6 +13,8 @@ import {
     DepartmentCode,
     UnionCategoryCode,
 } from '@/types/category.types';
+import { RecruitmentStatusConfig } from '@/types/configs.types';
+import { RecruitmentStatus } from '@/types/recruitment-status.type';
 
 export interface CategoryOptions {
     value:
@@ -76,6 +79,19 @@ export const getUnionCategoryOptionsNameOnly = (): {
     label: string;
 }[] => {
     return Object.values(UNION_CATEGORY).map((config) => ({
+        value: config.code,
+        label: config.label,
+    }));
+};
+
+/**
+ * 드롭다운용 모집 상태 옵션 생성
+ */
+export const getRecruitmentStatusOptions = (): {
+    value: RecruitmentStatus;
+    label: RecruitmentStatusConfig['label'];
+}[] => {
+    return Object.values(RECRUITMENT_STATUS).map((config) => ({
         value: config.code,
         label: config.label,
     }));
