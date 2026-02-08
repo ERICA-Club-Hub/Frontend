@@ -1,4 +1,4 @@
-import NavigationLink from '@/components/Link/NavigationLink';
+import NavigationLink from '@/domains/shared/components/link/NavigationLink';
 import { DEFAULT_IMG } from '@/constants/default-image.constant';
 import { getClubAdminMenus } from '@/constants/navigations.constant';
 import { useClubOverviewQuery } from '@/domains/club/profile/api/profile.queries';
@@ -77,9 +77,7 @@ export default function ClubAdminDashboardPage() {
                             options={getRecruitmentStatusOptions()}
                             selectedValue={data?.recruitmentStatus}
                             onSelect={(value) =>
-                                onSelectRecruitmentStatus(
-                                    value as RecruitmentStatus,
-                                )
+                                onSelectRecruitmentStatus(value)
                             }
                         />
                     </div>

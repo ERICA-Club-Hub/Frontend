@@ -1,4 +1,4 @@
-import NavigationLink from '@/components/Link/NavigationLink';
+import NavigationLink from '@/domains/shared/components/link/NavigationLink';
 import { serviceAdminMenus } from '@/constants/navigations.constant';
 
 export default function ServiceAdminPage() {

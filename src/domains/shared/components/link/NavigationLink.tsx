@@ -11,13 +11,22 @@ interface NavigationLinkProps extends LinkProps {
     type?: 'clubAdmin' | 'serviceAdmin';
 }
 
+/**
+ * 네비게이션 링크 컴포넌트
+ * @param type- 네비게이션이 사용되는 컨텍스트
+ * @usage 동아리 어드민 대시보드 페이지, 서비스 어드민 대시보드 페이지
+ */
 export default function NavigationLink({
     content,
     type = 'clubAdmin',
+    className,
     ...props
 }: NavigationLinkProps) {
     return (
-        <Link className={cn(navigationLinkVariants({ type }))} {...props}>
+        <Link
+            className={cn(navigationLinkVariants({ type }), className)}
+            {...props}
+        >
             <div className="flex flex-col flex-1 gap-[2px]">
                 <strong
                     className={cn(
