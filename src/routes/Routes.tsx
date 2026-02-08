@@ -79,6 +79,9 @@ export default function AppRoutes() {
                     {/* 동아리 어드민 홈*/}
                     <Route index element={<ClubAdminDashboardPage />} />
 
+                    {/* 동아리 기본 정보 관리 */}
+                    <Route path="profile" element={<RegistrationEditPage />} />
+
                     {/* 동아리 상세 페이지  */}
                     <Route
                         path="/admin/club/:id"
@@ -98,12 +101,6 @@ export default function AppRoutes() {
                             element={<RecruitNoticePage />}
                         />
                     </Route>
-
-                    {/* 동아리 등록 정보 수정 페이지 */}
-                    <Route
-                        path={PATHS.CLUB_ADMIN_REGISTRATION_EDIT}
-                        element={<RegistrationEditPage />}
-                    />
                 </Route>
 
                 {/* --- 서비스 어드민 --- */}

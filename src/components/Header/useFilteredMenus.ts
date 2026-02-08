@@ -5,14 +5,19 @@ import {
 } from '@/domains/auth/model/auth.atom';
 import { clubIdSelector } from '@/domains/auth/model/clubInfo.atom';
 import { ADMIN_TYPE } from '@/types/admin.types';
-import { adminMenus, baseMenus, HeaderMenuType, PATHS } from '@/routes/paths';
+import {
+    adminMenus,
+    AppHeaderMenuType,
+    baseMenus,
+} from '@/constants/navigations.constant';
+import { PATHS } from '@/routes/paths';
 
 export const useFilteredMenus = () => {
     const adminType = useRecoilValue(adminTypeSelector);
     const clubId = useRecoilValue(clubIdSelector);
     const isAuthenticated = useRecoilValue(isAuthenticatedSelector);
 
-    let menus: HeaderMenuType[] = [...baseMenus]; // 기본 메뉴 리스트
+    let menus: AppHeaderMenuType[] = [...baseMenus]; // 기본 메뉴 리스트
 
     if (isAuthenticated) {
         // 어드민 타입과 일치하는 어드민 메뉴 템플릿 찾기
