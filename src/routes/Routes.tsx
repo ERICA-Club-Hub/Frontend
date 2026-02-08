@@ -24,7 +24,10 @@ import AdminClubDetailPage from '@/pages/admin/club/detail/AdminClubDetailPage';
 import SummaryInfoPage from '@/pages/admin/club/detail/section/SummaryInfoPage';
 import ClubIntroPage from '@/pages/admin/club/detail/section/ClubIntroPage';
 import RecruitNoticePage from '@/pages/admin/club/detail/section/RecruitNoticePage';
-import ErrorPage from '@/pages/error/ErrorPage';
+import WrongAccessPage from '@/pages/error/WrongAccessPage';
+import NetworkErrorPage from '@/pages/error/NetworkErrorPage';
+import UnknownErrorPage from '@/pages/error/UnknownErrorPage';
+import ServerErrorPage from '@/pages/error/ServerErrorPage';
 
 export default function AppRoutes() {
     return (
@@ -126,8 +129,11 @@ export default function AppRoutes() {
                 </Route>
             </Route>
 
-            {/* 404 Not Found Page */}
-            <Route path="*" element={<ErrorPage />} />
+            {/* 에러 페이지 */}
+            <Route path={PATHS.WRONG_ACCESS} element={<WrongAccessPage />} />
+            <Route path={PATHS.SERVER_ERROR} element={<ServerErrorPage />} />
+            <Route path={PATHS.NETWORK_ERROR} element={<NetworkErrorPage />} />
+            <Route path="*" element={<UnknownErrorPage />} />
         </Routes>
     );
 }

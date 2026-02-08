@@ -61,4 +61,9 @@ export const PATHS = {
 
     /* 동아리 상세페이지 관리 */
     CLUB_ADMIN_DETAIL: (clubId: number) => `/admin/club/${clubId}/detail`,
+
+    // --- 에러 페이지 ---
+    WRONG_ACCESS: '/wrongaccess',
+    NETWORK_ERROR: '/networkerror',
+    SERVER_ERROR: '/servererror',
 };
