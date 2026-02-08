@@ -15,8 +15,8 @@ const Dropdown = createDropdown<Options>();
 
 interface RecruitStatusDropdownProps {
     options?: Options[];
-    selectedValue?: string | null;
-    onSelect: (value: string) => void;
+    selectedValue?: RecruitmentStatus;
+    onSelect: (value: RecruitmentStatus) => void;
 }
 
 export default function RecruitmentStatusDropdown({
