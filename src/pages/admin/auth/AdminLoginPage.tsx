@@ -17,10 +17,11 @@ const AdminLoginPage = () => {
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        if (!code.trim()) return;
+        const trimmedCode = code.trim();
+        if (!trimmedCode) return;
 
-        handleLogin(code);
-        setCode('');
+        const isSuccess = await handleLogin(trimmedCode);
+        if (isSuccess) setCode('');
     };
 
     return (
@@ -56,10 +57,11 @@ const AdminLoginPage = () => {
                     )}
                 </form>
 
-                <Link to={PATHS.CLUB_REGISTRATION}>
-                    <button className="text-c1 text-neutral-500 underline cursor-pointer">
-                        동아리 신청하기
-                    </button>
+                <Link
+                    to={PATHS.CLUB_REGISTRATION}
+                    className="text-c1 text-neutral-500 underline cursor-pointer"
+                >
+                    동아리 신청하기
                 </Link>
             </div>
         </div>
