@@ -65,12 +65,12 @@ export const serviceAdminMenus = [
 export const getClubAdminMenus = (clubId: number) => [
     {
         label: '동아리 기본 정보 관리',
-        descrption: '동아리 이름, 한줄 소개, 동아리 소속, 대표 사진 등',
+        description: '동아리 이름, 한줄 소개, 동아리 소속, 대표 사진 등',
         url: PATHS.CLUB_ADMIN_PROFILE(clubId),
     },
     {
         label: '상세 페이지 관리',
-        descrption: '동아리 상세 페이지에 나오는 모든 정보 관리',
+        description: '동아리 상세 페이지에 나오는 모든 정보 관리',
         url: PATHS.CLUB_ADMIN_DETAIL(clubId),
     },
 ];
