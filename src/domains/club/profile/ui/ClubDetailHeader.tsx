@@ -2,16 +2,16 @@ import { DEFAULT_IMG } from '@/constants/default-image.constant';
 import Button from '@/components/Button/Button';
 
 import { useClubDetail } from '@/domains/club/profile/model/useClubDetail';
-import { useClubDetailHeader } from '@/domains/club/profile/api/useClubDetailHeader';
 
 import RecruitStatusTag from '@/domains/club/recruitment/ui/public/RecruitStatusTag';
 import ClubTypeTag, {
     ClubCategoryCode,
 } from '@/domains/shared/components/tag/ClubTypeTag';
+import { useClubOverviewQuery } from '../api/profile.queries';
 
 export default function ClubDetailHeader() {
     const { isPreview, clubId } = useClubDetail();
-    const { data, isLoading } = useClubDetailHeader(clubId || '', isPreview);
+    const { data, isLoading } = useClubOverviewQuery({ clubId, isPreview });
 
     if (isLoading) {
         return <div>로딩 중...</div>;

@@ -4,7 +4,7 @@ import { useQuery } from '@tanstack/react-query';
 
 export const useRecentlyUpdatedClubs = () => {
     const { data, isLoading, isError } = useQuery({
-        queryKey: ['recently-update', 'club'],
+        queryKey: ['clubs', 'recently'],
         queryFn: async (): Promise<ApiResponseClubSearchResponse> => {
             const response = await apiRequest({ url: '/api/clubs/recent' });
             return response;
