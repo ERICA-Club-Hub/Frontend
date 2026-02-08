@@ -11,6 +11,10 @@ const useAdminLogin = () => {
     const setClubId = useSetRecoilState(clubId);
     const setClubName = useSetRecoilState(clubName);
 
+    /**
+     * @param code - 동아리 코드
+     * @returns 로그인 성공 여부
+     */
     const handleLogin = async (code: string) => {
         try {
             // 로그인 요청 (성공 시 자동으로 토큰 저장)
@@ -35,10 +39,14 @@ const useAdminLogin = () => {
 
             setClubId(res.result.clubId); // clubId 저장
             setClubName(res.result.clubName); // clubId 저장
+
+            return true;
         } catch (error) {
             //코드 불일치
             console.error('로그인 실패:', error);
             setIsValidate(false);
+
+            return false;
         }
     };
 
