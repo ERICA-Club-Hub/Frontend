@@ -52,7 +52,7 @@ export interface UnionCategoryConfig {
  */
 export interface RecruitmentStatusConfig {
     code: RecruitmentStatus;
-    label: string;
+    label: '모집예정' | '모집중' | '모집마감' | '상시모집' | '추가모집';
     textColor: string;
     backgroundColor: string;
 }

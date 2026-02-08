@@ -19,12 +19,15 @@ import NoticePage from '@/pages/notice/NoticePage';
 import ClubSocialPage from '@/pages/social/ClubSocialPage';
 import FAQPage from '@/pages/faq/FAQPage';
 import ClubDetailPage from '@/pages/club/detail/ClubDetailPage';
-import AdminClubPage from '@/pages/admin/club/dashboard/AdminClubPage';
+import ClubAdminDashboardPage from '@/pages/admin/club/dashboard/ClubAdminDashboardPage';
 import AdminClubDetailPage from '@/pages/admin/club/detail/AdminClubDetailPage';
 import SummaryInfoPage from '@/pages/admin/club/detail/section/SummaryInfoPage';
 import ClubIntroPage from '@/pages/admin/club/detail/section/ClubIntroPage';
 import RecruitNoticePage from '@/pages/admin/club/detail/section/RecruitNoticePage';
-import ErrorPage from '@/pages/error/ErrorPage';
+import WrongAccessPage from '@/pages/error/WrongAccessPage';
+import NetworkErrorPage from '@/pages/error/NetworkErrorPage';
+import UnknownErrorPage from '@/pages/error/UnknownErrorPage';
+import ServerErrorPage from '@/pages/error/ServerErrorPage';
 
 export default function AppRoutes() {
     return (
@@ -77,7 +80,10 @@ export default function AppRoutes() {
                 {/* 서비스 관리자, 동아리 대표 접근 가능 */}
                 <Route path="/admin/club/:id" element={<ClubAdminGurad />}>
                     {/* 동아리 어드민 홈*/}
-                    <Route index element={<AdminClubPage />} />
+                    <Route index element={<ClubAdminDashboardPage />} />
+
+                    {/* 동아리 기본 정보 관리 */}
+                    <Route path="profile" element={<RegistrationEditPage />} />
 
                     {/* 동아리 상세 페이지  */}
                     <Route
@@ -98,12 +104,6 @@ export default function AppRoutes() {
                             element={<RecruitNoticePage />}
                         />
                     </Route>
-
-                    {/* 동아리 등록 정보 수정 페이지 */}
-                    <Route
-                        path={PATHS.CLUB_ADMIN_REGISTRATION_EDIT}
-                        element={<RegistrationEditPage />}
-                    />
                 </Route>
 
                 {/* --- 서비스 어드민 --- */}
@@ -129,8 +129,11 @@ export default function AppRoutes() {
                 </Route>
             </Route>
 
-            {/* 404 Not Found Page */}
-            <Route path="*" element={<ErrorPage />} />
+            {/* 에러 페이지 */}
+            <Route path={PATHS.WRONG_ACCESS} element={<WrongAccessPage />} />
+            <Route path={PATHS.SERVER_ERROR} element={<ServerErrorPage />} />
+            <Route path={PATHS.NETWORK_ERROR} element={<NetworkErrorPage />} />
+            <Route path="*" element={<UnknownErrorPage />} />
         </Routes>
     );
 }

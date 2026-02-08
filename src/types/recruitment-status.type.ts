@@ -1,6 +1,5 @@
-export type RecruitmentStatus =
-    | 'OPEN'
-    | 'CLOSED'
-    | 'UPCOMING'
-    | 'ALWAYS_OPEN'
-    | 'ADDITIONAL';
+import { ClubOverviewResponse } from '@/api/data-contracts';
+
+export type RecruitmentStatus = NonNullable<
+    ClubOverviewResponse['recruitmentStatus']
+>;
