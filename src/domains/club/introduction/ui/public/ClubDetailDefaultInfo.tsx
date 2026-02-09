@@ -1,6 +1,6 @@
 import { ClubDetailResponse } from '@/api/data-contracts';
 
-import { formatClubInfo } from '@/domains/shared/lib/formatClubInfo';
+import { formatClubInfo } from '@/domains/shared/utils/formatClubInfo';
 import {
     CLUB_INFO_META,
     DISPLAY_ORDER,
