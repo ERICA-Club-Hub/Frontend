@@ -1,5 +1,5 @@
 import { ReactNode } from 'react';
-import { ClubInfoKey } from '../types/club-info.types';
+import { ClubInfoKey } from '../../club/introduction/types/club-info.types';
 
 export const formatClubInfo = (key: ClubInfoKey, value?: string): ReactNode => {
     if (!value) return '-';

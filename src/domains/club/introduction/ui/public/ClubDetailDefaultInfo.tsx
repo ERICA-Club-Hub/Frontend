@@ -1,9 +1,10 @@
 import { ClubDetailResponse } from '@/api/data-contracts';
+
+import { formatClubInfo } from '@/domains/shared/lib/formatClubInfo';
 import {
     CLUB_INFO_META,
     DISPLAY_ORDER,
-} from '@/domains/shared/constants/club-info.constants';
-import { formatClubInfo } from '@/domains/shared/lib/formatClubInfo';
+} from '../../constants/club-info.constants';
 
 export default function ClubDetailDefaultInfo({
     data,
