@@ -6,7 +6,6 @@ import {
 } from '@/types/input-value.types';
 import { ClubIntroProvider } from '@/domains/shared/contexts/ClubIntroContext';
 import useClubAdminQueries from '@/domains/shared/api/useClubAdminQueries';
-import LoadingModal from '@/components/Loading/LoadingModal';
 import { MonthlyEventSchedule } from '@/domains/club/schedule/ui/admin/MonthlyEventSchedule';
 import ClubDescription from '@/domains/club/recruitment/ui/admin/ClubDescription';
 import { AdminButtonGroup } from '@/domains/shared/components/layout/AdminSection';
@@ -99,18 +98,6 @@ export default function ClubIntroPage() {
                     </AdminButtonGroup>
                 </div>
             </ClubIntroProvider>
-
-            {/* 로딩 모달 */}
-            <LoadingModal
-                isPending={
-                    saveClubIntroMutation.isPending ||
-                    deleteEventScheduleMutation.isPending
-                }
-                isSuccess={
-                    saveClubIntroMutation.isSuccess ||
-                    deleteEventScheduleMutation.isSuccess
-                }
-            />
         </>
     );
 }

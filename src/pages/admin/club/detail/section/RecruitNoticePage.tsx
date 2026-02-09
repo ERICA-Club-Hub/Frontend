@@ -11,7 +11,6 @@ import { inputChangeHandler } from '@/utils/inputChangeHandler';
 import { IRecruitNoticeValue } from '@/types/input-value.types';
 import useBulletPointConverter from '@/hooks/useBulletPointConverter';
 import useClubAdminQueries from '@/domains/shared/api/useClubAdminQueries';
-import LoadingModal from '@/components/Loading/LoadingModal';
 
 export default function RecruitNoticePage() {
     const [inputValue, setInputValue] = useState<IRecruitNoticeValue>({
@@ -110,12 +109,6 @@ export default function RecruitNoticePage() {
                     </Button>
                 </AdminButtonGroup>
             </div>
-
-            {/* 로딩 모달 */}
-            <LoadingModal
-                isPending={saveRecruitNoticeMutation.isPending}
-                isSuccess={saveRecruitNoticeMutation.isSuccess}
-            />
         </>
     );
 }

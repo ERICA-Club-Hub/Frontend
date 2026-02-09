@@ -10,7 +10,6 @@ import {
 import { inputChangeHandler } from '@/utils/inputChangeHandler';
 import { ISummaryInfoValue } from '@/types/input-value.types';
 import useClubAdminQueries from '@/domains/shared/api/useClubAdminQueries';
-import LoadingModal from '@/components/Loading/LoadingModal';
 
 export default function SummaryInfoPage() {
     const [inputValue, setInputValue] = useState<ISummaryInfoValue>({
@@ -150,11 +149,6 @@ export default function SummaryInfoPage() {
                     </Button>
                 </AdminButtonGroup>
             </form>
-
-            <LoadingModal
-                isPending={saveSummaryInfoMutation.isPending}
-                isSuccess={saveSummaryInfoMutation.isSuccess}
-            />
         </>
     );
 }

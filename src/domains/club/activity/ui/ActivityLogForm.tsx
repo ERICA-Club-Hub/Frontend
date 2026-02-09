@@ -2,7 +2,6 @@ import { useLocation } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { IActivityLogValue } from '@/types/input-value.types';
 import { inputChangeHandler } from '@/utils/inputChangeHandler';
-import useToggle from '@/hooks/useToggle';
 import useAdminClubQueries from '@/domains/shared/api/useClubAdminQueries';
 import { useRecoilValue } from 'recoil';
 import { clubIdSelector } from '@/domains/auth/model/clubInfo.atom';
@@ -14,14 +13,11 @@ import axios from 'axios';
 import { useErrorHandler } from '@/hooks/useErrorHandler';
 import TextArea from '@/components/InputField/TextArea';
 import Button from '@/components/Button/Button';
-import LoadingModal from '@/components/Loading/LoadingModal';
-import ActionModal from '@/components/Modal/ActionModal';
 
 function ActivityLogForm({ mode }: { mode: string }) {
     const location = useLocation();
     const { activityId } = location.state || {}; // 전달된 state에서 id 받아오기 -> id가 있으면 해당 동아리 활동로그 상세(현재 폼)로 이동
     const clubId = useRecoilValue(clubIdSelector);
-    const { isOpen, toggle } = useToggle(); // 삭제하기 Modal toggle
     const { handleError } = useErrorHandler();
 
     // 로컬 상태
@@ -39,10 +35,8 @@ function ActivityLogForm({ mode }: { mode: string }) {
         useDetailActivitiesLogQuery,
         useCreateActivityLogMutation,
         useUpdateActivityLogMutation,
-        useDeleteActivityLogMutation,
     } = useAdminClubQueries();
     const createActivityLogMutation = useCreateActivityLogMutation(clubId);
-    const deleteActivityLogMutation = useDeleteActivityLogMutation(activityId);
     const updateActivityLogMutation = useUpdateActivityLogMutation(activityId);
 
     // 활동로그 상세 불러오기 Query 호출
@@ -90,12 +84,6 @@ function ActivityLogForm({ mode }: { mode: string }) {
             // 이미지 변경점이 없으면 보내지 않음
             updateActivityLogMutation.mutate(formData);
         }
-    };
-
-    // 삭제하기
-    const handleDeleteActivityLog = () => {
-        toggle();
-        deleteActivityLogMutation.mutate();
     };
 
     const isValid =
@@ -177,7 +165,6 @@ function ActivityLogForm({ mode }: { mode: string }) {
                                     type="button"
                                     size="sm"
                                     variant="negative"
-                                    onClick={toggle}
                                 >
                                     삭제하기
                                 </Button>
@@ -203,25 +190,6 @@ function ActivityLogForm({ mode }: { mode: string }) {
                     </div>
                 </div>
             </ActivityLogProvider>
-
-            {/* 로딩 Modal */}
-            <LoadingModal
-                isPending={
-                    createActivityLogMutation.isPending ||
-                    updateActivityLogMutation.isPending
-                }
-                isSuccess={
-                    createActivityLogMutation.isSuccess ||
-                    updateActivityLogMutation.isSuccess
-                }
-            />
-
-            {/* 삭제하기 Modal */}
-            <ActionModal
-                isOpen={isOpen}
-                toggle={toggle}
-                action={handleDeleteActivityLog}
-            />
         </>
     );
 }
