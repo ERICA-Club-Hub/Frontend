@@ -5,7 +5,7 @@ import {
 import { ClubDetailResponse } from '@/api/data-contracts';
 import ClubDetailDefaultInfo from '@/domains/club/introduction/ui/public/ClubDetailDefaultInfo';
 import ClubDetailCard from '@/domains/shared/components/layout/ClubDetailCard';
-import ClubDetailText from '@/domains/shared/components/club-detail-info/ClubDetailText';
+import ClubDetailText from '@/domains/shared/components/club-detail/ClubDetailText';
 
 export default function Intro() {
     const { id, isPreview } = useIsPreview();

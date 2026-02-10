@@ -2,7 +2,7 @@ import {
     useClubRecruitment,
     useIsPreview,
 } from '@/domains/club/introduction/api/club-info.queries';
-import ClubDetailText from '@/domains/shared/components/club-detail-info/ClubDetailText';
+import ClubDetailText from '@/domains/shared/components/club-detail/ClubDetailText';
 import ClubDetailCard from '@/domains/shared/components/layout/ClubDetailCard';
 
 export default function Recruit() {

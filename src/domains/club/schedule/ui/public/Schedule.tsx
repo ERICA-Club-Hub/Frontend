@@ -3,7 +3,7 @@ import {
     useIsPreview,
 } from '@/domains/club/introduction/api/club-info.queries';
 import ClubDetailSchedule from './ClubDetailSchedule';
-import ClubDetailText from '@/domains/shared/components/club-detail-info/ClubDetailText';
+import ClubDetailText from '@/domains/shared/components/club-detail/ClubDetailText';
 import ClubDetailCard from '@/domains/shared/components/layout/ClubDetailCard';
 
 export default function Schedule() {
