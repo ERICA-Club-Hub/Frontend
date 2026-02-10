@@ -1,71 +1,78 @@
-import { IModal } from '@/types/modal.types';
-import { useEffect, useRef } from 'react';
-import { createPortal } from 'react-dom';
+import {
+    MouseEvent,
+    ReactNode,
+    SyntheticEvent,
+    useEffect,
+    useRef,
+    useState,
+} from 'react';
 import { cn } from '@/utils/cn';
 
-/**
- * Modal 컴포넌트는 모달을 렌더링합니다.
- *
- * @param {boolean} isOpen - 모달이 열려 있는지 여부를 나타내는 상태
- * @param {() => void} toggle - 모달의 열림/닫힘 상태를 토글하는 훅
- * @param {boolean} isLoadingModal - 로딩 모달인지 여부 (로딩 모달일 경우 닫기 제한)
- * @param {ReactNode} children - 모달의 내용
- */
+interface ModalProps {
+    children: ReactNode;
+    closeModal: () => void;
+    hideOnClickOutside?: boolean;
+}
 
 export default function Modal({
     children,
-    isOpen,
-    toggle,
-    isLoadingModal = false,
-}: IModal) {
+    closeModal,
+    hideOnClickOutside = false,
+}: ModalProps) {
     const dialogRef = useRef<HTMLDialogElement>(null);
+    const [isClosing, setIsClosing] = useState<boolean>(false);
 
-    // 모달 열고 닫는 기본 로직
     useEffect(() => {
-        if (isOpen) {
-            dialogRef.current?.showModal();
-            dialogRef.current?.scrollTo({
-                top: 0,
-            });
+        const dialog = dialogRef.current;
+        if (!dialog) return;
 
-            document.body.style.overflow = 'hidden'; // 배경 스크롤 방지
-        } else {
-            const timer = setTimeout(() => {
-                dialogRef.current?.close();
-                document.body.style.overflow = ''; // 배경 스크롤 허용
-            }, 200); // 애니메이션 시간보다 조금 더 빠르게
+        if (!dialog.open) dialog.showModal();
 
-            return () => clearTimeout(timer);
-        }
-    }, [isOpen]);
+        document.body.style.overflow = 'hidden'; // 배경 스크롤 방지
 
-    const handleClickOutside = (e: React.MouseEvent<HTMLDialogElement>) => {
-        // 로딩 중일 때는 닫히지 않도록
-        if (isLoadingModal) {
-            e.preventDefault();
-            return;
-        }
+        return () => {
+            document.body.style.overflow = '';
+        };
+    }, []);
 
-        // 모달 바깥을 클릭하면 닫히도록
-        if ((e.target as any).nodeName === 'DIALOG') {
-            toggle();
+    const triggerClose = () => {
+        setIsClosing(true);
+    };
+
+    const handleAnimationEnd = () => {
+        if (isClosing) {
+            dialogRef.current?.close();
+            closeModal();
+            setIsClosing(false);
         }
     };
 
-    return createPortal(
+    const handleCancel = (e: SyntheticEvent) => {
+        e.preventDefault();
+        triggerClose();
+    };
+
+    const handleClick = (e: MouseEvent<HTMLDialogElement>) => {
+        if (!dialogRef.current) return;
+
+        if (hideOnClickOutside && e.target === dialogRef.current)
+            triggerClose();
+    };
+
+    return (
         <dialog
-            className={cn(
-                'fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2',
-                'p-0 border-0 bg-transparent',
-                isOpen ? 'animate-modal-in' : 'animate-modal-out',
-                '[&[open]::backdrop]:animate-modal-backdrop',
-                '[&::backdrop]:bg-[rgba(35,35,35,0.4)]'
-            )}
-            onClick={handleClickOutside}
             ref={dialogRef}
+            onCancel={handleCancel}
+            onClick={handleClick}
+            onAnimationEnd={handleAnimationEnd}
+            className={cn(
+                'fixed top-1/2 left-1/2 ',
+                'p-0 m-0 border-0 bg-transparent rounded-0',
+                isClosing ? 'animate-modal-pop-out' : 'animate-modal-pop-in',
+                '[&::backdrop]:bg-[rgba(8,10,12,0.4)]',
+            )}
         >
             {children}
-        </dialog>,
-        document.body, // 모달을 body에 렌더링
+        </dialog>
     );
 }
