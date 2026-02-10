@@ -21,7 +21,7 @@ export default function Feedback() {
             title: PROMPT_MODAL_MESSAGE.FEEDBACK.title,
             placeholder: PROMPT_MODAL_MESSAGE.FEEDBACK.placeholder,
             inputType: 'textarea',
-            asyncOnSubmit: async (inputValue: string) => {
+            onSubmit: async (inputValue: string) => {
                 await submitFeedback({ content: inputValue });
 
                 modal.push('alert', AlertModal, {

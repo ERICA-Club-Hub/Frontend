@@ -43,8 +43,8 @@ export function AlertModal({
     closeModal,
 }: AlertModalProps) {
     const handleClick = () => {
-        if (onAction) onAction();
         resolve(true);
+        if (onAction) onAction();
     };
 
     return (
@@ -71,6 +71,7 @@ export function AlertModal({
                     {title}
                 </p>
                 <button
+                    type="button"
                     className={cn(
                         'h-[37px] rounded-[8px]',
                         icon
