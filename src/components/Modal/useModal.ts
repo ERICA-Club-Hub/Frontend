@@ -26,21 +26,31 @@ const useModal = () => {
             props: Omit<T, keyof ModalCommonProps>,
         ) => {
             return new Promise((resolve) => {
+                const id = `${key}_${Date.now()}_${Math.random()
+                    .toString(36)
+                    .slice(2)}`;
+
                 const newModal: ModalType = {
-                    key,
+                    key: id,
                     Component,
                     props: props || {},
                     resolve: (value) => {
                         resolve(value);
-                        remove(key);
+                        remove(id);
                     },
                     cancel: () => {
                         resolve(null);
-                        remove(key);
+                        remove(id);
                     },
                 };
 
-                setModals((prev) => [...prev, newModal]);
+                setModals((prev) => {
+                    // 중복 처리  (e.g. 더블 클릭 등으로 인한 동일 모달 중복 생성)
+                    if (prev.some((m) => m.key.startsWith(`${key}_`)))
+                        return prev;
+
+                    return [...prev, newModal];
+                });
             });
         },
         [setModals, remove],
