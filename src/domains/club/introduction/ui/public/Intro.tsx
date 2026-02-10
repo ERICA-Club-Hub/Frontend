@@ -1,7 +1,7 @@
 import {
     useClubApi,
     useIsPreview,
-} from '@/domains/club/introduction/api/useClubIntro';
+} from '@/domains/club/introduction/api/club-info.queries';
 import { ClubDetailResponse } from '@/api/data-contracts';
 import ClubDetailDefaultInfo from '@/domains/club/introduction/ui/public/ClubDetailDefaultInfo';
 import ClubDetailCard from '@/domains/shared/components/layout/ClubDetailCard';

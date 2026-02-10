@@ -1,7 +1,7 @@
 import {
     useClubSchedules,
     useIsPreview,
-} from '@/domains/club/introduction/api/useClubIntro';
+} from '@/domains/club/introduction/api/club-info.queries';
 import ClubDetailSchedule from './ClubDetailSchedule';
 import ClubDetailText from '@/domains/shared/components/club-detail-info/ClubDetailText';
 import ClubDetailCard from '@/domains/shared/components/layout/ClubDetailCard';
