@@ -1,19 +1,30 @@
-import ContentBlock from '../../../../shared/components/card/ContentBlock';
-import { useClubDetail } from '@/domains/club/profile/model/useClubDetail';
-import { useClubRecruit } from '@/domains/club/recruitment/api/useClubRecruit';
+import {
+    useClubRecruitment,
+    useIsPreview,
+} from '@/domains/club/introduction/api/club-info.queries';
+import ClubDetailText from '@/domains/shared/components/club-detail/ClubDetailText';
+import ClubDetailCard from '@/domains/shared/components/layout/ClubDetailCard';
 
 export default function Recruit() {
-    const { clubId, isPreview } = useClubDetail();
-    const { data } = useClubRecruit(clubId || '', isPreview);
+    const { id, isPreview } = useIsPreview();
+    const { data } = useClubRecruitment({ clubId: id, isPreview });
     return (
-        <section className="flex flex-col gap-[10px]">
-            <ContentBlock title="모집기간" content={data?.due} />
-            <ContentBlock title="모집대상" content={data?.target} />
-            <ContentBlock title="유의사항" content={data?.notice} />
-            <ContentBlock
-                title="💡 기타 동아리 모집 안내"
-                content={data?.etc}
-            />
+        <section className="flex flex-col gap-2.5">
+            <ClubDetailCard title="모집기간">
+                <ClubDetailText text={data?.due} />
+            </ClubDetailCard>
+
+            <ClubDetailCard title="모집대상">
+                <ClubDetailText text={data?.target} />
+            </ClubDetailCard>
+
+            <ClubDetailCard title="유의사항">
+                <ClubDetailText text={data?.notice} />
+            </ClubDetailCard>
+
+            <ClubDetailCard title="기타 동아리 모집 관련">
+                <ClubDetailText text={data?.etc} />
+            </ClubDetailCard>
         </section>
     );
 }
