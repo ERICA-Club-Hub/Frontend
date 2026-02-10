@@ -67,7 +67,7 @@ export default function Modal({
             onAnimationEnd={handleAnimationEnd}
             className={cn(
                 'fixed top-1/2 left-1/2 ',
-                'p-0 m-0 border-0 bg-transparent rounded-0',
+                'p-0 m-0 border-0 bg-transparent rounded-none',
                 isClosing ? 'animate-modal-pop-out' : 'animate-modal-pop-in',
                 '[&::backdrop]:bg-[rgba(8,10,12,0.4)]',
             )}

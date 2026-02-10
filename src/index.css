@@ -215,7 +215,7 @@
     --animate-bounce: loading-bounce 0.5s infinite alternate;
     --animate-skeleton: skeleton-loading 1.2s infinite alternate;
     --animate-skeleton-fast: skeleton-loading 0.8s linear infinite alternate;
-    --animate-modal-pop-in: modal-pop-in 0.4s cubic-bezier(0.34, 1.56, 0.64, 1)
+    --animate-modal-pop-in: modal-pop-in 0.5s cubic-bezier(0.34, 1.56, 0.64, 1)
         forwards;
     --animate-modal-pop-out: modal-pop-out 0.2s ease-in-out forwards;
     --animate-modal-backdrop: modal-backdrop-show 0.4s ease;
