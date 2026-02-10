@@ -118,16 +118,6 @@
             transform: translate(-50%, 20px);
         }
     }
-    @keyframes modal-fade-in {
-        0% {
-            transform: scale(0.9) translate(-55%, -60%);
-            opacity: 0;
-        }
-        100% {
-            transform: scale(1) translate(-50%, -50%);
-            opacity: 1;
-        }
-    }
     @keyframes loading-bounce {
         to {
             transform: translateY(-10px);
@@ -177,14 +167,29 @@
             transform: scaleY(0.8);
         }
     }
-    @keyframes modal-fade-out {
+
+    @keyframes modal-pop-in {
         0% {
-            transform: scale(1) translate(-50%, -50%);
+            opacity: 0;
+            transform: translate(-50%, -48%) scale(0.95);
+        }
+        40% {
             opacity: 1;
+            transform: translate(-50%, -51%) scale(1.02);
         }
         100% {
-            transform: scale(0.9) translate(-55%, -60%);
+            opacity: 1;
+            transform: translate(-50%, -50%) scale(1);
+        }
+    }
+    @keyframes modal-pop-out {
+        0% {
+            opacity: 1;
+            transform: translate(-50%, -50%) scale(1);
+        }
+        100% {
             opacity: 0;
+            transform: translate(-50%, -48%) scale(0.96);
         }
     }
     @keyframes modal-backdrop-show {
@@ -202,9 +207,6 @@
     --animate-background-fade: backgroundFade 1s ease-in-out;
     --animate-toast-in: toast-fade-in 0.3s ease-out forwards;
     --animate-toast-out: toast-fade-out 0.3s ease-in forwards;
-    --animate-modal-in: modal-fade-in 0.4s ease-out;
-    --animate-modal-out: modal-fade-out 0.4s ease;
-    --animate-modal-backdrop: modal-backdrop-show 0.4s ease;
     --animate-dropdown: dropdown-slide 0.3s ease;
     --animate-slide-up-in: dropdown-slide-up-in 0.2s
         cubic-bezier(0.23, 1, 0.32, 1) forwards;
@@ -213,6 +215,10 @@
     --animate-bounce: loading-bounce 0.5s infinite alternate;
     --animate-skeleton: skeleton-loading 1.2s infinite alternate;
     --animate-skeleton-fast: skeleton-loading 0.8s linear infinite alternate;
+    --animate-modal-pop-in: modal-pop-in 0.4s cubic-bezier(0.34, 1.56, 0.64, 1)
+        forwards;
+    --animate-modal-pop-out: modal-pop-out 0.2s ease-in-out forwards;
+    --animate-modal-backdrop: modal-backdrop-show 0.4s ease;
 }
 
 @layer utilities {
