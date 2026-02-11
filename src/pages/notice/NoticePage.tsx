@@ -1,76 +1,32 @@
-import { useState, useEffect } from 'react';
-import { apiRequest } from '@/api/apiRequest';
-import Accordion from '@/components/Accordion/Accordion';
+import { useEffect, useRef } from 'react';
 
-interface NoticeItem {
-    id: number;
-    title: string;
-    content: string;
-    createdAt: string;
-}
+import { useNotices } from '@/domains/notice/api/useNotices';
+import NoticeItem from '@/domains/notice/ui/NoticeItem';
 
-// TODO: 각종 상태 개선 필요
 export default function NoticePage() {
-    const [noticeItems, setNoticeItems] = useState<NoticeItem[]>([]); // 공지사항 목록
-    const [page, setPage] = useState<number>(0); // 페이지 번호
-    const [size] = useState<number>(10); // 한 번에 불러오는 공지사항 수
-    const [hasMore, setHasMore] = useState<boolean>(true); // 더 불러올 데이터가 있는지 여부
-    const [isLoading, setIsLoading] = useState<boolean>(false); // 로딩 상태
-    const [error, setError] = useState<string | null>(null);
+    const { data, isLoading, isFetchingNextPage, hasNextPage, fetchNextPage } =
+        useNotices();
 
+    const sentinelRef = useRef<HTMLDivElement>(null);
+
+    // TODO useInfiniteScroll 분리 -> searchPage와 통합
     useEffect(() => {
-        const fetchNotices = async () => {
-            setIsLoading(true);
-            setError(null);
-            try {
-                const response = await apiRequest({
-                    url: `/api/service-announcements?page=${page}&size=${size}`,
-                });
+        const sentinel = sentinelRef.current;
+        if (!sentinel) return;
 
-                // 날짜 형식 변환 및 필드 매핑
-                const notices =
-                    response?.result?.serviceAnnouncements.map(
-                        (item: NoticeItem) => ({
-                            ...item,
-                            createdAt: new Date(item.createdAt)
-                                .toLocaleDateString('ko-KR', {
-                                    year: 'numeric',
-                                    month: '2-digit',
-                                    day: '2-digit',
-                                })
-                                .replace(/\. /g, '.')
-                                .replace(/\.$/, ''),
-                        }),
-                    ) || [];
+        const observer = new IntersectionObserver(
+            ([entry]) => {
+                if (entry.isIntersecting && hasNextPage && !isFetchingNextPage)
+                    fetchNextPage();
+            },
+            { threshold: 0.1 },
+        );
 
-                if (page === 0) {
-                    setNoticeItems(notices);
-                } else {
-                    setNoticeItems((prev) => [...prev, ...notices]);
-                }
+        observer.observe(sentinel);
+        return () => observer.disconnect();
+    }, [hasNextPage, isFetchingNextPage, fetchNextPage]);
 
-                // totalElements를 통해 더 불러올 데이터가 있는지 확인
-                const totalElements = response?.result?.totalElements || 0;
-                setHasMore((page + 1) * size < totalElements);
-            } catch (error) {
-                console.error('공지사항 불러오기 실패:', error);
-                setError(
-                    '공지사항을 불러오는데 실패했습니다. 다시 시도해 주세요.',
-                );
-                setHasMore(false);
-            } finally {
-                setIsLoading(false);
-            }
-        };
-
-        fetchNotices();
-    }, [page, size]);
-
-    const loadMore = () => {
-        if (hasMore) {
-            setPage((prev) => prev + 1);
-        }
-    };
+    const notices = data?.pages.flatMap((p) => p.serviceAnnouncements ?? []);
 
     return (
         <div className="flex flex-col items-center w-full">
@@ -78,33 +34,19 @@ export default function NoticePage() {
                 <div className="text-body-01 font-semibold text-black my-5">
                     서비스 공지사항
                 </div>
-                <div className="flex flex-col w-full items-start">
-                    {isLoading && page === 0 ? (
+                <div className="flex flex-col w-full gap-2">
+                    {isLoading ? (
                         <div>로딩 중...</div>
-                    ) : error ? (
-                        <div>{error}</div>
-                    ) : noticeItems.length > 0 ? (
-                        <section className="flex flex-col gap-2">
-                            {noticeItems.map((item, index) => (
-                                <Accordion
-                                    key={index}
-                                    title={item.title}
-                                    date={item.createdAt}
-                                    content={
-                                        <span className="whitespace-pre-line">
-                                            {item.content}
-                                        </span>
-                                    }
-                                />
-                            ))}
-                            {hasMore && !isLoading && (
-                                <button onClick={loadMore}>더 보기</button>
-                            )}
-                            {isLoading && <div>로딩 중...</div>}
-                        </section>
-                    ) : (
+                    ) : !notices?.length ? (
                         <div>등록된 공지사항이 없습니다.</div>
+                    ) : (
+                        notices.map((notice) => (
+                            <NoticeItem key={notice.id} notice={notice} />
+                        ))
                     )}
+
+                    {isFetchingNextPage && <div>로딩 중...</div>}
+                    <div ref={sentinelRef} className="h-px" />
                 </div>
             </div>
         </div>
