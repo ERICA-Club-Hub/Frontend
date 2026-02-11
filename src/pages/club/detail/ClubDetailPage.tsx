@@ -9,13 +9,15 @@ export default function ClubDetailPage() {
     const { activeTab, setActiveTab } = useClubDetail();
 
     return (
-        <div className="flex flex-col items-center pt-5">
-            <ClubDetailHeader />
-            <div className="w-full bg-white flex justify-center h-11.75">
-                <ClubDetailTab
-                    setActiveTab={setActiveTab}
-                    activeTab={activeTab}
-                />
+        <div className="flex flex-col items-center">
+            <div className="bg-neutral-00 w-full">
+                <ClubDetailHeader />
+                <div className="w-full flex justify-center h-11.75">
+                    <ClubDetailTab
+                        setActiveTab={setActiveTab}
+                        activeTab={activeTab}
+                    />
+                </div>
             </div>
             <div className="mt-3.75 mb-5">
                 <TabContents activeTab={activeTab} />

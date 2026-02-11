@@ -18,7 +18,7 @@ export default function ClubDetailHeader() {
     }
 
     return (
-        <div className="mt-[110px] h-[200px] w-full min-h-[104px] bg-white flex p-[17px] flex-col justify-center items-center relative">
+        <div className="mt-[110px] h-[200px] w-full min-h-[104px] flex p-[17px] flex-col justify-center items-center relative">
             <img
                 src={data?.profileImageUrl || DEFAULT_IMG}
                 alt="Club Logo"
