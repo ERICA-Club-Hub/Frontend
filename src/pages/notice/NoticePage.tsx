@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react';
 
-import { useNotices } from '@/domains/notice/api/useNotices';
+import { useNotices } from '@/domains/notice/api/notice.queries';
 import NoticeItem from '@/domains/notice/ui/NoticeItem';
 
 export default function NoticePage() {
