@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { apiRequest } from '@/api/apiRequest';
-import AccordionItemCard from '@/domains/shared/components/card/AccordionItemCard';
+import Accordion from '@/components/Accordion/Accordion';
 
 interface NoticeItem {
     id: number;
@@ -11,9 +11,6 @@ interface NoticeItem {
 
 // TODO: 각종 상태 개선 필요
 export default function NoticePage() {
-    const [rotatedStates, setRotatedStates] = useState<{
-        [key: number]: boolean;
-    }>({}); // 회전 상태
     const [noticeItems, setNoticeItems] = useState<NoticeItem[]>([]); // 공지사항 목록
     const [page, setPage] = useState<number>(0); // 페이지 번호
     const [size] = useState<number>(10); // 한 번에 불러오는 공지사항 수
@@ -75,13 +72,6 @@ export default function NoticePage() {
         }
     };
 
-    const handleCardClick = (index: number) => {
-        setRotatedStates((prev) => ({
-            ...prev,
-            [index]: !prev[index],
-        }));
-    };
-
     return (
         <div className="flex flex-col items-center w-full">
             <div className="w-[320px] flex flex-col">
@@ -94,37 +84,24 @@ export default function NoticePage() {
                     ) : error ? (
                         <div>{error}</div>
                     ) : noticeItems.length > 0 ? (
-                        <>
+                        <section className="flex flex-col gap-2">
                             {noticeItems.map((item, index) => (
-                                <div
+                                <Accordion
                                     key={index}
-                                    className="flex flex-col w-full pb-2"
-                                >
-                                    <AccordionItemCard
-                                        $variant="serviceNotice"
-                                        title={item.title}
-                                        date={item.createdAt}
-                                        isRotated={rotatedStates[index]}
-                                        onClick={() => handleCardClick(index)}
-                                    />
-                                    <div
-                                        className={`w-full flex-shrink-0 rounded-[10px] border border-neutral-300 bg-white overflow-hidden transition-[max-height] duration-300 ease-in-out ${
-                                            rotatedStates[index]
-                                                ? 'max-h-[200px]'
-                                                : 'max-h-0'
-                                        }`}
-                                    >
-                                        <div className="w-full text-body-03 font-medium text-neutral-700 leading-[18px] p-5 whitespace-pre-line">
+                                    title={item.title}
+                                    date={item.createdAt}
+                                    content={
+                                        <span className="whitespace-pre-line">
                                             {item.content}
-                                        </div>
-                                    </div>
-                                </div>
+                                        </span>
+                                    }
+                                />
                             ))}
                             {hasMore && !isLoading && (
                                 <button onClick={loadMore}>더 보기</button>
                             )}
                             {isLoading && <div>로딩 중...</div>}
-                        </>
+                        </section>
                     ) : (
                         <div>등록된 공지사항이 없습니다.</div>
                     )}
