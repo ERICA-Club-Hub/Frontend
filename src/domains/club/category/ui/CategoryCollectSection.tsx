@@ -1,7 +1,7 @@
-import CentralMark from '@/assets/common/central-mark.svg?react';
-import CollegeMark from '@/assets/common/college-mark.svg?react';
-import DepartmentMark from '@/assets/common/department-mark.svg?react';
-import UnionMark from '@/assets/common/union-mark.svg?react';
+import Central from '@/assets/common/central.svg?react';
+import College from '@/assets/common/college.svg?react';
+import Department from '@/assets/common/department.svg?react';
+import Union from '@/assets/common/union.svg?react';
 import { useNavigate } from 'react-router-dom';
 import CategoryCollect from './CategoryCollect';
 
@@ -14,22 +14,22 @@ export default function CategoryCollectSection() {
             </h3>
             <div className="flex gap-[17px]">
                 <CategoryCollect
-                    img={<CentralMark />}
+                    img={<Central />}
                     categoryLabel="중앙동아리"
                     onClick={() => navigator('/club/search?type=central')}
                 ></CategoryCollect>
                 <CategoryCollect
-                    img={<CollegeMark />}
+                    img={<College />}
                     categoryLabel="단과대별"
                     onClick={() => navigator('/club/search?type=college')}
                 ></CategoryCollect>
                 <CategoryCollect
-                    img={<DepartmentMark />}
+                    img={<Department />}
                     categoryLabel="학과별"
                     onClick={() => navigator('/club/search?type=department')}
                 ></CategoryCollect>
                 <CategoryCollect
-                    img={<UnionMark />}
+                    img={<Union />}
                     categoryLabel="연합동아리"
                     onClick={() => navigator('/club/search?type=union')}
                 ></CategoryCollect>
