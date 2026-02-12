@@ -168,11 +168,11 @@ export default function ClubProfileForm({
                                     options={
                                         PROFILE_FIELD_CONFIG.clubType.options
                                     }
-                                    selectedValue={
-                                        data?.category?.clubCategoryName
-                                    }
                                     id="clubType"
-                                    value={value}
+                                    value={
+                                        data?.category?.clubCategoryName ||
+                                        value
+                                    }
                                     onChange={(val) => {
                                         onChange(val);
                                         method.setValue(

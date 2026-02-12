@@ -18,29 +18,29 @@ interface DropdownItemType {
 }
 const Dropdown = createDropdown<DropdownItemType>();
 
+type Value =
+    | ClubType
+    | CentralCategoryCode
+    | UnionCategoryCode
+    | CollegeCode
+    | DepartmentCode;
+
 interface SelectDropdownProps {
     options: DropdownItemType[];
-    selectedValue?:
-        | ClubType
-        | CentralCategoryCode
-        | UnionCategoryCode
-        | CollegeCode
-        | DepartmentCode;
     id: string;
-    value: string;
+    value: Value | null;
     onChange: (value: string) => void;
     placeholder: string;
 }
 
 export default function SelectDropdown({
     options,
-    selectedValue,
     id,
     value,
     onChange,
     placeholder,
 }: SelectDropdownProps) {
-    const hasSelectedValue = selectedValue ?? !!value;
+    const hasSelectedValue = !!value;
 
     const renderSelectedItem = () => {
         const selectedItem = options.find((item) => item.value === value);
@@ -49,7 +49,7 @@ export default function SelectDropdown({
 
     return (
         <Dropdown.Container itemOptions={options}>
-            <SyncSelection options={options} selectedValue={selectedValue} />
+            <SyncSelection options={options} selectedValue={value} />
 
             <Dropdown.Trigger
                 id={id}
