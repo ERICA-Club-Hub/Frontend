@@ -95,7 +95,7 @@ export default function ClubSearchPage() {
     return (
         <div className="min-h-screen flex flex-col">
             <div className="flex-1 flex flex-col items-center">
-                <div className="w-screen bg-white flex justify-center h-[47px]">
+                <div className="sticky top-[56px] z-10 w-full bg-white flex justify-center h-[47px]">
                     <SearchTab />
                 </div>
                 <div className="flex flex-col items-center py-5">

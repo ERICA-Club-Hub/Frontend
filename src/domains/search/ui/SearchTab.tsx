@@ -22,6 +22,7 @@ export default function SearchTab() {
             backgroundColor="white"
             value={typeParam ? typeParam : ''}
             onChange={handleTabChange}
+            className="w-full h-[53px]"
         >
             <Tab.Item tabKey={CLUB_TYPE_DISPLAYS.CENTRAL.value}>
                 중앙동아리
