@@ -13,7 +13,7 @@ export default function ClubDetailSchedule({
     if (isLoading) {
         return (
             <div className="flex flex-col gap-1.5">
-                {Array.from({ length: 3 }).map((_, i) => (
+                {Array.from({ length: 1 }).map((_, i) => (
                     <div key={i} className="flex gap-2.5 items-center">
                         <Skeleton className="w-8.25 h-4.5 rounded-xl" />
                         <Skeleton className="h-4 flex-1 max-w-50" />
