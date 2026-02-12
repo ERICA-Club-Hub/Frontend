@@ -10,7 +10,6 @@ import ClubDetailText from '@/domains/shared/components/club-detail/ClubDetailTe
 export default function Intro() {
     const { id, isPreview } = useIsPreview();
 
-    // TODO isLoading 전달
     const { data } = useClubApi<ClubDetailResponse>({
         clubId: id,
         isPreview,
@@ -20,7 +19,6 @@ export default function Intro() {
     return (
         <section className="flex flex-col gap-2.5">
             <ClubDetailCard title="동아리 기본 정보">
-                {/* TODO isLoading 전달 */}
                 <ClubDetailDefaultInfo data={data} />
             </ClubDetailCard>
 
