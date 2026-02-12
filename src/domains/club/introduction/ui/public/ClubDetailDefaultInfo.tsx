@@ -4,7 +4,7 @@ import { formatClubInfo } from '@/domains/shared/utils/formatClubInfo';
 import {
     CLUB_INFO_META,
     DISPLAY_ORDER,
-} from '../../constants/club-info.constants';
+} from '../../constants/introduction.constant';
 
 export default function ClubDetailDefaultInfo({
     data,
