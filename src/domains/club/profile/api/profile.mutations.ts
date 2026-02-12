@@ -1,8 +1,8 @@
 import { apiRequest } from '@/api/apiRequest';
 import { useToast } from '@/components/Toast/useToast';
-import { MAX_FILE_SIZE } from '@/constants/max-file-size.constant';
+import { MAX_FILE_SIZE_ERROR_MESSAGE } from '@/constants/max-file-size.constant';
 import { useErrorHandler } from '@/hooks/useErrorHandler';
-import { calculateFormDataSize } from '@/utils/calculateFileSize';
+import { validateFileSize } from '@/utils/fileValidator';
 import { useMutation } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
 import { FormValues } from '../model/profile.schema';
@@ -27,9 +27,7 @@ export const useClubRegisterMutation = () => {
         }) => {
             const formData = createFormData(data, postImg);
 
-            const totalSize = calculateFormDataSize(formData);
-            if (totalSize > MAX_FILE_SIZE)
-                throw new Error('FILE_SIZE_EXCEEDED');
+            validateFileSize(formData);
 
             return await apiRequest({
                 url: `/api/clubs/registrations`,
@@ -49,9 +47,53 @@ export const useClubRegisterMutation = () => {
         onError: (error) => {
             if (
                 error instanceof Error &&
-                error.message === 'FILE_SIZE_EXCEEDED'
+                error.message === MAX_FILE_SIZE_ERROR_MESSAGE
             ) {
-                showToast(`용량을 초과하는 사진이에요.`);
+                showToast(error.message);
+            } else {
+                handleError(error);
+            }
+        },
+    });
+};
+
+/**
+ * 동아리 기본 정보 수정 요청
+ */
+export const useUpdateProfileMutation = () => {
+    const { handleError } = useErrorHandler();
+    const { showToast } = useToast();
+
+    return useMutation({
+        mutationFn: async ({
+            data,
+            postImg,
+            clubId,
+        }: {
+            data: FormValues;
+            postImg: File | File[] | null;
+            clubId: number;
+        }) => {
+            const formData = createFormData(data, postImg);
+
+            validateFileSize(formData);
+
+            return await apiRequest({
+                url: `/api/clubs/${clubId}/update`,
+                method: 'POST',
+                data: formData,
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                },
+                requireToken: true,
+            });
+        },
+        onError: (error) => {
+            if (
+                error instanceof Error &&
+                error.message === MAX_FILE_SIZE_ERROR_MESSAGE
+            ) {
+                showToast(error.message);
             } else {
                 handleError(error);
             }

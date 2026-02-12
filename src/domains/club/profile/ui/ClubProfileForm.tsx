@@ -1,7 +1,7 @@
-import { ReactNode, useState } from 'react';
+import { ReactNode, useEffect, useState } from 'react';
 import InputField from '@/components/InputField/InputField';
 import TextArea from '@/components/InputField/TextArea';
-import useDefaultImage from '@/hooks/useDefaultImage';
+import useProfileImage from '@/hooks/useProfileImage';
 import {
     FormValues,
     profileSchema,
@@ -18,23 +18,28 @@ import {
 import { ClubType } from '@/types/category.types';
 import ClubImageUpload from '@/domains/shared/components/image-upload/ClubImageUpload';
 import CategorySelectDropdown from './CategorySelectDropdown';
-import { useClubRegisterMutation } from '../api/profile.mutations';
+import { ClubOverviewResponse } from '@/api/data-contracts';
 
 interface ClubProfileFormProps {
-    editMode: boolean;
+    mode: 'register' | 'update';
+    data: ClubOverviewResponse | null | undefined;
+    onSubmit: (formValues: FormValues, image: File | File[] | null) => void;
     renderAction?: (params: {
         isValid: boolean;
         isSubmitting: boolean;
+        submitHandler: () => void;
     }) => ReactNode;
 }
 
 export default function ClubProfileForm({
-    editMode,
+    mode,
+    data,
+    onSubmit,
     renderAction,
 }: ClubProfileFormProps) {
     const method = useForm<FormValues>({
         resolver: zodResolver(
-            editMode ? profileSchema : registrationSchema,
+            mode === 'update' ? profileSchema : registrationSchema,
         ) as Resolver<FormValues>,
         defaultValues: {
             clubName: '',
@@ -57,44 +62,50 @@ export default function ClubProfileForm({
         '/placeholder-image.svg',
     ); // 미리보기 이미지
 
-    useDefaultImage({ postImg, setPostImg }); // 기본 이미지 설정
+    useProfileImage({
+        fetchImgUrl: data?.profileImageUrl,
+        setPostImg,
+    }); // 프로필 이미지 설정
 
-    const { mutate: registerClub } = useClubRegisterMutation();
+    // 데이터 패칭 시 폼 초기화
+    useEffect(() => {
+        if (mode === 'update' && data) {
+            method.reset({
+                clubName: data.name,
+                clubType: data.category?.clubCategoryName as ClubType,
+                category: {
+                    central: data.category?.centralCategoryName,
+                    union: data.category?.unionCategoryName,
+                    college: data.category?.collegeName,
+                    department: data.category?.departmentName,
+                },
+                oneLiner: data.oneLiner,
+            });
 
-    // useEffect(() => {
-    // TODO: 수정모드일 때 기존 데이터 불러와서 폼 초기화
-    // if (editMode && initialData) {
-    //     reset({
-    //         clubName: initialData.name,
-    //         // ... 필드 매핑
-    //     });
-    //     setPreviewImg(initialData.imageUrl); // 이미지 미리보기 설정
-    // }
-    // }, [editMode, postImg, setPostImg]);
-
-    const onSubmit: SubmitHandler<FormValues> = (data) => {
-        const payload = { data, postImg };
-
-        // 수정모드
-        if (editMode) {
-            // TODO: api 호출 추가
-        } else {
-            // 등록모드
-            registerClub(payload);
+            if (data.profileImageUrl) {
+                setPreviewImg(data.profileImageUrl);
+            }
         }
+    }, [data, method, mode]);
+
+    const handleSubmit: SubmitHandler<FormValues> = (formValues) => {
+        // 부모 컴포넌트로 전달 (로직은 부모 컴포넌트에서 관리)
+        onSubmit(formValues, postImg);
     };
+
+    const triggerSubmit = method.handleSubmit(handleSubmit);
 
     return (
         <div className="w-full flex flex-col items-center pt-[20px]">
             <div>
                 <h1 className="w-full mb-[20px] text-b2 text-neutral-900">
-                    {editMode
+                    {mode === 'register'
                         ? '동아리 기본 등록 정보'
                         : '절차에 따라 동아리를 신청해 주세요.'}
                 </h1>
 
                 <form
-                    onSubmit={method.handleSubmit(onSubmit)}
+                    onSubmit={triggerSubmit}
                     className="flex flex-col items-center"
                 >
                     {/* 동아리 이름 */}
@@ -117,7 +128,7 @@ export default function ClubProfileForm({
                     </FormItem>
 
                     {/* 동아리 이메일 */}
-                    {!editMode && (
+                    {mode === 'register' && (
                         <FormItem
                             label={PROFILE_FIELD_CONFIG.leaderEmail.label}
                             id="leaderEmail"
@@ -154,8 +165,11 @@ export default function ClubProfileForm({
                             name="clubType"
                             render={({ field: { onChange, value } }) => (
                                 <SelectDropdown
-                                    items={
+                                    options={
                                         PROFILE_FIELD_CONFIG.clubType.options
+                                    }
+                                    selectedValue={
+                                        data?.category?.clubCategoryName
                                     }
                                     id="clubType"
                                     value={value}
@@ -183,6 +197,7 @@ export default function ClubProfileForm({
 
                     {/* 분과 선택 */}
                     <CategorySelectDropdown
+                        data={data?.category}
                         control={method.control}
                         setValue={method.setValue}
                     />
@@ -220,7 +235,7 @@ export default function ClubProfileForm({
                     </FormItem>
 
                     {/* 동아리 간단 소개 */}
-                    {!editMode && (
+                    {mode === 'register' && (
                         <FormItem
                             label={PROFILE_FIELD_CONFIG.briefIntroduction.label}
                             id="briefIntroduction"
@@ -245,6 +260,7 @@ export default function ClubProfileForm({
                         renderAction({
                             isValid: method.formState.isValid,
                             isSubmitting: method.formState.isSubmitting,
+                            submitHandler: triggerSubmit,
                         })}
                 </form>
             </div>

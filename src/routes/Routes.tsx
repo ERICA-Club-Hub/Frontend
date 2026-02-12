@@ -11,7 +11,7 @@ import ClubManagementPage from '@/pages/admin/service/club-management/ClubManage
 import RegistrationsDetailPage from '@/pages/admin/service/registrations/RegistrationsDetailPage';
 import { PATHS } from './paths';
 import { AdminLoginPage } from '@/pages/admin/auth/AdminLoginPage';
-import RegistrationEditPage from '@/pages/admin/club/registration/RegistrationEditPage';
+import ProfileManagePage from '@/pages/admin/club/profile/ProfileManagePage';
 import RegistrationCompletionPage from '@/pages/club/registration/RegistrationCompletionPage';
 import RegistrationsListPage from '@/pages/admin/service/registrations/RegistrationsListPage';
 import RegistrationPage from '@/pages/club/registration/RegistrationPage';
@@ -82,7 +82,7 @@ export default function AppRoutes() {
                     <Route index element={<ClubAdminDashboardPage />} />
 
                     {/* 동아리 기본 정보 관리 */}
-                    <Route path="profile" element={<RegistrationEditPage />} />
+                    <Route path="profile" element={<ProfileManagePage />} />
 
                     {/* 동아리 상세 페이지  */}
                     <Route
