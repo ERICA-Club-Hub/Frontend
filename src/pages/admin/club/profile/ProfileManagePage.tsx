@@ -25,6 +25,8 @@ export default function ProfileManagePage() {
         formValues: FormValues,
         postImg: File | File[] | null,
     ) => {
+        if (!clubId) return;
+
         const payload = {
             data: formValues,
             postImg,
@@ -37,7 +39,7 @@ export default function ProfileManagePage() {
                     title: ALERT_MODAL_MESSAGE.SAVE.title,
                     actionLabel: ALERT_MODAL_MESSAGE.SAVE.actionLabel,
                     onAction: () =>
-                        navigate(PATHS.CLUB_ADMIN_DASHBOARD(Number(clubId)!)),
+                        navigate(PATHS.CLUB_ADMIN_DASHBOARD(Number(clubId))),
                 });
             },
         });
