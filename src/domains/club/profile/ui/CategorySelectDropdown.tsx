@@ -16,22 +16,31 @@ import {
     getDepartmentOptionsNameOnly,
 } from '@/utils/getCategoryOptions';
 import { CLUB_TYPE } from '@/constants/category-config.constant';
+import { CategoryResponse } from '@/api/data-contracts';
 
 interface CategorySelectDropdownProps {
+    data: CategoryResponse | undefined;
     control: Control<FormValues>;
     setValue: UseFormSetValue<FormValues>;
 }
 
 export default function CategorySelectDropdown({
+    data,
     control,
     setValue,
 }: CategorySelectDropdownProps) {
     const clubType = useWatch({ name: 'clubType', control });
     const college = useWatch({ name: 'category.college', control });
 
-    // TODO: 매직 스트링 상수화
     if (clubType === CLUB_TYPE.CENTRAL || clubType === CLUB_TYPE.UNION) {
         const config = CATEGORY_CONFIG[clubType];
+
+        const fieldMap = {
+            [CLUB_TYPE.CENTRAL]: data?.centralCategoryName,
+            [CLUB_TYPE.UNION]: data?.unionCategoryName,
+        };
+        const fieldValue = fieldMap[clubType];
+
         return (
             <FormItem
                 key={config.name}
@@ -45,9 +54,9 @@ export default function CategorySelectDropdown({
                     name={config.name}
                     render={({ field: { value, onChange } }) => (
                         <SelectDropdown
-                            value={value || ''}
+                            options={config.options}
+                            value={fieldValue || value}
                             onChange={onChange}
-                            items={config.options}
                             id={config.name}
                             placeholder={config.placeholder}
                         />
@@ -71,7 +80,8 @@ export default function CategorySelectDropdown({
                     name="category.college"
                     render={({ field: { value, onChange } }) => (
                         <SelectDropdown
-                            value={value || ''}
+                            options={getCollegeOptionsNameOnly()}
+                            value={data?.collegeName || value}
                             onChange={(val) => {
                                 onChange(val);
                                 if (clubType === CLUB_TYPE.DEPARTMENT)
@@ -79,7 +89,6 @@ export default function CategorySelectDropdown({
                                         shouldValidate: true,
                                     });
                             }}
-                            items={getCollegeOptionsNameOnly()}
                             id="category.college"
                             placeholder="단과대 선택"
                         />
@@ -94,9 +103,9 @@ export default function CategorySelectDropdown({
                         name="category.department"
                         render={({ field: { value, onChange } }) => (
                             <SelectDropdown
-                                value={value || ''}
+                                options={getDepartmentOptionsNameOnly(college)}
+                                value={data?.departmentName || value}
                                 onChange={onChange}
-                                items={getDepartmentOptionsNameOnly(college)}
                                 id="category.department"
                                 placeholder="학과 선택"
                             />

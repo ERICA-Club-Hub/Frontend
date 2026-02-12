@@ -2,6 +2,15 @@ import ArrowIcon from '@/assets/common/expand-arrow.svg?react';
 import { cn } from '@/utils/cn';
 import createDropdown from '@/components/Dropdown/Dropdown';
 import Button from '@/components/Button/Button';
+import { useDropdown } from '@/components/Dropdown/dropdown.context';
+import { useEffect } from 'react';
+import {
+    CentralCategoryCode,
+    ClubType,
+    CollegeCode,
+    DepartmentCode,
+    UnionCategoryCode,
+} from '@/types/category.types';
 
 interface DropdownItemType {
     label: string;
@@ -9,17 +18,23 @@ interface DropdownItemType {
 }
 const Dropdown = createDropdown<DropdownItemType>();
 
+type Value =
+    | ClubType
+    | CentralCategoryCode
+    | UnionCategoryCode
+    | CollegeCode
+    | DepartmentCode;
+
 interface SelectDropdownProps {
-    items: DropdownItemType[];
+    options: DropdownItemType[];
     id: string;
-    value: string;
+    value: Value | null;
     onChange: (value: string) => void;
     placeholder: string;
 }
 
-// TODO: 이미 선택한 카테고리가 있을 때 받아와서 표시해주는 기능도 추가 필요
 export default function SelectDropdown({
-    items,
+    options,
     id,
     value,
     onChange,
@@ -28,12 +43,14 @@ export default function SelectDropdown({
     const hasSelectedValue = !!value;
 
     const renderSelectedItem = () => {
-        const selectedItem = items.find((item) => item.value === value);
+        const selectedItem = options.find((item) => item.value === value);
         return selectedItem ? selectedItem.label : placeholder;
     };
 
     return (
-        <Dropdown.Container itemOptions={items}>
+        <Dropdown.Container itemOptions={options}>
+            <SyncSelection options={options} selectedValue={value} />
+
             <Dropdown.Trigger
                 id={id}
                 className={cn(
@@ -79,11 +96,11 @@ export default function SelectDropdown({
                     'top-[50px] left-0 flex justify-center items-center flex-wrap gap-x-[8px] gap-y-[10px] min-w-full p-[12px] px-[8px] rounded-[8px] bg-neutral-00',
                 )}
             >
-                {items.map((item, idx) => (
+                {options.map((option, idx) => (
                     <Dropdown.Item
-                        key={item.value}
+                        key={option.value}
                         index={idx}
-                        onClick={() => onChange(item.value)}
+                        onClick={() => onChange(option.value)}
                         className={cn('flex flex-1 basis-[45%] min-w-fit')}
                         delay={300}
                     >
@@ -105,7 +122,7 @@ export default function SelectDropdown({
                                             : 'text-neutral-600',
                                     )}
                                 >
-                                    {item.label}
+                                    {option.label}
                                 </span>
                             </Button>
                         )}
@@ -114,4 +131,28 @@ export default function SelectDropdown({
             </Dropdown.List>
         </Dropdown.Container>
     );
+}
+
+/**
+ * 외부 상태(api data)와 내부 상태(Dropdown index)를 동기화하는 컴포넌트
+ */
+function SyncSelection({
+    options,
+    selectedValue,
+}: {
+    options: DropdownItemType[];
+    selectedValue?: string | null;
+}) {
+    const { setSelectedIndex } = useDropdown();
+
+    useEffect(() => {
+        if (!selectedValue) {
+            setSelectedIndex(-1);
+            return;
+        }
+        const index = options.findIndex((opt) => opt.value === selectedValue);
+        setSelectedIndex(index);
+    }, [selectedValue, options, setSelectedIndex]);
+
+    return null;
 }
