@@ -1,13 +1,11 @@
-import {
-    useClubRecruitment,
-    useIsPreview,
-} from '@/domains/club/introduction/api/club-info.queries';
 import ClubDetailText from '@/domains/shared/components/club-detail/ClubDetailText';
 import ClubDetailCard from '@/domains/shared/components/layout/ClubDetailCard';
+import { useClubRecruitmentQuery } from '../../api/recruitment.queries';
+import { useIsPreview } from '@/domains/shared/api/club.queries';
 
 export default function Recruit() {
     const { id, isPreview } = useIsPreview();
-    const { data } = useClubRecruitment({ clubId: id, isPreview });
+    const { data } = useClubRecruitmentQuery({ clubId: id, isPreview });
     return (
         <section className="flex flex-col gap-2.5">
             <ClubDetailCard title="모집기간">
