@@ -3,18 +3,19 @@ import { cn } from '@/utils/cn';
 import { RecruitmentStatus } from '@/types/recruitment-status.type';
 import ClubTypeTag, { ClubCategoryCode } from '../tag/ClubTypeTag';
 import RecruitStatusTag from '@/domains/club/recruitment/ui/public/RecruitStatusTag';
+import Skeleton from '@/components/Loading/Skeleton';
 
 interface ClubCardProps extends LinkProps {
-    title?: string; // 동아리 이름
-    subTitle?: string; // 한 줄 소개
-    categoryName?: string; // 동아리 카테고리 이름 (타입화 필요)
-    recruitmentStatus?: string; // 모집 상태 (타입화 필요)
-    to: string; // 이동할 라우팅 주소
-    tags?: string[]; // tag 타입화 필요
+    title?: string;
+    subTitle?: string;
+    categoryName?: string;
+    recruitmentStatus?: string;
+    to: string;
+    tags?: string[];
     profileImageUrl?: string;
+    isLoading?: boolean;
 }
 
-// TODO: 어떤 페이지에서 사용되는지 JSDoc 주석 추가 필요
 export default function ClubCard({
     title,
     subTitle,
@@ -22,9 +23,31 @@ export default function ClubCard({
     recruitmentStatus,
     to,
     profileImageUrl,
+    isLoading = false,
     ...props
 }: ClubCardProps) {
     const isAdminRoute = to.startsWith('/admin/service');
+
+    if (isLoading) {
+        return (
+            <div
+                className={cn(
+                    'flex w-[320px] h-[95px] p-[10px]',
+                    'justify-start items-center gap-[15px]',
+                    'rounded-[10px] border border-[#eaeaea] bg-white',
+                )}
+            >
+                {!isAdminRoute && (
+                    <Skeleton className="w-[75px] h-[75px] rounded-[5px]" />
+                )}
+
+                <div className="flex flex-col w-[204px] justify-start items-start gap-[7px]">
+                    <Skeleton className="w-full h-4.5" />
+                    <Skeleton className="w-full h-[45px]" />
+                </div>
+            </div>
+        );
+    }
 
     return (
         <Link
@@ -37,7 +60,6 @@ export default function ClubCard({
                 'cursor-pointer',
             )}
         >
-            {/* 어드민 페이지에서는 프로필 이미지 미표시 */}
             {!isAdminRoute && (
                 <img
                     src={profileImageUrl}
@@ -45,10 +67,9 @@ export default function ClubCard({
                 />
             )}
 
-            <div className="flex flex-col w-[204px] h-[65px] justify-start items-start">
+            <div className="flex flex-col w-[204px] justify-start items-start">
                 <div className="flex gap-[6px] mb-[7px]">
                     <div className="flex gap-[6px]">
-                        {/* API 응답 형태가 string으로 되어있어서 as로 대체 */}
                         <ClubTypeTag
                             clubCategory={categoryName as ClubCategoryCode}
                         />
@@ -62,13 +83,15 @@ export default function ClubCard({
                     </div>
                 </div>
 
-                <p className="text-[#232323] text-body-01 font-semibold leading-normal m-0 mb-[5px] whitespace-nowrap overflow-hidden text-ellipsis">
-                    {title}
-                </p>
+                <div className="flex flex-col">
+                    <span className="text-gray-900 text-b2 font-semibold leading-normal m-0 mb-[5px] whitespace-nowrap overflow-hidden text-ellipsis">
+                        {title}
+                    </span>
 
-                <p className="text-neutral-600 text-small font-medium leading-normal w-full m-0 whitespace-nowrap overflow-hidden text-ellipsis text-left">
-                    {subTitle}
-                </p>
+                    <span className="text-neutral-600 text-b4 font-medium leading-normal w-full m-0 whitespace-nowrap overflow-hidden text-ellipsis text-left">
+                        {subTitle}
+                    </span>
+                </div>
             </div>
         </Link>
     );

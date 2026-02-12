@@ -168,7 +168,9 @@ export default function ClubSearchPage() {
 
                     <div className="flex flex-col items-center gap-2">
                         {isLoading ? (
-                            <div>로딩 중...</div>
+                            Array.from({ length: 6 }).map((_, index) => (
+                                <ClubCard key={index} to="" isLoading />
+                            ))
                         ) : data && allClubs.length > 0 ? (
                             allClubs.map((club) => {
                                 if (!club) return null;
