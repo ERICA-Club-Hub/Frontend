@@ -46,7 +46,7 @@ export default function ClubImageUpload({
                                 typeof previewImg === 'string' ? previewImg : ''
                             }
                             alt="image-preview"
-                            className="rounded-[10px] object-cover"
+                            className="w-full h-full rounded-[10px] object-cover"
                         />
                     )}
                 </label>
