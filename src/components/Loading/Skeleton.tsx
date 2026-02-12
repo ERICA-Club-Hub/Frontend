@@ -10,7 +10,7 @@ export default function Skeleton({ className, circle }: SkeletonProps) {
         <div
             className={cn(
                 'bg-neutral-200 animate-pulse',
-                circle ? 'rounded-full' : 'rounded-[10px]',
+                circle ? 'rounded-full' : 'rounded-sm',
                 className,
             )}
         />
