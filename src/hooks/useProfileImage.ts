@@ -3,6 +3,8 @@ import { useEffect } from 'react';
 
 /**
  * 동아리 프로필 이미지 설정 커스텀 훅
+ * - api 호출을 통해 받아온 이미지 URL을 File 객체로 변환하여 상태로 설정
+ * - 호출된 이미지 URL이 없을 경우 기본 플레이스홀더 이미지 사용
  * @param fetchImgUrl - api 호출을 통해 받아온 이미지 URL
  * @param setPostImg - 이미지 파일을 설정하는 상태 업데이트 함수 (api 전송용)
  */
@@ -16,9 +18,9 @@ const useProfileImage = ({
     useEffect(() => {
         const imgUrl = fetchImgUrl || '/placeholder-image.svg';
 
-        const file = convertURLtoFile(imgUrl);
+        const filePromise = convertURLtoFile(imgUrl);
 
-        file.then((res) => {
+        filePromise.then((res) => {
             if (res) {
                 setPostImg(res);
             }
