@@ -1,14 +1,18 @@
-export default function Skeleton({
-    width,
-    height,
-}: {
-    width: number;
-    height: number;
-}) {
+import { cn } from '@/utils/cn';
+
+interface SkeletonProps {
+    className?: string;
+    circle?: boolean;
+}
+
+export default function Skeleton({ className, circle }: SkeletonProps) {
     return (
         <div
-            className="rounded-[10px] animate-skeleton-fast"
-            style={{ width: `${width}px`, height: `${height}px` }}
+            className={cn(
+                'animate-skeleton-fast',
+                circle ? 'rounded-full' : 'rounded-sm',
+                className,
+            )}
         />
     );
 }

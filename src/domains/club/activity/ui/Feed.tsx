@@ -17,7 +17,7 @@ function Feed() {
             {isPending ? (
                 <div className="flex flex-wrap gap-x-[6px] gap-y-[7px] w-[318px] h-auto p-[10px] rounded-[10px] bg-white">
                     {Array.from({ length: 9 }).map((_, index) => (
-                        <Skeleton key={index} width={95} height={95} />
+                        <Skeleton key={index} className="w-23.75 h-23.75" />
                     ))}
                 </div>
             ) : isSuccess && activitiesLog.length > 0 ? (
