@@ -3,19 +3,27 @@ import Skeleton from '@/components/Loading/Skeleton';
 
 interface ClubDetailScheduleProps {
     data?: ClubScheduleResponse;
+    isLoading?: boolean;
 }
 
-export default function ClubDetailSchedule({ data }: ClubDetailScheduleProps) {
-    if (data === undefined) {
+export default function ClubDetailSchedule({
+    data,
+    isLoading = false,
+}: ClubDetailScheduleProps) {
+    if (isLoading) {
         return (
-            <div className="flex gap-2.5 items-center">
-                <Skeleton className="w-8.25 h-4.5 rounded-xl" />
-                <Skeleton className="h-4 flex-1 max-w-50" />
+            <div className="flex flex-col gap-1.5">
+                {Array.from({ length: 3 }).map((_, i) => (
+                    <div key={i} className="flex gap-2.5 items-center">
+                        <Skeleton className="w-8.25 h-4.5 rounded-xl" />
+                        <Skeleton className="h-4 flex-1 max-w-50" />
+                    </div>
+                ))}
             </div>
         );
     }
 
-    if (data.schedules?.length === 0) {
+    if (!data || !data.schedules || data.schedules.length === 0) {
         return (
             <div className="text-b4 text-neutral-400 py-4">
                 곧 업데이트될 예정이예요.
@@ -25,7 +33,7 @@ export default function ClubDetailSchedule({ data }: ClubDetailScheduleProps) {
 
     return (
         <div className="flex flex-col gap-1.5">
-            {data.schedules?.map((schedule, index) => (
+            {data.schedules.map((schedule, index) => (
                 <div
                     key={`${schedule.month}-${index}`}
                     className="flex gap-2.5 items-center"

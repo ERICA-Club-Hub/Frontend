@@ -15,7 +15,7 @@ export default function Schedule() {
     return (
         <section className="flex flex-col gap-2.5">
             <ClubDetailCard title="주요 연간 일정">
-                <ClubDetailSchedule data={scheduleData} />
+                <ClubDetailSchedule data={scheduleData} isLoading={isLoading} />
             </ClubDetailCard>
             <ClubDetailCard title="활동 안내">
                 <ClubDetailText
