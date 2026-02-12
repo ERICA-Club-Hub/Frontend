@@ -18,7 +18,10 @@ export default function ClubAdminDetailTab() {
 
     useEffect(() => {
         if (!currTypeParam) {
-            setSearchParams({ [CLUB_DETAIL_PARAM]: CLUB_DETAIL.INTRODUCTION });
+            setSearchParams(
+                { [CLUB_DETAIL_PARAM]: CLUB_DETAIL.INTRODUCTION },
+                { replace: true },
+            );
         }
     }, []);
 

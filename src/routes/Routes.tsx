@@ -19,7 +19,7 @@ import NoticePage from '@/pages/notice/NoticePage';
 import ClubSocialPage from '@/pages/social/ClubSocialPage';
 import ClubDetailPage from '@/pages/club/detail/ClubDetailPage';
 import ClubAdminDashboardPage from '@/pages/admin/club/dashboard/ClubAdminDashboardPage';
-import AdminClubDetailPage from '@/pages/admin/club/detail/AdminClubDetailPage';
+import ClubAdminDetailPage from '@/pages/admin/club/detail/ClubAdminDetailPage';
 import SummaryInfoPage from '@/pages/admin/club/detail/section/SummaryInfoPage';
 import ClubIntroPage from '@/pages/admin/club/detail/section/ClubIntroPage';
 import RecruitNoticePage from '@/pages/admin/club/detail/section/RecruitNoticePage';
@@ -85,21 +85,15 @@ export default function AppRoutes() {
                     <Route path="profile" element={<ProfileManagePage />} />
 
                     {/* 동아리 상세 페이지  */}
-                    <Route
-                        path="/admin/club/:id"
-                        element={<AdminClubDetailPage />}
-                    >
+                    <Route path="detail" element={<ClubAdminDetailPage />}>
                         {/* 상세페이지 섹션 (요약정보, 동아리 소개, 모집안내) */}
                         <Route
-                            path="/admin/club/:id/summary-info"
+                            path="introduction"
                             element={<SummaryInfoPage />}
                         />
+                        <Route path="schedule" element={<ClubIntroPage />} />
                         <Route
-                            path="/admin/club/:id/club-intro"
-                            element={<ClubIntroPage />}
-                        />
-                        <Route
-                            path="/admin/club/:id/recruit-notice"
+                            path="recruitment"
                             element={<RecruitNoticePage />}
                         />
                     </Route>

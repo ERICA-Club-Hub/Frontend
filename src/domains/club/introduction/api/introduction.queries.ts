@@ -14,6 +14,5 @@ export const useClubIntroQuery = ({
     useClubApi<ClubDetailResponse>({
         clubId,
         isPreview,
-        endpoint: 'info',
         errorMessage: '동아리 정보 조회 실패',
     });

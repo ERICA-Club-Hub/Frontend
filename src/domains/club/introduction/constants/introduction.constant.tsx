@@ -38,56 +38,60 @@ export const CLUB_INFO_META: Record<ClubInfoKey, InfoMeta> = {
 } as const;
 
 // 동아리 소개 폼 필드 설정
-export const INTRODUCTION_FIELD_CONFIG: {
-    name: keyof ClubDetailRequest;
-    label: string;
-    required: boolean;
-    hintText?: string;
-    placeholder: string;
-}[] = [
+export const INTRO_FIELD_CONFIG: Record<
+    keyof ClubDetailRequest,
     {
+        name: keyof ClubDetailRequest;
+        label: string;
+        required: boolean;
+        hintText?: string;
+        placeholder: string;
+    }
+> = {
+    description: {
         name: 'description',
         label: '동아리 소개글',
         required: true,
         hintText: '자유롭게 소개 ∙ 홍보글을 작성해 주세요! (글자수 제한 없음)',
         placeholder: '동아리 소개글 작성',
     },
-    {
+    leaderName: {
         name: 'leaderName',
         label: '대표 이름',
         required: true,
         placeholder: '동아리 대표 이름 작성',
     },
-    {
+    contactEmail: {
         name: 'contactEmail',
         label: '문의 이메일',
         required: true,
         placeholder: '정확한 이메일 작성',
     },
-    {
+    leaderPhone: {
         name: 'leaderPhone',
         label: '연락처',
         required: false,
         placeholder: '"-" 포함 작성',
     },
-    {
+    membershipFee: {
         name: 'membershipFee',
         label: '회비',
         required: false,
         placeholder: '숫자로 작성',
+        hintText: '회비가 없다면, “회비 없음"으로 적어주세요.',
     },
-    {
+    snsAccount: {
         name: 'snsAccount',
         label: 'SNS',
         required: false,
         hintText: '인스타그램 계정이 있다면, 입력해 주세요.',
         placeholder: '"@" 포함 작성',
     },
-    {
+    applicationUrl: {
         name: 'applicationUrl',
         label: '동아리 신청폼 링크',
         required: false,
         hintText: '신규 신청을 받을 폼 URL을 정확히 입력해 주세요.',
         placeholder: 'https://',
     },
-] as const;
+} as const;
