@@ -8,6 +8,7 @@ import { useNavigate } from 'react-router-dom';
 import { FormValues } from '../model/profile.schema';
 import { createFormData } from './createFormData';
 import { PATHS } from '@/routes/paths';
+import { queryClient } from '@/api/queryClient';
 
 /**
  * 동아리 등록 요청
@@ -86,6 +87,11 @@ export const useUpdateProfileMutation = () => {
                     'Content-Type': 'multipart/form-data',
                 },
                 requireToken: true,
+            });
+        },
+        onSuccess: () => {
+            queryClient.invalidateQueries({
+                queryKey: ['clubs'],
             });
         },
         onError: (error) => {
