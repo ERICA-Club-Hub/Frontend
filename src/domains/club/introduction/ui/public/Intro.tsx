@@ -10,7 +10,7 @@ import ClubDetailText from '@/domains/shared/components/club-detail/ClubDetailTe
 export default function Intro() {
     const { id, isPreview } = useIsPreview();
 
-    const { data } = useClubApi<ClubDetailResponse>({
+    const { data, isLoading } = useClubApi<ClubDetailResponse>({
         clubId: id,
         isPreview,
         errorMessage: '정보 조회 실패',
@@ -23,7 +23,11 @@ export default function Intro() {
             </ClubDetailCard>
 
             <ClubDetailCard title="동아리 소개">
-                <ClubDetailText text={data?.description} />
+                <ClubDetailText
+                    text={data?.description}
+                    emptyText="소개글이 없습니다"
+                    isLoading={isLoading}
+                />
             </ClubDetailCard>
         </section>
     );

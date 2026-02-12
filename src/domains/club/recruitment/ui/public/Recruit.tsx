@@ -7,13 +7,14 @@ import ClubDetailCard from '@/domains/shared/components/layout/ClubDetailCard';
 
 export default function Recruit() {
     const { id, isPreview } = useIsPreview();
-    const { data } = useClubRecruitment({ clubId: id, isPreview });
+    const { data, isLoading } = useClubRecruitment({ clubId: id, isPreview });
     return (
         <section className="flex flex-col gap-2.5">
             <ClubDetailCard title="모집기간">
                 <ClubDetailText
                     text={data?.due}
                     emptyText="아직 정보가 없어요."
+                    isLoading={isLoading}
                 />
             </ClubDetailCard>
 
@@ -21,6 +22,7 @@ export default function Recruit() {
                 <ClubDetailText
                     text={data?.target}
                     emptyText="아직 정보가 없어요."
+                    isLoading={isLoading}
                 />
             </ClubDetailCard>
 
@@ -28,6 +30,7 @@ export default function Recruit() {
                 <ClubDetailText
                     text={data?.notice}
                     emptyText="아직 정보가 없어요."
+                    isLoading={isLoading}
                 />
             </ClubDetailCard>
 
@@ -35,6 +38,7 @@ export default function Recruit() {
                 <ClubDetailText
                     text={data?.etc}
                     emptyText="아직 정보가 없어요."
+                    isLoading={isLoading}
                 />
             </ClubDetailCard>
         </section>

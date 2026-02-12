@@ -8,7 +8,10 @@ import ClubDetailCard from '@/domains/shared/components/layout/ClubDetailCard';
 
 export default function Schedule() {
     const { id, isPreview } = useIsPreview();
-    const { data: scheduleData } = useClubSchedules({ clubId: id, isPreview });
+    const { data: scheduleData, isLoading } = useClubSchedules({
+        clubId: id,
+        isPreview,
+    });
     return (
         <section className="flex flex-col gap-2.5">
             <ClubDetailCard title="주요 연간 일정">
@@ -18,6 +21,7 @@ export default function Schedule() {
                 <ClubDetailText
                     text={scheduleData?.scheduleDescription}
                     emptyText="아직 정보가 없어요."
+                    isLoading={isLoading}
                 />
             </ClubDetailCard>
         </section>
