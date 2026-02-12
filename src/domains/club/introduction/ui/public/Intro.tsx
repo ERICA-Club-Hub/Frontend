@@ -19,7 +19,7 @@ export default function Intro() {
     return (
         <section className="flex flex-col gap-2.5">
             <ClubDetailCard title="동아리 기본 정보">
-                <ClubDetailDefaultInfo data={data} />
+                <ClubDetailDefaultInfo data={data} isLoading={isLoading} />
             </ClubDetailCard>
 
             <ClubDetailCard title="동아리 소개">
