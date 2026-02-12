@@ -1,14 +1,24 @@
 import { ClubScheduleResponse } from '@/api/data-contracts';
+import Skeleton from '@/components/Loading/Skeleton';
 
 interface ClubDetailScheduleProps {
     data?: ClubScheduleResponse;
 }
 
 export default function ClubDetailSchedule({ data }: ClubDetailScheduleProps) {
-    if (!data || data.schedules?.length === 0) {
+    if (data === undefined) {
+        return (
+            <div className="flex gap-2.5 items-center">
+                <Skeleton className="w-8.25 h-4.5 rounded-xl" />
+                <Skeleton className="h-4 flex-1 max-w-50" />
+            </div>
+        );
+    }
+
+    if (data.schedules?.length === 0) {
         return (
             <div className="text-b4 text-neutral-400 py-4">
-                등록된 일정이 없습니다.
+                곧 업데이트될 예정이예요.
             </div>
         );
     }
@@ -20,7 +30,7 @@ export default function ClubDetailSchedule({ data }: ClubDetailScheduleProps) {
                     key={`${schedule.month}-${index}`}
                     className="flex gap-2.5 items-center"
                 >
-                    <div className="w-8.25 px-2 py-0.5 bg-primary-50 text-primary-600 rounded-xl flex items-center justify-center text-c4">
+                    <div className="w-8.25 px-2 py-0.5 bg-primary-50 text-primary-600 rounded-xl flex items-center justify-center text-c4 shrink-0">
                         {schedule.month}월
                     </div>
                     <p className="text-b4 text-neutral-600">

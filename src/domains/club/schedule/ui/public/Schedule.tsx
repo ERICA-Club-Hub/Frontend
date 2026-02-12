@@ -15,7 +15,10 @@ export default function Schedule() {
                 <ClubDetailSchedule data={scheduleData} />
             </ClubDetailCard>
             <ClubDetailCard title="활동 안내">
-                <ClubDetailText text={scheduleData?.scheduleDescription} />
+                <ClubDetailText
+                    text={scheduleData?.scheduleDescription}
+                    emptyText="아직 정보가 없어요."
+                />
             </ClubDetailCard>
         </section>
     );
