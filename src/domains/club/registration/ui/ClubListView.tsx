@@ -19,7 +19,7 @@ export default function ClubListView({
         return (
             <div className="flex flex-col items-center gap-[10px] flex-1 w-[320px] pb-[45px]">
                 {Array.from({ length: 5 }).map((_, idx) => (
-                    <Skeleton width={320} height={85} key={idx} />
+                    <Skeleton key={idx} className="w-[320px] h-21.25" />
                 ))}
             </div>
         );
