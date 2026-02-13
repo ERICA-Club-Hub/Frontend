@@ -21,7 +21,8 @@ export const useClubApi = <T>({
     errorMessage,
 }: UseClubApiOptions) => {
     return useQuery({
-        queryKey: ['clubs', clubId, isPreview],
+        // TODO: 도메인별 쿼리키 분리 필요 (명확한 계층화 필요)
+        queryKey: ['clubs', endpoint, clubId, isPreview],
         queryFn: async (): Promise<T> => {
             const baseUrl = isPreview
                 ? `/api/clubs/club-admin/${clubId}`
