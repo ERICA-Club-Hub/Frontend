@@ -20,9 +20,6 @@ import ClubSocialPage from '@/pages/social/ClubSocialPage';
 import ClubDetailPage from '@/pages/club/detail/ClubDetailPage';
 import ClubAdminDashboardPage from '@/pages/admin/club/dashboard/ClubAdminDashboardPage';
 import ClubAdminDetailPage from '@/pages/admin/club/detail/ClubAdminDetailPage';
-import SummaryInfoPage from '@/pages/admin/club/detail/section/SummaryInfoPage';
-import ClubIntroPage from '@/pages/admin/club/detail/section/ClubIntroPage';
-import RecruitNoticePage from '@/pages/admin/club/detail/section/RecruitNoticePage';
 import WrongAccessPage from '@/pages/error/WrongAccessPage';
 import NetworkErrorPage from '@/pages/error/NetworkErrorPage';
 import UnknownErrorPage from '@/pages/error/UnknownErrorPage';
@@ -85,18 +82,7 @@ export default function AppRoutes() {
                     <Route path="profile" element={<ProfileManagePage />} />
 
                     {/* 동아리 상세 페이지  */}
-                    <Route path="detail" element={<ClubAdminDetailPage />}>
-                        {/* 상세페이지 섹션 (요약정보, 동아리 소개, 모집안내) */}
-                        <Route
-                            path="introduction"
-                            element={<SummaryInfoPage />}
-                        />
-                        <Route path="schedule" element={<ClubIntroPage />} />
-                        <Route
-                            path="recruitment"
-                            element={<RecruitNoticePage />}
-                        />
-                    </Route>
+                    <Route path="detail" element={<ClubAdminDetailPage />} />
                 </Route>
 
                 {/* --- 서비스 어드민 --- */}
