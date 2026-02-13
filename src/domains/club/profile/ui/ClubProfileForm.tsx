@@ -149,7 +149,10 @@ export default function ClubProfileForm({
                                     !!method.formState.errors.leaderEmail &&
                                     method.formState.touchedFields.leaderEmail
                                 }
-                                errorMessage="올바른 이메일 형식이 아니에요."
+                                errorMessage={
+                                    method.formState.errors.leaderEmail
+                                        ?.message ?? ''
+                                }
                             />
                         </FormItem>
                     )}
