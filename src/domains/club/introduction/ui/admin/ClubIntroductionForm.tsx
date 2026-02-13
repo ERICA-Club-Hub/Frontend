@@ -9,6 +9,10 @@ import { useClubIntroQuery } from '../../api/introduction.queries';
 import { useParams } from 'react-router-dom';
 import { useEffect } from 'react';
 import TextArea from '@/components/InputField/TextArea';
+import { useUpdateClubDetailMutation } from '../../api/introduction.mutations';
+import useModal from '@/components/Modal/useModal';
+import { ALERT_MODAL_MESSAGE } from '@/components/Modal/modal.constant';
+import { AlertModal } from '@/components/Modal/AlertModal';
 
 export default function ClubIntroductionForm() {
     const { id: clubId } = useParams<{ id: string }>();
@@ -25,11 +29,14 @@ export default function ClubIntroductionForm() {
         },
         mode: 'onChange',
     });
+    const modal = useModal();
 
     const { data } = useClubIntroQuery({
         clubId,
         isPreview: false,
     });
+    const { mutate: update } = useUpdateClubDetailMutation();
+
     useEffect(() => {
         if (data) {
             method.reset({
@@ -45,7 +52,21 @@ export default function ClubIntroductionForm() {
     }, [data, method]);
 
     const onSubmit: SubmitHandler<IntroSchema> = (formValues) => {
-        console.log(formValues);
+        if (!clubId) return;
+
+        const payload = {
+            data: formValues,
+            clubId: Number(clubId),
+        };
+
+        update(payload, {
+            onSuccess: async () => {
+                await modal.push('prompt', AlertModal, {
+                    title: ALERT_MODAL_MESSAGE.SAVE.title,
+                    actionLabel: ALERT_MODAL_MESSAGE.SAVE.actionLabel,
+                });
+            },
+        });
     };
 
     return (
@@ -102,6 +123,14 @@ export default function ClubIntroductionForm() {
                         id={INTRO_FIELD_CONFIG.contactEmail.name}
                         placeholder={
                             INTRO_FIELD_CONFIG.contactEmail.placeholder
+                        }
+                        isError={
+                            'contactEmail' in method.formState.errors &&
+                            !!method.formState.errors.contactEmail &&
+                            method.formState.touchedFields.contactEmail
+                        }
+                        errorMessage={
+                            method.formState.errors.contactEmail?.message ?? ''
                         }
                     />
                 </FormItem>
