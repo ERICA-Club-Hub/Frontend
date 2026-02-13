@@ -45,9 +45,9 @@ export interface TooltipProps extends VariantProps<typeof tooltipVariants> {
 }
 
 const arrowPositionMap: Record<ArrowAlignment, string> = {
-    left: 'left-4',
+    left: 'left-2',
     center: 'left-1/2 -translate-x-1/2',
-    right: 'right-4',
+    right: 'right-2',
 };
 
 /**
