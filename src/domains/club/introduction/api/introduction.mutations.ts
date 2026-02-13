@@ -7,7 +7,7 @@ import { apiRequest } from '@/api/apiRequest';
 /**
  * 동아리 상세 정보 입력 및 수정
  */
-export const useUpdateClubDetailMutation = () => {
+export const useUpdateClubIntroMutation = () => {
     const { handleError } = useErrorHandler();
 
     return useMutation({

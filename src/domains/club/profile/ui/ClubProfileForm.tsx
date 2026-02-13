@@ -99,7 +99,7 @@ export default function ClubProfileForm({
         <div className="w-full flex flex-col items-center pt-[20px]">
             <div>
                 <h1 className="w-full mb-[20px] text-b2 text-neutral-900">
-                    {mode === 'register'
+                    {mode === 'update'
                         ? '동아리 기본 등록 정보'
                         : '절차에 따라 동아리를 신청해 주세요.'}
                 </h1>

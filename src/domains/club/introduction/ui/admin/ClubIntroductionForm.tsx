@@ -9,7 +9,7 @@ import { useClubIntroQuery } from '../../api/introduction.queries';
 import { useParams } from 'react-router-dom';
 import { useEffect } from 'react';
 import TextArea from '@/components/InputField/TextArea';
-import { useUpdateClubDetailMutation } from '../../api/introduction.mutations';
+import { useUpdateClubIntroMutation } from '../../api/introduction.mutations';
 import useModal from '@/components/Modal/useModal';
 import { ALERT_MODAL_MESSAGE } from '@/components/Modal/modal.constant';
 import { AlertModal } from '@/components/Modal/AlertModal';
@@ -35,7 +35,7 @@ export default function ClubIntroductionForm() {
         clubId,
         isPreview: false,
     });
-    const { mutate: update } = useUpdateClubDetailMutation();
+    const { mutate: update } = useUpdateClubIntroMutation();
 
     useEffect(() => {
         if (data) {
