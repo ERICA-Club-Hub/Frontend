@@ -10,18 +10,18 @@ export default function ClubDetailPage() {
 
     return (
         <div className="flex flex-col items-center">
-            <div className="bg-neutral-00 w-full">
+            <div className="bg-neutral-00 w-full bg-[skyblue]">
                 <ClubDetailHeader />
-                <div className="w-full flex justify-center h-11.75">
+                <div className="w-full flex justify-center">
                     <ClubDetailTab
                         setActiveTab={setActiveTab}
                         activeTab={activeTab}
                     />
                 </div>
             </div>
-            <div className="mt-3.75 mb-5">
+            <main className="p-[16px]">
                 <TabContents activeTab={activeTab} />
-            </div>
+            </main>
         </div>
     );
 }

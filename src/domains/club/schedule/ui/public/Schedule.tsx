@@ -1,14 +1,12 @@
-import {
-    useClubSchedules,
-    useIsPreview,
-} from '@/domains/club/introduction/api/club-info.queries';
+import { useIsPreview } from '@/domains/shared/api/club.queries';
 import ClubDetailSchedule from './ClubDetailSchedule';
 import ClubDetailText from '@/domains/shared/components/club-detail/ClubDetailText';
 import ClubDetailCard from '@/domains/shared/components/layout/ClubDetailCard';
+import { useClubScheduleQuery } from '../../api/schedule.queries';
 
 export default function Schedule() {
     const { id, isPreview } = useIsPreview();
-    const { data: scheduleData, isLoading } = useClubSchedules({
+    const { data: scheduleData, isLoading } = useClubScheduleQuery({
         clubId: id,
         isPreview,
     });

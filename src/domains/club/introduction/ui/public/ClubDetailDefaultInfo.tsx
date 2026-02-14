@@ -1,10 +1,11 @@
 import { ClubDetailResponse } from '@/api/data-contracts';
 import { formatClubInfo } from '@/domains/shared/utils/formatClubInfo';
+
+import Skeleton from '@/components/Loading/Skeleton';
 import {
     CLUB_INFO_META,
     DISPLAY_ORDER,
-} from '../../constants/club-info.constants';
-import Skeleton from '@/components/Loading/Skeleton';
+} from '../../constants/introduction.constant';
 
 interface ClubDetailDefaultInfoProps {
     data?: ClubDetailResponse;

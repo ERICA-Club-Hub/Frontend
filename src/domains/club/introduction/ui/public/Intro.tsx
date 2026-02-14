@@ -1,11 +1,8 @@
-import {
-    useClubApi,
-    useIsPreview,
-} from '@/domains/club/introduction/api/club-info.queries';
-import { ClubDetailResponse } from '@/api/data-contracts';
 import ClubDetailDefaultInfo from '@/domains/club/introduction/ui/public/ClubDetailDefaultInfo';
 import ClubDetailCard from '@/domains/shared/components/layout/ClubDetailCard';
 import ClubDetailText from '@/domains/shared/components/club-detail/ClubDetailText';
+import { useClubApi, useIsPreview } from '@/domains/shared/api/club.queries';
+import { ClubDetailResponse } from '@/api/data-contracts';
 
 export default function Intro() {
     const { id, isPreview } = useIsPreview();

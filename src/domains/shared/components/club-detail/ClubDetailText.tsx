@@ -19,5 +19,5 @@ export default function ClubDetailText({
         return <span className="text-b4 text-neutral-600">{emptyText}</span>;
     }
 
-    return <span className="text-b4 text-neutral-600">{text}</span>;
+    return <span className="text-b4 text-neutral-600 whitespace-pre-wrap">{text}</span>;
 }
