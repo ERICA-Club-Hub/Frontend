@@ -1,8 +1,8 @@
 import ClubDetailDefaultInfo from '@/domains/club/introduction/ui/public/ClubDetailDefaultInfo';
 import ClubDetailCard from '@/domains/shared/components/layout/ClubDetailCard';
 import ClubDetailText from '@/domains/shared/components/club-detail/ClubDetailText';
-import { useIsPreview } from '@/domains/shared/api/club.queries';
-import { useClubIntroQuery } from '../../api/introduction.queries';
+import { useClubApi, useIsPreview } from '@/domains/shared/api/club.queries';
+import { ClubDetailResponse } from '@/api/data-contracts';
 
 export default function Intro() {
     const { id, isPreview } = useIsPreview();
@@ -10,6 +10,7 @@ export default function Intro() {
     const { data, isLoading } = useClubApi<ClubDetailResponse>({
         clubId: id,
         isPreview,
+        errorMessage: '정보 조회 실패',
     });
 
     return (
