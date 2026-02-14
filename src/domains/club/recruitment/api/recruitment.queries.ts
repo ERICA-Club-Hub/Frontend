@@ -12,7 +12,7 @@ export const useClubRecruitmentQuery = ({
     clubId: string | undefined;
 }) => {
     return useQuery({
-        queryKey: ['clubs', 'recruitment'],
+        queryKey: ['clubs', 'recruitment', clubId],
         queryFn: async (): Promise<APIResponse<ClubRecruitmentResponse>> =>
             apiRequest({
                 url: `/api/clubs/${clubId}/recruitment`,
