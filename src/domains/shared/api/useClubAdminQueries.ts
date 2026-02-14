@@ -78,39 +78,6 @@ function useClubAdminQueries() {
         return { mutate, isPending, isSuccess };
     };
 
-    // 동아리 소개글 정보 불러오기
-    const useClubDescriptionQuery = (
-        setInputValue: React.Dispatch<React.SetStateAction<IClubIntroValue>>,
-    ) => {
-        const { isSuccess, data, isError } = useQuery({
-            queryKey: [clubId, 'clubDescription'],
-            queryFn: async () => {
-                return await apiRequest({
-                    url: `/api/clubs/${clubId}/introduction`,
-                    method: 'GET',
-                    requireToken: true,
-                });
-            },
-            // 데이터 구조 변경
-            select: (data) => ({
-                introduction: data.result.introduction || '',
-                activity: data.result.activity || '',
-                recruitment: data.result.recruitment || '',
-            }),
-            staleTime: 5 * 60 * 1000, // 5분
-        });
-
-        useEffect(() => {
-            if (isSuccess && data) {
-                setInputValue(data);
-            }
-
-            if (isError) {
-                console.error('동아리 소개글 불러오기 실패');
-            }
-        }, [isSuccess, data]);
-    };
-
     // 동아리 소개 저장
     const useSaveClubIntroMutation = ({
         inputValue,
@@ -339,7 +306,6 @@ function useClubAdminQueries() {
         useSaveClubIntroMutation,
         useEventSchedulesQuery,
         useDeleteEventScheduleMutation,
-        useClubDescriptionQuery,
         useActivitiesLogQuery,
         useDetailActivitiesLogQuery,
         useUpdateActivityLogMutation,
