@@ -27,14 +27,19 @@ export default function ClubSocialPage() {
     const selectedCollege = searchParams.get('college');
     const selectedDepartment = searchParams.get('department');
 
-    const { accounts, fetchNextPage, hasNextPage, isFetchingNextPage } =
-        useClubSNSByType({
-            clubType: currentTabParam,
-            category: selectedCategory || undefined,
-            college: selectedCollege || undefined,
-            department: selectedDepartment || undefined,
-            size: 12,
-        });
+    const {
+        accounts,
+        fetchNextPage,
+        hasNextPage,
+        isFetchingNextPage,
+        isLoading,
+    } = useClubSNSByType({
+        clubType: currentTabParam,
+        category: selectedCategory || undefined,
+        college: selectedCollege || undefined,
+        department: selectedDepartment || undefined,
+        size: 12,
+    });
 
     useEffect(() => {
         const handleScroll = () => {
@@ -119,21 +124,32 @@ export default function ClubSocialPage() {
                 </div>
 
                 <div className="grid grid-cols-3 gap-x-[10px] gap-y-2 py-2 pb-5">
-                    {accounts.length > 0 &&
-                        accounts.map((account, index) => (
-                            <ClubSocialItem
-                                key={`${account.clubName}-${account.accountName}-${index}`}
-                                clubName={account.clubName ?? ''}
-                                clubLogoUrl={account.profileImage}
-                                clubSNSId={account.accountName ?? ''}
-                                onClick={() =>
-                                    window.open(
-                                        account.instagramProfileUrl,
-                                        '_blank',
-                                    )
-                                }
-                            />
-                        ))}
+                    {isLoading
+                        ? Array.from({ length: 12 }).map((_, index) => (
+                              <ClubSocialItem
+                                  key={index}
+                                  clubName=""
+                                  clubSNSId=""
+                                  onClick={() => {}}
+                                  isLoading
+                              />
+                          ))
+                        : accounts.length > 0
+                        ? accounts.map((account, index) => (
+                              <ClubSocialItem
+                                  key={`${account.clubName}-${account.accountName}-${index}`}
+                                  clubName={account.clubName ?? ''}
+                                  clubLogoUrl={account.profileImage}
+                                  clubSNSId={account.accountName ?? ''}
+                                  onClick={() =>
+                                      window.open(
+                                          account.instagramProfileUrl,
+                                          '_blank',
+                                      )
+                                  }
+                              />
+                          ))
+                        : null}
                 </div>
             </div>
         </div>

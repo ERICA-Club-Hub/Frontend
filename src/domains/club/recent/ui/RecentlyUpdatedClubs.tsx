@@ -8,7 +8,18 @@ export default function RecentlyUpdatedClubs() {
     const recentlyUpdatedClubs = data?.result?.content || [];
 
     if (isLoading) {
-        return <div>로딩 중...</div>;
+        return (
+            <section className="flex flex-col">
+                <h3 className="font-medium text-subtitle-01 mt-[30px] mb-5">
+                    최근 업데이트된 동아리
+                </h3>
+                <section className="flex flex-col gap-[7px]">
+                    {Array.from({ length: 3 }).map((_, index) => (
+                        <ClubCard key={index} to="" isLoading />
+                    ))}
+                </section>
+            </section>
+        );
     }
 
     return (

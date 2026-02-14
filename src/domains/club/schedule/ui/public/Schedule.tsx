@@ -6,17 +6,21 @@ import { useClubScheduleQuery } from '../../api/schedule.queries';
 
 export default function Schedule() {
     const { id, isPreview } = useIsPreview();
-    const { data: scheduleData } = useClubScheduleQuery({
+    const { data: scheduleData, isLoading } = useClubScheduleQuery({
         clubId: id,
         isPreview,
     });
     return (
         <section className="flex flex-col gap-2.5">
             <ClubDetailCard title="주요 연간 일정">
-                <ClubDetailSchedule data={scheduleData} />
+                <ClubDetailSchedule data={scheduleData} isLoading={isLoading} />
             </ClubDetailCard>
             <ClubDetailCard title="활동 안내">
-                <ClubDetailText text={scheduleData?.scheduleDescription} />
+                <ClubDetailText
+                    text={scheduleData?.scheduleDescription}
+                    emptyText="아직 정보가 없어요."
+                    isLoading={isLoading}
+                />
             </ClubDetailCard>
         </section>
     );

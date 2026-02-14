@@ -1,5 +1,6 @@
 import { DEFAULT_IMG } from '@/constants/default-image.constant';
 import Button from '@/components/Button/Button';
+import Skeleton from '@/components/Loading/Skeleton';
 
 import { useClubDetail } from '@/domains/club/profile/model/useClubDetail';
 
@@ -14,7 +15,26 @@ export default function ClubDetailHeader() {
     const { data, isLoading } = useClubOverviewQuery({ clubId, isPreview });
 
     if (isLoading) {
-        return <div>로딩 중...</div>;
+        return (
+            <div className="mt-[110px] h-[200px] w-full min-h-[104px] flex p-[17px] flex-col justify-center items-center relative">
+                <Skeleton className="w-[75px] h-[75px] rounded-[10px] absolute -top-[35px] left-1/2 -translate-x-1/2" />
+
+                <div className="flex flex-col justify-center items-center">
+                    <div className="mt-[47px] flex justify-center flex-col items-center text-center gap-[5px] mb-[10px]">
+                        <Skeleton className="w-[150px] h-[24px]" />
+
+                        <Skeleton className="w-[200px] h-[18px]" />
+                    </div>
+
+                    <div className="flex gap-2 mb-5">
+                        <Skeleton className="w-[80px] h-[24px] rounded-[4px]" />
+                        <Skeleton className="w-[70px] h-[24px] rounded-[4px]" />
+                    </div>
+                </div>
+
+                <Skeleton className="w-[320px] h-[45px] rounded-xl" />
+            </div>
+        );
     }
 
     return (
@@ -48,10 +68,9 @@ export default function ClubDetailHeader() {
                     }
                 }}
                 size="lg"
+                disabled={data?.recruitmentStatus !== 'OPEN'}
             >
-                {data?.recruitmentStatus !== 'OPEN'
-                    ? '모집이 마감되었어요.'
-                    : '가입 신청하기'}
+                가입 신청하기
             </Button>
         </div>
     );
