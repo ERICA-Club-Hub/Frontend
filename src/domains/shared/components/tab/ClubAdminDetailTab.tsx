@@ -3,8 +3,7 @@ import {
     CLUB_DETAIL,
     CLUB_DETAIL_PARAM,
 } from '@/constants/club-detail.constant';
-import { useEffect } from 'react';
-import { useSearchParams } from 'react-router-dom';
+import { Navigate, useSearchParams } from 'react-router-dom';
 
 export default function ClubAdminDetailTab() {
     const [searchParams, setSearchParams] = useSearchParams();
@@ -13,17 +12,20 @@ export default function ClubAdminDetailTab() {
     const handleTabChange = (tabKey: string) => {
         if (currTypeParam === tabKey) return;
 
-        setSearchParams({ [CLUB_DETAIL_PARAM]: tabKey });
+        setSearchParams((prev) => {
+            const newParams = new URLSearchParams(prev);
+            newParams.set(CLUB_DETAIL_PARAM, tabKey);
+            return newParams;
+        });
     };
 
-    useEffect(() => {
-        if (!currTypeParam) {
-            setSearchParams(
-                { [CLUB_DETAIL_PARAM]: CLUB_DETAIL.INTRODUCTION },
-                { replace: true },
-            );
-        }
-    }, []);
+    if (!currTypeParam)
+        return (
+            <Navigate
+                to={`?${CLUB_DETAIL_PARAM}=${CLUB_DETAIL.INTRODUCTION}`}
+                replace
+            />
+        );
 
     return (
         <Tab

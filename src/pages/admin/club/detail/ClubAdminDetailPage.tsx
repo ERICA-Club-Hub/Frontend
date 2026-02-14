@@ -16,7 +16,7 @@ export default function ClubAdminDetailPage() {
             case CLUB_DETAIL.INTRODUCTION:
                 return <ClubIntroductionForm />;
             case CLUB_DETAIL.SCHEDULE:
-                return;
+                return null;
             case CLUB_DETAIL.RECRUITMENT:
                 return <RecruitmentForm />;
         }
