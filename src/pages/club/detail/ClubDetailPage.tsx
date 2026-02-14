@@ -10,7 +10,7 @@ export default function ClubDetailPage() {
 
     return (
         <div className="flex flex-col items-center">
-            <div className="bg-neutral-00 w-full bg-[skyblue]">
+            <div className="bg-neutral-00 w-full">
                 <ClubDetailHeader />
                 <div className="w-full flex justify-center">
                     <ClubDetailTab
