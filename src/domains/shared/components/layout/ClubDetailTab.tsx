@@ -12,6 +12,7 @@ export default function ClubDetailTab({ setActiveTab, activeTab }: TabProps) {
             backgroundColor="white"
             value={activeTab}
             onChange={setActiveTab}
+            className="w-full h-[53px]"
         >
             <Tab.Item tabKey="intro">동아리 소개</Tab.Item>
             <Tab.Item tabKey="schedule">연간일정</Tab.Item>
