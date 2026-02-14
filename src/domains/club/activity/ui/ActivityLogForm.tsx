@@ -1,25 +1,18 @@
-import { useLocation } from 'react-router-dom';
-import { useEffect, useState } from 'react';
-import { IActivityLogValue } from '@/types/input-value.types';
+import { useState } from 'react';
 import { inputChangeHandler } from '@/utils/inputChangeHandler';
-import useAdminClubQueries from '@/domains/shared/api/useClubAdminQueries';
-import { useRecoilValue } from 'recoil';
-import { clubIdSelector } from '@/domains/auth/model/clubInfo.atom';
 import useBulletPointConverter from '@/hooks/useBulletPointConverter';
 import { dateFormatHandler, handleDateChange } from '@/utils/dateFormatHandler';
 import CarouselImage from './CarouselImage';
 import { ActivityLogProvider } from '@/domains/club/activity/contexts/ActivityLogContext';
-import axios from 'axios';
-import { useErrorHandler } from '@/hooks/useErrorHandler';
 import TextArea from '@/components/InputField/TextArea';
 import Button from '@/components/Button/Button';
 
-function ActivityLogForm({ mode }: { mode: string }) {
-    const location = useLocation();
-    const { activityId } = location.state || {}; // 전달된 state에서 id 받아오기 -> id가 있으면 해당 동아리 활동로그 상세(현재 폼)로 이동
-    const clubId = useRecoilValue(clubIdSelector);
-    const { handleError } = useErrorHandler();
+type IActivityLogValue = {
+    content: string;
+    date: string;
+};
 
+function ActivityLogForm({ mode }: { mode: string }) {
     // 로컬 상태
     const [inputValue, setInputValue] = useState<IActivityLogValue>({
         content: '',
@@ -29,30 +22,6 @@ function ActivityLogForm({ mode }: { mode: string }) {
     const [previewImg, setPreviewImg] = useState<string[]>([]); // 미리보기 이미지
     const [currentIdx, setCurrentIdx] = useState<number>(0);
     const [isEditBtnClicked, setIsEditBtnClicked] = useState<boolean>(false);
-
-    // 활동로그 생성 mutation 호출
-    const {
-        useDetailActivitiesLogQuery,
-        useCreateActivityLogMutation,
-        useUpdateActivityLogMutation,
-    } = useAdminClubQueries();
-    const createActivityLogMutation = useCreateActivityLogMutation(clubId);
-    const updateActivityLogMutation = useUpdateActivityLogMutation(activityId);
-
-    // 활동로그 상세 불러오기 Query 호출
-    const { error } = useDetailActivitiesLogQuery({
-        activityId: activityId,
-        setInputValue,
-        setPreviewImg,
-        setPostImg,
-    });
-
-    // 토큰 만료 처리
-    useEffect(() => {
-        if (axios.isAxiosError(error) && error.response?.status === 401) {
-            handleError(error);
-        }
-    }, [error]);
 
     // 저장하기 or 수정하기
     const handleSaveActivityLog = () => {
@@ -79,10 +48,9 @@ function ActivityLogForm({ mode }: { mode: string }) {
         }
 
         if (mode === 'register') {
-            createActivityLogMutation.mutate(formData);
+            // 활동로그 생성 API 호출
         } else if (mode === 'edit') {
-            // 이미지 변경점이 없으면 보내지 않음
-            updateActivityLogMutation.mutate(formData);
+            // 활동로그 수정 API 호출
         }
     };
 
