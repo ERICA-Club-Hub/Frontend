@@ -49,24 +49,20 @@ export default function RecruitmentForm() {
     const onSubmit: SubmitHandler<RecruitmentSchema> = (formValues) => {
         if (!clubId) return;
 
-        const payload = {
-            data: {
-                due: formValues.due || '',
-                target: formValues.target || '',
-                notice: formValues.notice || '',
-                etc: formValues.etc || '',
+        update(
+            {
+                data: formValues,
+                clubId: Number(clubId),
             },
-            clubId: Number(clubId),
-        };
-
-        update(payload, {
-            onSuccess: async () => {
-                await modal.push('prompt', AlertModal, {
-                    title: ALERT_MODAL_MESSAGE.SAVE.title,
-                    actionLabel: ALERT_MODAL_MESSAGE.SAVE.actionLabel,
-                });
+            {
+                onSuccess: async () => {
+                    await modal.push('prompt', AlertModal, {
+                        title: ALERT_MODAL_MESSAGE.SAVE.title,
+                        actionLabel: ALERT_MODAL_MESSAGE.SAVE.actionLabel,
+                    });
+                },
             },
-        });
+        );
     };
 
     return (

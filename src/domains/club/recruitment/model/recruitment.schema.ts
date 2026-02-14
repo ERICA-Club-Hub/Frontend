@@ -1,10 +1,10 @@
 import { z } from 'zod';
 
 const recruitmentSchema = z.object({
-    due: z.string().optional(),
-    target: z.string().optional(),
-    notice: z.string().optional(),
-    etc: z.string().optional(),
+    due: z.string().optional().default(''),
+    target: z.string().optional().default(''),
+    notice: z.string().optional().default(''),
+    etc: z.string().optional().default(''),
 });
 
 type RecruitmentSchema = z.infer<typeof recruitmentSchema>;
