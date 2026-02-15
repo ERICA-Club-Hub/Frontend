@@ -12,7 +12,7 @@ export const useUpdateScheduleMutation = ({
     return useMutation({
         mutationFn: async (data: SchedulesSchema) => {
             return await apiRequest({
-                url: `/api/clubs/club-admin/${clubId}/scheduless`,
+                url: `/api/clubs/club-admin/${clubId}/schedules`,
                 method: 'POST',
                 data,
                 requireToken: true,

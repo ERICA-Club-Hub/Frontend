@@ -32,7 +32,7 @@ export default function ScheduleItem({
                     inputType="date"
                     name={`schedules.${index}.content`}
                     placeholder="일정을 입력해 주세요."
-                    maxLength={30}
+                    maxLength={29}
                 />
                 <button
                     type="button"
