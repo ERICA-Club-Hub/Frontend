@@ -24,11 +24,11 @@ const createDropdown = <T,>() => {
         className,
         ...props
     }: {
-        itemOptions: T[];
+        itemOptions: readonly T[];
         children: React.ReactNode;
         className?: string;
     } & ComponentProps<'div'>) {
-        const [items, setItems] = useState<T[]>(itemOptions);
+        const [items, setItems] = useState<T[]>([...itemOptions]);
         const [isOpen, setIsOpen] = useState<boolean>(false);
         const [selectedIndex, setSelectedIndex] = useState<number>(-1);
 
