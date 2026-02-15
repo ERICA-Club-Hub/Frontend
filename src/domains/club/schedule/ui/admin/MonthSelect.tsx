@@ -26,11 +26,8 @@ export default function MonthSelect({
     const hasSelectedValue = !!selectedValue;
 
     return (
-        <Dropdown.Container itemOptions={[...months]} className={cn('w-max')}>
-            <SyncSelection
-                options={[...months]}
-                selectedValue={selectedValue}
-            />
+        <Dropdown.Container itemOptions={months} className={cn('w-max')}>
+            <SyncSelection options={months} selectedValue={selectedValue} />
 
             <Dropdown.Trigger
                 className={cn(
@@ -92,8 +89,8 @@ function SyncSelection({
     options,
     selectedValue,
 }: {
-    options: MonthItemType[];
-    selectedValue?: number | null;
+    options: readonly MonthItemType[];
+    selectedValue?: MonthValue | null;
 }) {
     const { setSelectedIndex } = useDropdown();
 
