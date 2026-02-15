@@ -69,25 +69,27 @@ export default function RecruitmentForm() {
         <div className="flex flex-col items-center w-full">
             <form
                 onSubmit={method.handleSubmit(onSubmit)}
-                className="flex flex-col"
+                className="flex flex-col justify-between min-h-[calc(100vh-129px)]"
             >
                 {/* 모집 필드 */}
-                {RECRUIT_FIELD_CONFIG.map((field) => (
-                    <FormItem
-                        key={field.name}
-                        label={field.label}
-                        id={field.name}
-                        required={field.required}
-                        hintText={field.hintText}
-                    >
-                        <TextArea
-                            {...method.register(field.name)}
+                <div>
+                    {RECRUIT_FIELD_CONFIG.map((field) => (
+                        <FormItem
+                            key={field.name}
+                            label={field.label}
                             id={field.name}
-                            placeholder={field.placeholder}
-                            className="min-h-[108px]"
-                        />
-                    </FormItem>
-                ))}
+                            required={field.required}
+                            hintText={field.hintText}
+                        >
+                            <TextArea
+                                {...method.register(field.name)}
+                                id={field.name}
+                                placeholder={field.placeholder}
+                                className="min-h-[108px]"
+                            />
+                        </FormItem>
+                    ))}
+                </div>
 
                 <div className="flex justify-end items-center gap-[12px] w-full my-[28px]">
                     <Button

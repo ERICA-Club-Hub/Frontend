@@ -1,4 +1,3 @@
-import PlusIcon from '@/assets/common/plus-icon.svg?react';
 import ArrowIcon from '@/assets/common/Expand_right.svg?react';
 import useActivityLogContext from '@/domains/club/activity/contexts/useActivityLogContext';
 import ImageListUpload from '@/components/ImageUpload/ImageListUpload';
@@ -62,7 +61,7 @@ export default function CarouselImage() {
                 {/* 이미지 없을 때 플러스 아이콘 */}
                 {Array.isArray(postImg) && postImg[currentIdx] ? null : (
                     <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 cursor-pointer">
-                        <PlusIcon width={24} height={24} strokeWidth={2} />
+                        {/* 아이콘 추가 */}
                     </div>
                 )}
             </div>
