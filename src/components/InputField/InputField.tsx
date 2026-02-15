@@ -9,8 +9,6 @@ interface InputFieldProps extends Omit<ComponentProps<'input'>, 'size'> {
     errorMessage?: string;
     hintText?: string;
     leftIcon?: React.ReactNode;
-    rightIcon?: React.ReactNode;
-    onIconClick?: () => void;
     className?: string;
 }
 
@@ -22,8 +20,6 @@ interface InputFieldProps extends Omit<ComponentProps<'input'>, 'size'> {
  * @param {string} errorMessage - 오류 메시지
  * @param {string} hintText - 힌트 텍스트 (인풋 필드 하단에 표시)
  * @param {React.ReactNode} leftIcon - 왼쪽 아이콘 (e.g. 검색 아이콘)
- * @param {React.ReactNode} rightIcon - 오른쪽 아이콘 (e.g. 삭제 아이콘)
- * @param {() => void} onIconClick - 아이콘 클릭 핸들러 (우측 삭제 아이콘에만 적용)
  * @param {string} className - 추가적인 CSS 클래스 이름
  *
  */
@@ -36,8 +32,6 @@ const InputField = forwardRef<HTMLInputElement, InputFieldProps>(
             errorMessage,
             hintText,
             leftIcon,
-            rightIcon,
-            onIconClick,
             className,
             ...props
         },
@@ -63,17 +57,6 @@ const InputField = forwardRef<HTMLInputElement, InputFieldProps>(
                         )}
                         {...props}
                     />
-                    {rightIcon && (
-                        <button
-                            type="button"
-                            className={cn(
-                                'absolute top-1/2 right-[12px] -translate-y-1/2',
-                            )}
-                            onClick={onIconClick}
-                        >
-                            {rightIcon}
-                        </button>
-                    )}
                 </div>
 
                 {isError && errorMessage && (
