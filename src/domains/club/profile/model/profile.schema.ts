@@ -29,7 +29,7 @@ const baseSchema = z.object({
     clubType: z.string().min(1) as z.ZodType<ClubType>,
     category: categorySchema,
     image: z.string().optional(),
-    oneLiner: z.string().min(1).max(18),
+    oneLiner: z.string().min(1).max(17),
 });
 
 const profileSchema = baseSchema.superRefine(validateClubCategoryRequirement);
