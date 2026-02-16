@@ -37,6 +37,11 @@ export default function ClubDetailHeader() {
         );
     }
 
+    const isButtonEnabled =
+        (data?.recruitmentStatus === 'OPEN' ||
+            data?.recruitmentStatus === 'ALWAYS_OPEN') &&
+        !!data?.applicationUrl;
+
     return (
         <div className="mt-[110px] h-[200px] w-full min-h-[104px] flex p-[17px] flex-col justify-center items-center relative">
             <img
@@ -68,7 +73,7 @@ export default function ClubDetailHeader() {
                     }
                 }}
                 size="lg"
-                disabled={data?.recruitmentStatus !== 'OPEN'}
+                disabled={!isButtonEnabled}
             >
                 가입 신청하기
             </Button>
