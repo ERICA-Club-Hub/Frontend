@@ -76,7 +76,7 @@ export default function ClubSocialPage() {
                     <SearchTab />
                 </div>
 
-                <div className="min-w-[320px] flex mt-2 gap-[5px] scrollbar-none relative justify-end">
+                <div className="min-w-[320px] flex mt-4 gap-[5px] scrollbar-none relative justify-end">
                     {currentTabParam === 'central' && (
                         <CentralCategoryDropdown
                             selectedValue={selectedCategory}
