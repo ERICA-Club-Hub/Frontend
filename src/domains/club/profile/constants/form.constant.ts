@@ -62,4 +62,4 @@ export const CATEGORY_CONFIG: Record<
     },
 };
 
-export const ONE_LINER_MAX_LENGTH = 18;
+export const ONE_LINER_MAX_LENGTH = 17;

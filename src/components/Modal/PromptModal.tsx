@@ -68,6 +68,13 @@ export function PromptModal({
     const handleSubmit = async (e: FormEvent) => {
         e.preventDefault();
 
+        // 빈 입력 모달 닫기
+        if (inputValue.trim().length === 0) {
+            resolve(null);
+            closeModal();
+            return;
+        }
+
         // 이메일 검증
         if (validate && !validate(inputValue)) {
             setIsValid(false);
@@ -132,13 +139,11 @@ export function PromptModal({
 
                     <button
                         type="submit"
-                        disabled={
-                            inputValue.length === 0 || !isValid || isSubmitting
-                        }
+                        disabled={!isValid || isSubmitting}
                         className={cn(
                             'w-[280px] h-[37px] rounded-[8px] text-b3 transition-all duration-300 ease-in',
                             (inputValue.length === 0 || !isValid) &&
-                                'text-neutral-600 bg-neutral-200 cursor-not-allowed',
+                                'border-[0.6px] border-solid border-neutral-600 text-neutral-600 bg-neutral-50',
                             inputValue.length > 0 &&
                                 'text-neutral-50 bg-brand cursor-pointer',
                         )}
