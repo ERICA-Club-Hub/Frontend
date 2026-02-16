@@ -5,10 +5,10 @@ import { ClubType } from '../../search/api/useClubList';
 
 export const useClubSNS = () => {
     const { data, isLoading, isError } = useQuery({
-        queryKey: ['club', 'instagram', 'popular'],
+        queryKey: ['club', 'instagram', 'popular', 'main'],
         queryFn: async (): Promise<ApiResponseGetInstagrams> => {
             const response = await apiRequest({
-                url: '/api/clubs/instagram/popular',
+                url: '/api/clubs/instagram/main',
             });
             return response;
         },
