@@ -2,9 +2,8 @@ import TabContents from './TabContents';
 import ClubDetailHeader from '@/domains/club/profile/ui/ClubDetailHeader';
 import { useClubDetail } from '@/domains/club/profile/model/useClubDetail';
 import ClubDetailTab from '@/domains/shared/components/layout/ClubDetailTab';
-import useTooltip from '@/hooks/useTooltip';
 import Tooltip from '@/components/Tooltip/Tooltip';
-import AlarmIcon from '@/assets/common/alarmIcon.svg?react';
+import AlarmIcon from '@/assets/club-detail/alarmIcon.svg?react';
 import useModal from '@/components/Modal/useModal';
 import { PromptModal } from '@/components/Modal/PromptModal';
 import { AlertModal } from '@/components/Modal/AlertModal';
@@ -15,6 +14,7 @@ import {
 import z from 'zod';
 import { useRecruitmentEmailMutation } from '@/domains/club/recruitment/api/recruitment-email.mutations';
 import { useNavigate } from 'react-router-dom';
+import useTooltip from '@/components/Tooltip/useTooltip';
 
 export type activeTab = 'intro' | 'schedule' | 'recruit-info';
 
