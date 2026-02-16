@@ -31,11 +31,8 @@ export default function ClubIntroductionForm() {
     });
     const modal = useModal();
 
-    const { data } = useClubIntroQuery({
-        clubId,
-        isPreview: false,
-    });
-    const { mutate: update } = useUpdateClubIntroMutation();
+    const { data } = useClubIntroQuery(clubId);
+    const { mutate: update } = useUpdateClubIntroMutation(clubId);
 
     useEffect(() => {
         if (data) {

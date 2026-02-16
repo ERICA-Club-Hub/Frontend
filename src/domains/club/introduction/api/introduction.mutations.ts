@@ -7,17 +7,11 @@ import { apiRequest } from '@/api/apiRequest';
 /**
  * 동아리 상세 정보 입력 및 수정
  */
-export const useUpdateClubIntroMutation = () => {
+export const useUpdateClubIntroMutation = (clubId?: string) => {
     const { handleError } = useErrorHandler();
 
     return useMutation({
-        mutationFn: async ({
-            data,
-            clubId,
-        }: {
-            data: IntroSchema;
-            clubId: number;
-        }) => {
+        mutationFn: async ({ data }: { data: IntroSchema }) => {
             return await apiRequest({
                 url: `/api/clubs/club-admin/${clubId}`,
                 method: 'POST',
@@ -27,7 +21,7 @@ export const useUpdateClubIntroMutation = () => {
         },
         onSuccess: () => {
             queryClient.invalidateQueries({
-                queryKey: ['clubs'],
+                queryKey: ['clubs', 'introduction', clubId],
             });
         },
         onError: (error) => {

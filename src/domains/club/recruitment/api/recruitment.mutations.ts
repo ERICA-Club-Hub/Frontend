@@ -21,7 +21,7 @@ export const useUpdateRecruitStatusMutation = (clubId: number) => {
 
         onSuccess: () => {
             queryClient.invalidateQueries({
-                queryKey: ['clubs'],
+                queryKey: ['clubs', 'recruitment', clubId],
             });
         },
     });
