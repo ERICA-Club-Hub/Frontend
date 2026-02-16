@@ -32,7 +32,7 @@ export default function Toast() {
     return (
         <div
             className={cn(
-                'flex fixed bottom-[50%] left-1/2 ',
+                'flex fixed bottom-[40px] left-1/2 ',
                 'bg-[rgba(35,35,35,0.8)] backdrop-blur-[5px] text-white',
                 'min-w-[320px] w-max max-w-[340px]',
                 'min-h-[45px] h-fit',

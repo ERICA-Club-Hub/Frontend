@@ -1,11 +1,17 @@
 import createDropdown from '@/components/Dropdown/Dropdown';
 import ArrowIcon from '@/assets/common/dropdown_arrow.svg?react';
-import { months } from '@/domains/shared/constants/club-detail-register.constant';
+import {
+    MonthLabel,
+    months,
+    MonthValue,
+} from '@/domains/club/schedule/constants/schedule.constant';
 import { cn } from '@/utils/cn';
+import { useDropdown } from '@/components/Dropdown/dropdown.context';
+import { useEffect } from 'react';
 
 export type MonthItemType = {
-    label: string;
-    value: number;
+    label: MonthLabel;
+    value: MonthValue;
 };
 
 const Dropdown = createDropdown<MonthItemType>();
@@ -14,14 +20,15 @@ export default function MonthSelect({
     handleMonthValue,
     selectedValue,
 }: {
-    handleMonthValue: (month: number) => void;
-    selectedValue: number | null;
+    handleMonthValue: (month: MonthValue) => void;
+    selectedValue: MonthValue | null;
 }) {
     const hasSelectedValue = !!selectedValue;
 
     return (
         <Dropdown.Container itemOptions={months} className={cn('w-max')}>
-            {/* TODO: 두자리 수 월 처리 (디자인 가이드 반영 후) */}
+            <SyncSelection options={months} selectedValue={selectedValue} />
+
             <Dropdown.Trigger
                 className={cn(
                     'flex justify-center items-center gap-[2px] w-[60px] h-[46px] py-[12.5px] pr-[6px] pr-[7px] pl-[11px] rounded-[8px] text-c1 text-text-main bg-white',
@@ -73,4 +80,28 @@ export default function MonthSelect({
             </Dropdown.List>
         </Dropdown.Container>
     );
+}
+
+/**
+ * 외부 상태(api data)와 내부 상태(Dropdown index)를 동기화하는 컴포넌트
+ */
+function SyncSelection({
+    options,
+    selectedValue,
+}: {
+    options: readonly MonthItemType[];
+    selectedValue?: MonthValue | null;
+}) {
+    const { setSelectedIndex } = useDropdown();
+
+    useEffect(() => {
+        if (!selectedValue) {
+            setSelectedIndex(-1);
+            return;
+        }
+        const index = options.findIndex((opt) => opt.value === selectedValue);
+        setSelectedIndex(index);
+    }, [selectedValue, options, setSelectedIndex]);
+
+    return null;
 }
