@@ -14,6 +14,7 @@ import {
 } from '@/components/Modal/modal.constant';
 import z from 'zod';
 import { useRecruitmentEmailMutation } from '@/domains/club/recruitment/api/recruitment-email.mutations';
+import { useNavigate } from 'react-router-dom';
 
 export type activeTab = 'intro' | 'schedule' | 'recruit-info';
 
@@ -22,6 +23,7 @@ export default function ClubDetailPage() {
     const { isVisible, triggerRef, hideTooltip } = useTooltip();
     const modal = useModal();
     const { mutateAsync: submitEmail } = useRecruitmentEmailMutation(clubId);
+    const navigate = useNavigate();
 
     const handleAlarmClick = async () => {
         hideTooltip();
@@ -37,6 +39,7 @@ export default function ClubDetailPage() {
                     title: ALERT_MODAL_MESSAGE.EMAIL.title,
                     actionLabel: ALERT_MODAL_MESSAGE.EMAIL.actionLabel,
                     icon: ALERT_MODAL_MESSAGE.EMAIL.icon,
+                    onAction: () => navigate('/club/search?type=central'),
                 });
             },
         });
