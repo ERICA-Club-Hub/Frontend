@@ -27,7 +27,7 @@ export const adminMenus: AppHeaderMenuType[] = [
         // --- 서비스 어드민 ---
         label: '어드민 페이지',
         adminType: ADMIN_TYPE.SERVICE,
-        url: PATHS.ADMIN_SERVICE,
+        url: PATHS.SERVICE_ADMIN_DASHBOARD,
     },
     {
         // --- 동아리 어드민 ---
@@ -41,26 +41,6 @@ export const adminMenus: AppHeaderMenuType[] = [
     },
 ];
 
-// --- 어드민 대시보드 페이지 메뉴 리스트 ---
-/* 서비스 어드민 대시보드 페이지 */
-export const serviceAdminMenus = [
-    {
-        label: '신규 동아리 등록 신청 확인하기',
-        url: PATHS.SERVICE_ADMIN_REGISTRATIONS_MANAGE,
-    },
-    {
-        label: '동아리 관리하기',
-        url: PATHS.ADMIN_SERVICE_CLUB_MANAGE,
-    },
-    {
-        label: '서비스 공지사항 관리하기',
-        url: PATHS.ADMIN_SERVICE_NOTICE,
-    },
-    {
-        label: '자주 묻는 질문 관리하기',
-        url: PATHS.ADMIN_SERVICE_FAQ,
-    },
-];
 /* 동아리 어드민 대시보드 페이지 */
 export const getClubAdminMenus = (clubId: number) => [
     {
@@ -74,3 +54,37 @@ export const getClubAdminMenus = (clubId: number) => [
         url: PATHS.CLUB_ADMIN_DETAIL(clubId),
     },
 ];
+
+/* 서비스 어드민 대시보드 페이지 */
+export const serviceAdminMenus = {
+    NEW_CLUBS: [
+        {
+            label: '신규 동아리 신청 관리',
+            url: PATHS.SERVICE_ADMIN_REGISTRATIONS,
+        },
+    ],
+    REGISTRATED_CLUBS: [
+        {
+            label: '동아리 관리',
+            url: PATHS.SERVICE_ADMIN_CLUBS,
+        },
+        {
+            label: '동아리 정보 수정 요청 관리',
+            url: PATHS.SERVICE_ADMIN_CLUB_UPDATE,
+        },
+    ],
+    ETC: [
+        {
+            label: '공지사항 등록',
+            url: PATHS.SERVICE_ADMIN_NOTICE,
+        },
+        {
+            label: '자주 묻는 질문 등록',
+            url: PATHS.SERVICE_ADMIN_FAQ,
+        },
+        {
+            label: '유저 피드백 모음',
+            url: PATHS.SERVICE_ADMIN_FEEDBACK,
+        },
+    ],
+};

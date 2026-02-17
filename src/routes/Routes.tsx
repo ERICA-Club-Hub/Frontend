@@ -3,7 +3,7 @@ import { RedirectIfAuthenticated } from './RedirectIfAuthenticated';
 import { AuthGuard } from './AuthGuard';
 import ClubAdminGurad from './ClubAdminGurad';
 import ServiceAdminGuard from './ServiceAdminGuard';
-import ServiceAdminPage from '@/pages/admin/service/dashboard/ServiceAdminPage';
+import ServiceAdminDashboardPage from '@/pages/admin/service/dashboard/ServiceAdminDashboardPage';
 import ClubDetailPreviewPage from '@/pages/club/preview/ClubDetailPreviewPage';
 import ClubSearchPage from '@/pages/search/ClubSearchPage';
 import MainPage from '@/pages/main/MainPage';
@@ -88,15 +88,15 @@ export default function AppRoutes() {
                 {/* --- 서비스 어드민 --- */}
                 <Route path="/admin/service" element={<ServiceAdminGuard />}>
                     {/* 서비스 어드민 대시보드 */}
-                    <Route index element={<ServiceAdminPage />} />
+                    <Route index element={<ServiceAdminDashboardPage />} />
 
                     {/* 신규 동아리 등록 신청 관리 */}
                     <Route
-                        path={PATHS.SERVICE_ADMIN_REGISTRATIONS_MANAGE}
+                        path={PATHS.SERVICE_ADMIN_REGISTRATIONS}
                         element={<RegistrationsListPage />}
                     />
                     <Route
-                        path="/admin/service/registrations/:id"
+                        path="registrations/:id"
                         element={<RegistrationsDetailPage />}
                     />
 

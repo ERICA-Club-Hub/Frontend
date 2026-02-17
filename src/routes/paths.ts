@@ -27,26 +27,39 @@ export const PATHS = {
     // --- 어드민 로그인 ---
     ADMIN_LOGIN: '/admin/login',
 
-    // TODO: 어드민 어순 변경 e.g. ADMIN_SERVICE -> SERVICE_ADMIN
     // --- 서비스 어드민 ---
     /* 대시보드 */
-    ADMIN_SERVICE: '/admin/service',
+    SERVICE_ADMIN_DASHBOARD: '/admin/service',
 
     /* 신규 동아리 등록 신청 관리 */
-    SERVICE_ADMIN_REGISTRATIONS_MANAGE: '/admin/service/registrations',
-
-    /* 동아리 관리 */
-    ADMIN_SERVICE_CLUB_MANAGE: '/admin/service/club-management',
-
-    /* 동아리 디테일 페이지 */
-    ADMIN_SERVICE_CLUB_DETAIL: (clubId: number) =>
+    SERVICE_ADMIN_REGISTRATIONS: '/admin/service/registrations',
+    SERVICE_ADMIN_REGISTRATIONS_DETAIL: (clubId: string) =>
         `/admin/service/registrations/${clubId}`,
 
+    /* 동아리 관리 */
+    SERVICE_ADMIN_CLUBS: '/admin/service/clubs',
+    SERVICE_ADMIN_CLUBS_DETAIL: (clubId: string) =>
+        `/admin/service/clubs/${clubId}`,
+
+    /* 동아리 정보 수정 요청 관리 */
+    SERVICE_ADMIN_CLUB_UPDATE: '/admin/service/club/update',
+    SERVICE_ADMIN_CLUB_UPDATE_DETAIL: (clubId: string) =>
+        `/admin/service/club/update/${clubId}`,
+
     /* 서비스 공지사항*/
-    ADMIN_SERVICE_NOTICE: '/admin/service/notice',
+    SERVICE_ADMIN_NOTICE: '/admin/service/notice',
+    SERVICE_ADMIN_NOTICE_DETAIL: (clubId: string) =>
+        `/admin/service/notice/${clubId}`,
 
     /* 자주 묻는 질문 */
-    ADMIN_SERVICE_FAQ: '/admin/service/faq',
+    SERVICE_ADMIN_FAQ: '/admin/service/faq',
+    SERVICE_ADMIN_FAQ_DETAIL: (clubId: string) =>
+        `/admin/service/faq/${clubId}`,
+
+    /* 유저 피드백 모음 */
+    SERVICE_ADMIN_FEEDBACK: '/admin/service/feedbacks',
+    SERVICE_ADMIN_FEEDBACK_DETAIL: (clubId: string) =>
+        `/admin/service/feedbacks/${clubId}`,
 
     // TODO: 어드민 어순 변경 e.g. ADMIN_CLUB -> CLUB_ADMIN
     // --- 동아리 어드민 ---
