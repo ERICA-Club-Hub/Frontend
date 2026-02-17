@@ -22,12 +22,14 @@ interface CategorySelectDropdownProps {
     data: CategoryResponse | undefined;
     control: Control<FormValues>;
     setValue: UseFormSetValue<FormValues>;
+    disabled?: boolean;
 }
 
 export default function CategorySelectDropdown({
     data,
     control,
     setValue,
+    disabled = false,
 }: CategorySelectDropdownProps) {
     const clubType = useWatch({ name: 'clubType', control });
     const college = useWatch({ name: 'category.college', control });
@@ -59,6 +61,7 @@ export default function CategorySelectDropdown({
                             onChange={onChange}
                             id={config.name}
                             placeholder={config.placeholder}
+                            disabled={disabled}
                         />
                     )}
                 />
@@ -91,6 +94,7 @@ export default function CategorySelectDropdown({
                             }}
                             id="category.college"
                             placeholder="단과대 선택"
+                            disabled={disabled}
                         />
                     )}
                 />
@@ -108,6 +112,7 @@ export default function CategorySelectDropdown({
                                 onChange={onChange}
                                 id="category.department"
                                 placeholder="학과 선택"
+                                disabled={disabled}
                             />
                         )}
                     />

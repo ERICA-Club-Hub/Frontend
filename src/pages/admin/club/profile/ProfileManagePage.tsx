@@ -57,7 +57,7 @@ export default function ProfileManagePage() {
                             type="button"
                             size="xs"
                             disabled={!isValid || isSubmitting}
-                            className="mt-[142px]"
+                            className="mb-[28px]"
                             onClick={submitHandler}
                         >
                             저장하기
