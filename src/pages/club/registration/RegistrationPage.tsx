@@ -1,6 +1,6 @@
 import Button from '@/components/Button/Button';
 import { FormValues } from '@/domains/club/profile/model/profile.schema';
-import ClubProfileForm from '@/domains/club/profile/ui/ClubProfileForm';
+import ClubProfileForm from '@/domains/shared/components/form/ClubProfileForm';
 import { useRegistratinoMutation } from '@/domains/club/registration/api/registration.mutations';
 
 // 신규 동아리 등록 페이지

@@ -2,7 +2,10 @@ import { ReactNode, useEffect, useState } from 'react';
 import InputField from '@/components/InputField/InputField';
 import TextArea from '@/components/InputField/TextArea';
 import useProfileImage from '@/hooks/useProfileImage';
-import { FormValues, profileSchema } from '../model/profile.schema';
+import {
+    FormValues,
+    profileSchema,
+} from '../../../club/profile/model/profile.schema';
 import { Controller, Resolver, SubmitHandler, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import SelectDropdown from '@/domains/shared/components/dropdown/SelectDropdown';
@@ -10,10 +13,10 @@ import FormItem from '@/domains/shared/components/form/FormItem';
 import {
     ONE_LINER_MAX_LENGTH,
     PROFILE_FIELD_CONFIG,
-} from '../constants/form.constant';
+} from '../../../club/profile/constants/form.constant';
 import { ClubType } from '@/types/category.types';
 import ClubImageUpload from '@/domains/shared/components/image-upload/ClubImageUpload';
-import CategorySelectDropdown from './CategorySelectDropdown';
+import CategorySelectDropdown from '../../../club/profile/ui/CategorySelectDropdown';
 import {
     ClubFormData,
     normalizeData,

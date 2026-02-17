@@ -1,4 +1,4 @@
-import ClubProfileForm from '@/domains/club/profile/ui/ClubProfileForm';
+import ClubProfileForm from '@/domains/shared/components/form/ClubProfileForm';
 import Button from '@/components/Button/Button';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useClubOverviewQuery } from '@/domains/club/profile/api/profile.queries';
