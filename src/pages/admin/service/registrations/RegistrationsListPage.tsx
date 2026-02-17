@@ -1,29 +1,47 @@
-import { useState } from 'react';
-import ClubListView from '@/domains/club/registration/ui/ClubListView';
-import useServiceAdminQueries from '@/domains/club/registration/api/useServiceAdminQueries';
-import SearchInput from '@/domains/club/registration/ui/SearchInput';
+import { useRegistrationQuery } from '@/domains/club/registration/api/registration.queries';
+import ClubListView from '@/domains/shared/components/layout/ClubListView';
+import ClubCard from '@/domains/shared/components/card/ClubCard';
+import {
+    CategoryResponse,
+    ClubRegistrationResponse,
+} from '@/api/data-contracts';
+import { PATHS } from '@/routes/paths';
+
+const DEPARTMENT_LENGTH = 2; // 카테고리 이름이 2개인 경우 -> 학과 동아리
 
 // 동아리 등록 요청 검토 페이지
 export default function RegistrationsListPage() {
-    const { useClubRegistrationRequestQuery } = useServiceAdminQueries();
-    const { isPending, data, isError } = useClubRegistrationRequestQuery();
+    const queryResult = useRegistrationQuery();
 
-    const [searchTerm, setSearchTerm] = useState<string>('');
+    const getCategoryName = (category: CategoryResponse | undefined) => {
+        const categoryList = [
+            category?.centralCategoryName || '',
+            category?.unionCategoryName || '',
+            category?.collegeName || '',
+            category?.departmentName || '',
+        ].filter((name) => name !== '');
 
-    const filteredData = data?.filter((club) =>
-        club.clubName.toLowerCase().includes(searchTerm.toLowerCase()),
-    );
+        return categoryList.length === DEPARTMENT_LENGTH
+            ? categoryList[1]
+            : categoryList[0];
+    };
 
     return (
-        <div className="flex flex-col items-center pt-5">
-            <div className="mb-5">
-                <SearchInput value={searchTerm} setValue={setSearchTerm} />
-            </div>
-
+        <div className="flex flex-col items-center pt-[20px] pb-[32px]">
             <ClubListView
-                isPending={isPending}
-                isError={isError}
-                data={filteredData}
+                queryResult={queryResult}
+                render={(club: ClubRegistrationResponse) => (
+                    <ClubCard
+                        key={club.clubRegistrationId}
+                        title={club.clubName}
+                        subTitle={club.briefIntroduction}
+                        categoryName={getCategoryName(club.category)}
+                        profileImageUrl={club?.profileImageUrl}
+                        to={PATHS.SERVICE_ADMIN_REGISTRATIONS_DETAIL(
+                            String(club.clubRegistrationId),
+                        )}
+                    />
+                )}
             />
         </div>
     );

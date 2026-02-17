@@ -26,8 +26,6 @@ export default function ClubCard({
     isLoading = false,
     ...props
 }: ClubCardProps) {
-    const isAdminRoute = to.startsWith('/admin/service');
-
     if (isLoading) {
         return (
             <div
@@ -37,9 +35,7 @@ export default function ClubCard({
                     'rounded-[10px] border border-[#eaeaea] bg-white',
                 )}
             >
-                {!isAdminRoute && (
-                    <Skeleton className="w-[75px] h-[75px] rounded-[5px]" />
-                )}
+                <Skeleton className="w-[75px] h-[75px] rounded-[5px]" />
 
                 <div className="flex flex-col w-[204px] justify-start items-start gap-[7px]">
                     <Skeleton className="w-full h-4.5" />
@@ -60,12 +56,10 @@ export default function ClubCard({
                 'cursor-pointer',
             )}
         >
-            {!isAdminRoute && (
-                <img
-                    src={profileImageUrl}
-                    className="w-[75px] h-[75px] rounded-[5px]"
-                />
-            )}
+            <img
+                src={profileImageUrl}
+                className="w-[75px] h-[75px] rounded-[5px]"
+            />
 
             <div className="flex flex-col w-[204px] justify-start items-start">
                 <div className="flex gap-[6px] mb-[7px]">
