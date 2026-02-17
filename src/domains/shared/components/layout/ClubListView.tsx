@@ -26,12 +26,20 @@ export default function ClubListView<T>({
     }
 
     if (queryResult.isError) {
-        return <div>동아리 정보를 불러오는 데 실패했습니다.</div>;
+        return (
+            <p className="pt-[20px]">동아리 정보를 불러오는 데 실패했습니다.</p>
+        );
     }
 
-    return queryResult.isSuccess ? (
-        <div className="flex flex-col items-center gap-[8px]">
-            {queryResult.data?.map((club) => render(club))}
-        </div>
-    ) : null;
+    if (queryResult.isSuccess && queryResult.data?.length === 0) {
+        return <p className="pt-[20px]">등록 신청한 동아리가 없습니다.</p>;
+    }
+
+    return (
+        queryResult.isSuccess && (
+            <div className="flex flex-col items-center gap-[8px]">
+                {queryResult.data?.map((club) => render(club))}
+            </div>
+        )
+    );
 }

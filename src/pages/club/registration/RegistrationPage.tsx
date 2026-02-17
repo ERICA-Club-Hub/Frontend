@@ -20,7 +20,6 @@ export default function RegistrationPage() {
     return (
         <ClubProfileForm
             mode="register"
-            data={null}
             onSubmit={handleSubmit}
             renderAction={({ isValid, isSubmitting }) => {
                 return (
@@ -28,7 +27,7 @@ export default function RegistrationPage() {
                         type="submit"
                         size="lg"
                         disabled={!isValid || isSubmitting}
-                        className="mb-[28px]"
+                        className="mt-[32px] mb-[28px]"
                     >
                         동아리 등록 신청하기
                     </Button>
