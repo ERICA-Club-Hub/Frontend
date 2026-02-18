@@ -68,10 +68,6 @@ export const serviceAdminMenus = {
             label: '동아리 관리',
             url: PATHS.SERVICE_ADMIN_CLUBS,
         },
-        {
-            label: '동아리 정보 수정 요청 관리',
-            url: PATHS.SERVICE_ADMIN_CLUB_UPDATE,
-        },
     ],
     ETC: [
         {

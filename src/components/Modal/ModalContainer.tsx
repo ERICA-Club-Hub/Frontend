@@ -13,7 +13,7 @@ export default function ModalContainer() {
             key={key}
             {...(props as object)}
             resolve={resolve}
-            closeModal={() => cancel()}
+            closeModal={cancel}
         />,
         document.body,
     );

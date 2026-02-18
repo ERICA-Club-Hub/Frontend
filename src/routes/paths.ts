@@ -41,11 +41,6 @@ export const PATHS = {
     SERVICE_ADMIN_CLUBS_DETAIL: (clubId: string) =>
         `/admin/service/clubs/${clubId}`,
 
-    /* 동아리 정보 수정 요청 관리 */
-    SERVICE_ADMIN_CLUB_UPDATE: '/admin/service/club/update',
-    SERVICE_ADMIN_CLUB_UPDATE_DETAIL: (clubId: string) =>
-        `/admin/service/club/update/${clubId}`,
-
     /* 서비스 공지사항*/
     SERVICE_ADMIN_NOTICE: '/admin/service/notice',
     SERVICE_ADMIN_NOTICE_DETAIL: (clubId: string) =>

@@ -5,7 +5,7 @@ import useProfileImage from '@/hooks/useProfileImage';
 import {
     FormValues,
     profileSchema,
-} from '../../../club/profile/model/profile.schema';
+} from '@/domains/club/profile/model/profile.schema';
 import { Controller, Resolver, SubmitHandler, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import SelectDropdown from '@/domains/shared/components/dropdown/SelectDropdown';
@@ -13,7 +13,7 @@ import FormItem from '@/domains/shared/components/form/FormItem';
 import {
     ONE_LINER_MAX_LENGTH,
     PROFILE_FIELD_CONFIG,
-} from '../../../club/profile/constants/form.constant';
+} from '@/domains/club/profile/constants/form.constant';
 import { ClubType } from '@/types/category.types';
 import ClubImageUpload from '@/domains/shared/components/image-upload/ClubImageUpload';
 import CategorySelectDropdown from '../../../club/profile/ui/CategorySelectDropdown';
@@ -24,9 +24,9 @@ import {
 
 interface ClubProfileFormProps {
     mode: 'register' | 'update' | 'read';
-    data: ClubFormData | null | undefined;
+    data?: ClubFormData;
     title?: string;
-    onSubmit: (formValues: FormValues, image: File | File[] | null) => void;
+    onSubmit?: (formValues: FormValues, image: File | File[] | null) => void;
     renderAction?: (params: {
         isValid: boolean;
         isSubmitting: boolean;
@@ -97,7 +97,7 @@ export default function ClubProfileForm({
 
     const handleSubmit: SubmitHandler<FormValues> = (formValues) => {
         // 부모 컴포넌트로 전달 (로직은 부모 컴포넌트에서 관리)
-        onSubmit(formValues, postImg);
+        if (onSubmit) onSubmit(formValues, postImg);
     };
 
     const triggerSubmit = method.handleSubmit(handleSubmit);

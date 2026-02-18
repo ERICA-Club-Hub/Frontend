@@ -12,6 +12,7 @@ import { ALERT_MODAL_MESSAGE } from '@/components/Modal/modal.constant';
 import { ConfirmModal } from '@/components/Modal/ConfirmModal';
 import { PATHS } from '@/routes/paths';
 
+// 신규 동아리 등록 신청 상세 페이지
 export default function RegistrationsDetailPage() {
     const { id: clubId } = useParams();
     const navigate = useNavigate();
@@ -32,7 +33,10 @@ export default function RegistrationsDetailPage() {
             await modal.push('prompt', AlertModal, {
                 title: ALERT_MODAL_MESSAGE.APPROVE.title,
                 actionLabel: ALERT_MODAL_MESSAGE.APPROVE.actionLabel,
-                onAction: () => navigate(PATHS.SERVICE_ADMIN_REGISTRATIONS),
+                onAction: () =>
+                    navigate(PATHS.SERVICE_ADMIN_REGISTRATIONS, {
+                        replace: true,
+                    }),
             });
         }
     };
@@ -47,7 +51,10 @@ export default function RegistrationsDetailPage() {
             await modal.push('prompt', AlertModal, {
                 title: ALERT_MODAL_MESSAGE.DELETE.title,
                 actionLabel: ALERT_MODAL_MESSAGE.DELETE.actionLabel,
-                onAction: () => navigate(PATHS.SERVICE_ADMIN_REGISTRATIONS),
+                onAction: () =>
+                    navigate(PATHS.SERVICE_ADMIN_REGISTRATIONS, {
+                        replace: true,
+                    }),
             });
         }
     };
