@@ -51,19 +51,17 @@ export default function ClubIntroductionForm() {
     const onSubmit: SubmitHandler<IntroSchema> = (formValues) => {
         if (!clubId) return;
 
-        const payload = {
-            data: formValues,
-            clubId: Number(clubId),
-        };
-
-        update(payload, {
-            onSuccess: async () => {
-                await modal.push('prompt', AlertModal, {
-                    title: ALERT_MODAL_MESSAGE.SAVE.title,
-                    actionLabel: ALERT_MODAL_MESSAGE.SAVE.actionLabel,
-                });
+        update(
+            { data: formValues },
+            {
+                onSuccess: async () => {
+                    await modal.push('prompt', AlertModal, {
+                        title: ALERT_MODAL_MESSAGE.SAVE.title,
+                        actionLabel: ALERT_MODAL_MESSAGE.SAVE.actionLabel,
+                    });
+                },
             },
-        });
+        );
     };
 
     return (
