@@ -17,7 +17,6 @@ export const useClubRecruitmentQuery = ({
             apiRequest({
                 url: `/api/clubs/${clubId}/recruitment`,
                 method: 'GET',
-                requireToken: true,
             }),
         staleTime: 1000 * 60 * 5,
         select: (data) => data.result,

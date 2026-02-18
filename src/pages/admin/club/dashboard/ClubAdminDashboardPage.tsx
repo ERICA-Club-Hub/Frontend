@@ -13,11 +13,11 @@ import { useParams } from 'react-router-dom';
 export default function ClubAdminDashboardPage() {
     const { id: clubId } = useParams<{ id: string }>();
 
-    const { data, isSuccess } = useClubOverviewQuery({
+    const { data, isPending, isSuccess } = useClubOverviewQuery({
         clubId,
         isPreview: false,
     });
-    const { mutate: update } = useUpdateRecruitStatusMutation(Number(clubId));
+    const { mutate: update } = useUpdateRecruitStatusMutation(clubId);
 
     const onSelectRecruitmentStatus = (value: RecruitmentStatus) => {
         const option = RECRUITMENT_STATUS_MAP[value];
@@ -75,6 +75,8 @@ export default function ClubAdminDashboardPage() {
 
                         <RecruitmentStatusDropdown
                             options={getRecruitmentStatusOptions()}
+                            isPending={isPending}
+                            isSuccess={isSuccess}
                             selectedValue={data?.recruitmentStatus}
                             onSelect={(value) =>
                                 onSelectRecruitmentStatus(value)

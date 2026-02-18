@@ -6,6 +6,7 @@ import { RecruitmentStatusConfig } from '@/types/configs.types';
 import { RECRUITMENT_STATUS } from '@/constants/category-config.constant';
 import { useDropdown } from '@/components/Dropdown/dropdown.context';
 import { useEffect } from 'react';
+import Skeleton from '@/components/Loading/Skeleton';
 
 interface Options {
     value: RecruitmentStatus;
@@ -15,12 +16,16 @@ const Dropdown = createDropdown<Options>();
 
 interface RecruitStatusDropdownProps {
     options?: Options[];
+    isPending: boolean;
+    isSuccess: boolean;
     selectedValue?: RecruitmentStatus;
     onSelect: (value: RecruitmentStatus) => void;
 }
 
 export default function RecruitmentStatusDropdown({
     options = [],
+    isPending,
+    isSuccess,
     selectedValue,
     onSelect,
 }: RecruitStatusDropdownProps) {
@@ -45,12 +50,22 @@ export default function RecruitmentStatusDropdown({
                     hasSelectedValue
                         ? 'border border-solid border-brand bg-primary-50'
                         : 'bg-neutral-00',
+                    isPending &&
+                        'border-none bg-neutral-00 pointer-events-none',
                 )}
             >
-                <Dropdown.Value>
-                    <span>{renderTitle()}</span>
-                </Dropdown.Value>
-                <ArrowIcon />
+                {isPending && (
+                    <Skeleton className="w-[49px] h-[16px] rounded-[4px]" />
+                )}
+
+                {isSuccess && (
+                    <>
+                        <Dropdown.Value>
+                            <span>{renderTitle()}</span>
+                        </Dropdown.Value>
+                        <ArrowIcon />
+                    </>
+                )}
             </Dropdown.Trigger>
             <Dropdown.List
                 className={cn(

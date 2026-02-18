@@ -31,11 +31,8 @@ export default function ClubIntroductionForm() {
     });
     const modal = useModal();
 
-    const { data } = useClubIntroQuery({
-        clubId,
-        isPreview: false,
-    });
-    const { mutate: update } = useUpdateClubIntroMutation();
+    const { data } = useClubIntroQuery(clubId);
+    const { mutate: update } = useUpdateClubIntroMutation(clubId);
 
     useEffect(() => {
         if (data) {
@@ -54,19 +51,17 @@ export default function ClubIntroductionForm() {
     const onSubmit: SubmitHandler<IntroSchema> = (formValues) => {
         if (!clubId) return;
 
-        const payload = {
-            data: formValues,
-            clubId: Number(clubId),
-        };
-
-        update(payload, {
-            onSuccess: async () => {
-                await modal.push('prompt', AlertModal, {
-                    title: ALERT_MODAL_MESSAGE.SAVE.title,
-                    actionLabel: ALERT_MODAL_MESSAGE.SAVE.actionLabel,
-                });
+        update(
+            { data: formValues },
+            {
+                onSuccess: async () => {
+                    await modal.push('prompt', AlertModal, {
+                        title: ALERT_MODAL_MESSAGE.SAVE.title,
+                        actionLabel: ALERT_MODAL_MESSAGE.SAVE.actionLabel,
+                    });
+                },
             },
-        });
+        );
     };
 
     return (

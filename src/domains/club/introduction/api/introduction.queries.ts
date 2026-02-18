@@ -1,18 +1,21 @@
+import { apiRequest } from '@/api/apiRequest';
 import { ClubDetailResponse } from '@/api/data-contracts';
-import {
-    ClubDetailQueryProps,
-    useClubApi,
-} from '@/domains/shared/api/club.queries';
+import { APIResponse } from '@/types/api.types';
+import { useQuery } from '@tanstack/react-query';
 
 /**
- * 동아리 상세 정보 조회
+ * 동아리 상세 정보 조회 (동아리 소개)
  */
-export const useClubIntroQuery = ({
-    clubId,
-    isPreview,
-}: ClubDetailQueryProps) =>
-    useClubApi<ClubDetailResponse>({
-        clubId,
-        isPreview,
-        errorMessage: '동아리 정보 조회 실패',
+export const useClubIntroQuery = (clubId?: string) => {
+    return useQuery({
+        queryKey: ['clubs', 'introduction', clubId],
+        queryFn: async (): Promise<APIResponse<ClubDetailResponse>> =>
+            apiRequest({
+                url: `/api/clubs/${clubId}`,
+                method: 'GET',
+            }),
+        staleTime: 1000 * 60 * 5,
+        select: (data) => data.result,
+        enabled: !!clubId,
     });
+};
