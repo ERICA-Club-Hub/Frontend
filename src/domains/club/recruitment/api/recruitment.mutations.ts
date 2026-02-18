@@ -1,12 +1,15 @@
 import { apiRequest } from '@/api/apiRequest';
 import { ClubRecruitmentRequest } from '@/api/data-contracts';
 import { queryClient } from '@/api/queryClient';
+import { useErrorHandler } from '@/hooks/useErrorHandler';
 import { useMutation } from '@tanstack/react-query';
 
 /**
  * 모집 상태 업데이트
  */
-export const useUpdateRecruitStatusMutation = (clubId: number) => {
+export const useUpdateRecruitStatusMutation = (clubId?: string) => {
+    const { handleError } = useErrorHandler();
+
     return useMutation({
         mutationFn: async (option: number) => {
             return await apiRequest({
@@ -23,6 +26,16 @@ export const useUpdateRecruitStatusMutation = (clubId: number) => {
             queryClient.invalidateQueries({
                 queryKey: ['clubs', 'recruitment', clubId],
             });
+            queryClient.invalidateQueries({
+                queryKey: ['clubs', 'profile', clubId],
+            });
+            queryClient.invalidateQueries({
+                queryKey: ['clubs', 'recently'],
+            });
+        },
+
+        onError: (error) => {
+            handleError(error);
         },
     });
 };
