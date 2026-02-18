@@ -28,7 +28,7 @@ export default function ClubManagementDetailPage() {
                 title: ALERT_MODAL_MESSAGE.DELETE.title,
                 actionLabel: ALERT_MODAL_MESSAGE.DELETE.actionLabel,
                 onAction: () =>
-                    navigate(PATHS.SERVICE_ADMIN_REGISTRATIONS, {
+                    navigate(PATHS.SERVICE_ADMIN_CLUBS + `?type=central`, {
                         replace: true,
                     }),
             });
