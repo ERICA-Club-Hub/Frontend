@@ -7,7 +7,7 @@ import ServiceAdminDashboardPage from '@/pages/admin/service/dashboard/ServiceAd
 import ClubDetailPreviewPage from '@/pages/club/preview/ClubDetailPreviewPage';
 import ClubSearchPage from '@/pages/search/ClubSearchPage';
 import MainPage from '@/pages/main/MainPage';
-import ClubManagementPage from '@/pages/admin/service/club-management/ClubManagementPage';
+import ClubManagementPage from '@/pages/admin/service/clubs/ClubManagementPage';
 import RegistrationsDetailPage from '@/pages/admin/service/registrations/RegistrationsDetailPage';
 import { PATHS } from './paths';
 import { AdminLoginPage } from '@/pages/admin/auth/AdminLoginPage';
@@ -24,6 +24,7 @@ import WrongAccessPage from '@/pages/error/WrongAccessPage';
 import NetworkErrorPage from '@/pages/error/NetworkErrorPage';
 import UnknownErrorPage from '@/pages/error/UnknownErrorPage';
 import ServerErrorPage from '@/pages/error/ServerErrorPage';
+import ClubManagementDetailPage from '@/pages/admin/service/clubs/ClubManagementDetailPage';
 
 export default function AppRoutes() {
     return (
@@ -102,8 +103,12 @@ export default function AppRoutes() {
 
                     {/* 동아리 관리 페이지 */}
                     <Route
-                        path="/admin/service/club-management"
+                        path={PATHS.SERVICE_ADMIN_CLUBS}
                         element={<ClubManagementPage />}
+                    />
+                    <Route
+                        path="clubs/:id"
+                        element={<ClubManagementDetailPage />}
                     />
                 </Route>
             </Route>

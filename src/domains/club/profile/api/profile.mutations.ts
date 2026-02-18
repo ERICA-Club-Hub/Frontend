@@ -56,3 +56,29 @@ export const useUpdateProfileMutation = () => {
         },
     });
 };
+
+/**
+ * 동아리 삭제
+ * @usage - 서비스 어드민 동아리 관리 페이지
+ */
+export const useDeleteClubMutation = () => {
+    const { handleError } = useErrorHandler();
+
+    return useMutation({
+        mutationFn: async (clubId?: string) => {
+            return await apiRequest({
+                url: `/api/clubs/service-admin/${clubId}`,
+                method: 'DELETE',
+                requireToken: true,
+            });
+        },
+        onSuccess: () => {
+            queryClient.invalidateQueries({
+                queryKey: ['clubs'],
+            });
+        },
+        onError: (error) => {
+            handleError(error);
+        },
+    });
+};
