@@ -1,11 +1,11 @@
 import Button from '@/components/Button/Button';
 import { FormValues } from '@/domains/club/profile/model/profile.schema';
 import ClubProfileForm from '@/domains/shared/components/form/ClubProfileForm';
-import { useRegistratinoMutation } from '@/domains/club/registration/api/registration.mutations';
+import { useRegistrationMutation } from '@/domains/club/registration/api/registration.mutations';
 
 // 신규 동아리 등록 페이지
 export default function RegistrationPage() {
-    const { mutate: registerClub } = useRegistratinoMutation();
+    const { mutate: registerClub } = useRegistrationMutation();
 
     const handleSubmit = async (
         formValues: FormValues,

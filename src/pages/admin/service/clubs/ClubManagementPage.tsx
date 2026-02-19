@@ -3,6 +3,7 @@ import ClubSearchWidget from '@/domains/shared/components/search/ClubSearchWidge
 import { PATHS } from '@/routes/paths';
 import { useEffect } from 'react';
 
+// [서비스 어드민] 동아리 관리 페이지
 export default function ClubManagementPage() {
     const [searchKeyword, setSearchKeyword] = useSearchParams();
 

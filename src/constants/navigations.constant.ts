@@ -63,7 +63,7 @@ export const serviceAdminMenus = {
             url: PATHS.SERVICE_ADMIN_REGISTRATIONS,
         },
     ],
-    REGISTRATED_CLUBS: [
+    REGISTERED_CLUBS: [
         {
             label: '동아리 관리',
             url: PATHS.SERVICE_ADMIN_CLUBS,

@@ -7,20 +7,24 @@ import { useDeleteClubMutation } from '@/domains/club/profile/api/profile.mutati
 import { useClubOverviewQuery } from '@/domains/club/profile/api/profile.queries';
 import ClubProfileForm from '@/domains/shared/components/form/ClubProfileForm';
 import { PATHS } from '@/routes/paths';
-import { useNavigate, useParams } from 'react-router-dom';
+import { Navigate, useNavigate, useParams } from 'react-router-dom';
 
+// [서비스 어드민] 동아리 관리 상세 페이지
 export default function ClubManagementDetailPage() {
     const { id: clubId } = useParams();
     const navigate = useNavigate();
     const modal = useModal();
 
-    const { data } = useClubOverviewQuery({ clubId, isPreview: false });
-    const { mutateAsync: deleteRegistration } = useDeleteClubMutation();
+    const { data, isError } = useClubOverviewQuery({
+        clubId,
+        isPreview: false,
+    });
+    const { mutateAsync: deleteClub } = useDeleteClubMutation();
 
     const handleDelete = async () => {
         const isConfirmed = await modal.push('prompt', ConfirmModal, {
             type: 'DELETE',
-            onConfirm: async () => await deleteRegistration(clubId),
+            onConfirm: async () => await deleteClub(clubId),
         });
 
         if (isConfirmed) {
@@ -34,6 +38,8 @@ export default function ClubManagementDetailPage() {
             });
         }
     };
+
+    if (isError) return <Navigate to={PATHS.WRONG_ACCESS} replace={true} />;
 
     return (
         <ClubProfileForm

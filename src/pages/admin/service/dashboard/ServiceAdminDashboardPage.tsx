@@ -19,7 +19,7 @@ export default function ServiceAdminDashboardPage() {
             </AdminSection>
 
             <AdminSection title="등록된 동아리">
-                {serviceAdminMenus.REGISTRATED_CLUBS.map((menu) => (
+                {serviceAdminMenus.REGISTERED_CLUBS.map((menu) => (
                     <NavigationLink
                         content={{ label: menu.label }}
                         key={menu.label}

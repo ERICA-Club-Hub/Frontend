@@ -13,7 +13,7 @@ import { MAX_FILE_SIZE_ERROR_MESSAGE } from '@/constants/max-file-size.constant'
 /**
  * 동아리 등록 요청
  */
-export const useRegistratinoMutation = () => {
+export const useRegistrationMutation = () => {
     const navigate = useNavigate();
     const { handleError } = useErrorHandler();
     const { showToast } = useToast();
