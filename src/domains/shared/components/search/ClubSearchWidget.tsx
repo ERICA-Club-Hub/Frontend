@@ -181,7 +181,7 @@ export default function ClubSearchWidget({
                             ))
                         ) : data && allClubs.length > 0 ? (
                             allClubs.map((club) => {
-                                if (!club) return null;
+                                if (!club || !club?.id) return null;
                                 return (
                                     <ClubCard
                                         key={club.id}

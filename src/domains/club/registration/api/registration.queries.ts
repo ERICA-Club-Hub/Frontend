@@ -35,5 +35,6 @@ export const useRegistrationDetailQuery = (clubRegistrationId?: string) => {
         },
         select: (data) => data.result,
         staleTime: 5 * 60 * 1000,
+        enabled: !!clubRegistrationId,
     });
 };

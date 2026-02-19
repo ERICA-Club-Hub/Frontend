@@ -26,7 +26,7 @@ export default function ClubImageUpload({
         <div
             className={cn(
                 'flex items-center gap-[24px] w-[320px] h-[96px] pl-[20px] border-solid border-neutral-150 bg-neutral-100 rounded-[10px]',
-                'transitoin-all duration-500 ease-in',
+                'transition-all duration-500 ease-in',
                 previewImg === '/placeholder-image.svg'
                     ? 'bg-neutral-100'
                     : 'border-[0.6px] border-solid border-neutral-150 bg-neutral-00',
@@ -59,6 +59,8 @@ export default function ClubImageUpload({
                     accept=".jpg, .jpeg, .png"
                     onChange={handleImgUpload}
                     className="hidden"
+                    disabled={disabled}
+                    aria-disabled={disabled}
                 />
             </div>
 
