@@ -39,7 +39,8 @@ export default function ClubDetailHeader() {
 
     const isButtonEnabled =
         (data?.recruitmentStatus === 'OPEN' ||
-            data?.recruitmentStatus === 'ALWAYS_OPEN') &&
+            data?.recruitmentStatus === 'ALWAYS_OPEN' ||
+            data?.recruitmentStatus === 'ADDITIONAL') &&
         !!data?.applicationUrl;
 
     return (
@@ -47,7 +48,7 @@ export default function ClubDetailHeader() {
             <img
                 src={data?.profileImageUrl || DEFAULT_IMG}
                 alt="Club Logo"
-                className="w-[75px] h-[75px] rounded-[10px] mr-[21px] object-cover absolute-top-[35px] left-1/2 -translate-x-1/2"
+                className="w-[75px] h-[75px] rounded-[10px] mr-[21px] object-cover absolute -top-[35px] left-1/2 -translate-x-1/2"
             />
             <div className="flex flex-col justify-center items-center">
                 <div className="mt-[47px] flex justify-center flex-col items-center text-center gap-[5px] mb-[10px]">
