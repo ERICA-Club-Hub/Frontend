@@ -24,26 +24,20 @@ const categorySchema = z.object({
         .optional() as z.ZodType<DepartmentCode | null>,
 });
 
-const baseSchema = z.object({
-    clubName: z.string().min(1),
-    clubType: z.string().min(1) as z.ZodType<ClubType>,
-    category: categorySchema,
-    image: z.string().optional(),
-    oneLiner: z.string().min(1).max(17),
-});
-
-const profileSchema = baseSchema.superRefine(validateClubCategoryRequirement);
-
-const registrationSchema = baseSchema
-    .extend({
-        leaderEmail: z.email('올바른 이메일 형식이 아니에요.'), // 유저명 + @ + 도메인 + . + 최상위도메인
-        briefIntroduction: z.string().min(1),
+const profileSchema = z
+    .object({
+        clubName: z.string().min(1),
+        leaderEmail: z.email('올바른 이메일 형식이 아니에요.').optional(), // 유저명 + @ + 도메인 + . + 최상위도메인
+        clubType: z.string().min(1) as z.ZodType<ClubType>,
+        category: categorySchema,
+        image: z.string().optional(),
+        oneLiner: z.string().min(1).max(17),
+        briefIntroduction: z.string().min(1).optional(),
     })
     .superRefine(validateClubCategoryRequirement);
 
-type RegistrationSchema = z.infer<typeof registrationSchema>;
-type ProfileSchema = z.infer<typeof profileSchema>;
-type FormValues = RegistrationSchema | ProfileSchema;
+type RegistrationSchema = z.infer<typeof profileSchema>;
+type FormValues = RegistrationSchema;
 
-export { registrationSchema, profileSchema };
+export { profileSchema };
 export type { FormValues };

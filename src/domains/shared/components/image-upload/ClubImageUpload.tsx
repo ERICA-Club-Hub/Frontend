@@ -1,13 +1,14 @@
 import { cn } from '@/utils/cn';
 import { uploadImageWithPreview } from '@/utils/uploadImageWithPreview';
 
-interface IClubImageUpload {
+interface ClubImageUploadProps {
     setPostImg: React.Dispatch<React.SetStateAction<File | File[] | null>>;
     previewImg: string | ArrayBuffer | null;
     setPreviewImg: React.Dispatch<
         React.SetStateAction<string | ArrayBuffer | null>
     >;
     placeholder: string;
+    disabled?: boolean;
 }
 
 export default function ClubImageUpload({
@@ -15,7 +16,8 @@ export default function ClubImageUpload({
     previewImg,
     setPreviewImg,
     placeholder,
-}: IClubImageUpload) {
+    disabled = false,
+}: ClubImageUploadProps) {
     const handleImgUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
         uploadImageWithPreview(e, setPostImg, setPreviewImg);
     };
@@ -24,7 +26,7 @@ export default function ClubImageUpload({
         <div
             className={cn(
                 'flex items-center gap-[24px] w-[320px] h-[96px] pl-[20px] border-solid border-neutral-150 bg-neutral-100 rounded-[10px]',
-                'transitoin-all duration-500 ease-in',
+                'transition-all duration-500 ease-in',
                 previewImg === '/placeholder-image.svg'
                     ? 'bg-neutral-100'
                     : 'border-[0.6px] border-solid border-neutral-150 bg-neutral-00',
@@ -38,6 +40,7 @@ export default function ClubImageUpload({
                         previewImg === '/placeholder-image.svg'
                             ? 'border-[0.6px] border-solid border-neutral-50'
                             : 'border-[0.6px] border-solid border-neutral-150',
+                        disabled && 'pointer-events-none',
                     )}
                 >
                     {previewImg && (
@@ -56,6 +59,8 @@ export default function ClubImageUpload({
                     accept=".jpg, .jpeg, .png"
                     onChange={handleImgUpload}
                     className="hidden"
+                    disabled={disabled}
+                    aria-disabled={disabled}
                 />
             </div>
 

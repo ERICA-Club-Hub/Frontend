@@ -1,42 +1,91 @@
-import { useParams } from 'react-router-dom';
-import { useQueryClient } from '@tanstack/react-query';
+import { useNavigate, useParams } from 'react-router-dom';
+import Button from '@/components/Button/Button';
+import ClubProfileForm from '@/domains/shared/components/form/ClubProfileForm';
+import { useRegistrationDetailQuery } from '@/domains/club/registration/api/registration.queries';
+import useModal from '@/components/Modal/useModal';
 import {
-    ClubRegistrationDTOList,
-    PendingRegistrationResponse,
-} from '@/domains/club/registration/types/registration.types';
-import { APIResponse } from '@/types/api.types';
+    useApproveRegistrationMutation,
+    useDeleteRegistrationMutation,
+} from '@/domains/club/registration/api/registration.mutations';
+import { AlertModal } from '@/components/Modal/AlertModal';
+import { ALERT_MODAL_MESSAGE } from '@/components/Modal/modal.constant';
+import { ConfirmModal } from '@/components/Modal/ConfirmModal';
+import { PATHS } from '@/routes/paths';
 
+// 신규 동아리 등록 신청 상세 페이지
 export default function RegistrationsDetailPage() {
-    const { id } = useParams();
-    const queryClient = useQueryClient();
+    const { id: clubId } = useParams();
+    const navigate = useNavigate();
+    const modal = useModal();
 
-    if (!id) {
-        return (
-            <p className="flex flex-col items-center pt-5 text-center">
-                잘못된 접근입니다. <br />
-                목록 페이지에서 다시 시도해주세요.
-            </p>
-        );
-    }
+    const { data } = useRegistrationDetailQuery(clubId);
+    const { mutateAsync: approveRegistration } =
+        useApproveRegistrationMutation();
+    const { mutateAsync: deleteRegistration } = useDeleteRegistrationMutation();
 
-    const cachedData = queryClient.getQueryData<
-        APIResponse<PendingRegistrationResponse>
-    >(['registrations', 'pending']);
+    const handleApprove = async () => {
+        const isConfirmed = await modal.push('prompt', ConfirmModal, {
+            type: 'APPROVE',
+            onConfirm: async () => await approveRegistration(clubId),
+        });
 
-    const data = cachedData?.result.clubRegistrationDTOList.find(
-        (club: ClubRegistrationDTOList) =>
-            id === String(club.clubRegistrationId),
+        if (isConfirmed) {
+            await modal.push('prompt', AlertModal, {
+                title: ALERT_MODAL_MESSAGE.APPROVE.title,
+                actionLabel: ALERT_MODAL_MESSAGE.APPROVE.actionLabel,
+                onAction: () =>
+                    navigate(PATHS.SERVICE_ADMIN_REGISTRATIONS, {
+                        replace: true,
+                    }),
+            });
+        }
+    };
+
+    const handleDelete = async () => {
+        const isConfirmed = await modal.push('prompt', ConfirmModal, {
+            type: 'DELETE',
+            onConfirm: async () => await deleteRegistration(clubId),
+        });
+
+        if (isConfirmed) {
+            await modal.push('prompt', AlertModal, {
+                title: ALERT_MODAL_MESSAGE.DELETE.title,
+                actionLabel: ALERT_MODAL_MESSAGE.DELETE.actionLabel,
+                onAction: () =>
+                    navigate(PATHS.SERVICE_ADMIN_REGISTRATIONS, {
+                        replace: true,
+                    }),
+            });
+        }
+    };
+
+    return (
+        <ClubProfileForm
+            mode="read"
+            data={data}
+            renderAction={({ isSubmitting }) => {
+                return (
+                    <div className="flex gap-[12px] justify-end w-full mt-[20px] mb-[28px]">
+                        <Button
+                            type="button"
+                            size="xs"
+                            disabled={isSubmitting}
+                            onClick={handleApprove}
+                        >
+                            승인하기
+                        </Button>
+                        <Button
+                            type="button"
+                            size="xs"
+                            variant="negative"
+                            disabled={isSubmitting}
+                            onClick={handleDelete}
+                        >
+                            삭제하기
+                        </Button>
+                    </div>
+                );
+            }}
+        />
     );
-
-    if (!data) {
-        return (
-            <p className="flex flex-col items-center pt-5 text-center">
-                동아리 정보를 불러오는 데 실패했습니다. <br />
-                목록 페이지에서 다시 접근해주세요
-            </p>
-        );
-    }
-
-    //TODO: 수정 필요
-    return null;
 }

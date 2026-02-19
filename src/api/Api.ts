@@ -37,6 +37,8 @@ import {
   ApiResponseGetAllDocumentsResponse,
   ApiResponseGetDocumentFilesResponse,
   ApiResponseGetInstagrams,
+  ApiResponseGetInstagramsMain,
+  ApiResponseGetRegistrationResponse,
   ApiResponseGetRegistrationsResponse,
   ApiResponseGetSpecificActivityResponse,
   ApiResponseLoginResponse,
@@ -74,6 +76,7 @@ import {
   GetClubIntroductionParams,
   GetClubRecruitmentDraftParams,
   GetClubRecruitmentParams,
+  GetClubRegistrationParams,
   GetClubsByConditionParams,
   GetClubSchedulesDraftParams,
   GetClubSchedulesParams,
@@ -103,7 +106,9 @@ import {
   PostNewActivityParams,
   PostSpecificClubDraftParams,
   PostSpecificClubParams,
+  RecruitmentAlertSubscribeRequest,
   ReissueClubCodeParams,
+  SubscribeRecruitmentAlertParams,
   UpdateActivityParams,
   UpdateActivityRequest,
   UpdateAnnouncementParams,
@@ -246,6 +251,28 @@ export class Api<
       ...params,
     });
   /**
+   * @description ## 동아리 모집이 시작될 때 받을 이메일을 등록합니다. ### Path Variable - **clubId**: 알림을 신청할 동아리 ID ### Request Body - **email**: 알림 수신 이메일
+   *
+   * @tags Club Basic
+   * @name SubscribeRecruitmentAlert
+   * @summary [동아리 기본] 모집 시작 알림 신청
+   * @request POST:/api/clubs/{clubId}/recruitment-alerts
+   * @secure
+   */
+  subscribeRecruitmentAlert = (
+    { clubId, ...query }: SubscribeRecruitmentAlertParams,
+    data: RecruitmentAlertSubscribeRequest,
+    params: RequestParams = {},
+  ) =>
+    this.request<ApiResponseVoid, any>({
+      path: `/api/clubs/${clubId}/recruitment-alerts`,
+      method: "POST",
+      body: data,
+      secure: true,
+      type: ContentType.Json,
+      ...params,
+    });
+  /**
    * @description ## 동아리 수정 요청을 수락합니다. ### PathVariable - **clubRegistrationId**: 수락하려는 clubRegistration의 ID ### Response - **수락 후 수정된 club의 id**
    *
    * @tags Club Basic
@@ -300,6 +327,25 @@ export class Api<
       path: `/api/clubs/service-admin/reissue`,
       method: "POST",
       query: query,
+      secure: true,
+      ...params,
+    });
+  /**
+   * @description ## 등록 요청된 동아리를 조회합니다. ### PathVariable - **clubRegistrationId**: 조회하려는 clubRegistration의 ID
+   *
+   * @tags Club Registration
+   * @name GetClubRegistration
+   * @summary [동아리 등록] 등록 요청 동아리 상세 조회
+   * @request GET:/api/clubs/service-admin/registrations/{clubRegistrationId}
+   * @secure
+   */
+  getClubRegistration = (
+    { clubRegistrationId, ...query }: GetClubRegistrationParams,
+    params: RequestParams = {},
+  ) =>
+    this.request<ApiResponseGetRegistrationResponse, any>({
+      path: `/api/clubs/service-admin/registrations/${clubRegistrationId}`,
+      method: "GET",
       secure: true,
       ...params,
     });
@@ -1215,13 +1261,13 @@ export class Api<
    * No description
    *
    * @tags club-instagram-search-controller
-   * @name GetInstagramPopular
-   * @request GET:/api/clubs/instagram/popular
+   * @name GetInstagramMain
+   * @request GET:/api/clubs/instagram/main
    * @secure
    */
-  getInstagramPopular = (params: RequestParams = {}) =>
-    this.request<ApiResponseGetInstagrams, any>({
-      path: `/api/clubs/instagram/popular`,
+  getInstagramMain = (params: RequestParams = {}) =>
+    this.request<ApiResponseGetInstagramsMain, any>({
+      path: `/api/clubs/instagram/main`,
       method: "GET",
       secure: true,
       ...params,

@@ -1,11 +1,11 @@
 import Button from '@/components/Button/Button';
-import { useClubRegisterMutation } from '@/domains/club/profile/api/profile.mutations';
 import { FormValues } from '@/domains/club/profile/model/profile.schema';
-import ClubProfileForm from '@/domains/club/profile/ui/ClubProfileForm';
+import ClubProfileForm from '@/domains/shared/components/form/ClubProfileForm';
+import { useRegistrationMutation } from '@/domains/club/registration/api/registration.mutations';
 
 // 신규 동아리 등록 페이지
 export default function RegistrationPage() {
-    const { mutate: registerClub } = useClubRegisterMutation();
+    const { mutate: registerClub } = useRegistrationMutation();
 
     const handleSubmit = async (
         formValues: FormValues,
@@ -20,7 +20,6 @@ export default function RegistrationPage() {
     return (
         <ClubProfileForm
             mode="register"
-            data={null}
             onSubmit={handleSubmit}
             renderAction={({ isValid, isSubmitting }) => {
                 return (
@@ -28,7 +27,7 @@ export default function RegistrationPage() {
                         type="submit"
                         size="lg"
                         disabled={!isValid || isSubmitting}
-                        className="mt-[40px] mb-[28px]"
+                        className="mt-[32px] mb-[28px]"
                     >
                         동아리 등록 신청하기
                     </Button>

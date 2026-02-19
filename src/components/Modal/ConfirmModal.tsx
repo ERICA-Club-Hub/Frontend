@@ -1,12 +1,13 @@
 import { cn } from '@/utils/cn';
 import Modal from './Modal';
 import { CONFIRM_MODAL_MESSAGE } from './modal.constant';
+import { useState } from 'react';
 
 interface ConfirmModalProps {
     type: 'APPROVE' | 'UPLOAD' | 'DELETE' | 'REJECT';
     onConfirm?: () => void;
     onCancel?: () => void;
-    resolve: (value: boolean) => void;
+    resolve: (value: boolean | null) => void;
     closeModal: () => void;
 }
 
@@ -38,14 +39,30 @@ export function ConfirmModal({
     resolve,
     closeModal,
 }: ConfirmModalProps) {
+    const [isLoading, setIsLoading] = useState<boolean>(false);
+
     const handleCancel = () => {
-        if (onCancel) onCancel();
+        if (isLoading) return;
+
         resolve(false);
+        if (onCancel) onCancel();
     };
 
-    const handleConfirm = () => {
-        if (onConfirm) onConfirm();
-        resolve(true);
+    const handleConfirm = async () => {
+        if (isLoading) return;
+
+        try {
+            setIsLoading(true);
+            if (onConfirm) await onConfirm();
+
+            resolve(true);
+        } catch (err) {
+            resolve(null);
+            console.error(`ConfirmModal Submission failed:${err}`);
+            return;
+        } finally {
+            setIsLoading(false);
+        }
     };
 
     return (

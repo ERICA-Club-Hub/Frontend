@@ -71,7 +71,6 @@ export function PromptModal({
         // 빈 입력 모달 닫기
         if (inputValue.trim().length === 0) {
             resolve(null);
-            closeModal();
             return;
         }
 
@@ -87,7 +86,7 @@ export function PromptModal({
                 setIsSubmitting(true);
                 await onSubmit(inputValue);
             } catch (err) {
-                closeModal();
+                resolve(null);
                 console.error(`PromptModal Submission failed:${err}`);
                 return;
             } finally {

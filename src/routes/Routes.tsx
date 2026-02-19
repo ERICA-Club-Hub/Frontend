@@ -3,11 +3,11 @@ import { RedirectIfAuthenticated } from './RedirectIfAuthenticated';
 import { AuthGuard } from './AuthGuard';
 import ClubAdminGurad from './ClubAdminGurad';
 import ServiceAdminGuard from './ServiceAdminGuard';
-import ServiceAdminPage from '@/pages/admin/service/dashboard/ServiceAdminPage';
+import ServiceAdminDashboardPage from '@/pages/admin/service/dashboard/ServiceAdminDashboardPage';
 import ClubDetailPreviewPage from '@/pages/club/preview/ClubDetailPreviewPage';
 import ClubSearchPage from '@/pages/search/ClubSearchPage';
 import MainPage from '@/pages/main/MainPage';
-import ClubManagementPage from '@/pages/admin/service/club-management/ClubManagementPage';
+import ClubManagementPage from '@/pages/admin/service/clubs/ClubManagementPage';
 import RegistrationsDetailPage from '@/pages/admin/service/registrations/RegistrationsDetailPage';
 import { PATHS } from './paths';
 import { AdminLoginPage } from '@/pages/admin/auth/AdminLoginPage';
@@ -24,6 +24,7 @@ import WrongAccessPage from '@/pages/error/WrongAccessPage';
 import NetworkErrorPage from '@/pages/error/NetworkErrorPage';
 import UnknownErrorPage from '@/pages/error/UnknownErrorPage';
 import ServerErrorPage from '@/pages/error/ServerErrorPage';
+import ClubManagementDetailPage from '@/pages/admin/service/clubs/ClubManagementDetailPage';
 
 export default function AppRoutes() {
     return (
@@ -88,22 +89,26 @@ export default function AppRoutes() {
                 {/* --- 서비스 어드민 --- */}
                 <Route path="/admin/service" element={<ServiceAdminGuard />}>
                     {/* 서비스 어드민 대시보드 */}
-                    <Route index element={<ServiceAdminPage />} />
+                    <Route index element={<ServiceAdminDashboardPage />} />
 
                     {/* 신규 동아리 등록 신청 관리 */}
                     <Route
-                        path={PATHS.SERVICE_ADMIN_REGISTRATIONS_MANAGE}
+                        path={PATHS.SERVICE_ADMIN_REGISTRATIONS}
                         element={<RegistrationsListPage />}
                     />
                     <Route
-                        path="/admin/service/registrations/:id"
+                        path="registrations/:id"
                         element={<RegistrationsDetailPage />}
                     />
 
                     {/* 동아리 관리 페이지 */}
                     <Route
-                        path="/admin/service/club-management"
+                        path={PATHS.SERVICE_ADMIN_CLUBS}
                         element={<ClubManagementPage />}
+                    />
+                    <Route
+                        path="clubs/:id"
+                        element={<ClubManagementDetailPage />}
                     />
                 </Route>
             </Route>

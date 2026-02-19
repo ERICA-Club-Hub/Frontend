@@ -31,6 +31,7 @@ interface SelectDropdownProps {
     value: Value | null;
     onChange: (value: string) => void;
     placeholder: string;
+    disabled?: boolean;
 }
 
 export default function SelectDropdown({
@@ -39,6 +40,7 @@ export default function SelectDropdown({
     value,
     onChange,
     placeholder,
+    disabled = false,
 }: SelectDropdownProps) {
     const hasSelectedValue = !!value;
 
@@ -101,7 +103,10 @@ export default function SelectDropdown({
                         key={option.value}
                         index={idx}
                         onClick={() => onChange(option.value)}
-                        className={cn('flex flex-1 basis-[45%] min-w-fit')}
+                        className={cn(
+                            'flex flex-1 basis-[45%] min-w-fit',
+                            disabled && 'pointer-events-none',
+                        )}
                         delay={300}
                     >
                         {({ isSelected }) => (

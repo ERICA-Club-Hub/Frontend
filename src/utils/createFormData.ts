@@ -1,5 +1,5 @@
 import { CLUB_TYPE } from '@/constants/category-config.constant';
-import { FormValues } from '../model/profile.schema';
+import { FormValues } from '../domains/club/profile/model/profile.schema';
 
 /**
  * 폼 데이터 생성 함수
