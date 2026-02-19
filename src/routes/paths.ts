@@ -52,8 +52,8 @@ export const PATHS = {
         `/admin/service/faq/${clubId}`,
 
     /* 유저 피드백 모음 */
-    SERVICE_ADMIN_FEEDBACK: '/admin/service/feedbacks',
-    SERVICE_ADMIN_FEEDBACK_DETAIL: (clubId: string) =>
+    SERVICE_ADMIN_FEEDBACKS: '/admin/service/feedbacks',
+    SERVICE_ADMIN_FEEDBACKS_DETAIL: (clubId: string) =>
         `/admin/service/feedbacks/${clubId}`,
 
     // TODO: 어드민 어순 변경 e.g. ADMIN_CLUB -> CLUB_ADMIN
