@@ -1,4 +1,5 @@
 import { apiRequest } from '@/api/apiRequest';
+import { queryClient } from '@/api/queryClient';
 import { useErrorHandler } from '@/hooks/useErrorHandler';
 import { useMutation } from '@tanstack/react-query';
 
@@ -15,6 +16,9 @@ export const useFeedbackMutation = () => {
                 method: 'POST',
                 data,
             });
+        },
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ['feedbacks'] });
         },
         onError: (error) => {
             handleError(error);

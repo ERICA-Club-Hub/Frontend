@@ -16,6 +16,7 @@ import {
   AnnouncementRequest,
   ApiResponseActivityCommandResponse,
   ApiResponseAnnouncementCommandResponse,
+  ApiResponseClubAdminDetailResponse,
   ApiResponseClubBasicInfoResponse,
   ApiResponseClubCodeResponse,
   ApiResponseClubCommandResponse,
@@ -36,6 +37,7 @@ import {
   ApiResponseGetAllAnnouncementResponse,
   ApiResponseGetAllDocumentsResponse,
   ApiResponseGetDocumentFilesResponse,
+  ApiResponseGetFeedbacksResponse,
   ApiResponseGetInstagrams,
   ApiResponseGetInstagramsMain,
   ApiResponseGetRegistrationResponse,
@@ -69,9 +71,11 @@ import {
   FeedbackRequest,
   GetAllActivityParams,
   GetAllClubRegistrationsParams,
+  GetAllFeedbacksParams,
   GetAllServiceAnnouncementsParams,
   GetCentralClubsByCondition1Params,
   GetCentralClubsByConditionParams,
+  GetClubAdminDetailParams,
   GetClubIntroductionDraftParams,
   GetClubIntroductionParams,
   GetClubRecruitmentDraftParams,
@@ -142,6 +146,25 @@ export class Api<
       body: data,
       secure: true,
       type: ContentType.Json,
+      ...params,
+    });
+  /**
+   * No description
+   *
+   * @tags Feedback
+   * @name GetAllFeedbacks
+   * @request GET:/api/feedbacks
+   * @secure
+   */
+  getAllFeedbacks = (
+    query: GetAllFeedbacksParams,
+    params: RequestParams = {},
+  ) =>
+    this.request<ApiResponseGetFeedbacksResponse, any>({
+      path: `/api/feedbacks`,
+      method: "GET",
+      query: query,
+      secure: true,
       ...params,
     });
   /**
@@ -1147,6 +1170,44 @@ export class Api<
       ...params,
     });
   /**
+   * No description
+   *
+   * @tags Club Registration
+   * @name GetClubAdminDetail
+   * @summary [서비스 어드민] 동아리 관리 상세 조회
+   * @request GET:/api/clubs/service-admin/{clubId}
+   * @secure
+   */
+  getClubAdminDetail = (
+    { clubId, ...query }: GetClubAdminDetailParams,
+    params: RequestParams = {},
+  ) =>
+    this.request<ApiResponseClubAdminDetailResponse, any>({
+      path: `/api/clubs/service-admin/${clubId}`,
+      method: "GET",
+      secure: true,
+      ...params,
+    });
+  /**
+   * @description ## 동아리를 삭제합니다. ### PathVariable - **clubId**: 삭제하려는 club의 ID ### Response - 없음
+   *
+   * @tags Club Registration
+   * @name DeleteClub
+   * @summary [동아리 삭제] 동아리 삭제
+   * @request DELETE:/api/clubs/service-admin/{clubId}
+   * @secure
+   */
+  deleteClub = (
+    { clubId, ...query }: DeleteClubParams,
+    params: RequestParams = {},
+  ) =>
+    this.request<ApiResponseVoid, any>({
+      path: `/api/clubs/service-admin/${clubId}`,
+      method: "DELETE",
+      secure: true,
+      ...params,
+    });
+  /**
    * @description ## 동아리 수정 요청을 조회합니다.
    *
    * @tags Club Basic
@@ -1472,25 +1533,6 @@ export class Api<
     this.request<ApiResponseRecentActivityLogResponse, any>({
       path: `/api/activities/club/recent`,
       method: "GET",
-      secure: true,
-      ...params,
-    });
-  /**
-   * @description ## 동아리를 삭제합니다. ### PathVariable - **clubId**: 삭제하려는 club의 ID ### Response - 없음
-   *
-   * @tags Club Registration
-   * @name DeleteClub
-   * @summary [동아리 삭제] 동아리 삭제
-   * @request DELETE:/api/clubs/service-admin/{clubId}
-   * @secure
-   */
-  deleteClub = (
-    { clubId, ...query }: DeleteClubParams,
-    params: RequestParams = {},
-  ) =>
-    this.request<ApiResponseVoid, any>({
-      path: `/api/clubs/service-admin/${clubId}`,
-      method: "DELETE",
       secure: true,
       ...params,
     });

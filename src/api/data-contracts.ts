@@ -611,6 +611,30 @@ export interface ApiResponseServiceAnnouncementDetailDTO {
   result?: ServiceAnnouncementDetailDTO;
 }
 
+export interface ApiResponseGetFeedbacksResponse {
+  isSuccess?: boolean;
+  code?: string;
+  message?: string;
+  result?: GetFeedbacksResponse;
+}
+
+/** DTO for feedback */
+export interface FeedbackDTO {
+  /** @format int64 */
+  feedbackId?: number;
+  /**
+   * Feedback content
+   * @example "Great service!"
+   */
+  content: string;
+}
+
+export interface GetFeedbacksResponse {
+  /** @format int32 */
+  totalElements?: number;
+  feedbackDTOList?: FeedbackDTO[];
+}
+
 export interface ApiResponseGetAllDocumentsResponse {
   isSuccess?: boolean;
   code?: string;
@@ -1185,6 +1209,71 @@ export interface ClubSearchResult {
   tag?: string;
 }
 
+export interface ApiResponseClubAdminDetailResponse {
+  isSuccess?: boolean;
+  code?: string;
+  message?: string;
+  /** DTO for service admin club detail response */
+  result?: ClubAdminDetailResponse;
+}
+
+/** DTO for service admin club detail response */
+export interface ClubAdminDetailResponse {
+  /**
+   * Club ID
+   * @format int64
+   * @example 1
+   */
+  id?: number;
+  /**
+   * Club name
+   * @example "Hanjari"
+   */
+  name?: string;
+  /**
+   * Club description (one-liner)
+   * @example "The best central club at Hanyang University ERICA"
+   */
+  oneLiner?: string;
+  /**
+   * Recruitment status
+   * @example "RECRUITING"
+   */
+  recruitmentStatus?:
+    | "UPCOMING"
+    | "OPEN"
+    | "CLOSED"
+    | "ALWAYS_OPEN"
+    | "ADDITIONAL";
+  /**
+   * Club profile image URL
+   * @example "https://.../profile.png"
+   */
+  profileImageUrl?: string;
+  /**
+   * Application URL
+   * @example "https://forms.gle/..."
+   */
+  applicationUrl?: string;
+  /** Club category information */
+  category?: CategoryResponse;
+  /**
+   * Club category tag
+   * @example "Academic"
+   */
+  tag?: string;
+  /**
+   * Leader email
+   * @example "leader@example.com"
+   */
+  leaderEmail?: string;
+  /**
+   * Club description
+   * @example "We are a club that..."
+   */
+  description?: string;
+}
+
 export interface ApiResponseGetRegistrationsResponse {
   isSuccess?: boolean;
   code?: string;
@@ -1517,6 +1606,19 @@ export interface RecentActivityLogResponse {
   activityLogs?: RecentActivityLog[];
 }
 
+export interface GetAllFeedbacksParams {
+  /**
+   * @format int32
+   * @default 0
+   */
+  page?: number;
+  /**
+   * @format int32
+   * @default 10
+   */
+  size?: number;
+}
+
 export interface UpdateClubInfoParams {
   /** @format int64 */
   clubId: number;
@@ -1757,6 +1859,16 @@ export interface GetUnionClubsByConditionParams {
    * @default 10
    */
   size?: number;
+}
+
+export interface GetClubAdminDetailParams {
+  /** @format int64 */
+  clubId: number;
+}
+
+export interface DeleteClubParams {
+  /** @format int64 */
+  clubId: number;
 }
 
 export interface GetClubUpdateListParams {
@@ -2051,11 +2163,6 @@ export interface GetSpecificActivityParams {
 }
 
 export interface GetAllActivityParams {
-  /** @format int64 */
-  clubId: number;
-}
-
-export interface DeleteClubParams {
   /** @format int64 */
   clubId: number;
 }
