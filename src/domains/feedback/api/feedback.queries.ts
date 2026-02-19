@@ -13,7 +13,7 @@ const fetchFeedbacks = async ({
     });
 
 /**
- * 동아리 상세 정보 조회 (동아리 소개)
+ * 피드백 목록 조회 (무한 스크롤)
  */
 export const useFeedbackQuery = () => {
     return useInfiniteQuery({

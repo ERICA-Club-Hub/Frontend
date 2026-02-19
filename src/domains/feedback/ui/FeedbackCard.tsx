@@ -3,7 +3,8 @@ import { FeedbackDTO } from '@/api/data-contracts';
 /**
  * 유저 피드백 카드 컴포넌트
  * @usage - 서비스 어드민 페이지 (유저 피드백 모음)
- */ export default function FeedbackCard({ data }: { data: FeedbackDTO }) {
+ */
+export default function FeedbackCard({ data }: { data: FeedbackDTO }) {
     return (
         <div className="flex flex-col gap-[6px]">
             <p className="w-[320px] h-fit p-[12px] rounded-[8px] bg-neutral-00 border-[0.6px] border-solid border-neutral-150 text-b4 text-neutral-900">
