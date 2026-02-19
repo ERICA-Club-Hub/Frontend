@@ -32,7 +32,7 @@ export default function ClubDetailPage() {
             placeholder: PROMPT_MODAL_MESSAGE.EMAIL.placeholder,
             inputType: 'input',
             validate: (value: string) => z.email().safeParse(value).success,
-            errorMessage: '유효한 이메일 주소를 입력해주세요.',
+            errorMessage: '올바른 이메일 형식이 아니에요.',
             onSubmit: async (inputValue: string) => {
                 await submitEmail({ email: inputValue });
                 modal.push('alert', AlertModal, {
