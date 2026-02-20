@@ -38,7 +38,7 @@ export default function ClubDetailSchedule({
                     key={`${schedule.month}-${index}`}
                     className="flex gap-2.5 items-center"
                 >
-                    <div className="w-8.25 px-2 py-0.5 bg-primary-50 text-primary-600 rounded-xl flex items-center justify-center text-c4 shrink-0">
+                    <div className="w-8.25 py-0.5 bg-primary-50 text-primary-600 rounded-xl flex items-center justify-center text-c4 shrink-0">
                         {schedule.month}월
                     </div>
                     <p className="text-b4 text-neutral-600">
