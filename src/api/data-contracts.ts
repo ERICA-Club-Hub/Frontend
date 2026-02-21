@@ -627,6 +627,8 @@ export interface FeedbackDTO {
    * @example "Great service!"
    */
   content: string;
+  /** @format date-time */
+  dateTime?: string;
 }
 
 export interface GetFeedbacksResponse {
