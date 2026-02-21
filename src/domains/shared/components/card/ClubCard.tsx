@@ -77,12 +77,12 @@ export default function ClubCard({
                     </div>
                 </div>
 
-                <div className="flex flex-col">
+                <div className="flex flex-col w-full overflow-hidden">
                     <span className="text-gray-900 text-b2 font-semibold leading-normal m-0 mb-[5px] whitespace-nowrap overflow-hidden text-ellipsis">
                         {title}
                     </span>
 
-                    <span className="text-neutral-600 text-b4 font-medium leading-normal w-full m-0 whitespace-nowrap overflow-hidden text-ellipsis text-left">
+                    <span className="text-neutral-600 text-b4 w-full m-0 whitespace-nowrap overflow-hidden text-ellipsis text-left">
                         {subTitle}
                     </span>
                 </div>
