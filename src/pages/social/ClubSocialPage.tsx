@@ -1,14 +1,14 @@
 import ClubSocialItem from '@/domains/social/ui/ClubSocialItem';
 import SearchTab from '@/domains/search/ui/SearchTab';
 import { useSearchParams } from 'react-router-dom';
+import { useClubSNSByType } from '@/domains/social/api/useClubSNS';
+import { useEffect } from 'react';
 import {
     CentralCategoryDropdown,
     CollegeDropdown,
     DepartmentDropdown,
     UnionCategoryDropdown,
 } from '@/domains/search/ui/ClubSearchOptions';
-import { useClubSNSByType } from '@/domains/social/api/useClubSNS';
-import { useEffect } from 'react';
 import { ClubType } from '@/domains/search/api/useClubList';
 
 const VALID_TABS: Record<string, ClubType> = {
