@@ -12,12 +12,23 @@ const convertURLtoFile = async (imageUrl: string) => {
         // 응답을 Blob 객체로 변환
         const blob = await res.blob();
 
+        // URL 디코딩 및 쿼리 스트링 제거
         const decodedUrl = decodeURIComponent(imageUrl);
+        const urlWithoutQuery = decodedUrl.split('?')[0];
 
-        // // URL에서 파일 이름 추출
-        const fileNameWithoutAddress = decodedUrl.split('/')[3] || ''; // 마지막 부분에서 쿼리스트링 제거
-        const fileNameWithUUID = fileNameWithoutAddress.split('?')[0];
-        const fileName = fileNameWithUUID.replace(/^[a-z0-9-]{36}/, '');
+        // URL에서 파일 이름 추출
+        let fileName =
+            urlWithoutQuery.split('/').pop() || 'placeholder-image.svg';
+
+        // 파일 이름에서 UUID 패턴 제거
+        const uuidPattern = /^[a-z0-9-]{36}/;
+        if (uuidPattern.test(fileName)) {
+            fileName = fileName.replace(uuidPattern, '');
+        }
+
+        if (!fileName || fileName.trim() === '') {
+            fileName = 'placeholder-image.svg';
+        }
 
         // Blob 객체를 File 객체로 변환
         return new File([blob], fileName, {

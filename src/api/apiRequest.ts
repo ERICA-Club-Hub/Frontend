@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { getAccessToken, setAccessToken } from '../utils/tokenHandler';
 import { axiosInstance } from './axiosInstance';
-import { RequestConfig } from '@/types';
+import { RequestConfig } from '@/types/api.types';
 
 /**
  * API 호출할 때 최종적으로 사용할 함수
@@ -19,6 +19,7 @@ export const apiRequest = async ({
     url,
     method = 'GET',
     data,
+    params,
     headers = {},
     requireToken = false,
 }: RequestConfig) => {
@@ -30,7 +31,13 @@ export const apiRequest = async ({
             }
         }
 
-        const response = await axiosInstance({ url, method, data, headers });
+        const response = await axiosInstance({
+            url,
+            method,
+            data,
+            params,
+            headers,
+        });
 
         if (url === '/api/auth/login') {
             // 로그인하는 api일 때는 호출하면 자동으로 토큰 저장하도록

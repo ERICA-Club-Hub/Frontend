@@ -1,6 +1,8 @@
-import { SetPreviewImgType } from '@/types';
+type SetPreviewImgType = React.Dispatch<
+    React.SetStateAction<string | ArrayBuffer | null>
+>;
 
-const uploadImageWithPreview = (
+export const uploadImageWithPreview = (
     e: React.ChangeEvent<HTMLInputElement>,
     setPostImg: React.Dispatch<React.SetStateAction<File | File[] | null>>,
     setPreviewImg: SetPreviewImgType,
@@ -17,7 +19,7 @@ const uploadImageWithPreview = (
 
     // 미리보기 이미지 설정
 
-    let fileRead = new FileReader();
+    const fileRead = new FileReader();
     fileRead.readAsDataURL(uploadFile); // url로 변환
 
     fileRead.onload = () => {
@@ -29,5 +31,3 @@ const uploadImageWithPreview = (
         console.log('이미지 읽기 중 오류 발생');
     };
 };
-
-export { uploadImageWithPreview };

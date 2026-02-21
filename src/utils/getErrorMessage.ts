@@ -1,4 +1,4 @@
-import { ERROR_MESSAGE } from '@/constants/errorMessage';
+import { ERROR_MESSAGE } from '@/constants/error-message.constant';
 
 export const getErrorMessage = (url: string, status: number) => {
     const matchingKey = Object.keys(ERROR_MESSAGE).find(

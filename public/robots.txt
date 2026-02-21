@@ -1,0 +1,5 @@
+User-agent: *
+Disallow: /admin/
+Disallow: /club-detail-preview/
+
+Sitemap: https://hanjari.site/sitemap.xml

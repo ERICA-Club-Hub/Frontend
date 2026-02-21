@@ -42,28 +42,45 @@ yarn preview
 ## 3. 폴더구조
 
 ```
-src/
-├── api // api 호출 함수 관리
-├── assets // 각종 이미지 소스 관리
-├── components // 컴포넌트 관리
-│   ├── Common // 공통 컴포넌트
-│   └── index.ts // 공통 import 관리 파일
-│       ...
-├── config // 환경 설정 관리
-├── constants // 전역 상수 관리
-├── hooks // custom hook 관리
-├── pages
-│   └── admin
-│   └── index // 공통 import 관리 파일
-│       ...
-├── store // 전역 상태 관리
-├── styles // 공통 스타일 관리
-│   └── admin-club-detail/style.ts
-├── types // 공유 타입 관리
-├── utils // 각종 유틸 함수 관리
-├── App.tsx // 페이지별 routing
-├── index.css // 전역 css 관리
-└── main.tsx
+root/
+├── .claude/               # [Tool] Claude Agent 프롬프트 (리팩토링, 마이그레이션 가이드)
+├── .github/               # [CI/CD] PR 템플릿 및 워크플로우
+├── public/                # [Static] 정적 리소스
+├── scripts/               # [Automation] 빌드/배포 보조 스크립트 (sitemap 생성 등)
+│
+├── src/
+│   ├── api/               # axios 인스턴스, swagger 타입 정의
+│   ├── assets/            # 정적 이미지
+│   ├── components/        # 디자인 시스템 및 공통 아토믹 컴포넌트 (Button, InputField)
+│   ├── constants/         # 전역 상수
+│   ├── domains/           # [Domain Layer] 비즈니스 도메인별 모듈 분리
+│   │   ├── club/
+│   │   │   └── registration/   # (nested) 하위 도메인 폴더링
+│   │   ├── search/
+│   │   │   ├── api/            # api 함수 정의, query key 관리
+│   │   │   ├── ui/             # 도메인 로직이 포함된 UI 컴포넌트
+│   │   │   ├── model/          # 상태 관리 및 비즈니스 로직 훅
+│   │   │   ├── lib/            # 도메인 전용 라이브러리 설정 및 어댑터
+│   │   │   └── types/          # 도메인 전용 타입 정의
+│   │   ├── ...
+│   │   └── shared/             # 도메인 간 공유되는 비즈니스 모듈
+│   │       ├── components/
+│   │       ├── layout/
+│   │       ├── hooks/
+│   │       └── utils/
+│   │
+│   ├── hooks/             # 전역 커스텀 훅
+│   ├── pages/             # 도메인 모듈을 조합하여 페이지 구성
+│   ├── routes/            # 페이지 라우팅 및 Guard 설정
+│   ├── types/             # 전역 유틸리티 타입 (Nullable, APIResponse)
+│   └── utils/             # 순수 헬퍼 함수 (dateFormatter, validators)
+│   │
+│   ├── App.tsx
+│   └── main.tsx
+│
+├── index.html
+├── package.json
+└── tsconfig.json
 ```
 
 <br> <br>

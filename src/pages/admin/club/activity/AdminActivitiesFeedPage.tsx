@@ -1,49 +1,29 @@
-import styled from 'styled-components';
-import Button from '@/components/Common/Button';
+import Button from '@/components/Button/Button';
 import { useRecoilValue } from 'recoil';
-import { clubIdSelector } from '@/store/clubInfoState';
+import { clubIdSelector } from '@/domains/auth/model/clubInfo.atom';
 import { Link } from 'react-router-dom';
-import { Feed } from '@/components/ActivityLog';
+import { Feed } from '@/domains/club/activity/ui/Feed';
 
 function AdminActivitiesFeedPage() {
     const clubId = useRecoilValue(clubIdSelector);
 
     return (
         <>
-            <Container>
-                <TitleWrapper>
-                    <Title>활동로그</Title>
+            <div className="flex flex-col items-center gap-[15px] pt-5">
+                <div className="flex justify-between w-[320px]">
+                    <div className="text-body-01 font-semibold text-black">
+                        활동로그
+                    </div>
                     <Link to={`/admin/club/${clubId}/activities/register`}>
                         <Button>활동로그 작성하기</Button>
                     </Link>
-                </TitleWrapper>
+                </div>
 
                 {/* 활동 피드 */}
                 <Feed />
-            </Container>
+            </div>
         </>
     );
 }
 
 export { AdminActivitiesFeedPage };
-
-const Container = styled.div`
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 15px;
-    padding-top: 20px;
-`;
-
-const TitleWrapper = styled.div`
-    display: flex;
-    justify-content: space-between;
-    width: 320px;
-`;
-
-const Title = styled.div`
-    font-size: 16px;
-    font-weight: 600;
-    line-height: normal;
-    color: ${({ theme }) => theme.colors.mainBlack};
-`;
