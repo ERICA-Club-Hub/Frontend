@@ -25,6 +25,7 @@ import NetworkErrorPage from '@/pages/error/NetworkErrorPage';
 import UnknownErrorPage from '@/pages/error/UnknownErrorPage';
 import ServerErrorPage from '@/pages/error/ServerErrorPage';
 import ClubManagementDetailPage from '@/pages/admin/service/clubs/ClubManagementDetailPage';
+import FeedbackListPage from '@/pages/admin/service/feedbacks/FeedbackListPage';
 
 export default function AppRoutes() {
     return (
@@ -109,6 +110,12 @@ export default function AppRoutes() {
                     <Route
                         path="clubs/:id"
                         element={<ClubManagementDetailPage />}
+                    />
+
+                    {/* 유저 피드백 모음 */}
+                    <Route
+                        path={PATHS.SERVICE_ADMIN_FEEDBACKS}
+                        element={<FeedbackListPage />}
                     />
                 </Route>
             </Route>

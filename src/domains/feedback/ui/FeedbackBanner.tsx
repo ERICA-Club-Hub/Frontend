@@ -10,7 +10,7 @@ import { PromptModal } from '@/components/Modal/PromptModal';
 import { AlertModal } from '@/components/Modal/AlertModal';
 import useModal from '@/components/Modal/useModal';
 
-export default function Feedback() {
+export default function FeedbackBanner() {
     const navigate = useNavigate();
     const modal = useModal();
 

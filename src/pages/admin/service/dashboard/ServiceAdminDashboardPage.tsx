@@ -5,7 +5,7 @@ import NavigationLink from '@/domains/shared/components/link/NavigationLink';
 export default function ServiceAdminDashboardPage() {
     return (
         <div className="flex flex-col items-center w-full pt-[22px]">
-            <AdminSection title="신규 동아리 신청 관리">
+            <AdminSection title="신규 동아리">
                 {serviceAdminMenus.NEW_CLUBS.map((menu) => (
                     <NavigationLink
                         content={{ label: menu.label }}

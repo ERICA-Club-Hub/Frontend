@@ -80,7 +80,7 @@ export const serviceAdminMenus = {
         },
         {
             label: '유저 피드백 모음',
-            url: PATHS.SERVICE_ADMIN_FEEDBACK,
+            url: PATHS.SERVICE_ADMIN_FEEDBACKS,
         },
     ],
 };
