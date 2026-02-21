@@ -4,7 +4,7 @@ import { ConfirmModal } from '@/components/Modal/ConfirmModal';
 import { ALERT_MODAL_MESSAGE } from '@/components/Modal/modal.constant';
 import useModal from '@/components/Modal/useModal';
 import { useDeleteClubMutation } from '@/domains/club/profile/api/profile.mutations';
-import { useClubOverviewQuery } from '@/domains/club/profile/api/profile.queries';
+import { useServiceAdminClubProfileQuery } from '@/domains/club/profile/api/profile.queries';
 import ClubProfileForm from '@/domains/shared/components/form/ClubProfileForm';
 import { PATHS } from '@/routes/paths';
 import { Navigate, useNavigate, useParams } from 'react-router-dom';
@@ -15,9 +15,8 @@ export default function ClubManagementDetailPage() {
     const navigate = useNavigate();
     const modal = useModal();
 
-    const { data, isError } = useClubOverviewQuery({
+    const { data, isError } = useServiceAdminClubProfileQuery({
         clubId,
-        isPreview: false,
     });
     const { mutateAsync: deleteClub } = useDeleteClubMutation();
 

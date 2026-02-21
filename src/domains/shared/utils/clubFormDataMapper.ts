@@ -1,10 +1,14 @@
 import {
+    ClubAdminDetailResponse,
     ClubOverviewResponse,
     GetRegistrationResponse,
 } from '@/api/data-contracts';
 import { ClubType } from '@/types/category.types';
 
-export type ClubFormData = ClubOverviewResponse | GetRegistrationResponse;
+export type ClubFormData =
+    | ClubOverviewResponse
+    | GetRegistrationResponse
+    | ClubAdminDetailResponse;
 
 /**
  * 동아리 등록/수정 폼에서 사용하는 형태로 변환하는 데이터 정규화 함수
@@ -13,15 +17,13 @@ export type ClubFormData = ClubOverviewResponse | GetRegistrationResponse;
  */
 export const normalizeData = (data: ClubFormData) => {
     const isOverview = 'name' in data;
-    const isRegistration = 'clubRegistrationId' in data;
+    // const isRegistration = 'clubRegistrationId' in data;
 
     return {
         clubName: isOverview
             ? data.name
             : (data as GetRegistrationResponse).clubName,
-        leaderEmail: isRegistration
-            ? (data as GetRegistrationResponse).leaderEmail
-            : undefined,
+        leaderEmail: (data as GetRegistrationResponse).leaderEmail ?? undefined,
         category: {
             clubCategoryName: data.category?.clubCategoryName as ClubType,
             centralCategoryName: data.category?.centralCategoryName,
@@ -31,7 +33,9 @@ export const normalizeData = (data: ClubFormData) => {
         },
         oneLiner: data.oneLiner,
         briefIntroduction:
-            (data as GetRegistrationResponse).briefIntroduction ?? undefined,
+            ((data as GetRegistrationResponse).briefIntroduction ||
+                (data as ClubAdminDetailResponse).description) ??
+            undefined,
         profileImageUrl: data.profileImageUrl,
     };
 };
