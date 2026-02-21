@@ -2,8 +2,8 @@ import ClubDetailHeader from '@/domains/club/profile/ui/ClubDetailHeader';
 import { useNavigate } from 'react-router-dom';
 import TabContentsSwitch from '../detail/TabContents';
 import arrow from '@/assets/common/Expand_right.svg';
-import { useClubDetail } from '@/domains/club/profile/model/useClubDetail';
 import ClubDetailTab from '@/domains/shared/components/layout/ClubDetailTab';
+import { useClubDetail } from '@/domains/club/profile/model/useClubDetail';
 
 export default function ClubDetailPreviewPage() {
     const navigate = useNavigate();
