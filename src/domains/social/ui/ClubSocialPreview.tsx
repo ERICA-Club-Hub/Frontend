@@ -14,9 +14,7 @@ export default function ClubSocialPreview() {
         return (
             <section className="flex flex-col">
                 <div className="mt-[30px] mb-5 flex justify-between">
-                    <h3 className="font-medium text-subtitle-01">
-                        공식 계정 바로가기
-                    </h3>
+                    <h3 className="text-s1">공식 계정 바로가기</h3>
                     <button
                         onClick={() => {
                             navigate(PATHS.CLUB_SOCIAL);
@@ -50,9 +48,7 @@ export default function ClubSocialPreview() {
     return (
         <section className="flex flex-col">
             <div className="mt-[30px] mb-5 flex justify-between">
-                <h3 className="font-medium text-subtitle-01">
-                    공식 계정 바로가기
-                </h3>
+                <h3 className="text-s1">공식 계정 바로가기</h3>
                 <button
                     onClick={() => {
                         navigate(PATHS.CLUB_SOCIAL);
