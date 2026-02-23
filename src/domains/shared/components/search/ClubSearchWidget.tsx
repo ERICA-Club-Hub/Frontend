@@ -62,7 +62,7 @@ export default function ClubSearchWidget({
             newParams.delete('keyword');
         }
 
-        setSearchKeyword(newParams);
+        setSearchKeyword(newParams, { replace: true });
     };
 
     const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -80,7 +80,7 @@ export default function ClubSearchWidget({
             newParam.set(searchKey, value);
         }
 
-        setSearchKeyword(newParam);
+        setSearchKeyword(newParam, { replace: true });
         refetch();
     };
 
