@@ -12,7 +12,8 @@ export const PATHS = {
     ) => `/club/${clubId}/${activityId}`,
 
     /* 동아리 소셜(인스타) 페이지 */
-    CLUB_SOCIAL: '/club/social',
+    CLUB_SOCIAL: (type?: string) =>
+        type ? `/club/social?type=${type}` : '/club/social',
 
     /* 서비스 공지사항 */
     NOTICE: '/notice',

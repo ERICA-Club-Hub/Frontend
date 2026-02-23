@@ -135,20 +135,24 @@ export default function ClubSocialPage() {
                               />
                           ))
                         : accounts.length > 0
-                        ? accounts.map((account, index) => (
-                              <ClubSocialItem
-                                  key={`${account.clubName}-${account.accountName}-${index}`}
-                                  clubName={account.clubName ?? ''}
-                                  clubLogoUrl={account.profileImage}
-                                  clubSNSId={account.accountName ?? ''}
-                                  onClick={() =>
-                                      window.open(
-                                          account.instagramProfileUrl,
-                                          '_blank',
-                                      )
-                                  }
-                              />
-                          ))
+                        ? accounts
+                              .filter(
+                                  (account) => account.accountName != null,
+                              )
+                              .map((account, index) => (
+                                  <ClubSocialItem
+                                      key={`${account.clubName}-${account.accountName}-${index}`}
+                                      clubName={account.clubName ?? ''}
+                                      clubLogoUrl={account.profileImage}
+                                      clubSNSId={account.accountName ?? ''}
+                                      onClick={() =>
+                                          window.open(
+                                              account.instagramProfileUrl,
+                                              '_blank',
+                                          )
+                                      }
+                                  />
+                              ))
                         : null}
                 </div>
             </div>
