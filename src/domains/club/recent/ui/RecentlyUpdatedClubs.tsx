@@ -10,10 +10,10 @@ export default function RecentlyUpdatedClubs() {
     if (isLoading) {
         return (
             <section className="flex flex-col">
-                <h3 className="font-medium text-subtitle-01 mt-[30px] mb-5">
+                <h3 className="text-s1 text-subtitle-01 mb-1 py-[12px]">
                     최근 업데이트된 동아리
                 </h3>
-                <section className="flex flex-col gap-[7px]">
+                <section className="flex flex-col gap-[10px]">
                     {Array.from({ length: 3 }).map((_, index) => (
                         <ClubCard key={index} to="" isLoading />
                     ))}
@@ -24,10 +24,10 @@ export default function RecentlyUpdatedClubs() {
 
     return (
         <section className="flex flex-col">
-            <h3 className="font-medium text-subtitle-01 mt-[30px] mb-5">
+            <h3 className="text-s1 text-subtitle-01 mb-1 py-[12px]">
                 최근 업데이트된 동아리
             </h3>
-            <section className="flex flex-col gap-[7px]">
+            <section className="flex flex-col gap-[10px]">
                 {recentlyUpdatedClubs.map((club) => (
                     <ClubCard
                         key={club.id}
