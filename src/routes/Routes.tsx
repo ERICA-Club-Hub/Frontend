@@ -26,6 +26,7 @@ import UnknownErrorPage from '@/pages/error/UnknownErrorPage';
 import ServerErrorPage from '@/pages/error/ServerErrorPage';
 import ClubManagementDetailPage from '@/pages/admin/service/clubs/ClubManagementDetailPage';
 import FeedbackListPage from '@/pages/admin/service/feedbacks/FeedbackListPage';
+import FAQPage from '@/pages/faq/FAQPage';
 
 export default function AppRoutes() {
     return (
@@ -43,7 +44,7 @@ export default function AppRoutes() {
             <Route path={PATHS.NOTICE} element={<NoticePage />} />
 
             {/* 자주 묻는 질문 페이지 */}
-            {/* <Route path={PATHS.FAQ} element={<FAQPage />} /> */}
+            <Route path={PATHS.FAQ} element={<FAQPage />} />
 
             {/* 동아리 등록 및 수정의 미리보기 페이지 */}
             <Route
@@ -70,7 +71,7 @@ export default function AppRoutes() {
             </Route>
 
             {/* --- 동아리 소셜(인스타) 페이지 --- */}
-            <Route path={PATHS.CLUB_SOCIAL} element={<ClubSocialPage />} />
+            <Route path={PATHS.CLUB_SOCIAL()} element={<ClubSocialPage />} />
 
             {/* --- 어드민 --- */}
             <Route path="/admin" element={<AuthGuard />}>
