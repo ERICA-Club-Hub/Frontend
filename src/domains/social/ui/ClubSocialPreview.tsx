@@ -56,17 +56,22 @@ export default function ClubSocialPreview() {
                 </Link>
             </div>
             <div className="w-[320px] flex justify-between">
-                {accounts.map((account) => (
-                    <ClubSocialItem
-                        key={`${account.clubName}-${account.accountName}`}
-                        clubName={account.clubName ?? ''}
-                        clubLogoUrl={account.profileImage}
-                        clubSNSId={account.accountName ?? ''}
-                        onClick={() =>
-                            window.open(account.instagramProfileUrl, '_blank')
-                        }
-                    />
-                ))}
+                {accounts
+                    .filter((account) => account.accountName != null)
+                    .map((account) => (
+                        <ClubSocialItem
+                            key={`${account.clubName}-${account.accountName}`}
+                            clubName={account.clubName ?? ''}
+                            clubLogoUrl={account.profileImage}
+                            clubSNSId={account.accountName ?? ''}
+                            onClick={() =>
+                                window.open(
+                                    account.instagramProfileUrl,
+                                    '_blank',
+                                )
+                            }
+                        />
+                    ))}
             </div>
         </section>
     );
