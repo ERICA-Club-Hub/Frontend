@@ -32,7 +32,7 @@ export default function ClubAdminDashboardPage() {
                 )}
             >
                 {isSuccess && (
-                    <div className="flex gap-[16px]">
+                    <div className="flex items-center gap-[16px]">
                         <div
                             className={cn(
                                 'flex items-center justify-center w-[68px] h-[68px] rounded-[8px]',
@@ -63,7 +63,7 @@ export default function ClubAdminDashboardPage() {
 
             <div className="flex flex-col items-center gap-[4px]">
                 <>
-                    <div className="flex justify-between w-[360px] h-[63px] py-[12px] px-[20px]">
+                    <div className="flex justify-between items-center w-[360px] h-[63px] py-[12px] px-[20px]">
                         <div className="flex flex-col gap-[2px]">
                             <strong className="text-b3 text-neutral-900">
                                 모집 상태
