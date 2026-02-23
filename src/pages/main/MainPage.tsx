@@ -7,11 +7,11 @@ import ClubSocialPreview from '@/domains/social/ui/ClubSocialPreview';
 export default function MainPage() {
     return (
         <div className="min-h-screen flex flex-col">
-            <div className="flex-1 flex flex-col items-center">
+            <div className="flex-1 flex flex-col items-center gap-2">
                 <CategoryCollectSection />
-                <FeedbackBanner />
                 <RecentlyUpdatedClubs />
                 <ClubSocialPreview />
+                <FeedbackBanner />
             </div>
             <Footer />
         </div>
