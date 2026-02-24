@@ -1,6 +1,5 @@
 import { useNavigate } from 'react-router-dom';
 import SurveyBox from '@/assets/common/surveyBox.svg?react';
-import SurveyCardArrow from '@/assets/common/surveyCard_arrow.svg?react';
 import {
     ALERT_MODAL_MESSAGE,
     PROMPT_MODAL_MESSAGE,
@@ -38,10 +37,9 @@ export default function FeedbackBanner() {
         <div className="flex justify-center items-center mt-5">
             <button
                 onClick={handleClick}
-                className="relative bg-transparent border-none cursor-pointer p-0 flex items-center [&_svg:last-child]:absolute [&_svg:last-child]:right-[25px] [&_svg:last-child]:top-1/2 [&_svg:last-child]:-translate-y-1/2"
+                className="bg-transparent border-none cursor-pointer p-0"
             >
                 <SurveyBox />
-                <SurveyCardArrow />
             </button>
         </div>
     );

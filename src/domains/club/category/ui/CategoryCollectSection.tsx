@@ -16,12 +16,12 @@ export default function CategoryCollectSection() {
             ></CategoryCollect>
             <CategoryCollect
                 img={<College />}
-                categoryLabel="단과대별"
+                categoryLabel="단과대동아리"
                 onClick={() => navigator('/club/search?type=college')}
             ></CategoryCollect>
             <CategoryCollect
                 img={<Department />}
-                categoryLabel="학과별"
+                categoryLabel="학과동아리"
                 onClick={() => navigator('/club/search?type=department')}
             ></CategoryCollect>
             <CategoryCollect

@@ -4,10 +4,12 @@ import TabContentsSwitch from '../detail/TabContents';
 import arrow from '@/assets/common/Expand_right.svg';
 import ClubDetailTab from '@/domains/shared/components/layout/ClubDetailTab';
 import { useClubDetail } from '@/domains/club/profile/model/useClubDetail';
+import { useClubOverviewQuery } from '@/domains/club/profile/api/profile.queries';
 
 export default function ClubDetailPreviewPage() {
     const navigate = useNavigate();
-    const { clubId, activeTab, setActiveTab } = useClubDetail();
+    const { clubId, isPreview, activeTab, setActiveTab } = useClubDetail();
+    const { data, isLoading } = useClubOverviewQuery({ clubId, isPreview });
 
     return (
         <div className="flex flex-col items-center">
@@ -22,7 +24,7 @@ export default function ClubDetailPreviewPage() {
                     돌아가기
                 </div>
 
-                <ClubDetailHeader />
+                <ClubDetailHeader data={data} isLoading={isLoading} />
                 <ClubDetailTab
                     activeTab={activeTab}
                     setActiveTab={setActiveTab}
