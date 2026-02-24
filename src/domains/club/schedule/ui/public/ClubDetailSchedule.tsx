@@ -25,7 +25,7 @@ export default function ClubDetailSchedule({
 
     if (!data || !data.schedules || data.schedules.length === 0) {
         return (
-            <div className="text-b4 text-neutral-400 py-4">
+            <div className="text-b4 text-neutral-400">
                 곧 업데이트될 예정이예요.
             </div>
         );
