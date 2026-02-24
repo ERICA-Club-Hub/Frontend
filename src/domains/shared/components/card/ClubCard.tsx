@@ -32,7 +32,7 @@ export default function ClubCard({
                 className={cn(
                     'flex w-[320px] h-[95px] p-[12px]',
                     'justify-start items-center gap-[20px]',
-                    'rounded-[10px] bg-white',
+                    'rounded-[8px] bg-white',
                 )}
             >
                 <Skeleton className="w-[75px] h-[75px] rounded-[5px]" />
@@ -52,7 +52,7 @@ export default function ClubCard({
             className={cn(
                 'flex w-[320px] h-[95px] p-[12px]',
                 'justify-start items-center gap-[20px]',
-                'rounded-[10px] bg-white',
+                'rounded-[8px] bg-white',
                 'cursor-pointer',
             )}
         >
