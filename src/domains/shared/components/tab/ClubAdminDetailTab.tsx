@@ -12,11 +12,14 @@ export default function ClubAdminDetailTab() {
     const handleTabChange = (tabKey: string) => {
         if (currTypeParam === tabKey) return;
 
-        setSearchParams((prev) => {
-            const newParams = new URLSearchParams(prev);
-            newParams.set(CLUB_DETAIL_PARAM, tabKey);
-            return newParams;
-        });
+        setSearchParams(
+            (prev) => {
+                const newParams = new URLSearchParams(prev);
+                newParams.set(CLUB_DETAIL_PARAM, tabKey);
+                return newParams;
+            },
+            { replace: true },
+        );
     };
 
     if (!currTypeParam)

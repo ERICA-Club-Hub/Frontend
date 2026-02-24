@@ -19,6 +19,7 @@ export const RECRUIT_FIELD_CONFIG: {
     {
         name: 'due',
         label: '모집 기간',
+        hintText: '이번 기수 모집 기간, 추가 모집 예정 여부, 상시 모집 여부 등',
         required: false,
         placeholder: '모집 기간 작성',
     },
