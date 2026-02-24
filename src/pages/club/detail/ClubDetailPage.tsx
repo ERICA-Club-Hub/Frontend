@@ -1,9 +1,14 @@
+import { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import z from 'zod';
+
 import TabContents from './TabContents';
 import ClubDetailHeader from '@/domains/club/profile/ui/ClubDetailHeader';
 import { useClubDetail } from '@/domains/club/profile/model/useClubDetail';
+import { useClubOverviewQuery } from '@/domains/club/profile/api/profile.queries';
 import ClubDetailTab from '@/domains/shared/components/layout/ClubDetailTab';
 import Tooltip from '@/components/Tooltip/Tooltip';
-import AlarmIcon from '@/assets/club-detail/alarmIcon.svg?react';
+import useTooltip from '@/components/Tooltip/useTooltip';
 import useModal from '@/components/Modal/useModal';
 import { PromptModal } from '@/components/Modal/PromptModal';
 import { AlertModal } from '@/components/Modal/AlertModal';
@@ -11,19 +16,30 @@ import {
     ALERT_MODAL_MESSAGE,
     PROMPT_MODAL_MESSAGE,
 } from '@/components/Modal/modal.constant';
-import z from 'zod';
 import { useRecruitmentEmailMutation } from '@/domains/club/recruitment/api/recruitment-email.mutations';
-import { useNavigate } from 'react-router-dom';
-import useTooltip from '@/components/Tooltip/useTooltip';
+import AlarmIcon from '@/assets/club-detail/alarmIcon.svg?react';
+import DisabledAlarmIcon from '@/assets/club-detail/disabledAlarmIcon.svg?react';
+
+const TOOLTIP_SESSION_KEY = 'alarm-tooltip-shown';
 
 export type activeTab = 'intro' | 'schedule' | 'recruit-info';
 
 export default function ClubDetailPage() {
-    const { activeTab, setActiveTab, clubId } = useClubDetail();
-    const { isVisible, triggerRef, hideTooltip } = useTooltip();
+    const { activeTab, setActiveTab, clubId, isPreview } = useClubDetail();
+    const { data, isLoading } = useClubOverviewQuery({ clubId, isPreview });
+    const { isVisible, triggerRef, hideTooltip, showTooltip } = useTooltip({
+        sessionKey: TOOLTIP_SESSION_KEY,
+    });
     const modal = useModal();
     const { mutateAsync: submitEmail } = useRecruitmentEmailMutation(clubId);
     const navigate = useNavigate();
+
+    useEffect(() => {
+        const status = data?.recruitmentStatus;
+        if (status === 'UPCOMING' || status === 'CLOSED') {
+            showTooltip();
+        }
+    }, [data?.recruitmentStatus]);
 
     const handleAlarmClick = async () => {
         hideTooltip();
@@ -45,6 +61,10 @@ export default function ClubDetailPage() {
         });
     };
 
+    const isAlarmEnabled =
+        data?.recruitmentStatus === 'UPCOMING' ||
+        data?.recruitmentStatus === 'CLOSED';
+
     return (
         <div className="flex flex-col items-center">
             <div className="bg-neutral-00 w-full relative">
@@ -52,21 +72,28 @@ export default function ClubDetailPage() {
                     ref={triggerRef}
                     className="absolute top-[18px] right-[18px] z-50"
                 >
-                    <button
-                        type="button"
-                        aria-label="이메일 모집 알림 신청"
-                        onClick={handleAlarmClick}
-                    >
-                        <AlarmIcon />
-                    </button>
-                    <Tooltip
-                        isVisible={isVisible}
-                        message="이메일로 모집알림을 받아보세요!"
-                        arrowAlign="right"
-                        className="right-0"
-                    />
+                    <>
+                        <button
+                            type="button"
+                            aria-label="이메일 모집 알림 신청"
+                            onClick={handleAlarmClick}
+                            disabled={!isAlarmEnabled}
+                        >
+                            {isAlarmEnabled ? (
+                                <AlarmIcon />
+                            ) : (
+                                <DisabledAlarmIcon />
+                            )}
+                        </button>
+                        <Tooltip
+                            isVisible={isVisible}
+                            message="이메일로 모집알림을 받아보세요!"
+                            arrowAlign="right"
+                            className="right-0"
+                        />
+                    </>
                 </div>
-                <ClubDetailHeader />
+                <ClubDetailHeader data={data} isLoading={isLoading} />
                 <div className="w-full flex justify-center">
                     <ClubDetailTab
                         setActiveTab={setActiveTab}

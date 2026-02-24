@@ -1,19 +1,22 @@
 import { DEFAULT_IMG } from '@/constants/default-image.constant';
 import Button from '@/components/Button/Button';
 import Skeleton from '@/components/Loading/Skeleton';
-
-import { useClubDetail } from '@/domains/club/profile/model/useClubDetail';
+import { ClubOverviewResponse } from '@/api/data-contracts';
 
 import RecruitStatusTag from '@/domains/club/recruitment/ui/public/RecruitStatusTag';
 import ClubTypeTag, {
     ClubCategoryCode,
 } from '@/domains/shared/components/tag/ClubTypeTag';
-import { useClubOverviewQuery } from '../api/profile.queries';
 
-export default function ClubDetailHeader() {
-    const { isPreview, clubId } = useClubDetail();
-    const { data, isLoading } = useClubOverviewQuery({ clubId, isPreview });
+interface ClubDetailHeaderProps {
+    data: ClubOverviewResponse | undefined;
+    isLoading: boolean;
+}
 
+export default function ClubDetailHeader({
+    data,
+    isLoading,
+}: ClubDetailHeaderProps) {
     if (isLoading) {
         return (
             <div className="mt-[110px] h-[200px] w-full min-h-[104px] flex p-[17px] flex-col justify-center items-center relative">
