@@ -22,7 +22,7 @@ function AppHeader() {
                 <button
                     onClick={() => navigate(-1)}
                     className="transform rotate-180 cursor-pointer"
-                    aria-label="이전 페이지로 이도"
+                    aria-label="이전 페이지로 이동"
                 >
                     <NavigateArrow width="28" height="28" />
                 </button>
