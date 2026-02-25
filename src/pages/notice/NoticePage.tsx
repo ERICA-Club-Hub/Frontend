@@ -1,7 +1,7 @@
 import { useEffect, useRef } from 'react';
 
 import { useNotices } from '@/domains/notice/api/notice.queries';
-import NoticeItem from '@/domains/notice/ui/NoticeItem';
+import NoticeItem, { NoticeItemSkeleton } from '@/domains/notice/ui/NoticeItem';
 
 export default function NoticePage() {
     const { data, isLoading, isFetchingNextPage, hasNextPage, fetchNextPage } =
@@ -36,7 +36,9 @@ export default function NoticePage() {
                 </div>
                 <div className="flex flex-col w-full gap-2">
                     {isLoading ? (
-                        <div>로딩 중...</div>
+                        Array.from({ length: 6 }).map((_, index) => (
+                            <NoticeItemSkeleton key={index} />
+                        ))
                     ) : !notices?.length ? (
                         <div>등록된 공지사항이 없습니다.</div>
                     ) : (
@@ -45,7 +47,10 @@ export default function NoticePage() {
                         ))
                     )}
 
-                    {isFetchingNextPage && <div>로딩 중...</div>}
+                    {isFetchingNextPage &&
+                        Array.from({ length: 3 }).map((_, index) => (
+                            <NoticeItemSkeleton key={index} />
+                        ))}
                     <div ref={sentinelRef} className="h-px" />
                 </div>
             </div>
