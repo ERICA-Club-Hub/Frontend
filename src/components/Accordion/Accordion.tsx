@@ -10,6 +10,8 @@ interface AccordionProps {
     href?: string;
     defaultOpen?: boolean;
     className?: string;
+    /** true일 때 title이 줄임표 없이 아래로 늘어납니다 (기본값: false) */
+    wrapTitle?: boolean;
 }
 
 /**
@@ -25,13 +27,21 @@ const Accordion = ({
     href,
     defaultOpen = false,
     className,
+    wrapTitle = false,
 }: AccordionProps) => {
     const [isOpen, setIsOpen] = useState<boolean>(defaultOpen);
     const toggle = () => setIsOpen((prev) => !prev);
 
     const textContent = (
         <>
-            <span className="text-b3 text-neutral-900 truncate">{title}</span>
+            <span
+                className={cn(
+                    'text-b3 text-neutral-900',
+                    wrapTitle ? 'break-keep' : 'truncate',
+                )}
+            >
+                {title}
+            </span>
             {date !== undefined && date !== '' && (
                 <span className="text-c1 text-neutral-600">{date}</span>
             )}
@@ -43,8 +53,9 @@ const Accordion = ({
             {/* 트리거 헤더 카드 */}
             <div
                 className={cn(
-                    'flex items-center justify-between w-[320px]',
+                    'flex justify-between w-[320px]',
                     'bg-neutral-00 rounded-lg p-3',
+                    wrapTitle ? 'items-start' : 'items-center',
                 )}
             >
                 {/* 텍스트 영역: href 유무에 따라 Link 또는 button */}
