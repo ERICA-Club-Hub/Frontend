@@ -55,10 +55,10 @@ export default function ClubDetailHeader({
             />
             <div className="flex flex-col justify-center items-center">
                 <div className="mt-[47px] flex justify-center flex-col items-center text-center gap-[5px] mb-[10px]">
-                    <h1 className="text-subtitle-02 font-semibold">
+                    <h1 className="text-subtitle-02 font-semibold text-neutral-900">
                         {data?.name}
                     </h1>
-                    <div className="text-neutral-300 font-regular text-body-03">
+                    <div className="text-neutral-600 font-regular text-body-03">
                         {data?.oneLiner}
                     </div>
                 </div>
