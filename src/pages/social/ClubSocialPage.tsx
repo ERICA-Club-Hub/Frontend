@@ -3,6 +3,7 @@ import SearchTab from '@/domains/search/ui/SearchTab';
 import { useSearchParams } from 'react-router-dom';
 import { useClubSNSByType } from '@/domains/social/api/useClubSNS';
 import { useEffect } from 'react';
+import ErrorIcon from '@/assets/common/error-icon.svg?react';
 import {
     CentralCategoryDropdown,
     CollegeDropdown,
@@ -123,38 +124,46 @@ export default function ClubSocialPage() {
                     )}
                 </div>
 
-                <div className="grid grid-cols-3 gap-x-[10px] gap-y-2 py-2 pb-5">
-                    {isLoading
-                        ? Array.from({ length: 12 }).map((_, index) => (
-                              <ClubSocialItem
-                                  key={index}
-                                  clubName=""
-                                  clubSNSId=""
-                                  onClick={() => {}}
-                                  isLoading
-                              />
-                          ))
-                        : accounts.length > 0
-                        ? accounts
-                              .filter(
-                                  (account) => account.accountName != null,
-                              )
-                              .map((account, index) => (
-                                  <ClubSocialItem
-                                      key={`${account.clubName}-${account.accountName}-${index}`}
-                                      clubName={account.clubName ?? ''}
-                                      clubLogoUrl={account.profileImage}
-                                      clubSNSId={account.accountName ?? ''}
-                                      onClick={() =>
-                                          window.open(
-                                              account.instagramProfileUrl,
-                                              '_blank',
-                                          )
-                                      }
-                                  />
-                              ))
-                        : null}
-                </div>
+                {isLoading ? (
+                    <div className="grid grid-cols-3 gap-x-[10px] gap-y-2 py-2 pb-5">
+                        {Array.from({ length: 12 }).map((_, index) => (
+                            <ClubSocialItem
+                                key={index}
+                                clubName=""
+                                clubSNSId=""
+                                onClick={() => {}}
+                                isLoading
+                            />
+                        ))}
+                    </div>
+                ) : accounts.filter((a) => a.accountName != null).length >
+                  0 ? (
+                    <div className="grid grid-cols-3 gap-x-[10px] gap-y-2 py-2 pb-5">
+                        {accounts
+                            .filter((account) => account.accountName != null)
+                            .map((account, index) => (
+                                <ClubSocialItem
+                                    key={`${account.clubName}-${account.accountName}-${index}`}
+                                    clubName={account.clubName ?? ''}
+                                    clubLogoUrl={account.profileImage}
+                                    clubSNSId={account.accountName ?? ''}
+                                    onClick={() =>
+                                        window.open(
+                                            account.instagramProfileUrl,
+                                            '_blank',
+                                        )
+                                    }
+                                />
+                            ))}
+                    </div>
+                ) : (
+                    <div className="w-full h-[400px] flex flex-col justify-center items-center gap-[10px]">
+                        <ErrorIcon />
+                        <h1 className="text-body-03 font-medium text-black">
+                            검색 결과가 없어요.
+                        </h1>
+                    </div>
+                )}
             </div>
         </div>
     );
