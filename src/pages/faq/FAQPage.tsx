@@ -41,13 +41,14 @@ export default function FAQPage() {
     return (
         <div className="flex flex-col items-center w-full">
             <div className="w-[320px] flex flex-col">
-                <div className="text-s1 my-5">FAQ</div>
+                <div className="text-s1 my-5">자주 묻는 질문</div>
                 <div className="flex flex-col gap-2">
                     {FAQ_ITEMS.map((item) => (
                         <Accordion
                             key={item.title}
                             title={item.title}
                             content={item.content}
+                            wrapTitle
                         />
                     ))}
                 </div>
