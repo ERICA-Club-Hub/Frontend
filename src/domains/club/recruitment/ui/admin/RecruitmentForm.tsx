@@ -15,6 +15,7 @@ import { ALERT_MODAL_MESSAGE } from '@/components/Modal/modal.constant';
 import { useClubRecruitmentQuery } from '../../api/recruitment.queries';
 import { useUpdateRecruitMutation } from '../../api/recruitment.mutations';
 import Button from '@/components/Button/Button';
+import { useErrorHandler } from '@/hooks/useErrorHandler';
 
 export default function RecruitmentForm() {
     const { id: clubId } = useParams<{ id: string }>();
@@ -29,11 +30,12 @@ export default function RecruitmentForm() {
         mode: 'onChange',
     });
     const modal = useModal();
+    const { handleError } = useErrorHandler();
 
     const { data } = useClubRecruitmentQuery({
         clubId,
     });
-    const { mutate: update } = useUpdateRecruitMutation();
+    const { mutateAsync: update, isPending } = useUpdateRecruitMutation();
 
     useEffect(() => {
         if (data) {
@@ -46,23 +48,22 @@ export default function RecruitmentForm() {
         }
     }, [data, method]);
 
-    const onSubmit: SubmitHandler<RecruitmentSchema> = (formValues) => {
+    const onSubmit: SubmitHandler<RecruitmentSchema> = async (formValues) => {
         if (!clubId) return;
 
-        update(
-            {
+        try {
+            await update({
                 data: formValues,
                 clubId: Number(clubId),
-            },
-            {
-                onSuccess: async () => {
-                    await modal.push('prompt', AlertModal, {
-                        title: ALERT_MODAL_MESSAGE.SAVE.title,
-                        actionLabel: ALERT_MODAL_MESSAGE.SAVE.actionLabel,
-                    });
-                },
-            },
-        );
+            });
+
+            await modal.push('prompt', AlertModal, {
+                title: ALERT_MODAL_MESSAGE.SAVE.title,
+                actionLabel: ALERT_MODAL_MESSAGE.SAVE.actionLabel,
+            });
+        } catch (err) {
+            handleError(err);
+        }
     };
 
     return (
@@ -95,10 +96,8 @@ export default function RecruitmentForm() {
                     <Button
                         type="submit"
                         size="xs"
-                        disabled={
-                            !method.formState.isValid ||
-                            method.formState.isSubmitting
-                        }
+                        disabled={!method.formState.isValid}
+                        isLoading={method.formState.isSubmitting || isPending}
                     >
                         저장하기
                     </Button>

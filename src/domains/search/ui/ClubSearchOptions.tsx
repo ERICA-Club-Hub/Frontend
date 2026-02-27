@@ -31,7 +31,9 @@ export function StatusDropdown({ selectedValue, onSelect }: DropdownProps) {
     const options = [
         { value: 'OPEN', label: '모집중' },
         { value: 'UPCOMING', label: '모집예정' },
-        { value: 'CLOSED', label: '모집완료' },
+        { value: 'CLOSED', label: '모집마감' },
+        { value: 'ALWAYS_OPEN', label: '상시모집' },
+        { value: 'ADDITIONAL', label: '추가모집' },
     ];
 
     return (

@@ -30,14 +30,14 @@ export default function ClubCard({
         return (
             <div
                 className={cn(
-                    'flex w-[320px] h-[95px] p-[10px]',
-                    'justify-start items-center gap-[15px]',
-                    'rounded-[10px] border border-[#eaeaea] bg-white',
+                    'flex w-[320px] h-[95px] p-[12px]',
+                    'justify-start items-center gap-[20px]',
+                    'rounded-[8px] bg-white',
                 )}
             >
                 <Skeleton className="w-[75px] h-[75px] rounded-[5px]" />
 
-                <div className="flex flex-col w-[204px] justify-start items-start gap-[7px]">
+                <div className="flex flex-col w-[204px] justify-start items-start gap-[8px]">
                     <Skeleton className="w-full h-4.5" />
                     <Skeleton className="w-full h-[45px]" />
                 </div>
@@ -50,9 +50,9 @@ export default function ClubCard({
             to={to}
             {...props}
             className={cn(
-                'flex w-[320px] h-[95px] p-[10px]',
-                'justify-start items-center gap-[15px]',
-                'rounded-[10px] border border-[#eaeaea] bg-white',
+                'flex w-[320px] h-[95px] p-[12px]',
+                'justify-start items-center gap-[20px]',
+                'rounded-[8px] bg-white',
                 'cursor-pointer',
             )}
         >
@@ -62,23 +62,21 @@ export default function ClubCard({
             />
 
             <div className="flex flex-col w-[204px] justify-start items-start">
-                <div className="flex gap-[6px] mb-[7px]">
-                    <div className="flex gap-[6px]">
-                        <ClubTypeTag
-                            clubCategory={categoryName as ClubCategoryCode}
+                <div className="flex gap-[8px] mb-[5px]">
+                    <ClubTypeTag
+                        clubCategory={categoryName as ClubCategoryCode}
+                    />
+                    {recruitmentStatus && (
+                        <RecruitStatusTag
+                            recruitmentStatus={
+                                recruitmentStatus as RecruitmentStatus
+                            }
                         />
-                        {recruitmentStatus && (
-                            <RecruitStatusTag
-                                recruitmentStatus={
-                                    recruitmentStatus as RecruitmentStatus
-                                }
-                            />
-                        )}
-                    </div>
+                    )}
                 </div>
 
                 <div className="flex flex-col w-full overflow-hidden">
-                    <span className="text-gray-900 text-b2 font-semibold leading-normal m-0 mb-[5px] whitespace-nowrap overflow-hidden text-ellipsis">
+                    <span className="text-gray-900 text-b2 font-semibold leading-normal m-0 whitespace-nowrap overflow-hidden text-ellipsis">
                         {title}
                     </span>
 

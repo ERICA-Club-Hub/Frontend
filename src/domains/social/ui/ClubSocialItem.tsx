@@ -20,10 +20,10 @@ export default function ClubSocialItem({
         return (
             <div
                 className={cn(
-                    'w-[104px] h-[148px] rounded-[8px]',
+                    'w-[100px] h-[148px] rounded-[8px]',
                     'px-0 py-[18px]',
                     'flex gap-[8px] justify-center items-center flex-col',
-                    'bg-neutral-00 border border-neutral-100',
+                    'bg-neutral-00',
                 )}
             >
                 <Skeleton circle className="w-[72px] h-[72px]" />
@@ -40,10 +40,10 @@ export default function ClubSocialItem({
         <div
             onClick={onClick}
             className={cn(
-                'w-[104px] h-[148px] rounded-[8px]',
+                'w-[100px] h-[148px] rounded-[8px]',
                 'px-0 py-[18px]',
                 'flex gap-[8px] justify-center items-center flex-col',
-                'bg-neutral-00 border border-neutral-100',
+                'bg-neutral-00 ',
                 'cursor-pointer hover:bg-neutral-50 transition-colors',
             )}
         >

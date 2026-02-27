@@ -41,12 +41,14 @@ export default function ScheduleForm() {
     const { data, isSuccess } = useSchedulesQuery({
         clubId,
     });
-    const { mutateAsync: updateSchedule } = useUpdateScheduleMutation({
-        clubId,
-    });
-    const { mutateAsync: deleteSchedule } = useDeleteScheduleMutation({
-        clubId,
-    });
+    const { mutateAsync: updateSchedule, isPending: isUpdatePending } =
+        useUpdateScheduleMutation({
+            clubId,
+        });
+    const { mutateAsync: deleteSchedule, isPending: isDeletePending } =
+        useDeleteScheduleMutation({
+            clubId,
+        });
 
     useEffect(() => {
         if (isSuccess && data) {
@@ -151,9 +153,11 @@ export default function ScheduleForm() {
                             type="submit"
                             name="save"
                             size="xs"
-                            disabled={
+                            disabled={!method.formState.isValid}
+                            isLoading={
                                 method.formState.isSubmitting ||
-                                !method.formState.isValid
+                                isUpdatePending ||
+                                isDeletePending
                             }
                         >
                             저장하기

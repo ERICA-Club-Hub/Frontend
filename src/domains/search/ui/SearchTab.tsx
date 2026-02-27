@@ -13,7 +13,7 @@ export default function SearchTab() {
         const newParams = new URLSearchParams();
         newParams.set(TAB_TYPE_PARAM, tabKey);
 
-        setSearchParams(newParams);
+        setSearchParams(newParams, { replace: true });
     };
 
     return (

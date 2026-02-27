@@ -9,7 +9,6 @@ import {
     CentralCategoryDropdown,
     CollegeDropdown,
     DepartmentDropdown,
-    SortByDropdown,
     StatusDropdown,
     UnionCategoryDropdown,
 } from '@/domains/search/ui/ClubSearchOptions';
@@ -43,7 +42,6 @@ export default function ClubSearchWidget({
     const selectedCollege = searchKeyword.get('college');
     const selectedDepartment = searchKeyword.get('department');
     const selectedStatus = searchKeyword.get('status');
-    const selectedSortBy = searchKeyword.get('sortBy');
     const selectedCategory = searchKeyword.get('category');
     const currentKeyword = searchKeyword.get('keyword') || '';
 
@@ -62,7 +60,7 @@ export default function ClubSearchWidget({
             newParams.delete('keyword');
         }
 
-        setSearchKeyword(newParams);
+        setSearchKeyword(newParams, { replace: true });
     };
 
     const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -80,7 +78,7 @@ export default function ClubSearchWidget({
             newParam.set(searchKey, value);
         }
 
-        setSearchKeyword(newParam);
+        setSearchKeyword(newParam, { replace: true });
         refetch();
     };
 
@@ -120,12 +118,6 @@ export default function ClubSearchWidget({
                     </div>
 
                     <div className="flex w-[320px] mt-[23px] mb-[10px] gap-[5px] flex-wrap relative">
-                        <SortByDropdown
-                            selectedValue={selectedSortBy}
-                            onSelect={(value) =>
-                                updateSearchParam('sortBy', value)
-                            }
-                        />
                         <StatusDropdown
                             selectedValue={selectedStatus}
                             onSelect={(value) =>
