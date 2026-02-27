@@ -3,6 +3,7 @@ import Modal from './Modal';
 import TextArea from '../InputField/TextArea';
 import InputField from '../InputField/InputField';
 import { cn } from '@/utils/cn';
+import Button from '../Button/Button';
 
 interface PromptModalProps {
     title: string;
@@ -136,19 +137,21 @@ export function PromptModal({
                         </div>
                     )}
 
-                    <button
+                    <Button
                         type="submit"
-                        disabled={!isValid || isSubmitting}
+                        disabled={!isValid}
+                        isLoading={isSubmitting}
                         className={cn(
+                            'flex items-center justify-center gap-[10px]',
                             'w-[280px] h-[37px] rounded-[8px] text-b3 transition-all duration-300 ease-in',
-                            (inputValue.length === 0 || !isValid) &&
+                            inputValue.length === 0 &&
                                 'border-[0.6px] border-solid border-neutral-600 text-neutral-600 bg-neutral-50',
                             inputValue.length > 0 &&
                                 'text-neutral-50 bg-brand cursor-pointer',
                         )}
                     >
                         {inputValue.length > 0 ? '완료' : '취소'}
-                    </button>
+                    </Button>
                 </form>
             </div>
         </Modal>
