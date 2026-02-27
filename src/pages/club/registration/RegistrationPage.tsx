@@ -5,13 +5,13 @@ import { useRegistrationMutation } from '@/domains/club/registration/api/registr
 
 // 신규 동아리 등록 페이지
 export default function RegistrationPage() {
-    const { mutate: registerClub } = useRegistrationMutation();
+    const { mutateAsync: registerClub, isPending } = useRegistrationMutation();
 
     const handleSubmit = async (
         formValues: FormValues,
         postImg: File | File[] | null,
     ) => {
-        registerClub({
+        await registerClub({
             data: formValues,
             postImg,
         });
@@ -26,8 +26,9 @@ export default function RegistrationPage() {
                     <Button
                         type="submit"
                         size="lg"
-                        disabled={!isValid || isSubmitting}
                         className="mt-[32px] mb-[28px]"
+                        disabled={!isValid}
+                        isLoading={isSubmitting || isPending}
                     >
                         동아리 등록 신청하기
                     </Button>

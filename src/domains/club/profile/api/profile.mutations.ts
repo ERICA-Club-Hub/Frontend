@@ -62,8 +62,6 @@ export const useUpdateProfileMutation = () => {
  * @usage - 서비스 어드민 동아리 관리 페이지
  */
 export const useDeleteClubMutation = () => {
-    const { handleError } = useErrorHandler();
-
     return useMutation({
         mutationFn: async (clubId?: string) => {
             return await apiRequest({
@@ -76,9 +74,6 @@ export const useDeleteClubMutation = () => {
             queryClient.invalidateQueries({
                 queryKey: ['clubs'],
             });
-        },
-        onError: (error) => {
-            handleError(error);
         },
     });
 };
