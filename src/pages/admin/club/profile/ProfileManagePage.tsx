@@ -8,18 +8,20 @@ import { ALERT_MODAL_MESSAGE } from '@/components/Modal/modal.constant';
 import { AlertModal } from '@/components/Modal/AlertModal';
 import { PATHS } from '@/routes/paths';
 import { FormValues } from '@/domains/club/profile/model/profile.schema';
+import { useErrorHandler } from '@/hooks/useErrorHandler';
 
 // 동아리 기본 정보 관리 페이지
 export default function ProfileManagePage() {
     const { id: clubId } = useParams<{ id: string }>();
     const navigate = useNavigate();
     const modal = useModal();
+    const { handleError } = useErrorHandler();
 
     const { data } = useClubOverviewQuery({
         clubId,
         isPreview: false,
     });
-    const { mutate: update } = useUpdateProfileMutation();
+    const { mutateAsync: update, isPending } = useUpdateProfileMutation();
 
     const handleSubmit = async (
         formValues: FormValues,
@@ -33,16 +35,18 @@ export default function ProfileManagePage() {
             clubId: Number(clubId),
         };
 
-        update(payload, {
-            onSuccess: async () => {
-                await modal.push('prompt', AlertModal, {
-                    title: ALERT_MODAL_MESSAGE.SAVE.title,
-                    actionLabel: ALERT_MODAL_MESSAGE.SAVE.actionLabel,
-                    onAction: () =>
-                        navigate(PATHS.CLUB_ADMIN_DASHBOARD(Number(clubId))),
-                });
-            },
-        });
+        try {
+            await update(payload);
+
+            await modal.push('prompt', AlertModal, {
+                title: ALERT_MODAL_MESSAGE.SAVE.title,
+                actionLabel: ALERT_MODAL_MESSAGE.SAVE.actionLabel,
+                onAction: () =>
+                    navigate(PATHS.CLUB_ADMIN_DASHBOARD(Number(clubId))),
+            });
+        } catch (err) {
+            handleError(err);
+        }
     };
 
     return (
@@ -56,7 +60,8 @@ export default function ProfileManagePage() {
                         <Button
                             type="button"
                             size="xs"
-                            disabled={!isValid || isSubmitting}
+                            disabled={!isValid}
+                            isLoading={isSubmitting || isPending}
                             className="mb-[28px]"
                             onClick={submitHandler}
                         >

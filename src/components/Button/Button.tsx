@@ -1,9 +1,11 @@
 import { ButtonHTMLAttributes, ReactNode } from 'react';
 import { cva, type VariantProps } from 'class-variance-authority';
 import { cn } from '@/utils/cn';
+import Spinner from '../Loading/Spinner';
 
 const buttonVariants = cva(
-    'inline-flex items-center justify-center text-center transition-colors duration-200 ease-in disabled:cursor-not-allowed focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 focus-visible:ring-offset-2 disabled:bg-neutral-200 disabled:text-neutral-400',
+    'inline-flex items-center justify-center gap-[10px] text-center transition-colors duration-200 ease-in ' +
+        'disabled:cursor-not-allowed focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 focus-visible:ring-offset-2 disabled:bg-neutral-200 disabled:text-neutral-400 ',
     {
         variants: {
             variant: {
@@ -31,6 +33,7 @@ export interface ButtonProps
     extends ButtonHTMLAttributes<HTMLButtonElement>,
         VariantProps<typeof buttonVariants> {
     children: ReactNode;
+    isLoading?: boolean;
 }
 
 /**
@@ -58,18 +61,29 @@ const Button = ({
     size,
     disabled,
     type = 'button',
+    isLoading = false,
     ...props
 }: ButtonProps) => {
+    const isDisabled = disabled || isLoading;
+
     return (
         <button
             type={type}
-            className={cn(buttonVariants({ variant, size }), className)}
-            disabled={disabled}
+            className={cn(
+                buttonVariants({ variant, size }),
+                isLoading &&
+                    'disabled:text-neutral-50 disabled:bg-neutral-500 disabled:cursor-not-allowed',
+                className,
+            )}
+            disabled={isDisabled}
             aria-live="polite"
             aria-disabled={disabled}
             {...props}
         >
-            {children}
+            {isLoading && <Spinner />}
+
+            {/* 사이즈 'xs' 'sm': 로딩 중에 텍스트를 숨기고 스피너만 렌더링 */}
+            {(size === 'xs' || size === 'sm') && isLoading ? null : children}
         </button>
     );
 };
