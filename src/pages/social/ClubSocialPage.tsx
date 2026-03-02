@@ -110,6 +110,7 @@ export default function ClubSocialPage() {
                                 onSelect={(value) =>
                                     updateSearchParam('department', value)
                                 }
+                                disabled={!selectedCollege}
                             />
                         </>
                     )}

@@ -143,6 +143,7 @@ export default function ClubSearchWidget({
                                                 value,
                                             )
                                         }
+                                        disabled={!selectedCollege}
                                     />
                                 )}
                             </>
