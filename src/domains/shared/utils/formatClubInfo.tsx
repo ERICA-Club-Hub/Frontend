@@ -24,7 +24,7 @@ export const formatClubInfo = (key: ClubInfoKey, value?: string): ReactNode => {
                     href={`https://www.instagram.com/${username}/`}
                     target="_blank"
                     rel="noreferrer"
-                    className="text-neutral-600 underline"
+                    className="text-neutral-600"
                 >
                     @{username}{' '}
                 </a>
