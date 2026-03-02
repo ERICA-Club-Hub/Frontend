@@ -137,8 +137,7 @@ export default function ClubSocialPage() {
                             />
                         ))}
                     </div>
-                ) : accounts.filter((a) => a.accountName != null).length >
-                  0 ? (
+                ) : accounts.filter((a) => a.accountName != null).length > 0 ? (
                     <div className="grid grid-cols-3 gap-x-[10px] gap-y-2 py-2 pb-5">
                         {accounts
                             .filter((account) => account.accountName != null)
@@ -161,7 +160,7 @@ export default function ClubSocialPage() {
                     <div className="w-full h-[400px] flex flex-col justify-center items-center gap-[10px]">
                         <ErrorIcon />
                         <h1 className="text-body-03 font-medium text-black">
-                            검색 결과가 없어요.
+                            아직 동아리가 없어요.
                         </h1>
                     </div>
                 )}
