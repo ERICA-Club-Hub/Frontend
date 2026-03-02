@@ -26,7 +26,7 @@ export const formatClubInfo = (key: ClubInfoKey, value?: string): ReactNode => {
                     rel="noreferrer"
                     className="text-neutral-600"
                 >
-                    @{username}{' '}
+                    @{username}
                 </a>
             );
         }

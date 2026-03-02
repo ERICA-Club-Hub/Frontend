@@ -59,12 +59,14 @@ export function CollegeDropdown({ selectedValue, onSelect }: DropdownProps) {
 
 interface DepartmentDropdownProps extends DropdownProps {
     college?: string;
+    disabled?: boolean;
 }
 
 export function DepartmentDropdown({
     selectedValue,
     onSelect,
     college,
+    disabled,
 }: DepartmentDropdownProps) {
     return (
         <FilterDropdown
@@ -72,6 +74,7 @@ export function DepartmentDropdown({
             selectedValue={selectedValue}
             options={getDepartmentOptionsNameOnly(college)}
             onSelect={onSelect}
+            disabled={disabled}
         />
     );
 }

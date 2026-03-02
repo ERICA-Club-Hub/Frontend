@@ -143,6 +143,7 @@ export default function ClubSearchWidget({
                                                 value,
                                             )
                                         }
+                                        disabled={!selectedCollege}
                                     />
                                 )}
                             </>
@@ -192,7 +193,7 @@ export default function ClubSearchWidget({
                             <div className="w-full h-[400px] flex flex-col justify-center items-center gap-[10px]">
                                 <ErrorIcon />
                                 <h1 className="text-body-03 font-medium text-black">
-                                    검색 결과가 없어요.
+                                    아직 동아리가 없어요.
                                 </h1>
                             </div>
                         )}
