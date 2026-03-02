@@ -15,6 +15,7 @@ interface FilterDropdownProps {
     options?: Option[];
     selectedValue?: string | null;
     onSelect: (value: string) => void;
+    disabled?: boolean;
 }
 
 export default function FilterDropdown({
@@ -22,19 +23,25 @@ export default function FilterDropdown({
     options = [],
     selectedValue,
     onSelect,
+    disabled = false,
 }: FilterDropdownProps) {
     const hasSelectedValue = !!selectedValue;
 
     return (
-        <Dropdown.Container itemOptions={options} className={cn('w-max')}>
+        <Dropdown.Container
+            itemOptions={options}
+            className={cn('w-max', disabled && 'pointer-events-none')}
+        >
             <SyncSelection options={options} selectedValue={selectedValue} />
 
             <Dropdown.Trigger
                 className={cn(
-                    'flex justify-center items-center gap-[2px] w-full min-h-[24px] py-[4px] pr-[6px] pl-[12px] rounded-[12px] text-c1 text-text-main bg-white',
-                    hasSelectedValue
-                        ? 'border border-solid border-brand bg-primary-50'
-                        : 'bg-neutral-00',
+                    'flex justify-center items-center gap-[2px] w-full min-h-[24px] py-[4px] pr-[6px] pl-[12px] rounded-[12px] text-c1',
+                    disabled
+                        ? 'bg-neutral-100 text-neutral-600'
+                        : hasSelectedValue
+                          ? 'border border-solid border-brand bg-primary-50 text-text-main'
+                          : 'bg-neutral-00 text-text-main',
                 )}
             >
                 <Dropdown.Value>
