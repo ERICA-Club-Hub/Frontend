@@ -41,6 +41,14 @@ export default function ClubDetailPage() {
         }
     }, [data?.recruitmentStatus]);
 
+    useEffect(() => {
+        if (isLoading) return;
+        const saved = sessionStorage.getItem('club-detail:scroll');
+        if (!saved) return;
+        window.scrollTo({ top: Number(saved), behavior: 'instant' });
+        sessionStorage.removeItem('club-detail:scroll');
+    }, [isLoading]);
+
     const handleAlarmClick = async () => {
         hideTooltip();
         await modal.push('prompt', PromptModal, {

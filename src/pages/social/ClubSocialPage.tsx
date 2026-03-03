@@ -2,7 +2,7 @@ import ClubSocialItem from '@/domains/social/ui/ClubSocialItem';
 import SearchTab from '@/domains/search/ui/SearchTab';
 import { useSearchParams } from 'react-router-dom';
 import { useClubSNSByType } from '@/domains/social/api/useClubSNS';
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import ErrorIcon from '@/assets/common/error-icon.svg?react';
 import {
     CentralCategoryDropdown,
@@ -30,6 +30,7 @@ export default function ClubSocialPage() {
 
     const {
         accounts,
+        pageCount,
         fetchNextPage,
         hasNextPage,
         isFetchingNextPage,
@@ -41,6 +42,36 @@ export default function ClubSocialPage() {
         department: selectedDepartment || undefined,
         size: 12,
     });
+
+    const SCROLL_KEY = 'social:scroll';
+    const restoreTarget = useRef<{ y: number; pageCount: number } | null>(null);
+    const hasRestored = useRef(false);
+
+    useEffect(() => {
+        const saved = sessionStorage.getItem(SCROLL_KEY);
+        if (!saved) return;
+        try {
+            restoreTarget.current = JSON.parse(saved);
+        } catch {
+            // sessionStorage 값이 올바른 JSON 형식이 아닐 경우 무시
+        }
+        sessionStorage.removeItem(SCROLL_KEY);
+    }, []);
+
+    useEffect(() => {
+        const target = restoreTarget.current;
+        if (!target || hasRestored.current || isLoading || isFetchingNextPage)
+            return;
+
+        if (pageCount < target.pageCount && hasNextPage) {
+            fetchNextPage();
+            return;
+        }
+
+        window.scrollTo({ top: target.y, behavior: 'instant' });
+        hasRestored.current = true;
+        restoreTarget.current = null;
+    }, [pageCount, isLoading, isFetchingNextPage, hasNextPage, fetchNextPage]);
 
     useEffect(() => {
         const handleScroll = () => {
@@ -69,6 +100,19 @@ export default function ClubSocialPage() {
 
         setSearchParams(newParams);
     };
+
+    type ValidAccount = (typeof accounts)[0] & {
+        accountName: string;
+        clubName: string;
+        instagramProfileUrl: string;
+    };
+
+    const validAccounts = accounts.filter(
+        (account): account is ValidAccount =>
+            typeof account.accountName === 'string' &&
+            typeof account.clubName === 'string' &&
+            typeof account.instagramProfileUrl === 'string',
+    );
 
     return (
         <div className="min-h-screen flex flex-col">
@@ -137,27 +181,30 @@ export default function ClubSocialPage() {
                             />
                         ))}
                     </div>
-                ) : accounts.filter((a) => a.accountName != null).length > 0 ? (
+                ) : validAccounts.length > 0 ? (
                     <div className="grid grid-cols-3 gap-x-[10px] gap-y-2 py-2 pb-5">
-                        {accounts
-                            .filter((account) => account.accountName != null)
-                            .map((account, index) => (
-                                <ClubSocialItem
-                                    key={`${account.clubName}-${account.accountName}-${index}`}
-                                    clubName={account.clubName ?? ''}
-                                    clubLogoUrl={account.profileImage}
-                                    clubSNSId={account.accountName ?? ''}
-                                    onClick={() =>
-                                        window.open(
-                                            account.instagramProfileUrl,
-                                            '_blank',
-                                        )
-                                    }
-                                />
-                            ))}
+                        {validAccounts.map((account, index) => (
+                            <ClubSocialItem
+                                key={`${account.clubName}-${account.accountName}-${index}`}
+                                clubName={account.clubName}
+                                clubLogoUrl={account.profileImage}
+                                clubSNSId={account.accountName}
+                                onClick={() => {
+                                    sessionStorage.setItem(
+                                        SCROLL_KEY,
+                                        JSON.stringify({
+                                            y: window.scrollY,
+                                            pageCount,
+                                        }),
+                                    );
+                                    window.location.href =
+                                        account.instagramProfileUrl;
+                                }}
+                            />
+                        ))}
                     </div>
                 ) : (
-                    <div className="w-full h-[400px] flex flex-col justify-center items-center gap-[10px]">
+                    <div className="w-full h-[400px] flex flex-col justify-center items-center gap-2.5">
                         <ErrorIcon />
                         <h1 className="text-body-03 font-medium text-black">
                             아직 동아리가 없어요.
