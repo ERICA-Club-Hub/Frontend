@@ -101,7 +101,7 @@ export default function ClubSearchWidget({
     return (
         <div className="min-h-screen flex flex-col">
             <div className="flex-1 flex flex-col items-center">
-                <div className="sticky top-[56px] z-10 w-full bg-white flex justify-center">
+                <div className="sticky top-[56px] z-20 w-full bg-white flex justify-center">
                     <SearchTab />
                 </div>
                 <div className="flex flex-col items-center py-5">
