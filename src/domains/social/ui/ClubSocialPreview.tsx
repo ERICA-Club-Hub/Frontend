@@ -65,10 +65,8 @@ export default function ClubSocialPreview() {
                             clubLogoUrl={account.profileImage}
                             clubSNSId={account.accountName ?? ''}
                             onClick={() =>
-                                window.open(
-                                    account.instagramProfileUrl,
-                                    '_blank',
-                                )
+                                (window.location.href =
+                                    account.instagramProfileUrl ?? '')
                             }
                         />
                     ))}

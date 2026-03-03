@@ -82,6 +82,7 @@ export const useClubSNSByType = ({
 
     return {
         accounts,
+        pageCount: data?.pages.length ?? 0,
         isLoading,
         isError,
         fetchNextPage,

@@ -2,7 +2,7 @@ import ClubSocialItem from '@/domains/social/ui/ClubSocialItem';
 import SearchTab from '@/domains/search/ui/SearchTab';
 import { useSearchParams } from 'react-router-dom';
 import { useClubSNSByType } from '@/domains/social/api/useClubSNS';
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import ErrorIcon from '@/assets/common/error-icon.svg?react';
 import {
     CentralCategoryDropdown,
@@ -30,6 +30,7 @@ export default function ClubSocialPage() {
 
     const {
         accounts,
+        pageCount,
         fetchNextPage,
         hasNextPage,
         isFetchingNextPage,
@@ -41,6 +42,36 @@ export default function ClubSocialPage() {
         department: selectedDepartment || undefined,
         size: 12,
     });
+
+    const SCROLL_KEY = 'social:scroll';
+    const restoreTarget = useRef<{ y: number; pageCount: number } | null>(null);
+    const hasRestored = useRef(false);
+
+    useEffect(() => {
+        const saved = sessionStorage.getItem(SCROLL_KEY);
+        if (!saved) return;
+        try {
+            restoreTarget.current = JSON.parse(saved);
+        } catch {
+            // sessionStorage 값이 올바른 JSON 형식이 아닐 경우 무시
+        }
+        sessionStorage.removeItem(SCROLL_KEY);
+    }, []);
+
+    useEffect(() => {
+        const target = restoreTarget.current;
+        if (!target || hasRestored.current || isLoading || isFetchingNextPage)
+            return;
+
+        if (pageCount < target.pageCount && hasNextPage) {
+            fetchNextPage();
+            return;
+        }
+
+        window.scrollTo({ top: target.y, behavior: 'instant' });
+        hasRestored.current = true;
+        restoreTarget.current = null;
+    }, [pageCount, isLoading, isFetchingNextPage, hasNextPage, fetchNextPage]);
 
     useEffect(() => {
         const handleScroll = () => {
