@@ -5,6 +5,8 @@ import ClubCard from '@/domains/shared/components/card/ClubCard';
 import ErrorIcon from '@/assets/common/error-icon.svg?react';
 import { useSearchParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
+import { useScrollRestoration } from '@/hooks/useScrollRestoration';
+import { useInfiniteScroll } from '@/hooks/useInfiniteScroll';
 import {
     CentralCategoryDropdown,
     CollegeDropdown,
@@ -35,6 +37,16 @@ export default function ClubSearchWidget({
         refetch,
     } = useClubSearchFromUrl();
     const allClubs = data?.pages.flatMap((page) => page.content) || [];
+    const pageCount = data?.pages.length ?? 0;
+
+    const { saveScroll } = useScrollRestoration({
+        storageKey: 'search:scroll',
+        pageCount,
+        isLoading,
+        isFetchingNextPage,
+        hasNextPage,
+        fetchNextPage,
+    });
 
     const [searchKeyword, setSearchKeyword] = useSearchParams();
 
@@ -82,26 +94,12 @@ export default function ClubSearchWidget({
         refetch();
     };
 
-    useEffect(() => {
-        const handleScroll = () => {
-            if (
-                window.innerHeight + document.documentElement.scrollTop >=
-                document.documentElement.offsetHeight - 1000
-            ) {
-                if (hasNextPage && !isFetchingNextPage) {
-                    fetchNextPage();
-                }
-            }
-        };
-
-        window.addEventListener('scroll', handleScroll);
-        return () => window.removeEventListener('scroll', handleScroll);
-    }, [hasNextPage, isFetchingNextPage, fetchNextPage]);
+    useInfiniteScroll({ hasNextPage, isFetchingNextPage, fetchNextPage });
 
     return (
         <div className="min-h-screen flex flex-col">
             <div className="flex-1 flex flex-col items-center">
-                <div className="sticky top-[56px] z-10 w-full bg-white flex justify-center">
+                <div className="sticky top-[56px] z-20 w-full bg-white flex justify-center">
                     <SearchTab />
                 </div>
                 <div className="flex flex-col items-center py-5">
@@ -143,6 +141,7 @@ export default function ClubSearchWidget({
                                                 value,
                                             )
                                         }
+                                        disabled={!selectedCollege}
                                     />
                                 )}
                             </>
@@ -185,6 +184,7 @@ export default function ClubSearchWidget({
                                         }
                                         profileImageUrl={club.profileImageUrl}
                                         to={getClubDetailPath(club.id)}
+                                        onClick={saveScroll}
                                     />
                                 );
                             })
@@ -192,7 +192,7 @@ export default function ClubSearchWidget({
                             <div className="w-full h-[400px] flex flex-col justify-center items-center gap-[10px]">
                                 <ErrorIcon />
                                 <h1 className="text-body-03 font-medium text-black">
-                                    검색 결과가 없어요.
+                                    아직 동아리가 없어요.
                                 </h1>
                             </div>
                         )}

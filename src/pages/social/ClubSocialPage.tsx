@@ -2,7 +2,8 @@ import ClubSocialItem from '@/domains/social/ui/ClubSocialItem';
 import SearchTab from '@/domains/search/ui/SearchTab';
 import { useSearchParams } from 'react-router-dom';
 import { useClubSNSByType } from '@/domains/social/api/useClubSNS';
-import { useEffect } from 'react';
+import { useScrollRestoration } from '@/hooks/useScrollRestoration';
+import { useInfiniteScroll } from '@/hooks/useInfiniteScroll';
 import ErrorIcon from '@/assets/common/error-icon.svg?react';
 import {
     CentralCategoryDropdown,
@@ -30,6 +31,7 @@ export default function ClubSocialPage() {
 
     const {
         accounts,
+        pageCount,
         fetchNextPage,
         hasNextPage,
         isFetchingNextPage,
@@ -42,21 +44,16 @@ export default function ClubSocialPage() {
         size: 12,
     });
 
-    useEffect(() => {
-        const handleScroll = () => {
-            if (
-                window.innerHeight + document.documentElement.scrollTop >=
-                document.documentElement.offsetHeight - 1000
-            ) {
-                if (hasNextPage && !isFetchingNextPage) {
-                    fetchNextPage();
-                }
-            }
-        };
+    const { saveScroll } = useScrollRestoration({
+        storageKey: 'social:scroll',
+        pageCount,
+        isLoading,
+        isFetchingNextPage,
+        hasNextPage,
+        fetchNextPage,
+    });
 
-        window.addEventListener('scroll', handleScroll);
-        return () => window.removeEventListener('scroll', handleScroll);
-    }, [hasNextPage, isFetchingNextPage, fetchNextPage]);
+    useInfiniteScroll({ hasNextPage, isFetchingNextPage, fetchNextPage });
 
     const updateSearchParam = (searchKey: string, value: string) => {
         const newParams = new URLSearchParams(searchParams);
@@ -70,10 +67,23 @@ export default function ClubSocialPage() {
         setSearchParams(newParams);
     };
 
+    type ValidAccount = (typeof accounts)[0] & {
+        accountName: string;
+        clubName: string;
+        instagramProfileUrl: string;
+    };
+
+    const validAccounts = accounts.filter(
+        (account): account is ValidAccount =>
+            typeof account.accountName === 'string' &&
+            typeof account.clubName === 'string' &&
+            typeof account.instagramProfileUrl === 'string',
+    );
+
     return (
         <div className="min-h-screen flex flex-col">
             <div className="flex-1 flex flex-col items-center">
-                <div className="sticky top-[56px] z-10 w-full bg-white flex justify-center h-[47px]">
+                <div className="sticky top-[56px] z-20 w-full bg-white flex justify-center h-[47px]">
                     <SearchTab />
                 </div>
 
@@ -110,6 +120,7 @@ export default function ClubSocialPage() {
                                 onSelect={(value) =>
                                     updateSearchParam('department', value)
                                 }
+                                disabled={!selectedCollege}
                             />
                         </>
                     )}
@@ -136,31 +147,27 @@ export default function ClubSocialPage() {
                             />
                         ))}
                     </div>
-                ) : accounts.filter((a) => a.accountName != null).length >
-                  0 ? (
+                ) : validAccounts.length > 0 ? (
                     <div className="grid grid-cols-3 gap-x-[10px] gap-y-2 py-2 pb-5">
-                        {accounts
-                            .filter((account) => account.accountName != null)
-                            .map((account, index) => (
-                                <ClubSocialItem
-                                    key={`${account.clubName}-${account.accountName}-${index}`}
-                                    clubName={account.clubName ?? ''}
-                                    clubLogoUrl={account.profileImage}
-                                    clubSNSId={account.accountName ?? ''}
-                                    onClick={() =>
-                                        window.open(
-                                            account.instagramProfileUrl,
-                                            '_blank',
-                                        )
-                                    }
-                                />
-                            ))}
+                        {validAccounts.map((account, index) => (
+                            <ClubSocialItem
+                                key={`${account.clubName}-${account.accountName}-${index}`}
+                                clubName={account.clubName}
+                                clubLogoUrl={account.profileImage}
+                                clubSNSId={account.accountName}
+                                onClick={() => {
+                                    saveScroll();
+                                    window.location.href =
+                                        account.instagramProfileUrl;
+                                }}
+                            />
+                        ))}
                     </div>
                 ) : (
-                    <div className="w-full h-[400px] flex flex-col justify-center items-center gap-[10px]">
+                    <div className="w-full h-[400px] flex flex-col justify-center items-center gap-2.5">
                         <ErrorIcon />
                         <h1 className="text-body-03 font-medium text-black">
-                            검색 결과가 없어요.
+                            아직 동아리가 없어요.
                         </h1>
                     </div>
                 )}

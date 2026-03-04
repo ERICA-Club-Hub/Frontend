@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 import ArrowIcon from '@/assets/common/expand-bottom.svg?react';
+import { cva } from 'class-variance-authority';
 import { cn } from '@/utils/cn';
 import createDropdown from '@/components/Dropdown/Dropdown';
 import { useDropdown } from '@/components/Dropdown/dropdown.context';
@@ -10,11 +11,29 @@ interface Option {
 }
 const Dropdown = createDropdown<Option>();
 
+const triggerVariants = cva(
+    'flex justify-center items-center gap-[2px] w-full min-h-[24px] py-[4px] pr-[6px] pl-[12px] rounded-[12px] text-c1',
+    {
+        variants: {
+            state: {
+                default: 'bg-neutral-00 text-text-main',
+                selected:
+                    'border border-solid border-brand bg-primary-50 text-text-main',
+                disabled: 'bg-neutral-100 text-neutral-600',
+            },
+        },
+        defaultVariants: {
+            state: 'default',
+        },
+    },
+);
+
 interface FilterDropdownProps {
     title?: string;
     options?: Option[];
     selectedValue?: string | null;
     onSelect: (value: string) => void;
+    disabled?: boolean;
 }
 
 export default function FilterDropdown({
@@ -22,21 +41,22 @@ export default function FilterDropdown({
     options = [],
     selectedValue,
     onSelect,
+    disabled = false,
 }: FilterDropdownProps) {
-    const hasSelectedValue = !!selectedValue;
+    const triggerState = disabled
+        ? 'disabled'
+        : selectedValue
+          ? 'selected'
+          : 'default';
 
     return (
-        <Dropdown.Container itemOptions={options} className={cn('w-max')}>
+        <Dropdown.Container
+            itemOptions={options}
+            className={cn('w-max', disabled && 'pointer-events-none')}
+        >
             <SyncSelection options={options} selectedValue={selectedValue} />
 
-            <Dropdown.Trigger
-                className={cn(
-                    'flex justify-center items-center gap-[2px] w-full min-h-[24px] py-[4px] pr-[6px] pl-[12px] rounded-[12px] text-c1 text-text-main bg-white',
-                    hasSelectedValue
-                        ? 'border border-solid border-brand bg-primary-50'
-                        : 'bg-neutral-00',
-                )}
-            >
+            <Dropdown.Trigger className={triggerVariants({ state: triggerState })}>
                 <Dropdown.Value>
                     {({ selectedItem }) => (
                         <span>{selectedItem ? selectedItem.label : title}</span>

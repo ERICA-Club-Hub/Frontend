@@ -22,11 +22,15 @@ export const formatClubInfo = (key: ClubInfoKey, value?: string): ReactNode => {
             return (
                 <a
                     href={`https://www.instagram.com/${username}/`}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="text-neutral-600 underline"
+                    onClick={() =>
+                        sessionStorage.setItem(
+                            'club-detail:scroll',
+                            String(window.scrollY),
+                        )
+                    }
+                    className="text-neutral-600"
                 >
-                    @{username}{' '}
+                    @{username}
                 </a>
             );
         }
