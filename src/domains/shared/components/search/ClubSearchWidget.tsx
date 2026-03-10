@@ -5,6 +5,8 @@ import ClubCard from '@/domains/shared/components/card/ClubCard';
 import ErrorIcon from '@/assets/common/error-icon.svg?react';
 import { useSearchParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
+import { useScrollRestoration } from '@/hooks/useScrollRestoration';
+import { useInfiniteScroll } from '@/hooks/useInfiniteScroll';
 import {
     CentralCategoryDropdown,
     CollegeDropdown,
@@ -35,6 +37,16 @@ export default function ClubSearchWidget({
         refetch,
     } = useClubSearchFromUrl();
     const allClubs = data?.pages.flatMap((page) => page.content) || [];
+    const pageCount = data?.pages.length ?? 0;
+
+    const { saveScroll } = useScrollRestoration({
+        storageKey: 'search:scroll',
+        pageCount,
+        isLoading,
+        isFetchingNextPage,
+        hasNextPage,
+        fetchNextPage,
+    });
 
     const [searchKeyword, setSearchKeyword] = useSearchParams();
 
@@ -82,21 +94,7 @@ export default function ClubSearchWidget({
         refetch();
     };
 
-    useEffect(() => {
-        const handleScroll = () => {
-            if (
-                window.innerHeight + document.documentElement.scrollTop >=
-                document.documentElement.offsetHeight - 1000
-            ) {
-                if (hasNextPage && !isFetchingNextPage) {
-                    fetchNextPage();
-                }
-            }
-        };
-
-        window.addEventListener('scroll', handleScroll);
-        return () => window.removeEventListener('scroll', handleScroll);
-    }, [hasNextPage, isFetchingNextPage, fetchNextPage]);
+    useInfiniteScroll({ hasNextPage, isFetchingNextPage, fetchNextPage });
 
     return (
         <div className="min-h-screen flex flex-col">
@@ -186,6 +184,7 @@ export default function ClubSearchWidget({
                                         }
                                         profileImageUrl={club.profileImageUrl}
                                         to={getClubDetailPath(club.id)}
+                                        onClick={saveScroll}
                                     />
                                 );
                             })
